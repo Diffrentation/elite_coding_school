@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Elite Coding School
 
-## Getting Started
+A responsive offline-institute platform with a public course catalogue, student portal, and admin operations panel.
 
-First, run the development server:
+## Architecture
+
+See [docs/architecture.md](docs/architecture.md) for the HLD/LLD structure. Pages call route handlers; route handlers validate requests and call domain services/models. Authorization is always derived from the server-side session.
+
+## Local setup
 
 ```bash
+npm install
+copy .env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Required `.env.local` values:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `MONGODB_URI` — use a MongoDB replica set for enrollment/payment transactions.
+- `JWT_SECRET` — a high-entropy secret, unique per environment.
+- SMTP variables (`SMTP_HOST`, `SMTP_PORT`, `EMAIL_USER`, `EMAIL_PASS`, `SENDER_EMAIL`) for OTP delivery.
+- Cloudinary variables for profile and course/banner media.
+- Google OAuth variables, with `GOOGLE_OAUTH_REDIRECT_URI` registered exactly in Google Cloud.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Never commit `.env.local` or reuse the development database in production.
 
-## Learn More
+## Quality checks
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run format:check
+npm run lint
+npm run typecheck
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The same checks run in GitHub Actions for pull requests and pushes to `main`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Health monitoring
 
-## Deploy on Vercel
+`GET /api/health` performs a database ping and returns `503` if the service is not ready. Configure the deployment platform or an external monitor to poll this endpoint.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Container deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The repository includes a production `Dockerfile` and a detailed [deployment runbook](docs/deployment.md).
+
+## Production checklist
+
+- Configure a production MongoDB replica set and backups.
+- Add the production host to Google OAuth redirect URIs.
+- Configure SMTP and Cloudinary production credentials.
+- Set secure environment variables in the deployment platform.
+- Exercise registration/OTP, Google sign-in, payment idempotency, receipt download, and authorization boundaries against a non-production database.
+- Monitor application errors, database health, email delivery, storage usage, and payment audit logs.
+- Keep a deployment rollback artifact and verify restore procedures before launch.
+- Configure a shared rate-limit store for horizontally scaled production deployments; the built-in limiter is process-local.
