@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import { ArrowRight, Cpu, Monitor, Network, Users } from "lucide-react";
 
 type Mode = "login" | "register" | "verify" | "forgot" | "reset";
 const call = async (url: string, body: object) => {
@@ -79,67 +80,70 @@ export function AuthForm({ mode }: { mode: Mode }) {
       <Link href="/" className="brand">
         <span className="brand-mark">&lt;/&gt;</span>
         <span>Elite Coding School</span>
+        <span className="brand-offline-tag" style={{ marginLeft: "12px" }}>
+          <span className="pulse-dot" />
+          Offline Tech Lab
+        </span>
       </Link>
       <div className="auth-layout">
         <section className="auth-art" aria-hidden="true">
           <div className="auth-art-glow" />
           <div className="auth-art-copy">
-            <p>ELITE CODING SCHOOL</p>
-            <h2>Turn your potential into practical skills.</h2>
-            <span>Learn from industry-focused courses, live projects, and mentor support.</span>
+            <p>OFFLINE CODING INSTITUTE &bull; IN-PERSON LABS</p>
+            <h2>Forge Real Engineering Depth In-Person.</h2>
+            <span>Master Full-Stack Systems, Cisco Networking, and Linux Kernel Internals with 1:1 desk mentors.</span>
           </div>
           <div className="auth-art-benefits">
-            <span>
-              ▣
-              <small>
-                Industry
-                <br />
-                relevant courses
-              </small>
-            </span>
-            <span>
-              &lt;/&gt;
-              <small>
-                Hands-on
-                <br />
-                projects
-              </small>
-            </span>
-            <span>
-              ◉
-              <small>
-                Expert
-                <br />
-                mentorship
-              </small>
-            </span>
-            <span>
-              ▥
-              <small>
-                Career
-                <br />
-                growth support
-              </small>
-            </span>
+            <div className="auth-benefit-item">
+              <Monitor size={22} />
+              <div>
+                <strong>Dedicated Desks</strong>
+                <span>Dual 27&quot; Linux workstations</span>
+              </div>
+            </div>
+            <div className="auth-benefit-item">
+              <Network size={22} />
+              <div>
+                <strong>Cisco Catalyst</strong>
+                <span>Live switch &amp; packet racks</span>
+              </div>
+            </div>
+            <div className="auth-benefit-item">
+              <Cpu size={22} />
+              <div>
+                <strong>1:1 Desk Mentors</strong>
+                <span>Instant GDB &amp; code reviews</span>
+              </div>
+            </div>
+            <div className="auth-benefit-item">
+              <Users size={22} />
+              <div>
+                <strong>Hacker Cohorts</strong>
+                <span>Daily standups &amp; hackathons</span>
+              </div>
+            </div>
           </div>
           <div className="auth-art-stats">
             <span>
-              <b>1,200+</b>Students trained
+              <b>1,200+</b>Engineers trained offline
             </span>
             <span>
-              <b>95%</b>Placement support
+              <b>10 Gbps</b>Dedicated campus LAN
+            </span>
+            <span>
+              <b>100%</b>Hands-on physical lab
             </span>
           </div>
         </section>
         <section className="auth-card">
-          <p className="kicker">{mode === "register" ? "CREATE YOUR ACCOUNT" : "STUDENT ACCESS"}</p>
+          <span className="kicker">{mode === "register" ? "STUDENT ONBOARDING" : "PORTAL ACCESS"}</span>
           <h1>{title}</h1>
           <p className="auth-subtitle">
             {mode === "verify"
               ? "Enter the six-digit code we sent to your email."
               : mode === "forgot"
                 ? "We will send a single-use code to your registered email."
-                : "Learn. Build. Grow."}
+                : "Student & Faculty Portal &bull; Elite Coding School"}
           </p>
           <form onSubmit={submit}>
             {mode === "register" && (
@@ -216,18 +220,21 @@ export function AuthForm({ mode }: { mode: Mode }) {
               </p>
             )}
             {message && <p className="form-success">{message}</p>}
-            <button className="button primary auth-submit" disabled={busy}>
-              {busy
-                ? "Please wait…"
-                : mode === "login"
-                  ? "Log in"
-                  : mode === "register"
-                    ? "Create account"
-                    : mode === "verify"
-                      ? "Verify account"
-                      : mode === "forgot"
-                        ? "Send reset code"
-                        : "Reset password"}
+            <button className="auth-submit" disabled={busy}>
+              <span>
+                {busy
+                  ? "Please wait…"
+                  : mode === "login"
+                    ? "Log In to Student Portal"
+                    : mode === "register"
+                      ? "Create Student Account"
+                      : mode === "verify"
+                        ? "Verify Account"
+                        : mode === "forgot"
+                          ? "Send Reset Code"
+                          : "Reset Password"}
+              </span>
+              {!busy && <ArrowRight size={17} />}
             </button>
           </form>
           {mode === "login" && (

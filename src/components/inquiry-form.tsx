@@ -1,12 +1,13 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { ArrowRight, CheckCircle2, Send, Sparkles } from "lucide-react";
 
 const initialFields = {
   fullName: "",
   email: "",
   phone: "",
-  interestedCourse: "",
+  interestedCourse: "Full-Stack & Distributed Systems",
   message: "",
   type: "admission",
 };
@@ -30,7 +31,7 @@ export function InquiryForm() {
       });
       const body = await response.json();
       if (!response.ok) throw new Error(body.error?.message ?? "Could not send your inquiry.");
-      setSuccess("Thanks. Our team will contact you soon.");
+      setSuccess("✓ Inquiry submitted! An admissions mentor will call you within 2 business hours.");
       setFields(initialFields);
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : "Could not send your inquiry.");
@@ -41,29 +42,35 @@ export function InquiryForm() {
 
   return (
     <form className="inquiry-form" onSubmit={submit}>
-      <h2>Send an inquiry</h2>
-      <p>Tell us what you want to learn and we will help with the next step.</p>
+      <h2>Book a Free Lab Demo or In-Person Counseling</h2>
+      <p>Schedule your walk-in visit to test-drive our workstations and hardware racks.</p>
+
       {error && <p className="form-error">{error}</p>}
       {success && <p className="form-success">{success}</p>}
+
       <label>
-        Full name
+        Full Name
         <input
           required
+          placeholder="e.g. Alex Sharma"
           value={fields.fullName}
           onChange={(event) => setFields({ ...fields, fullName: event.target.value })}
         />
       </label>
+
       <label>
-        Email address
+        Email Address
         <input
           required
           type="email"
+          placeholder="alex@example.com"
           value={fields.email}
           onChange={(event) => setFields({ ...fields, email: event.target.value })}
         />
       </label>
+
       <label>
-        Indian mobile number
+        Indian Mobile Number
         <input
           required
           inputMode="tel"
@@ -72,35 +79,46 @@ export function InquiryForm() {
           onChange={(event) => setFields({ ...fields, phone: event.target.value })}
         />
       </label>
+
       <label>
-        I am interested in
-        <input
-          maxLength={100}
-          placeholder="For example, Full Stack Development"
+        Program of Interest
+        <select
           value={fields.interestedCourse}
           onChange={(event) => setFields({ ...fields, interestedCourse: event.target.value })}
-        />
+        >
+          <option value="Full-Stack & Distributed Systems">Full-Stack &amp; Distributed Systems</option>
+          <option value="Computer Networks & Cloud Infrastructure">Computer Networks &amp; Cloud Infra (Cisco/CCNA)</option>
+          <option value="Operating Systems & Kernel Programming">Operating Systems &amp; Kernel Programming (C/Rust)</option>
+          <option value="Data Structures & High-Scale Systems">Data Structures &amp; Whiteboard System Design</option>
+          <option value="Network Security & Packet Defense">Network Security &amp; Packet Defense</option>
+          <option value="General Campus Walk-in Tour">General Campus Walk-in &amp; Lab Tour</option>
+        </select>
       </label>
+
       <label>
-        Inquiry type
+        Visit Preference
         <select
           value={fields.type}
           onChange={(event) => setFields({ ...fields, type: event.target.value as "admission" | "demo" })}
         >
-          <option value="admission">Admission information</option>
-          <option value="demo">Book a demo class</option>
+          <option value="demo">Book a 1-Day Free Lab Trial &amp; Demo</option>
+          <option value="admission">Admissions &amp; Fee Structure Counseling</option>
         </select>
       </label>
+
       <label className="inquiry-full-width">
-        Message (optional)
+        Message or Questions (Optional)
         <textarea
           maxLength={2000}
+          placeholder="Tell us about your background, programming experience, or preferred walk-in date..."
           value={fields.message}
           onChange={(event) => setFields({ ...fields, message: event.target.value })}
         />
       </label>
-      <button className="button primary inquiry-submit" disabled={submitting}>
-        {submitting ? "Sending..." : "Send inquiry"}
+
+      <button className="btn-primary-hero inquiry-submit" disabled={submitting}>
+        <span>{submitting ? "Submitting Request..." : "Schedule Lab Visit & Trial"}</span>
+        <ArrowRight size={17} />
       </button>
     </form>
   );
