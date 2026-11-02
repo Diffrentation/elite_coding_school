@@ -89,30 +89,30 @@ export function AuthForm({ mode }: { mode: Mode }) {
         <section className="auth-art" aria-hidden="true">
           <div className="auth-art-glow" />
           <div className="auth-art-copy">
-            <p>OFFLINE CODING INSTITUTE &bull; IN-PERSON LABS</p>
-            <h2>Forge Real Engineering Depth In-Person.</h2>
-            <span>Master Full-Stack Systems, Cisco Networking, and Linux Kernel Internals with 1:1 desk mentors.</span>
+            <p>OFFLINE COACHING CENTER &bull; IN-PERSON CLASSES</p>
+            <h2>Learn Directly From Teachers in Classroom.</h2>
+            <span>Master MERN Stack, Next.js, DSA, C, C++, Java, Python, Networking, Linux OS &amp; System Design with daily 1:1 teacher guidance.</span>
           </div>
           <div className="auth-art-benefits">
             <div className="auth-benefit-item">
               <Monitor size={22} />
               <div>
-                <strong>Dedicated Desks</strong>
-                <span>Dual 27&quot; Linux workstations</span>
+                <strong>Bring Your Laptop</strong>
+                <span>Dedicated power sockets &amp; fast Wi-Fi</span>
               </div>
             </div>
             <div className="auth-benefit-item">
               <Network size={22} />
               <div>
-                <strong>Cisco Catalyst</strong>
-                <span>Live switch &amp; packet racks</span>
+                <strong>Hands-On Coding</strong>
+                <span>Daily practical exercises in class</span>
               </div>
             </div>
             <div className="auth-benefit-item">
-              <Cpu size={22} />
+              <Users size={22} />
               <div>
-                <strong>1:1 Desk Mentors</strong>
-                <span>Instant GDB &amp; code reviews</span>
+                <strong>1:1 Teacher Help</strong>
+                <span>Instant desk guidance when stuck</span>
               </div>
             </div>
             <div className="auth-benefit-item">
@@ -125,13 +125,13 @@ export function AuthForm({ mode }: { mode: Mode }) {
           </div>
           <div className="auth-art-stats">
             <span>
-              <b>1,200+</b>Engineers trained offline
+              <b>10–15</b>Small batch size
             </span>
             <span>
-              <b>10 Gbps</b>Dedicated campus LAN
+              <b>1:1</b>Teacher desk help
             </span>
             <span>
-              <b>100%</b>Hands-on physical lab
+              <b>Daily</b>Hands-on laptop coding
             </span>
           </div>
         </section>

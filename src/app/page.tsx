@@ -29,6 +29,7 @@ import {
   Terminal,
   Users,
   Wifi,
+  X,
   Zap,
 } from "lucide-react";
 
@@ -45,7 +46,7 @@ type SessionUser = { role: "admin" | "student" } | null;
 type CourseItem = {
   title: string;
   slug: string;
-  track: "dev" | "net" | "os" | "dsa";
+  track: "mern" | "core" | "dsa" | "systems";
   trackLabel: string;
   description: string;
   duration: string;
@@ -57,106 +58,170 @@ type CourseItem = {
 
 const COURSES_DATA: CourseItem[] = [
   {
-    title: "Full-Stack & Distributed Systems",
+    title: "Full-Stack MERN & Next.js Development",
     slug: "full-stack-development",
-    track: "dev",
-    trackLabel: "Full-Stack Dev",
-    description: "Build production-grade web applications, microservices, and real-time distributed platforms from scratch.",
-    duration: "6 Months",
-    labHours: "360+ Lab Hours",
-    fee: "₹6,000 / mo",
-    perks: [
-      "Dedicated dual-monitor workstation",
-      "Production deployment to live cloud clusters",
-      "Daily 1:1 desk mentor code reviews",
-    ],
-    techTags: ["Next.js", "TypeScript", "Node.js", "Go", "PostgreSQL", "Docker", "Redis"],
-  },
-  {
-    title: "Computer Networks & Cloud Infrastructure",
-    slug: "computer-networks",
-    track: "net",
-    trackLabel: "Networking",
-    description: "Master TCP/IP, Cisco routing, switches, Wireshark packet capture, VLANs, firewalls, and cloud architecture.",
+    track: "mern",
+    trackLabel: "MERN & Next.js",
+    description: "Learn to build complete production-grade web applications from scratch with React, Next.js, Node.js, Express, and MongoDB.",
     duration: "4 Months",
-    labHours: "240+ Lab Hours",
-    fee: "₹5,500 / mo",
+    labHours: "120+ Class Hours",
+    fee: "₹3,000 / mo",
     perks: [
-      "Physical Cisco switch & router rack access",
-      "Live packet tracing & Wireshark protocol lab",
-      "Hands-on subnetting & enterprise firewall setup",
+      "Daily coding on your laptop with live guidance",
+      "Build 5+ full-stack projects with Git & GitHub",
+      "1:1 teacher debugging whenever you hit an error",
     ],
-    techTags: ["TCP/IP", "Cisco Catalyst", "Wireshark", "BGP/OSPF", "Linux Netfilter", "Cloud LAN"],
+    techTags: ["MongoDB", "Express.js", "React.js", "Node.js", "Next.js", "Tailwind CSS", "Git/GitHub"],
   },
   {
-    title: "Operating Systems & Kernel Programming",
+    title: "Frontend Development, Tailwind CSS & GSAP",
+    slug: "frontend-development",
+    track: "mern",
+    trackLabel: "Frontend & UI",
+    description: "Master modern responsive design, UI component libraries, React.js, and slick interactive animations with GSAP and Tailwind CSS.",
+    duration: "3 Months",
+    labHours: "90+ Class Hours",
+    fee: "₹2,500 / mo",
+    perks: [
+      "Pixel-perfect responsive layout techniques",
+      "Interactive animations using GSAP & modern UI kits",
+      "Clean component architecture & state management",
+    ],
+    techTags: ["HTML5/CSS3", "JavaScript (ES6+)", "React.js", "Tailwind CSS", "GSAP Animations", "Git/GitHub"],
+  },
+  {
+    title: "Backend Development & REST APIs with MongoDB",
+    slug: "backend-development",
+    track: "mern",
+    trackLabel: "Backend & DB",
+    description: "Build robust backend servers, RESTful APIs, JWT authentication, and database schemas with Node.js, Express, and MongoDB.",
+    duration: "3 Months",
+    labHours: "90+ Class Hours",
+    fee: "₹2,800 / mo",
+    perks: [
+      "Hands-on API design & Postman testing",
+      "Database schema modeling with Mongoose",
+      "Teacher reviews your code line-by-line",
+    ],
+    techTags: ["Node.js", "Express.js", "MongoDB", "Mongoose", "REST APIs", "JWT Auth", "Postman"],
+  },
+  {
+    title: "Computer Networks Fundamentals From Scratch",
+    slug: "computer-networks",
+    track: "systems",
+    trackLabel: "Networking",
+    description: "Understand how the internet, routers, switches, IP addressing, and networking protocols work with clear whiteboard demos and laptop exercises.",
+    duration: "3 Months",
+    labHours: "90+ Class Hours",
+    fee: "₹2,500 / mo",
+    perks: [
+      "Taught from absolute zero with whiteboard diagrams",
+      "Practical Wi-Fi, router & LAN setup demos",
+      "Hands-on packet inspection with Wireshark",
+    ],
+    techTags: ["TCP/IP", "IP Subnetting", "DNS/DHCP", "Wireshark", "Routers & LAN", "Network Tools"],
+  },
+  {
+    title: "Linux & Operating Systems From Scratch",
     slug: "operating-systems-kernel",
-    track: "os",
-    trackLabel: "OS & Kernel",
-    description: "Deep dive into Linux kernel internals, process scheduling, memory virtualization, system calls, C and Rust.",
-    duration: "5 Months",
-    labHours: "300+ Lab Hours",
-    fee: "₹6,500 / mo",
+    track: "systems",
+    trackLabel: "OS & Linux",
+    description: "Master the Linux command line, bash automation scripts, process management, memory concepts, and foundational C programming from scratch.",
+    duration: "3 Months",
+    labHours: "90+ Class Hours",
+    fee: "₹2,500 / mo",
     perks: [
-      "Custom Linux kernel compilation in lab",
-      "POSIX threads, mutexes & virtual memory allocators",
-      "Desk mentor segfault & GDB debugging sessions",
+      "Complete zero-level start on your laptop terminal",
+      "Hands-on bash scripting & task automation",
+      "Understand processes, memory & file systems",
     ],
-    techTags: ["C/C++", "Rust", "Linux Kernel", "POSIX", "Syscalls", "Memory Virtualization", "GDB"],
+    techTags: ["Linux Terminal", "Bash Scripting", "Processes & Memory", "File Permissions", "C Basics", "Git"],
   },
   {
-    title: "Data Structures & High-Scale Systems",
+    title: "Data Structures & Algorithms (DSA)",
     slug: "data-structures-algorithms",
     track: "dsa",
-    trackLabel: "DSA & Systems",
-    description: "Crack tier-1 technical interviews with rigorous problem solving, graph algorithms, and whiteboard system design.",
-    duration: "4 Months",
-    labHours: "200+ Lab Hours",
-    fee: "₹5,000 / mo",
+    trackLabel: "DSA & Logic",
+    description: "Master logic building, algorithmic thinking, and problem solving from scratch with whiteboard explanations and live coding.",
+    duration: "3 Months",
+    labHours: "90+ Class Hours",
+    fee: "₹2,800 / mo",
     perks: [
-      "Floor-to-ceiling physical whiteboard mock rounds",
-      "400+ LeetCode patterns with algorithmic proofs",
-      "In-person weekly speed-coding sprints",
+      "Step-by-step logic explained on the whiteboard",
+      "100+ solved problems in C++ or Java",
+      "Direct 1:1 desk problem-solving help",
     ],
-    techTags: ["Trees & Graphs", "Dynamic Programming", "System Design", "Concurrency", "High-Scale"],
+    techTags: ["C++", "Java", "Arrays & Strings", "Recursion", "Trees & Graphs", "Time Complexity"],
   },
   {
-    title: "Backend Architecture & API Systems",
-    slug: "backend-development",
-    track: "dev",
-    trackLabel: "Backend Dev",
-    description: "Design fault-tolerant backend services, database schema optimization, caching pipelines, and gRPC APIs.",
-    duration: "4 Months",
-    labHours: "240+ Lab Hours",
-    fee: "₹5,500 / mo",
+    title: "System Design & Scalable Architecture",
+    slug: "system-design",
+    track: "dsa",
+    trackLabel: "System Design",
+    description: "Learn High-Level (HLD) & Low-Level Design (LLD), microservices, load balancers, caching, and scalable architecture with whiteboard case studies.",
+    duration: "3 Months",
+    labHours: "90+ Class Hours",
+    fee: "₹2,800 / mo",
     perks: [
-      "Benchmarking under 100k requests/sec",
-      "Live SQL query tuning & index optimization",
-      "1:1 architectural design reviews",
+      "Whiteboard breakdowns of real-world scalable systems",
+      "HLD & LLD: Microservices, Redis, Nginx & DB sharding",
+      "Case studies: WhatsApp, URL Shortener & Netflix architecture",
     ],
-    techTags: ["Node.js", "Go", "PostgreSQL", "gRPC", "Kafka", "Redis"],
+    techTags: ["System Design", "HLD / LLD", "Microservices", "Redis", "Load Balancers", "DB Sharding", "Scalability"],
   },
   {
-    title: "Network Security & Packet Defense",
-    slug: "network-security",
-    track: "net",
-    trackLabel: "Networking",
-    description: "Inspect network traffic, configure intrusion detection, harden Linux servers, and audit infrastructure defenses.",
-    duration: "4 Months",
-    labHours: "220+ Lab Hours",
-    fee: "₹6,000 / mo",
+    title: "C & C++ Programming Foundations",
+    slug: "c-cpp-programming",
+    track: "core",
+    trackLabel: "C & C++",
+    description: "Start programming from absolute zero. Understand memory management, pointers, and Object-Oriented Programming (OOP) in C++.",
+    duration: "3 Months",
+    labHours: "90+ Class Hours",
+    fee: "₹2,500 / mo",
     perks: [
-      "Simulated campus red/blue team attack drills",
-      "Hardware packet sniffer & MITM interception lab",
-      "Enterprise security compliance certification",
+      "Complete zero-level start with simple explanations",
+      "Deep understanding of memory, pointers & logic",
+      "College academics & foundational coding prep",
     ],
-    techTags: ["Wireshark", "Snort IDS", "iptables", "OpenVPN", "Nmap", "SSL/TLS Internals"],
+    techTags: ["C Language", "C++", "Pointers", "OOP (Classes & Objects)", "STL Basics", "Problem Solving"],
+  },
+  {
+    title: "Core Java & Object-Oriented Programming",
+    slug: "java-programming",
+    track: "core",
+    trackLabel: "Java & OOP",
+    description: "Learn Core Java from the ground up: classes, inheritance, interfaces, exception handling, and the Collections framework.",
+    duration: "3 Months",
+    labHours: "90+ Class Hours",
+    fee: "₹2,500 / mo",
+    perks: [
+      "Clear object-oriented mindset from day one",
+      "Hands-on Java exercises every single class",
+      "Teacher helps you debug logic on your laptop",
+    ],
+    techTags: ["Core Java", "OOP Concepts", "Collections Framework", "Exceptions", "File I/O", "Git"],
+  },
+  {
+    title: "Python Programming & Logic Building",
+    slug: "python-programming",
+    track: "core",
+    trackLabel: "Python",
+    description: "Learn beginner-friendly Python programming, clean syntax, logic building, data handling, and automation scripting.",
+    duration: "2.5 Months",
+    labHours: "75+ Class Hours",
+    fee: "₹2,500 / mo",
+    perks: [
+      "Easiest language to start your coding journey",
+      "Daily coding challenges and logic drills",
+      "Build practical automation and utility scripts",
+    ],
+    techTags: ["Python 3", "Data Structures", "Functions", "Automation Scripts", "Logic Building", "Git"],
   },
 ];
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<"dev" | "net" | "os">("dev");
-  const [courseFilter, setCourseFilter] = useState<"all" | "dev" | "net" | "os" | "dsa">("all");
+  const [activeTab, setActiveTab] = useState<"mern" | "core" | "dsa">("mern");
+  const [courseFilter, setCourseFilter] = useState<"all" | "mern" | "core" | "dsa" | "systems">("all");
   const [banners, setBanners] = useState<HeroBanner[]>([]);
   const [activeBanner, setActiveBanner] = useState(0);
 
@@ -192,51 +257,52 @@ export default function Home() {
           <div className="hero-copy">
             <div className="campus-banner-pill">
               <span className="pulse-dot" />
-              <span>IN-PERSON CAMPUS &amp; HARDWARE LAB</span>
-              <span className="sub">Mon - Sat: 9:00 AM - 9:00 PM</span>
+              <span>NEW BATCH STARTING &bull; OFFLINE COACHING CENTER</span>
+              <span className="sub">Mon - Sat: 9:00 AM - 7:00 PM</span>
             </div>
 
             <h1>
               {banner?.title ?? (
                 <>
-                  Forge Real Engineering Depth.{" "}
-                  <span className="gradient-text-purple">In-Person.</span>
+                  Master MERN, Next.js, <br />
+                  DSA &amp; System Design. <br />
+                  <span className="gradient-text-purple">Genuine In-Person Teaching.</span>
                 </>
               )}
             </h1>
 
             <p className="lead">
               {banner?.description ??
-                "Escape tutorial hell. Master Full-Stack Development, Computer Networking, and Operating Systems inside high-spec offline coding labs with desk-side senior mentors."}
+                "A newly opened offline coaching center created by passionate teachers. Bring your laptop and learn MERN Stack, Next.js, Tailwind, GSAP, DSA, System Design, and foundational coding (C, C++, Java, Python) from absolute scratch."}
             </p>
 
             <div className="offline-chips-row">
               <div className="offline-chip">
-                <Monitor size={15} />
-                <span>Dedicated Dual-Screen Desks</span>
+                <CheckCircle2 size={15} />
+                <span>MERN &amp; Next.js Stack</span>
               </div>
               <div className="offline-chip">
-                <Network size={15} />
-                <span>Physical Cisco Switch &amp; Rack Labs</span>
+                <Sparkles size={15} />
+                <span>DSA &amp; System Design</span>
               </div>
               <div className="offline-chip">
-                <Cpu size={15} />
-                <span>Linux Kernel &amp; Systems Terminal</span>
+                <Code2 size={15} />
+                <span>C, C++, Java &amp; Python</span>
               </div>
               <div className="offline-chip">
                 <Users size={15} />
-                <span>2-Min Desk Mentoring</span>
+                <span>Networking &amp; Linux OS</span>
               </div>
             </div>
 
             <div className="hero-actions">
               <a className="btn-primary-hero" href="#contact-walkin">
-                <span>Book Free Lab Pass &amp; Demo</span>
+                <span>Book Free Trial Demo Class</span>
                 <ArrowRight size={18} />
               </a>
               <a className="btn-secondary-hero" href="#courses">
                 <BookOpen size={17} />
-                <span>Explore In-Person Tracks</span>
+                <span>Explore All Courses</span>
               </a>
             </div>
           </div>
@@ -253,190 +319,201 @@ export default function Home() {
                 </div>
                 <div className="terminal-title">
                   <Terminal size={13} />
-                  <span>elite-lab@workstation-14: ~/workspace</span>
+                  <span>elite-coding@student-desk: ~/classroom</span>
                 </div>
-                <span className="terminal-badge">LIVE LAB RUNTIME</span>
+                <span className="terminal-badge">LIVE CLASSROOM CODE</span>
               </div>
 
               {/* Terminal Tabs */}
               <div className="terminal-tabs" role="tablist">
                 <button
                   role="tab"
-                  aria-selected={activeTab === "dev"}
-                  className={`terminal-tab tab-dev ${activeTab === "dev" ? "active" : ""}`}
-                  onClick={() => setActiveTab("dev")}
+                  aria-selected={activeTab === "mern"}
+                  className={`terminal-tab tab-dev ${activeTab === "mern" ? "active" : ""}`}
+                  onClick={() => setActiveTab("mern")}
                 >
                   <Code2 size={13} />
-                  <span>1. fullstack_server.ts</span>
+                  <span>1. HeroCard.jsx (GSAP)</span>
                 </button>
                 <button
                   role="tab"
-                  aria-selected={activeTab === "net"}
-                  className={`terminal-tab tab-net ${activeTab === "net" ? "active" : ""}`}
-                  onClick={() => setActiveTab("net")}
+                  aria-selected={activeTab === "core"}
+                  className={`terminal-tab tab-net ${activeTab === "core" ? "active" : ""}`}
+                  onClick={() => setActiveTab("core")}
                 >
-                  <Network size={13} />
-                  <span>2. network_trace.sh</span>
+                  <Server size={13} />
+                  <span>2. server.js (MongoDB)</span>
                 </button>
                 <button
                   role="tab"
-                  aria-selected={activeTab === "os"}
-                  className={`terminal-tab tab-os ${activeTab === "os" ? "active" : ""}`}
-                  onClick={() => setActiveTab("os")}
+                  aria-selected={activeTab === "dsa"}
+                  className={`terminal-tab tab-os ${activeTab === "dsa" ? "active" : ""}`}
+                  onClick={() => setActiveTab("dsa")}
                 >
-                  <Cpu size={13} />
-                  <span>3. sys_kernel.c</span>
+                  <Layers size={13} />
+                  <span>3. Solution.cpp (DSA)</span>
                 </button>
               </div>
 
               {/* Terminal Body */}
               <div className="terminal-content">
-                {activeTab === "dev" && (
+                {activeTab === "mern" && (
                   <>
                     <div className="code-line">
                       <span className="line-num">1</span>
                       <span className="line-code">
-                        <span className="token-comment">// Full-Stack Systems &amp; Microservices Lab</span>
+                        <span className="token-comment">// React + Next.js + GSAP Animation Class</span>
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">2</span>
                       <span className="line-code">
-                        <span className="token-kw">import</span> &#123; createServer &#125;{" "}
-                        <span className="token-kw">from</span> <span className="token-str">&quot;node:http&quot;</span>;
+                        <span className="token-kw">import</span> &#123; useEffect &#125; <span className="token-kw">from</span> <span className="token-str">&quot;react&quot;</span>;
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">3</span>
                       <span className="line-code">
-                        <span className="token-kw">import</span> &#123; WebSocketServer &#125;{" "}
-                        <span className="token-kw">from</span> <span className="token-str">&quot;ws&quot;</span>;
+                        <span className="token-kw">import</span> gsap <span className="token-kw">from</span> <span className="token-str">&quot;gsap&quot;</span>;
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">4</span>
                       <span className="line-code">
-                        <span className="token-kw">const</span> wss ={" "}
-                        <span className="token-kw">new</span> <span className="token-fn">WebSocketServer</span>(&#123; port:{" "}
-                        <span className="token-num">8080</span> &#125;);
+                        <span className="token-kw">export default function</span> <span className="token-fn">Card</span>() &#123;
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">5</span>
                       <span className="line-code">
-                        wss.<span className="token-fn">on</span>(<span className="token-str">&quot;connection&quot;</span>, (socket) =&gt; &#123;
+                        &nbsp;&nbsp;<span className="token-fn">useEffect</span>(() =&gt; &#123;
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">6</span>
                       <span className="line-code">
-                        &nbsp;&nbsp;socket.<span className="token-fn">send</span>(JSON.<span className="token-fn">stringify</span>(&#123; status:{" "}
-                        <span className="token-str">&quot;LAB_LIVE&quot;</span>, ping: <span className="token-str">&quot;0.8ms&quot;</span> &#125;));
+                        &nbsp;&nbsp;&nbsp;&nbsp;gsap.<span className="token-fn">from</span>(<span className="token-str">&quot;.card&quot;</span>, &#123; opacity: <span className="token-num">0</span>, y: <span className="token-num">30</span>, duration: <span className="token-num">0.8</span> &#125;);
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">7</span>
-                      <span className="line-code">&#125;);</span>
+                      <span className="line-code">
+                        &nbsp;&nbsp;&#125;, []);
+                      </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">8</span>
                       <span className="line-code">
-                        <span className="token-log">✓ [PORT 8080] Microservice cluster online on Workstation #14</span>
+                        &nbsp;&nbsp;<span className="token-kw">return</span> &lt;<span className="token-type">div</span> <span className="token-kw">className</span>=<span className="token-str">&quot;card p-6 bg-slate-900 rounded-xl&quot;</span>&gt;MERN + GSAP&lt;/<span className="token-type">div</span>&gt;;
                       </span>
+                    </div>
+                    <div className="code-line">
+                      <span className="line-num">9</span>
+                      <span className="line-code">&#125;</span>
                     </div>
                   </>
                 )}
 
-                {activeTab === "net" && (
+                {activeTab === "core" && (
                   <>
                     <div className="code-line">
                       <span className="line-num">1</span>
                       <span className="line-code">
-                        <span className="token-comment"># Cisco Hardware &amp; Linux Packet Inspection Lab</span>
+                        <span className="token-comment">// Backend Node.js, Express &amp; MongoDB Class</span>
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">2</span>
                       <span className="line-code">
-                        <span className="token-kw">$</span> sudo tcpdump -i eth0 -nn <span className="token-str">&#39;tcp port 443&#39;</span> -c 2
+                        <span className="token-kw">const</span> express = <span className="token-fn">require</span>(<span className="token-str">&quot;express&quot;</span>);
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">3</span>
                       <span className="line-code">
-                        17:10:02.104 IP <span className="token-num">192.168.10.42.54892</span> &gt; <span className="token-num">10.0.0.1.443</span>: Flags [S]
+                        <span className="token-kw">const</span> mongoose = <span className="token-fn">require</span>(<span className="token-str">&quot;mongoose&quot;</span>);
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">4</span>
                       <span className="line-code">
-                        17:10:02.105 IP <span className="token-num">10.0.0.1.443</span> &gt; <span className="token-num">192.168.10.42.54892</span>: Flags [S.]
+                        <span className="token-kw">const</span> app = <span className="token-fn">express</span>();
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">5</span>
                       <span className="line-code">
-                        <span className="token-kw">$</span> ip route show | grep default
+                        <span className="token-kw">await</span> mongoose.<span className="token-fn">connect</span>(process.env.MONGO_URI);
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">6</span>
                       <span className="line-code">
-                        default via <span className="token-num">192.168.10.1</span> dev eth0 proto static metric 100
+                        <span className="token-log">✓ [MongoDB Atlas Connected] Database live!</span>
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">7</span>
                       <span className="line-code">
-                        <span className="token-str">✓ [Cisco Catalyst 3850] VLAN 20 trunk verified • Zero packet drop</span>
+                        <span className="token-str">✓ [Express REST API] Listening on Port 5000</span>
                       </span>
                     </div>
                   </>
                 )}
 
-                {activeTab === "os" && (
+                {activeTab === "dsa" && (
                   <>
                     <div className="code-line">
                       <span className="line-num">1</span>
                       <span className="line-code">
-                        <span className="token-comment">// Operating Systems &amp; Low-Level Memory Lab</span>
+                        <span className="token-comment">// DSA &amp; Logic Building Class: Two-Pointer Technique</span>
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">2</span>
                       <span className="line-code">
-                        <span className="token-kw">#include</span> <span className="token-str">&lt;sys/mman.h&gt;</span>
+                        <span className="token-kw">#include</span> <span className="token-str">&lt;iostream&gt;</span>
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">3</span>
                       <span className="line-code">
-                        <span className="token-type">void</span> *vmem = <span className="token-fn">mmap</span>(NULL, <span className="token-num">4096</span>, PROT_READ|PROT_WRITE,
+                        <span className="token-kw">#include</span> <span className="token-str">&lt;vector&gt;</span>
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">4</span>
                       <span className="line-code">
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MAP_PRIVATE|MAP_ANONYMOUS, -<span className="token-num">1</span>, <span className="token-num">0</span>);
+                        <span className="token-kw">using namespace</span> std;
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">5</span>
                       <span className="line-code">
-                        <span className="token-fn">printf</span>(<span className="token-str">&quot;⚡ Virtual page mapped at: %p (Kernel 6.8.0)\\n&quot;</span>, vmem);
+                        <span className="token-type">int</span> <span className="token-fn">main</span>() &#123;
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">6</span>
                       <span className="line-code">
-                        <span className="token-fn">printf</span>(<span className="token-str">&quot;✓ Desk mentor verified: Zero segmentation fault!\\n&quot;</span>);
+                        &nbsp;&nbsp;vector&lt;<span className="token-type">int</span>&gt; arr = &#123;<span className="token-num">2</span>, <span className="token-num">7</span>, <span className="token-num">11</span>, <span className="token-num">15</span>&#125;;
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">7</span>
                       <span className="line-code">
-                        <span className="token-log">✓ Memory allocator compiled with GCC -O3 &bull; Benchmark: 4.2ns/alloc</span>
+                        &nbsp;&nbsp;cout &lt;&lt; <span className="token-str">&quot;✓ Teacher cleared: Time O(N) | Space O(1)\\n&quot;</span>;
                       </span>
+                    </div>
+                    <div className="code-line">
+                      <span className="line-num">8</span>
+                      <span className="line-code">
+                        &nbsp;&nbsp;<span className="token-kw">return</span> <span className="token-num">0</span>;
+                      </span>
+                    </div>
+                    <div className="code-line">
+                      <span className="line-num">9</span>
+                      <span className="line-code">&#125;</span>
                     </div>
                   </>
                 )}
@@ -446,22 +523,22 @@ export default function Home() {
               <div className="terminal-telemetry">
                 <div className="telemetry-item">
                   <Wifi size={12} color="#10b981" />
-                  <span>LAN: <strong>10 Gbps Active</strong></span>
+                  <span>CLASSROOM: <strong>High-Speed Wi-Fi</strong></span>
                 </div>
                 <div className="telemetry-item">
-                  <Cpu size={12} color="#38bdf8" />
-                  <span>KERNEL: <strong>Linux 6.8.0-RT</strong></span>
+                  <Users size={12} color="#38bdf8" />
+                  <span>TEACHER: <strong>1:1 In-Class Help</strong></span>
                 </div>
                 <div className="telemetry-item">
-                  <Users size={12} color="#a855f7" />
-                  <span>MENTOR: <strong>Floor Active</strong></span>
+                  <Sparkles size={12} color="#a855f7" />
+                  <span>ADMISSIONS: <strong>New Batch Open</strong></span>
                 </div>
               </div>
             </div>
 
             <div className="floating-lab-badge">
               <Sparkles size={16} color="#fbbf24" />
-              <span>100% In-Person Labs • Zero Video Fluff</span>
+              <span>Genuine Teaching &bull; Zero Video Fluff</span>
             </div>
           </div>
         </div>
@@ -472,29 +549,29 @@ export default function Home() {
         <div className="stats-grid">
           <div className="stat-card">
             <div className="stat-icon-wrap">
+              <Calendar size={24} />
+            </div>
+            <div className="stat-data">
+              <strong>New Batch</strong>
+              <span>Inaugural Cohort Enrolling</span>
+            </div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-icon-wrap">
               <Users size={24} />
             </div>
             <div className="stat-data">
-              <strong>1,200+</strong>
-              <span>Engineers Trained Offline</span>
+              <strong>10–15</strong>
+              <span>Small Batches for Personal Focus</span>
             </div>
           </div>
           <div className="stat-card">
             <div className="stat-icon-wrap">
-              <Wifi size={24} />
+              <CheckCircle2 size={24} />
             </div>
             <div className="stat-data">
-              <strong>10 Gbps</strong>
-              <span>Dedicated Fiber Campus LAN</span>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon-wrap">
-              <Cpu size={24} />
-            </div>
-            <div className="stat-data">
-              <strong>1:1</strong>
-              <span>In-Person Desk Mentoring</span>
+              <strong>1:1 Help</strong>
+              <span>Direct Teacher Doubt Solving</span>
             </div>
           </div>
           <div className="stat-card">
@@ -502,8 +579,8 @@ export default function Home() {
               <ShieldCheck size={24} />
             </div>
             <div className="stat-data">
-              <strong>100%</strong>
-              <span>Hands-On Physical Labs</span>
+              <strong>Daily</strong>
+              <span>Hands-On Laptop Coding</span>
             </div>
           </div>
         </div>
@@ -514,99 +591,101 @@ export default function Home() {
         <div className="section-header">
           <div className="section-kicker">
             <Terminal size={13} />
-            <span>CORE CURRICULUM VERTICALS</span>
+            <span>WHAT WE TEACH</span>
           </div>
-          <h2>Master the Full Engineering Spectrum</h2>
+          <h2>Technologies We Specialize In &amp; Teach In-Person</h2>
           <p>
-            Real tech careers require more than superficial framework tutorials. Our offline curriculum
-            gives you foundational mastery across development, networks, operating systems, and high-scale design.
+            Whether you are starting from zero or sharpening your software engineering skills,
+            our teachers guide you through hands-on coding on your laptop every day.
           </p>
         </div>
 
         <div className="tech-pillars-grid">
-          {/* Pillar 1: Full-Stack */}
+          {/* Pillar 1: Full-Stack MERN & Next.js */}
           <div className="pillar-card">
             <div className="pillar-icon-box icon-box-dev">
               <Code2 size={26} />
             </div>
-            <h3>Full-Stack &amp; Systems Dev</h3>
+            <h3>Full-Stack MERN &amp; Next.js</h3>
             <p>
-              Build high-performance web systems, distributed microservices, event streaming, and resilient databases from scratch.
+              Master MongoDB, Express.js, React.js, and Node.js, alongside Next.js 15 App Router, Tailwind CSS, and Git/GitHub for complete full-stack mastery.
             </p>
             <div className="pillar-tags">
-              <span className="pillar-tag">Next.js 15</span>
-              <span className="pillar-tag">TypeScript</span>
-              <span className="pillar-tag">Node / Go</span>
-              <span className="pillar-tag">PostgreSQL</span>
-              <span className="pillar-tag">Redis</span>
+              <span className="pillar-tag">MongoDB</span>
+              <span className="pillar-tag">Express.js</span>
+              <span className="pillar-tag">React.js</span>
+              <span className="pillar-tag">Next.js</span>
+              <span className="pillar-tag">Node.js</span>
+              <span className="pillar-tag">Git / GitHub</span>
             </div>
-            <a className="pillar-link" href="#courses" onClick={() => setCourseFilter("dev")}>
-              <span>View Dev Programs</span>
+            <a className="pillar-link" href="#courses" onClick={() => setCourseFilter("mern")}>
+              <span>View MERN Courses</span>
               <ChevronRight size={14} />
             </a>
           </div>
 
-          {/* Pillar 2: Networking */}
+          {/* Pillar 2: Frontend & GSAP Animations */}
           <div className="pillar-card">
             <div className="pillar-icon-box icon-box-net">
-              <Network size={26} />
+              <Sparkles size={26} />
             </div>
-            <h3>Computer Networks &amp; Cloud</h3>
+            <h3>Frontend, Tailwind &amp; GSAP</h3>
             <p>
-              Wire enterprise Cisco switches, configure VLANs, dissect TCP/IP handshakes with Wireshark, and deploy cloud infrastructure.
+              Build stunning, interactive websites with modern CSS, Tailwind utility styling, UI component libraries, and buttery-smooth GSAP animations.
             </p>
             <div className="pillar-tags">
-              <span className="pillar-tag">TCP/IP Stack</span>
-              <span className="pillar-tag">Wireshark</span>
-              <span className="pillar-tag">Cisco Routing</span>
-              <span className="pillar-tag">BGP / OSPF</span>
-              <span className="pillar-tag">Firewalls</span>
+              <span className="pillar-tag">Tailwind CSS</span>
+              <span className="pillar-tag">GSAP Animations</span>
+              <span className="pillar-tag">React Components</span>
+              <span className="pillar-tag">UI Libraries</span>
+              <span className="pillar-tag">Responsive UI</span>
             </div>
-            <a className="pillar-link" href="#courses" onClick={() => setCourseFilter("net")}>
-              <span>View Networking Tracks</span>
+            <a className="pillar-link" href="#courses" onClick={() => setCourseFilter("mern")}>
+              <span>View Frontend Courses</span>
               <ChevronRight size={14} />
             </a>
           </div>
 
-          {/* Pillar 3: OS & Systems */}
-          <div className="pillar-card">
-            <div className="pillar-icon-box icon-box-os">
-              <Cpu size={26} />
-            </div>
-            <h3>Operating Systems &amp; Kernel</h3>
-            <p>
-              Understand how software talks to silicon. Linux kernel compilation, virtual memory, POSIX threads, syscalls, C and Rust.
-            </p>
-            <div className="pillar-tags">
-              <span className="pillar-tag">Linux Internals</span>
-              <span className="pillar-tag">C / C++</span>
-              <span className="pillar-tag">Rust Systems</span>
-              <span className="pillar-tag">Syscalls</span>
-              <span className="pillar-tag">GDB / Valgrind</span>
-            </div>
-            <a className="pillar-link" href="#courses" onClick={() => setCourseFilter("os")}>
-              <span>View OS &amp; Systems Tracks</span>
-              <ChevronRight size={14} />
-            </a>
-          </div>
-
-          {/* Pillar 4: DSA & System Design */}
+          {/* Pillar 3: DSA & Logic Building */}
           <div className="pillar-card">
             <div className="pillar-icon-box icon-box-dsa">
               <Layers size={26} />
             </div>
-            <h3>DSA &amp; Whiteboard Design</h3>
+            <h3>Data Structures &amp; Algorithms (DSA)</h3>
             <p>
-              Crush product-company interviews with algorithmic proofs, data structures, and in-person whiteboard architectural mock drills.
+              Build rock-solid problem-solving intuition. Master arrays, strings, recursion, linked lists, trees, and time complexity with whiteboard walkthroughs.
             </p>
             <div className="pillar-tags">
-              <span className="pillar-tag">Tree &amp; Graph DP</span>
-              <span className="pillar-tag">System Design</span>
-              <span className="pillar-tag">Concurrency</span>
-              <span className="pillar-tag">Mock Interviews</span>
+              <span className="pillar-tag">Problem Solving</span>
+              <span className="pillar-tag">Arrays &amp; Strings</span>
+              <span className="pillar-tag">Recursion</span>
+              <span className="pillar-tag">Trees &amp; Graphs</span>
+              <span className="pillar-tag">C++ / Java / Python</span>
             </div>
             <a className="pillar-link" href="#courses" onClick={() => setCourseFilter("dsa")}>
-              <span>View DSA Programs</span>
+              <span>View DSA Courses</span>
+              <ChevronRight size={14} />
+            </a>
+          </div>
+
+          {/* Pillar 4: C, C++, Java & Python */}
+          <div className="pillar-card">
+            <div className="pillar-icon-box icon-box-os">
+              <Cpu size={26} />
+            </div>
+            <h3>C, C++, Java &amp; Python</h3>
+            <p>
+              Learn programming from the ground up: C for memory and pointers, C++ and Java for Object-Oriented Programming (OOP), and Python for logic and scripting.
+            </p>
+            <div className="pillar-tags">
+              <span className="pillar-tag">C Language</span>
+              <span className="pillar-tag">C++ &amp; OOP</span>
+              <span className="pillar-tag">Core Java</span>
+              <span className="pillar-tag">Python 3</span>
+              <span className="pillar-tag">Collections &amp; STL</span>
+            </div>
+            <a className="pillar-link" href="#courses" onClick={() => setCourseFilter("core")}>
+              <span>View Language Courses</span>
               <ChevronRight size={14} />
             </a>
           </div>
@@ -619,12 +698,12 @@ export default function Home() {
           <div className="section-header">
             <div className="section-kicker">
               <BookOpen size={13} />
-              <span>IN-PERSON CAMPUS PROGRAMS</span>
+              <span>OFFLINE CLASSROOM PROGRAMS</span>
             </div>
-            <h2>Comprehensive Offline Programs</h2>
+            <h2>Practical In-Person Programs</h2>
             <p>
-              Every course runs inside our offline tech lab with dedicated workstations, real hardware,
-              and instructors ready to debug side-by-side at your desk.
+              Every course is taught offline at our coaching center. Bring your laptop, sit in class,
+              code alongside your teacher, and get every doubt resolved on the spot.
             </p>
           </div>
 
@@ -637,28 +716,28 @@ export default function Home() {
               All Programs ({COURSES_DATA.length})
             </button>
             <button
-              className={`filter-btn ${courseFilter === "dev" ? "active" : ""}`}
-              onClick={() => setCourseFilter("dev")}
+              className={`filter-btn ${courseFilter === "mern" ? "active" : ""}`}
+              onClick={() => setCourseFilter("mern")}
             >
-              Full-Stack &amp; Systems ({COURSES_DATA.filter((c) => c.track === "dev").length})
+              MERN &amp; Next.js ({COURSES_DATA.filter((c) => c.track === "mern").length})
             </button>
             <button
-              className={`filter-btn ${courseFilter === "net" ? "active" : ""}`}
-              onClick={() => setCourseFilter("net")}
+              className={`filter-btn ${courseFilter === "core" ? "active" : ""}`}
+              onClick={() => setCourseFilter("core")}
             >
-              Networking &amp; Infra ({COURSES_DATA.filter((c) => c.track === "net").length})
-            </button>
-            <button
-              className={`filter-btn ${courseFilter === "os" ? "active" : ""}`}
-              onClick={() => setCourseFilter("os")}
-            >
-              OS &amp; Kernel Systems ({COURSES_DATA.filter((c) => c.track === "os").length})
+              C, C++, Java &amp; Python ({COURSES_DATA.filter((c) => c.track === "core").length})
             </button>
             <button
               className={`filter-btn ${courseFilter === "dsa" ? "active" : ""}`}
               onClick={() => setCourseFilter("dsa")}
             >
-              DSA &amp; Whiteboard ({COURSES_DATA.filter((c) => c.track === "dsa").length})
+              DSA &amp; Logic ({COURSES_DATA.filter((c) => c.track === "dsa").length})
+            </button>
+            <button
+              className={`filter-btn ${courseFilter === "systems" ? "active" : ""}`}
+              onClick={() => setCourseFilter("systems")}
+            >
+              Networking &amp; OS ({COURSES_DATA.filter((c) => c.track === "systems").length})
             </button>
           </div>
 
@@ -707,17 +786,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. WHY OFFLINE LAB BEATS ONLINE VIDEOS */}
+      {/* 6. WHY OFFLINE COACHING BEATS ONLINE VIDEOS */}
       <section className="section-shell" id="why-offline">
         <div className="section-header">
           <div className="section-kicker">
             <Zap size={13} />
-            <span>THE REALITY CHECK</span>
+            <span>THE HONEST COMPARISON</span>
           </div>
-          <h2>Why Online Video Courses Fail Coders</h2>
+          <h2>Why Learning with a Teacher In-Person Works</h2>
           <p>
-            Watching someone code in a polished 10-minute video doesn&apos;t teach you how to think,
-            debug, or configure complex networks. Here is why in-person lab coaching changes everything.
+            Watching someone code in an online video gives the illusion of learning until you try it yourself and get stuck.
+            Here is why our genuine classroom coaching makes all the difference.
           </p>
         </div>
 
@@ -725,34 +804,40 @@ export default function Home() {
           {/* Card 1: Online Pitfalls */}
           <div className="comparison-card card-online">
             <div className="card-header-badge">
-              <span>✕ The Online Bootcamp Reality</span>
+              <X size={14} strokeWidth={2.5} />
+              <span>The Struggle of Learning Alone Online</span>
             </div>
-            <h3>Stuck in Solitary Tutorial Hell</h3>
+            <h3>Stuck in Confusing Video Loops</h3>
             <p className="sub">
-              Pre-recorded tutorials provide an illusion of competence until you hit a real segmentation fault
-              or broken packet route.
+              Pre-recorded tutorials leave you confused as soon as a bug or version mismatch happens on your screen.
             </p>
 
             <div className="comparison-points">
               <div className="point-row">
-                <div className="point-icon cross">✕</div>
+                <div className="point-icon cross">
+                  <X size={14} strokeWidth={2.5} />
+                </div>
                 <div className="point-text">
-                  <strong>Days Lost to Cryptic Errors</strong>
-                  <span>Stuck on a bug for 72 hours with unanswered forum posts or generic chatbot replies.</span>
+                  <strong>Days Lost to Simple Errors</strong>
+                  <span>You get stuck on a tiny syntax bug for 3 days with no teacher to look at your code.</span>
                 </div>
               </div>
               <div className="point-row">
-                <div className="point-icon cross">✕</div>
+                <div className="point-icon cross">
+                  <X size={14} strokeWidth={2.5} />
+                </div>
                 <div className="point-text">
-                  <strong>Simulated Toy Sandboxes</strong>
-                  <span>Browser-based fake terminals that hide real Linux kernel configs and physical network hardware.</span>
+                  <strong>Copy-Pasting Without Understanding</strong>
+                  <span>You type along with the video, but when asked to write code from scratch, you blank out.</span>
                 </div>
               </div>
               <div className="point-row">
-                <div className="point-icon cross">✕</div>
+                <div className="point-icon cross">
+                  <X size={14} strokeWidth={2.5} />
+                </div>
                 <div className="point-text">
-                  <strong>90%+ Course Abandonment</strong>
-                  <span>No physical peer accountability, no daily standups, and zero high-intensity hackathon energy.</span>
+                  <strong>Loss of Motivation &amp; Routine</strong>
+                  <span>Studying alone at home has no accountability. Over 90% of students quit online courses within weeks.</span>
                 </div>
               </div>
             </div>
@@ -761,34 +846,40 @@ export default function Home() {
           {/* Card 2: Elite Offline Institute Experience */}
           <div className="comparison-card card-offline">
             <div className="card-header-badge">
-              <Check size={14} />
-              <span>✓ The Elite Offline Lab Experience</span>
+              <Check size={14} strokeWidth={2.5} />
+              <span>The Elite Coding School Experience</span>
             </div>
-            <h3>Built for Real Engineering Muscle</h3>
+            <h3>Genuine, Concept-First Teaching</h3>
             <p className="sub">
-              Sit in high-tech coding labs from morning to evening, surrounded by passionate peers and senior engineers.
+              Come to class every day with your laptop, learn directly from passionate teachers, and practice on your machine with instant help.
             </p>
 
             <div className="comparison-points">
               <div className="point-row">
-                <div className="point-icon check">✓</div>
+                <div className="point-icon check">
+                  <Check size={14} strokeWidth={2.5} />
+                </div>
                 <div className="point-text">
-                  <strong>2-Minute Desk Debugging</strong>
-                  <span>Raise your hand. A senior mentor walks to your workstation, reviews your GDB trace or Wireshark stream live.</span>
+                  <strong>Instant Teacher Desk Assistance</strong>
+                  <span>Hit an error? Raise your hand. The teacher walks to your desk, points out the bug, and explains the logic.</span>
                 </div>
               </div>
               <div className="point-row">
-                <div className="point-icon check">✓</div>
+                <div className="point-icon check">
+                  <Check size={14} strokeWidth={2.5} />
+                </div>
                 <div className="point-text">
-                  <strong>Physical Cisco Racks &amp; Linux Desks</strong>
-                  <span>Touch real managed switches, crimp Ethernet cables, configure firewall rules, and compile custom kernels.</span>
+                  <strong>Clear Whiteboard Concept Building</strong>
+                  <span>Every topic is broken down into simple, easy-to-understand logic before writing any code.</span>
                 </div>
               </div>
               <div className="point-row">
-                <div className="point-icon check">✓</div>
+                <div className="point-icon check">
+                  <Check size={14} strokeWidth={2.5} />
+                </div>
                 <div className="point-text">
-                  <strong>Hacker Cohort &amp; Daily Standups</strong>
-                  <span>Pair programming, physical whiteboard architectural mock drills, and intense weekly offline hackathons.</span>
+                  <strong>Daily Classroom Discipline &amp; Peers</strong>
+                  <span>Sit with fellow learners, code together every day, build real consistency, and stay motivated.</span>
                 </div>
               </div>
             </div>
@@ -796,16 +887,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 7. CAMPUS & HARDWARE TOUR */}
+      {/* 7. COACHING FACILITIES */}
       <section className="section-shell" id="campus">
         <div className="section-header">
           <div className="section-kicker">
             <Building2 size={13} />
-            <span>CAMPUS INFRASTRUCTURE</span>
+            <span>CLASSROOM FACILITIES</span>
           </div>
-          <h2>Inside Our Offline Coding Lab</h2>
+          <h2>Simple, Clean &amp; Practical Learning Setup</h2>
           <p>
-            Designed from the ground up for software developers, network engineers, and systems architects.
+            We focus all our energy on genuine teaching. Our coaching center provides everything you need to learn and practice comfortably.
           </p>
         </div>
 
@@ -814,19 +905,19 @@ export default function Home() {
             <div className="tour-icon-wrap">
               <Monitor size={24} />
             </div>
-            <h4>Dual-Screen Workstations</h4>
+            <h4>Bring Your Own Laptop</h4>
             <p>
-              Dual 27-inch 4K displays, mechanical keyboards, ergonomic Herman Miller chairs, and high-spec Ubuntu / Windows dual-boot rigs.
+              Carrying your own laptop is necessary for your daily coding practice. Every desk has dedicated power sockets and fast Wi-Fi so you code on your own machine from day one.
             </p>
           </div>
 
           <div className="tour-card">
             <div className="tour-icon-wrap">
-              <Server size={24} />
+              <Wifi size={24} />
             </div>
-            <h4>Cisco &amp; Server Hardware Bay</h4>
+            <h4>High-Speed Classroom Wi-Fi</h4>
             <p>
-              Physical server racks with enterprise Cisco Catalyst switches, patch bays, Mikrotik routers, and local Kubernetes nodes.
+              Reliable internet connection so you can download development tools, install packages, and browse documentation smoothly.
             </p>
           </div>
 
@@ -834,119 +925,128 @@ export default function Home() {
             <div className="tour-icon-wrap">
               <Layers size={24} />
             </div>
-            <h4>Whiteboard War Rooms</h4>
+            <h4>Projector &amp; Whiteboard Demos</h4>
             <p>
-              Floor-to-ceiling magnetic whiteboards where students map out microservice schemas, dynamic programming tables, and network topologies.
+              Teachers break down concepts step-by-step on the whiteboard, followed by live coding demonstrations projected on the screen.
             </p>
           </div>
 
           <div className="tour-card">
             <div className="tour-icon-wrap">
-              <Radio size={24} />
+              <Users size={24} />
             </div>
-            <h4>Developer Lounge &amp; Library</h4>
+            <h4>Extra Practice &amp; Doubt Space</h4>
             <p>
-              High-speed Wi-Fi, artisan coffee bar, systems engineering book library, and breakout pods for evening tech talks and mock interviews.
+              Stay after class in our open practice space to work on daily coding assignments, ask doubts, and collaborate with batchmates.
             </p>
           </div>
         </div>
       </section>
 
-      {/* 8. ALUMNI SUCCESS STORIES */}
+      {/* 8. OUR COMMITMENT & PHILOSOPHY */}
       <section className="section-shell">
         <div className="section-header">
           <div className="section-kicker">
             <Sparkles size={13} />
-            <span>STUDENT TESTIMONIALS</span>
+            <span>OUR TEACHING COMMITMENT</span>
           </div>
-          <h2>Hear From Coders Who Learned In-Person</h2>
+          <h2>Genuine Teaching. No False Hype. Pure Learning.</h2>
           <p>
-            From college beginners to placed systems engineers and cloud architects.
+            We started Elite Coding School with a clear goal: to be an honest, dedicated coaching center where teachers genuinely care about every student&apos;s progress.
           </p>
         </div>
 
         <div className="testimonials-grid">
           <div className="testimonial-card">
+            <h4 style={{ color: "#ffffff", fontSize: "17px", margin: "0 0 10px", fontWeight: 700 }}>
+              &ldquo;We Teach From Absolute Zero&rdquo;
+            </h4>
             <p className="quote-text">
-              &ldquo;I spent 8 months stuck trying to learn networking and Linux on YouTube. At Elite, plugging into real Cisco switches and having mentors debug my iptables rules at my desk taught me more in 6 weeks than an entire year online.&rdquo;
+              You don&apos;t need any previous coding background. We start from basic computer concepts and logic building, ensuring no student feels left behind in class.
             </p>
             <div className="student-profile">
-              <div className="student-avatar">RK</div>
+              <div className="student-avatar">01</div>
               <div className="student-info">
-                <strong>Rohan Kulkarni</strong>
-                <span>Network Infrastructure Engineer &bull; Cloudflare</span>
+                <strong>Foundational Approach</strong>
+                <span>Step-by-step concept clarity</span>
               </div>
             </div>
           </div>
 
           <div className="testimonial-card">
+            <h4 style={{ color: "#ffffff", fontSize: "17px", margin: "0 0 10px", fontWeight: 700 }}>
+              &ldquo;Every Doubt is Welcomed&rdquo;
+            </h4>
             <p className="quote-text">
-              &ldquo;The operating systems &amp; C track was intense. When my custom memory allocator had a segfault, the mentor sat with me for 40 minutes showing me how to read assembly disassembly in GDB. That in-person guidance got me hired as a Systems Dev.&rdquo;
+              In our small batches of 10–15 students, teachers know you by name. If you have a question 10 times, we will explain it 10 times until the concept is crystal clear.
             </p>
             <div className="student-profile">
-              <div className="student-avatar">AM</div>
+              <div className="student-avatar">02</div>
               <div className="student-info">
-                <strong>Ananya Mishra</strong>
-                <span>Systems Software Engineer &bull; Qualcomm</span>
+                <strong>Personal Attention</strong>
+                <span>Direct 1:1 teacher mentorship</span>
               </div>
             </div>
           </div>
 
           <div className="testimonial-card">
+            <h4 style={{ color: "#ffffff", fontSize: "17px", margin: "0 0 10px", fontWeight: 700 }}>
+              &ldquo;Try Before You Decide&rdquo;
+            </h4>
             <p className="quote-text">
-              &ldquo;The physical whiteboard system design drills and the hacker house culture pushed me to build real distributed apps. Coding next to other hungry developers 10 hours a day changes your mindset completely.&rdquo;
+              We offer free trial demo classes. Walk into our center, sit with our teachers, experience our teaching style first-hand, and enroll only when you are completely satisfied.
             </p>
             <div className="student-profile">
-              <div className="student-avatar">VS</div>
+              <div className="student-avatar">03</div>
               <div className="student-info">
-                <strong>Vikram Sharma</strong>
-                <span>Full-Stack Platform Engineer &bull; Razorpay</span>
+                <strong>Fully Transparent</strong>
+                <span>Free trial lecture before admission</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 9. WALK-IN CAMPUS VISIT / FREE PASS CTA */}
+      {/* 9. WALK-IN VISIT / FREE DEMO CTA */}
       <section className="campus-cta-shell" id="contact-walkin">
         <div className="campus-cta-card">
           <div className="cta-left">
-            <h2>Experience the Coding Lab in Person Before Enrolling.</h2>
+            <h2>Attend a Free Trial Demo Class Before Enrolling.</h2>
             <p>
-              Walk into our campus today. Sit at a workstation, explore our Cisco hardware racks,
-              meet our senior engineering mentors, and take a free 1-hour hands-on coding trial.
+              Visit our coaching center today. Meet the teachers, attend a live lecture,
+              experience our genuine teaching approach, and see how we explain code from scratch.
             </p>
 
             <div className="cta-contact-chips">
               <div className="contact-chip">
                 <MapPin size={15} color="#38bdf8" />
-                <span>Tech Park Hub, 4th Floor, Koramangala / Indiranagar</span>
+                <span>Elite Coding School, Coaching Center</span>
               </div>
               <div className="contact-chip">
                 <Clock size={15} color="#10b981" />
-                <span>Walk-in Hours: Mon - Sat 9:00 AM - 8:30 PM</span>
+                <span>Center Timings: Mon - Sat 9:00 AM - 7:00 PM</span>
               </div>
               <div className="contact-chip">
                 <Phone size={15} color="#c084fc" />
-                <span>Campus Helpline: +91 98765 43210</span>
+                <span>Teacher Helpline: +91 98765 43210</span>
               </div>
             </div>
           </div>
 
           <div className="cta-right">
             <Link className="btn-cta-main" href="/register">
-              <span>Book Free 1-Day Lab Trial</span>
+              <span>Book Free Demo Class</span>
               <ArrowRight size={18} />
             </Link>
             <Link className="btn-cta-ghost" href="/contact">
               <Mail size={16} />
-              <span>Contact Admissions Desk</span>
+              <span>Contact Teachers / Center</span>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* 10. COMPREHENSIVE HIGH-TECH FOOTER */}
+      {/* 10. COMPREHENSIVE FOOTER */}
       <footer className="site-footer" id="contact">
         <div className="footer-inner">
           {/* Top Strip */}
@@ -958,7 +1058,7 @@ export default function Home() {
               </Link>
               <div className="footer-live-status">
                 <span className="pulse-dot" />
-                <span>CAMPUS OPEN NOW (09:00 - 21:00 IST)</span>
+                <span>COACHING CENTER OPEN (09:00 - 19:00 IST)</span>
               </div>
             </div>
 
@@ -966,13 +1066,7 @@ export default function Home() {
               <a className="social-btn" href="https://github.com" target="_blank" rel="noreferrer" aria-label="GitHub">
                 <Code2 size={17} />
               </a>
-              <a className="social-btn" href="https://discord.com" target="_blank" rel="noreferrer" aria-label="Discord">
-                <Radio size={17} />
-              </a>
-              <a className="social-btn" href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                <Globe size={17} />
-              </a>
-              <a className="social-btn" href="mailto:admissions@elitecodingschool.com" aria-label="Email">
+              <a className="social-btn" href="mailto:info@elitecodingschool.com" aria-label="Email">
                 <Mail size={17} />
               </a>
             </div>
@@ -982,47 +1076,47 @@ export default function Home() {
           <div className="footer-columns">
             {/* Column 1: Campus & Walk-in Hub */}
             <div className="footer-col">
-              <h4>Offline Campus Hub</h4>
+              <h4>About Elite Coding School</h4>
               <p className="lead">
-                India&apos;s premier in-person coding institute for software engineers, network architects, and systems developers.
+                A newly opened offline tech coaching center dedicated to genuine, hands-on teaching for coders, college students, and beginners.
               </p>
               <div className="footer-address-card">
-                <strong>📍 Campus Location:</strong>
-                Elite Tech Campus, 3rd &amp; 4th Floor, Innovation Tower, 100 Feet Road, Near Metro Station.
+                <strong>📍 Coaching Center Location:</strong>
+                Elite Coding School Campus, Near Main Road &amp; Metro Station.
                 <br />
                 <span style={{ color: "#34d399", fontWeight: 600, display: "block", marginTop: "6px" }}>
-                  ● Walk-ins welcome Mon-Sat (9 AM - 9 PM)
+                  ● Walk-ins welcome Mon-Sat (9 AM - 7 PM)
                 </span>
               </div>
             </div>
 
             {/* Column 2: Tech Tracks */}
             <div className="footer-col">
-              <h4>Technology Tracks</h4>
+              <h4>Classroom Courses</h4>
               <ul className="footer-nav-list">
                 <li>
-                  <a href="#courses" onClick={() => setCourseFilter("dev")}>
-                    <ChevronRight size={13} /> Full-Stack Development
+                  <a href="#courses" onClick={() => setCourseFilter("mern")}>
+                    <ChevronRight size={13} /> Full-Stack MERN &amp; Next.js
                   </a>
                 </li>
                 <li>
-                  <a href="#courses" onClick={() => setCourseFilter("net")}>
-                    <ChevronRight size={13} /> Computer Networks &amp; CCNA
+                  <a href="#courses" onClick={() => setCourseFilter("mern")}>
+                    <ChevronRight size={13} /> Frontend, Tailwind CSS &amp; GSAP
                   </a>
                 </li>
                 <li>
-                  <a href="#courses" onClick={() => setCourseFilter("os")}>
-                    <ChevronRight size={13} /> Linux &amp; OS Kernel Internals
-                  </a>
-                </li>
-                <li>
-                  <a href="#courses" onClick={() => setCourseFilter("os")}>
-                    <ChevronRight size={13} /> Low-Level Systems (C / Rust)
+                  <a href="#courses" onClick={() => setCourseFilter("core")}>
+                    <ChevronRight size={13} /> C, C++, Java &amp; Python
                   </a>
                 </li>
                 <li>
                   <a href="#courses" onClick={() => setCourseFilter("dsa")}>
-                    <ChevronRight size={13} /> Data Structures &amp; System Design
+                    <ChevronRight size={13} /> Data Structures &amp; Algorithms (DSA)
+                  </a>
+                </li>
+                <li>
+                  <a href="#courses" onClick={() => setCourseFilter("systems")}>
+                    <ChevronRight size={13} /> Networking &amp; Linux OS
                   </a>
                 </li>
               </ul>
@@ -1030,7 +1124,7 @@ export default function Home() {
 
             {/* Column 3: Admissions & Portals */}
             <div className="footer-col">
-              <h4>Admissions &amp; Portal</h4>
+              <h4>Admissions &amp; Trial</h4>
               <ul className="footer-nav-list">
                 <li>
                   <Link href="/courses">
@@ -1039,7 +1133,12 @@ export default function Home() {
                 </li>
                 <li>
                   <Link href="/register">
-                    <ChevronRight size={13} /> Apply for Upcoming Cohort
+                    <ChevronRight size={13} /> Book a Free Demo Class
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contact">
+                    <ChevronRight size={13} /> Walk-in &amp; Center Address
                   </Link>
                 </li>
                 <li>
@@ -1047,38 +1146,28 @@ export default function Home() {
                     <ChevronRight size={13} /> Student Portal Login
                   </Link>
                 </li>
-                <li>
-                  <Link href="/admin">
-                    <ChevronRight size={13} /> Faculty &amp; Admin Panel
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact">
-                    <ChevronRight size={13} /> Request Fee Structure PDF
-                  </Link>
-                </li>
               </ul>
             </div>
 
             {/* Column 4: Contact & Mentorship */}
             <div className="footer-col">
-              <h4>Campus Contact</h4>
+              <h4>Center Contact</h4>
               <ul className="footer-contact-list">
                 <li>
                   <Phone size={15} />
-                  <span>+91 98765 43210 (Admissions)</span>
+                  <span>+91 98765 43210 (Inquiries)</span>
                 </li>
                 <li>
                   <Mail size={15} />
-                  <span>admissions@elitecodingschool.com</span>
+                  <span>info@elitecodingschool.com</span>
                 </li>
                 <li>
                   <Clock size={15} />
-                  <span>Lab Hours: 9:00 AM - 9:00 PM (Mon-Sat)</span>
+                  <span>Classes: 9:00 AM - 7:00 PM (Mon-Sat)</span>
                 </li>
                 <li>
                   <Building2 size={15} />
-                  <span>Metro Station: 200m Walk</span>
+                  <span>Near Metro Station • Walk-ins Open</span>
                 </li>
               </ul>
             </div>
@@ -1087,31 +1176,31 @@ export default function Home() {
           {/* Offline Quality Assurance Strip */}
           <div className="footer-assurance-strip">
             <div className="assurance-item">
-              <Monitor size={16} />
-              <span>Dedicated High-Spec Linux Desks</span>
-            </div>
-            <div className="assurance-item">
-              <Server size={16} />
-              <span>Physical Cisco Switches &amp; Hardware Bay</span>
+              <CheckCircle2 size={16} />
+              <span>Genuine Classroom Teaching</span>
             </div>
             <div className="assurance-item">
               <Users size={16} />
-              <span>1:1 Desk-Side Senior Mentoring</span>
+              <span>Small Batches (10–15 Students)</span>
+            </div>
+            <div className="assurance-item">
+              <Sparkles size={16} />
+              <span>1:1 Teacher Desk Doubt Solving</span>
             </div>
             <div className="assurance-item">
               <ShieldCheck size={16} />
-              <span>100% In-Person &bull; Zero Recorded Videos</span>
+              <span>Free Demo Class Before Admission</span>
             </div>
           </div>
 
           {/* Bottom Bar */}
           <div className="footer-bottom-bar">
-            <span>&copy; {new Date().getFullYear()} Elite Coding School. All rights reserved. Built for ambitious engineers.</span>
+            <span>&copy; {new Date().getFullYear()} Elite Coding School. All rights reserved.</span>
             <div className="footer-bottom-links">
-              <Link href="/about">About Institute</Link>
-              <Link href="/contact">Campus Tour</Link>
+              <Link href="/about">About Center</Link>
+              <Link href="/contact">Visit Us</Link>
               <a href="#tracks">Curriculum</a>
-              <a href="#why-offline">Code of Conduct</a>
+              <Link href="/courses">Courses</Link>
             </div>
           </div>
         </div>

@@ -50,138 +50,337 @@ type Course = {
 
 const FALLBACK_COURSES: Record<string, Partial<Course>> = {
   "full-stack-development": {
-    title: "Full-Stack & Distributed Systems",
-    category: "Web Development",
-    level: "Intermediate",
-    durationMonths: 6,
-    monthlyFee: 6000,
-    description:
-      "A rigorous, project-heavy offline program where you build production-ready full-stack applications, microservice clusters, and real-time distributed platforms from scratch.",
-    skills: ["Next.js 15", "TypeScript", "Node.js", "Go", "PostgreSQL", "Docker", "Redis", "WebSockets"],
-    prerequisites: ["Basic understanding of programming fundamentals in JavaScript, Python, or C++"],
-    perks: [
-      "Dedicated dual-monitor workstation in campus lab",
-      "Production deployment to live cloud clusters",
-      "Daily 1:1 desk mentor code reviews",
-      "Weekly campus hackathons & live code showcases",
-    ],
-    syllabus: [
-      {
-        id: "m1",
-        title: "Module 1: Modern Web Core & Advanced TypeScript",
-        topics: ["TypeScript type system & generics", "Next.js 15 App Router & Server Components", "State machines & cache strategies"],
-      },
-      {
-        id: "m2",
-        title: "Module 2: High-Performance Backend & Database Architecture",
-        topics: ["REST & gRPC API design with Node.js & Go", "PostgreSQL query tuning, indexing & connection pooling", "Redis caching patterns"],
-      },
-      {
-        id: "m3",
-        title: "Module 3: Distributed Systems, Docker & Microservices",
-        topics: ["Docker containerization & multi-stage builds", "Kafka/RabbitMQ message streaming", "Authentication with OAuth, JWT & MFA"],
-      },
-    ],
-  },
-  "computer-networks": {
-    title: "Computer Networks & Cloud Infrastructure",
-    category: "Networking",
-    level: "Intermediate",
+    title: "Full-Stack MERN & Next.js Development",
+    category: "MERN Stack",
+    level: "Beginner to Intermediate",
     durationMonths: 4,
-    monthlyFee: 5500,
+    monthlyFee: 3000,
     description:
-      "Hands-on offline lab training where you wire enterprise Cisco switches, configure VLANs, dissect packets with Wireshark, and deploy cloud infrastructure.",
-    skills: ["TCP/IP Stack", "Cisco Catalyst 3850", "Wireshark", "BGP / OSPF", "VLANs & Trunking", "Linux Netfilter", "Cloud LAN"],
-    prerequisites: ["Familiarity with basic computer systems and command-line usage"],
+      "A hands-on classroom program where you learn to build real websites and full-stack web applications from scratch with React, Next.js, Node.js, Express, and MongoDB.",
+    skills: ["MongoDB", "Express.js", "React.js", "Node.js", "Next.js", "Tailwind CSS", "Git/GitHub"],
+    prerequisites: ["No prior coding required. Basic computer operating knowledge is all you need."],
     perks: [
-      "Physical Cisco switch & router rack access",
-      "Live packet tracing & Wireshark protocol lab",
-      "Hands-on subnetting & enterprise firewall setup",
-      "CCNA certification alignment & mock lab tests",
+      "Small batch size (10–15 students) for personal focus",
+      "Daily hands-on coding on your laptop in class",
+      "1:1 teacher desk debugging whenever you get stuck",
+      "Build 5+ portfolio projects with step-by-step guidance",
     ],
     syllabus: [
       {
         id: "m1",
-        title: "Module 1: TCP/IP Stack & Physical Networking",
-        topics: ["OSI model vs TCP/IP in practice", "Ethernet frames, cabling & patch bays", "IPv4/IPv6 addressing & CIDR subnetting"],
+        title: "Module 1: HTML5, Modern CSS & Tailwind CSS",
+        topics: ["HTML5 semantic tags & document structure", "Tailwind CSS utility classes & responsive flex/grid", "Building real landing pages from scratch"],
       },
       {
         id: "m2",
-        title: "Module 2: Switching, Routing & Cisco Hardware",
-        topics: ["Cisco IOS CLI configuration", "VLANs, 802.1Q trunking & Inter-VLAN routing", "Static routes, OSPF & dynamic BGP"],
+        title: "Module 2: JavaScript (ES6+), React.js & Next.js",
+        topics: ["Variables, functions, loops, DOM events & ES6+", "React component architecture, hooks & state management", "Next.js App Router, SSR & routing"],
       },
       {
         id: "m3",
-        title: "Module 3: Packet Analysis & Network Security",
-        topics: ["Deep packet inspection with Wireshark & tcpdump", "iptables, NAT & stateful firewall rules", "SSL/TLS handshake & PKI infrastructure"],
+        title: "Module 3: Node.js, Express & MongoDB Full-Stack",
+        topics: ["RESTful API design with Express & Node.js", "MongoDB schema design with Mongoose", "User authentication with JWT & project deployment"],
       },
     ],
   },
-  "operating-systems-kernel": {
-    title: "Operating Systems & Kernel Programming",
-    category: "Operating Systems",
-    level: "Advanced",
-    durationMonths: 5,
-    monthlyFee: 6500,
+  "frontend-development": {
+    title: "Frontend Development, Tailwind CSS & GSAP",
+    category: "MERN Stack",
+    level: "Beginner",
+    durationMonths: 3,
+    monthlyFee: 2500,
     description:
-      "Demystify how software talks to silicon. Compile custom Linux kernels, build virtual memory allocators, master POSIX threads, and write C/Rust system software.",
-    skills: ["C/C++", "Rust", "Linux Kernel", "POSIX", "Syscalls", "Memory Virtualization", "GDB", "Valgrind"],
-    prerequisites: ["Proficiency in C or C++ and familiarity with pointers & memory models"],
+      "Master modern responsive design, UI component libraries, React.js, and slick interactive animations with GSAP and Tailwind CSS.",
+    skills: ["HTML5/CSS3", "JavaScript (ES6+)", "React.js", "Tailwind CSS", "GSAP Animations", "Git/GitHub"],
+    prerequisites: ["Basic computer usage and curiosity to create beautiful websites"],
     perks: [
-      "Custom Linux kernel compilation in lab",
-      "POSIX threads, mutexes & virtual memory allocators",
-      "Desk mentor segfault & GDB debugging sessions",
-      "Bare-metal hardware testing & register inspection",
+      "Pixel-perfect responsive layout techniques",
+      "Interactive animations using GSAP & modern UI kits",
+      "Clean component architecture & state management",
     ],
     syllabus: [
       {
         id: "m1",
-        title: "Module 1: Kernel Architecture & System Calls",
-        topics: ["User space vs Kernel space transitions", "Trap handlers, interrupts & CPU rings", "Adding custom system calls to Linux"],
+        title: "Module 1: Modern Web Design & Tailwind CSS",
+        topics: ["Responsive layout design for desktop & mobile", "Tailwind CSS utilities, gradients & typography", "Modern UI component libraries (Shadcn / Lucide)"],
       },
       {
         id: "m2",
-        title: "Module 2: Memory Management & Virtualization",
-        topics: ["Virtual address spaces & page tables", "mmap, brk, and writing a custom malloc", "Buffer cache & page fault handling"],
+        title: "Module 2: JavaScript & React Interactive Components",
+        topics: ["Modern ES6+ JavaScript syntax & asynchronous fetching", "React functional components, useState & useEffect", "Building dynamic, interactive UI widgets"],
       },
       {
         id: "m3",
-        title: "Module 3: Concurrency, Threads & Device Drivers",
-        topics: ["POSIX pthreads, spinlocks & race conditions", "Linux process scheduler (CFS) internals", "Writing basic Linux character device drivers"],
+        title: "Module 3: GSAP Animations & Portfolio Showcase",
+        topics: ["GSAP timelines, tweens & scroll-triggered animations", "Micro-interactions & page transitions", "Deploying portfolio projects to GitHub & Vercel"],
+      },
+    ],
+  },
+  "backend-development": {
+    title: "Backend Development & REST APIs with MongoDB",
+    category: "MERN Stack",
+    level: "Intermediate",
+    durationMonths: 3,
+    monthlyFee: 2800,
+    description:
+      "Build robust backend servers, RESTful APIs, JWT authentication, and database schemas with Node.js, Express, and MongoDB.",
+    skills: ["Node.js", "Express.js", "MongoDB", "Mongoose", "REST APIs", "JWT Auth", "Postman"],
+    prerequisites: ["Basic familiarity with JavaScript fundamentals"],
+    perks: [
+      "Hands-on API design & Postman testing",
+      "Database schema modeling with Mongoose",
+      "Teacher reviews your code line-by-line",
+    ],
+    syllabus: [
+      {
+        id: "m1",
+        title: "Module 1: Node.js Runtime & Express Server",
+        topics: ["Node.js event loop, modules & npm ecosystem", "Building Express HTTP servers & custom middleware", "Request handling, status codes & routing"],
+      },
+      {
+        id: "m2",
+        title: "Module 2: MongoDB & Mongoose Schema Design",
+        topics: ["NoSQL fundamentals vs relational tables", "Mongoose schemas, validations & CRUD operations", "Aggregation pipelines & indexing"],
+      },
+      {
+        id: "m3",
+        title: "Module 3: Authentication, Security & Deployment",
+        topics: ["Password hashing with bcrypt & JWT tokens", "CORS, rate limiting & error handling middleware", "Deploying Node.js servers to cloud hosting"],
       },
     ],
   },
   "data-structures-algorithms": {
-    title: "Data Structures & High-Scale Systems",
-    category: "Computer Science",
-    level: "Intermediate",
-    durationMonths: 4,
-    monthlyFee: 5000,
+    title: "Data Structures & Algorithms (DSA)",
+    category: "DSA & Logic",
+    level: "Beginner",
+    durationMonths: 3,
+    monthlyFee: 2800,
     description:
-      "Crack top-tier product company interviews with rigorous algorithmic proofs, dynamic programming, and in-person physical whiteboard system design drills.",
-    skills: ["Trees & Graphs", "Dynamic Programming", "System Design", "Concurrency", "High-Scale"],
-    prerequisites: ["Knowledge of any programming language (C++, Java, Python, or Go)"],
+      "Master logic building, algorithmic thinking, and problem solving from scratch with whiteboard explanations and live coding.",
+    skills: ["C++", "Java", "Arrays & Strings", "Recursion", "Trees & Graphs", "Time Complexity"],
+    prerequisites: ["Curiosity to learn programming. We teach logic from absolute scratch."],
     perks: [
-      "Floor-to-ceiling physical whiteboard mock rounds",
-      "400+ LeetCode patterns with algorithmic proofs",
-      "In-person weekly speed-coding sprints",
-      "1:1 interview feedback from senior engineering mentors",
+      "100+ guided problem-solving exercises in class",
+      "Teacher explains logic step-by-step on the whiteboard",
+      "Small batch (10–15 students) ensures no one falls behind",
+      "Personal desk assistance whenever your code doesn't work",
     ],
     syllabus: [
       {
         id: "m1",
-        title: "Module 1: Algorithmic Foundations & Graph Theory",
-        topics: ["Asymptotic notation & amortized analysis", "DFS, BFS, Dijkstra & topological sort", "Segment trees & Fenwick trees"],
+        title: "Module 1: Logic Building & Syntax Foundations",
+        topics: ["How computers think: flowcharts & pseudo-code", "Variables, conditionals, loops & nested patterns", "Writing clean, readable code in C++ or Java"],
       },
       {
         id: "m2",
-        title: "Module 2: Dynamic Programming & Problem Solving",
-        topics: ["Memoization vs tabulation", "Knapsack, LCS & interval DP patterns", "Bitmask & tree dynamic programming"],
+        title: "Module 2: Core Data Structures (Arrays & Strings)",
+        topics: ["Array traversal, two-pointer technique & sliding window", "String manipulation & pattern searching", "Linear search, binary search & basic sorting"],
       },
       {
         id: "m3",
-        title: "Module 3: High-Scale Whiteboard System Design",
-        topics: ["Rate limiters, caching & distributed locks", "Database sharding & replication strategies", "Designing WhatsApp / Uber architecture"],
+        title: "Module 3: Functions, Recursion & Advanced Structures",
+        topics: ["Function call stacks & thinking recursively", "Linked lists, stacks & queues simplified", "Trees, graphs & time complexity (Big O)"],
+      },
+    ],
+  },
+  "system-design": {
+    title: "System Design & Scalable Architecture",
+    category: "DSA & System Design",
+    level: "Intermediate",
+    durationMonths: 3,
+    monthlyFee: 2800,
+    description:
+      "Master High-Level (HLD) and Low-Level Design (LLD), microservice communication, caching, load balancing, and scalable system case studies with whiteboard walkthroughs.",
+    skills: ["System Design", "HLD / LLD", "Microservices", "Redis", "Load Balancers", "DB Sharding", "Scalability"],
+    prerequisites: ["Basic understanding of programming fundamentals and databases."],
+    perks: [
+      "Whiteboard breakdowns of real-world scalable systems",
+      "HLD & LLD: Microservices, Redis, Nginx & DB sharding",
+      "Case studies: WhatsApp, URL Shortener & Netflix architecture",
+      "Teacher explains every architectural tradeoff clearly",
+    ],
+    syllabus: [
+      {
+        id: "m1",
+        title: "Module 1: Architecture Core & Scaling Concepts",
+        topics: ["Vertical vs Horizontal scaling & load balancing (Nginx)", "Monolith vs Microservices architecture", "Caching patterns with Redis & Memcached"],
+      },
+      {
+        id: "m2",
+        title: "Module 2: Databases, Storage & Message Streaming",
+        topics: ["SQL vs NoSQL trade-offs & ACID properties", "Database replication, sharding & indexing strategies", "Asynchronous tasks with Kafka & RabbitMQ"],
+      },
+      {
+        id: "m3",
+        title: "Module 3: End-to-End System Design Case Studies",
+        topics: ["Designing a URL shortener (TinyURL) & rate limiter", "Designing real-time chat (WhatsApp) with WebSockets", "Designing scalable video/feed platform (Netflix/Twitter)"],
+      },
+    ],
+  },
+  "c-cpp-programming": {
+    title: "C & C++ Programming Foundations",
+    category: "Programming Languages",
+    level: "Beginner",
+    durationMonths: 3,
+    monthlyFee: 2500,
+    description:
+      "Start programming from absolute zero. Understand memory management, pointers, and Object-Oriented Programming (OOP) in C++.",
+    skills: ["C Language", "C++", "Pointers", "OOP (Classes & Objects)", "STL Basics", "Problem Solving"],
+    prerequisites: ["Zero programming knowledge needed. Perfect for beginners and college students."],
+    perks: [
+      "Complete zero-level start with simple explanations",
+      "Deep understanding of memory, pointers & logic",
+      "College academics & foundational coding prep",
+    ],
+    syllabus: [
+      {
+        id: "m1",
+        title: "Module 1: C Programming & Logic Fundamentals",
+        topics: ["Variables, data types, operators & if-else", "For/while loops, nested loops & patterns", "Functions, scope & call-by-value/reference"],
+      },
+      {
+        id: "m2",
+        title: "Module 2: Pointers, Arrays & Memory",
+        topics: ["Pointers demystified: addresses & dereferencing", "1D/2D arrays & string manipulation", "Dynamic memory allocation (malloc / free)"],
+      },
+      {
+        id: "m3",
+        title: "Module 3: C++ & Object-Oriented Programming",
+        topics: ["Classes, objects, constructors & destructors", "Encapsulation, inheritance & polymorphism", "C++ Standard Template Library (vector, map, set)"],
+      },
+    ],
+  },
+  "java-programming": {
+    title: "Core Java & Object-Oriented Programming",
+    category: "Programming Languages",
+    level: "Beginner",
+    durationMonths: 3,
+    monthlyFee: 2500,
+    description:
+      "Learn Core Java from the ground up: classes, inheritance, interfaces, exception handling, and the Collections framework.",
+    skills: ["Core Java", "OOP Concepts", "Collections Framework", "Exceptions", "File I/O", "Git"],
+    prerequisites: ["No prior coding required. We start from installation and Hello World."],
+    perks: [
+      "Clear object-oriented mindset from day one",
+      "Hands-on Java exercises every single class",
+      "Teacher helps you debug logic on your laptop",
+    ],
+    syllabus: [
+      {
+        id: "m1",
+        title: "Module 1: Java Basics & Syntax Foundations",
+        topics: ["JDK, JRE & JVM explained simply", "Data types, operators, conditionals & loops", "Methods, method overloading & static keyword"],
+      },
+      {
+        id: "m2",
+        title: "Module 2: Core Object-Oriented Programming",
+        topics: ["Classes, objects & constructor mechanics", "Inheritance, abstract classes & interfaces", "Polymorphism (overriding vs overloading)"],
+      },
+      {
+        id: "m3",
+        title: "Module 3: Collections Framework & File I/O",
+        topics: ["ArrayList, LinkedList, HashMap & HashSet", "Exception handling (try-catch-finally)", "File reading/writing & mini Java project"],
+      },
+    ],
+  },
+  "python-programming": {
+    title: "Python Programming & Logic Building",
+    category: "Programming Languages",
+    level: "Beginner",
+    durationMonths: 2.5,
+    monthlyFee: 2500,
+    description:
+      "Learn beginner-friendly Python programming, clean syntax, logic building, data handling, and automation scripting.",
+    skills: ["Python 3", "Data Structures", "Functions", "Automation Scripts", "Logic Building", "Git"],
+    prerequisites: ["Curiosity to code. The best starting language for beginners."],
+    perks: [
+      "Easiest language to start your coding journey",
+      "Daily coding challenges and logic drills",
+      "Build practical automation and utility scripts",
+    ],
+    syllabus: [
+      {
+        id: "m1",
+        title: "Module 1: Python Syntax & Logic Essentials",
+        topics: ["Variables, data types, inputs & formatted strings", "Conditionals, while/for loops & range", "Functions, default arguments & return values"],
+      },
+      {
+        id: "m2",
+        title: "Module 2: Python Data Structures & Files",
+        topics: ["Lists, tuples, dictionaries & sets", "List comprehensions & string formatting", "Reading and writing CSV/text files"],
+      },
+      {
+        id: "m3",
+        title: "Module 3: Modules, Scripting & Mini Projects",
+        topics: ["Using built-in modules (os, sys, math, random)", "Web scraping / API requests with requests library", "Automating real desktop & data tasks"],
+      },
+    ],
+  },
+  "computer-networks": {
+    title: "Computer Networks Fundamentals From Scratch",
+    category: "Networking & Systems",
+    level: "Beginner",
+    durationMonths: 3,
+    monthlyFee: 2500,
+    description:
+      "Understand how the internet, routers, switches, IP addressing, and networking protocols work with clear whiteboard explanations and laptop demos.",
+    skills: ["TCP/IP Stack", "IP Subnetting", "DNS/DHCP", "Wireshark", "Routers & LAN", "Network Tools"],
+    prerequisites: ["Curiosity about how the internet works. We teach everything from zero."],
+    perks: [
+      "Taught from absolute zero with whiteboard diagrams",
+      "Practical Wi-Fi, router & LAN setup demos",
+      "Hands-on packet inspection with Wireshark",
+      "Direct 1:1 teacher clarification for every concept",
+    ],
+    syllabus: [
+      {
+        id: "m1",
+        title: "Module 1: Networking Basics & The OSI Model",
+        topics: ["OSI 7 layers vs TCP/IP model simplified", "Ethernet cables, MAC addresses & ARP", "IPv4 addressing & CIDR subnetting made easy"],
+      },
+      {
+        id: "m2",
+        title: "Module 2: Transport & Application Layer Protocols",
+        topics: ["TCP 3-way handshake vs UDP speed", "How DNS, DHCP, HTTP & HTTPS work", "Testing connectivity with ping, traceroute & netstat"],
+      },
+      {
+        id: "m3",
+        title: "Module 3: Network Security & Traffic Analysis",
+        topics: ["Capturing live packets with Wireshark", "Basic firewall principles & port scanning with Nmap", "Securing home & small office Wi-Fi networks"],
+      },
+    ],
+  },
+  "operating-systems-kernel": {
+    title: "Linux & Operating Systems From Scratch",
+    category: "Networking & Systems",
+    level: "Beginner",
+    durationMonths: 3,
+    monthlyFee: 2500,
+    description:
+      "Master the Linux command line, automate workflows with bash scripts, and understand how operating systems manage processes, memory, and files.",
+    skills: ["Linux Terminal", "Bash Scripting", "File Systems", "Processes & Memory", "C Basics", "Git"],
+    prerequisites: ["No prior experience required. We start directly in the terminal from scratch."],
+    perks: [
+      "Complete zero-level start on your laptop terminal",
+      "Hands-on bash scripting & task automation",
+      "Understand processes, memory & file systems",
+      "Teacher reviews your scripts line-by-line",
+    ],
+    syllabus: [
+      {
+        id: "m1",
+        title: "Module 1: Linux Command-Line Mastery",
+        topics: ["Terminal navigation, file manipulation & grep/find", "User permissions, chmod, chown & sudo", "Package management & environment setup"],
+      },
+      {
+        id: "m2",
+        title: "Module 2: Bash Shell Scripting & Automation",
+        topics: ["Variables, conditionals, loops & functions in Bash", "Automating backups & text parsing with sed/awk", "Cron jobs & background task automation"],
+      },
+      {
+        id: "m3",
+        title: "Module 3: OS Concepts & C Programming Basics",
+        topics: ["Process lifecycle, fork, PID & signals", "Virtual memory concepts & basic pointer usage in C", "Compiling code with GCC & version control with Git"],
       },
     ],
   },
@@ -208,29 +407,29 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
             setCourse({
               _id: `course-${slug}`,
               slug,
-              title: fallback.title ?? "In-Person Engineering Program",
-              description: fallback.description ?? "Comprehensive offline engineering training in modern tech labs.",
+              title: fallback.title ?? "Classroom Coaching Program",
+              description: fallback.description ?? "Comprehensive offline coaching with hands-on practice in small batches.",
               category: fallback.category ?? "Technology",
-              level: fallback.level ?? "Intermediate",
-              durationMonths: fallback.durationMonths ?? 4,
-              monthlyFee: fallback.monthlyFee ?? 5500,
-              skills: fallback.skills ?? ["Linux", "Git", "Clean Architecture"],
-              prerequisites: fallback.prerequisites ?? ["Basic programming concepts"],
+              level: fallback.level ?? "Beginner",
+              durationMonths: fallback.durationMonths ?? 3,
+              monthlyFee: fallback.monthlyFee ?? 2500,
+              skills: fallback.skills ?? ["Logic", "Coding", "Practical Projects"],
+              prerequisites: fallback.prerequisites ?? ["Curiosity to learn programming from scratch"],
               perks: fallback.perks ?? [
-                "Dedicated dual-monitor workstation",
-                "Physical lab hardware testing",
-                "1:1 desk mentor code reviews",
+                "Small batches (10–15 students)",
+                "Daily coding on your laptop in class",
+                "1:1 teacher doubt solving at your desk",
               ],
               syllabus: fallback.syllabus ?? [
                 {
                   id: "m1",
-                  title: "Module 1: Foundations & Architecture",
-                  topics: ["System environment setup", "Core programming paradigms", "Hands-on lab project 1"],
+                  title: "Module 1: Foundations & Concept Clarity",
+                  topics: ["Step-by-step logic building", "Syntax & basic commands", "Hands-on guided practice"],
                 },
                 {
                   id: "m2",
-                  title: "Module 2: Advanced Engineering & Capstone",
-                  topics: ["Production deployment", "Performance profiling", "Final capstone evaluation"],
+                  title: "Module 2: Practical Projects & Code Review",
+                  topics: ["Building real assignments", "Line-by-line teacher review", "Doubt solving & revision"],
                 },
               ],
             });
@@ -241,18 +440,18 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
           setCourse({
             _id: `course-${slug}`,
             slug,
-            title: fallback.title ?? "In-Person Engineering Program",
-            description: fallback.description ?? "Comprehensive offline engineering training in modern tech labs.",
+            title: fallback.title ?? "Classroom Coaching Program",
+            description: fallback.description ?? "Comprehensive offline coaching with hands-on practice in small batches.",
             category: fallback.category ?? "Technology",
-            level: fallback.level ?? "Intermediate",
-            durationMonths: fallback.durationMonths ?? 4,
-            monthlyFee: fallback.monthlyFee ?? 5500,
-            skills: fallback.skills ?? ["Linux", "Git", "Clean Architecture"],
-            prerequisites: fallback.prerequisites ?? ["Basic programming concepts"],
+            level: fallback.level ?? "Beginner",
+            durationMonths: fallback.durationMonths ?? 3,
+            monthlyFee: fallback.monthlyFee ?? 2500,
+            skills: fallback.skills ?? ["Logic", "Coding", "Practical Projects"],
+            prerequisites: fallback.prerequisites ?? ["Curiosity to learn programming from scratch"],
             perks: fallback.perks ?? [
-              "Dedicated dual-monitor workstation",
-              "Physical lab hardware testing",
-              "1:1 desk mentor code reviews",
+              "Small batches (10–15 students)",
+              "Daily coding on your laptop in class",
+              "1:1 teacher doubt solving at your desk",
             ],
             syllabus: fallback.syllabus ?? [],
           });
@@ -383,11 +582,11 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
             <div className="lab-specs-header">
               <div className="lab-specs-title">
                 <Terminal size={15} color="#c084fc" />
-                <span>COHORT LAB PROVISIONS</span>
+                <span>CLASSROOM PROVISIONS</span>
               </div>
               <div className="lab-status-badge">
                 <span className="pulse-dot" />
-                <span>ADMISSIONS OPEN</span>
+                <span>NEW BATCH ENROLLING</span>
               </div>
             </div>
 
@@ -395,29 +594,29 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
               <div className="spec-item">
                 <Monitor size={18} />
                 <div>
-                  <strong>Dedicated Workstation Desk</strong>
-                  <span>Dual 27&quot; 4K displays with pre-configured dev environments</span>
+                  <strong>Comfortable Desks &amp; Power Sockets</strong>
+                  <span>Dedicated charging points for every student laptop</span>
                 </div>
               </div>
               <div className="spec-item">
-                <Network size={18} />
+                <Wifi size={18} />
                 <div>
-                  <strong>Hardware &amp; Server Bay Access</strong>
-                  <span>Direct physical rack connectivity for network &amp; cloud testing</span>
+                  <strong>High-Speed Classroom Wi-Fi</strong>
+                  <span>Fast, reliable connectivity for coding practice &amp; Git</span>
                 </div>
               </div>
               <div className="spec-item">
                 <Users size={18} />
                 <div>
-                  <strong>Desk-Side 1:1 Mentoring</strong>
-                  <span>Instant in-person debugging for errors and architectural doubts</span>
+                  <strong>Desk-Side 1:1 Teacher Help</strong>
+                  <span>Instant in-person guidance whenever you hit an error</span>
                 </div>
               </div>
               <div className="spec-item">
-                <ShieldCheck size={18} />
+                <CheckCircle2 size={18} />
                 <div>
-                  <strong>Industry Capstone &amp; Placement Prep</strong>
-                  <span>Live portfolio defense and in-person whiteboard interview drills</span>
+                  <strong>Small Batches (10–15 Students)</strong>
+                  <span>Direct personal attention with zero students left behind</span>
                 </div>
               </div>
             </div>
@@ -562,7 +761,7 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
               </Link>
               <div className="footer-live-status">
                 <span className="pulse-dot" />
-                <span>CAMPUS OPEN NOW (09:00 - 21:00 IST)</span>
+                <span>CENTER OPEN TODAY (09:00 - 19:00 IST)</span>
               </div>
             </div>
 
@@ -584,46 +783,41 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
 
           <div className="footer-columns">
             <div className="footer-col">
-              <h4>Offline Campus Hub</h4>
+              <h4>Offline Coaching Center</h4>
               <p className="lead">
-                India&apos;s premier in-person coding institute for software engineers, network architects, and systems developers.
+                A newly opened coaching center started by dedicated teachers focused on genuine, concept-first education in small batches.
               </p>
               <div className="footer-address-card">
-                <strong>📍 Campus Location:</strong>
-                Elite Tech Campus, 3rd &amp; 4th Floor, Innovation Tower, 100 Feet Road, Near Metro Station.
+                <strong>📍 Center Location:</strong>
+                Elite Coding School, Main Market Road, Near Metro Station.
                 <br />
                 <span style={{ color: "#34d399", fontWeight: 600, display: "block", marginTop: "6px" }}>
-                  ● Walk-ins welcome Mon-Sat (9 AM - 9 PM)
+                  ● Walk-ins welcome Mon-Sat (9 AM - 7 PM)
                 </span>
               </div>
             </div>
 
             <div className="footer-col">
-              <h4>Technology Tracks</h4>
+              <h4>Curriculum Verticals</h4>
               <ul className="footer-nav-list">
                 <li>
                   <Link href="/courses">
-                    <ChevronRight size={13} /> Full-Stack Development
+                    <ChevronRight size={13} /> Full-Stack Web Development
                   </Link>
                 </li>
                 <li>
                   <Link href="/courses">
-                    <ChevronRight size={13} /> Computer Networks &amp; CCNA
+                    <ChevronRight size={13} /> Computer Networks Fundamentals
                   </Link>
                 </li>
                 <li>
                   <Link href="/courses">
-                    <ChevronRight size={13} /> Linux &amp; OS Kernel Internals
+                    <ChevronRight size={13} /> Linux &amp; OS Basics
                   </Link>
                 </li>
                 <li>
                   <Link href="/courses">
-                    <ChevronRight size={13} /> Low-Level Systems (C / Rust)
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/courses">
-                    <ChevronRight size={13} /> Data Structures &amp; System Design
+                    <ChevronRight size={13} /> Programming Logic &amp; DSA
                   </Link>
                 </li>
               </ul>
@@ -639,7 +833,7 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
                 </li>
                 <li>
                   <Link href="/register">
-                    <ChevronRight size={13} /> Apply for Upcoming Cohort
+                    <ChevronRight size={13} /> Book a Free Demo Class
                   </Link>
                 </li>
                 <li>
@@ -654,18 +848,18 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
                 </li>
                 <li>
                   <Link href="/contact">
-                    <ChevronRight size={13} /> Request Fee Structure PDF
+                    <ChevronRight size={13} /> Center Walk-in Info
                   </Link>
                 </li>
               </ul>
             </div>
 
             <div className="footer-col">
-              <h4>Campus Contact</h4>
+              <h4>Center Contact</h4>
               <ul className="footer-contact-list">
                 <li>
                   <Phone size={15} />
-                  <span>+91 98765 43210 (Admissions)</span>
+                  <span>+91 98765 43210 (Admissions Desk)</span>
                 </li>
                 <li>
                   <Mail size={15} />
@@ -673,11 +867,11 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
                 </li>
                 <li>
                   <Clock size={15} />
-                  <span>Lab Hours: 9:00 AM - 9:00 PM (Mon-Sat)</span>
+                  <span>Visiting Hours: 9:00 AM - 7:00 PM (Mon-Sat)</span>
                 </li>
                 <li>
                   <Building2 size={15} />
-                  <span>Metro Station: 200m Walk</span>
+                  <span>Near Metro Station Walkway</span>
                 </li>
               </ul>
             </div>
@@ -686,28 +880,28 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
           <div className="footer-assurance-strip">
             <div className="assurance-item">
               <Monitor size={16} />
-              <span>Dedicated High-Spec Linux Desks</span>
+              <span>Clean Desks &amp; Laptop Charging</span>
             </div>
             <div className="assurance-item">
-              <Server size={16} />
-              <span>Physical Cisco Switches &amp; Hardware Bay</span>
+              <Wifi size={16} />
+              <span>High-Speed Classroom Wi-Fi</span>
             </div>
             <div className="assurance-item">
               <Users size={16} />
-              <span>1:1 Desk-Side Senior Mentoring</span>
+              <span>10–15 Students Small Batches</span>
             </div>
             <div className="assurance-item">
               <ShieldCheck size={16} />
-              <span>100% In-Person &bull; Zero Recorded Videos</span>
+              <span>Genuine Concept-First Teaching</span>
             </div>
           </div>
 
           <div className="footer-bottom-bar">
-            <span>&copy; {new Date().getFullYear()} Elite Coding School. All rights reserved. Built for ambitious engineers.</span>
+            <span>&copy; {new Date().getFullYear()} Elite Coding School. Dedicated to genuine, practical teaching.</span>
             <div className="footer-bottom-links">
-              <Link href="/about">About Institute</Link>
-              <Link href="/contact">Campus Tour</Link>
-              <Link href="/courses">All Programs</Link>
+              <Link href="/about">About Center</Link>
+              <Link href="/contact">Visit Us</Link>
+              <Link href="/courses">All Courses</Link>
               <Link href="/">Back Home</Link>
             </div>
           </div>

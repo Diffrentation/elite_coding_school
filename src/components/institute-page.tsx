@@ -52,10 +52,10 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
   const name = settings?.instituteName ?? "Elite Coding School";
   const address =
     settings?.address ||
-    "Elite Tech Campus, 3rd & 4th Floor, Innovation Tower, 100 Feet Road, Near Metro Station.";
+    "Elite Coding School, Main Market Road, Near Metro Station.";
   const phone = settings?.phone || "+91 98765 43210";
   const email = settings?.email || "admissions@elitecodingschool.com";
-  const hours = settings?.openingHours || "Monday – Saturday: 9:00 AM – 9:00 PM";
+  const hours = settings?.openingHours || "Monday – Saturday: 9:00 AM – 7:00 PM";
 
   return (
     <main className="courses-redesign">
@@ -71,44 +71,44 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
               <div className="courses-hero-copy">
                 <div className="kicker">
                   <span className="pulse-dot" />
-                  <span>ABOUT OUR OFFLINE CODING SANCTUM</span>
+                  <span>ABOUT OUR OFFLINE COACHING CENTER</span>
                 </div>
                 <h1>
-                  Engineering Depth Forged in Silicon &amp; Code.{" "}
-                  <span className="gradient-text-purple">In-Person.</span>
+                  Genuine, Concept-First Teaching.{" "}
+                  <span className="gradient-text-purple">Started by Passionate Teachers.</span>
                 </h1>
                 <p className="lead">
                   {settings?.about ||
-                    "Elite Coding School was founded on a singular conviction: genuine software engineering, packet-level computer networking, and operating systems programming cannot be mastered through 10-minute video tutorials. We built a high-tech offline campus where aspiring coders write real code, wire physical switches, compile Linux kernels, and debug with senior mentors right beside them."}
+                    "Elite Coding School is a newly opened offline coaching center created by passionate educators. We believe that real coding skills cannot be developed simply by binge-watching online videos in isolation. We provide a clean, supportive classroom where students learn from scratch, code daily on their laptops, and get immediate 1:1 teacher guidance whenever they get stuck."}
                 </p>
 
                 <div className="offline-chips-row">
                   <div className="offline-chip">
-                    <Monitor size={14} />
-                    <span>Dedicated Linux Desks</span>
-                  </div>
-                  <div className="offline-chip">
-                    <Network size={14} />
-                    <span>Cisco Catalyst Racks</span>
-                  </div>
-                  <div className="offline-chip">
-                    <Cpu size={14} />
-                    <span>Kernel &amp; Systems Lab</span>
+                    <CheckCircle2 size={14} />
+                    <span>Genuine Classroom Teaching</span>
                   </div>
                   <div className="offline-chip">
                     <Users size={14} />
-                    <span>2-Min Desk Mentoring</span>
+                    <span>Small Batches (10–15 Students)</span>
+                  </div>
+                  <div className="offline-chip">
+                    <Code2 size={14} />
+                    <span>Daily Laptop Coding</span>
+                  </div>
+                  <div className="offline-chip">
+                    <Zap size={14} />
+                    <span>1:1 Teacher Doubt Solving</span>
                   </div>
                 </div>
 
                 <div className="hero-actions">
                   <Link className="btn-primary-hero" href="/courses">
-                    <span>Explore In-Person Programs</span>
+                    <span>View Classroom Courses</span>
                     <ArrowRight size={17} />
                   </Link>
                   <Link className="btn-secondary-hero" href="/contact">
                     <Building2 size={16} />
-                    <span>Schedule Free Campus Visit</span>
+                    <span>Visit Our Center &amp; Take Demo</span>
                   </Link>
                 </div>
               </div>
@@ -118,11 +118,11 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 <div className="lab-specs-header">
                   <div className="lab-specs-title">
                     <Terminal size={15} color="#c084fc" />
-                    <span>CAMPUS HIGHLIGHTS</span>
+                    <span>PRACTICAL LEARNING SETUP</span>
                   </div>
                   <div className="lab-status-badge">
                     <span className="pulse-dot" />
-                    <span>OPEN 6 DAYS / WEEK</span>
+                    <span>NEW BATCHES ENROLLING</span>
                   </div>
                 </div>
 
@@ -130,29 +130,29 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                   <div className="spec-item">
                     <Monitor size={18} />
                     <div>
-                      <strong>Dual 27&quot; 4K Workstations</strong>
-                      <span>High-spec Ubuntu / Arch Linux dual-boot setups for each student</span>
+                      <strong>Comfortable Desks &amp; Power Sockets</strong>
+                      <span>Dedicated charging points for every student laptop</span>
                     </div>
                   </div>
                   <div className="spec-item">
                     <Wifi size={18} />
                     <div>
-                      <strong>10 Gbps Campus Fiber LAN</strong>
-                      <span>Low-latency packet tracing &amp; local cluster deployment</span>
+                      <strong>High-Speed Classroom Wi-Fi</strong>
+                      <span>Fast internet for coding practice, documentation &amp; Git</span>
                     </div>
                   </div>
                   <div className="spec-item">
-                    <Network size={18} />
+                    <Layers size={18} />
                     <div>
-                      <strong>Physical Cisco Hardware Bay</strong>
-                      <span>Cisco Catalyst 3850 managed switches &amp; server racks</span>
+                      <strong>Projector &amp; Whiteboard Demos</strong>
+                      <span>Step-by-step logic breakdown drawn live by teachers</span>
                     </div>
                   </div>
                   <div className="spec-item">
                     <Users size={18} />
                     <div>
-                      <strong>1:1 Desk-Side Faculty</strong>
-                      <span>Live debugging with experienced systems architects</span>
+                      <strong>Direct Desk Assistance</strong>
+                      <span>Teachers review your code line-by-line right at your desk</span>
                     </div>
                   </div>
                 </div>
@@ -165,12 +165,11 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
             <div className="section-header">
               <div className="section-kicker">
                 <Zap size={13} />
-                <span>OUR CORE TEACHING PHILOSOPHY</span>
+                <span>OUR TEACHING COMMITMENT</span>
               </div>
-              <h2>Why We Built an Offline Institute</h2>
+              <h2>Why Learning In-Person with a Teacher Works</h2>
               <p>
-                Online platforms promised education for all, but produced isolated coders who quit at the first
-                cryptic compiler error. Here is how our offline campus changes the paradigm.
+                Thousands of students get stuck on simple syntax errors or confusing logic in online courses and quit. Here is why genuine in-person coaching makes all the difference.
               </p>
             </div>
 
@@ -179,21 +178,19 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 <div className="pillar-icon-box icon-box-dev">
                   <Zap size={24} />
                 </div>
-                <h3>Desk-Side 2-Minute Debugging</h3>
+                <h3>1:1 Desk-Side Doubt Solving</h3>
                 <p>
-                  No 3-day forum delays. When you get a segmentation fault in C, an iptables drop, or a broken
-                  Next.js cache, an instructor walks to your desk and teaches you how to trace it in GDB or Wireshark.
+                  No waiting on forums or chatbots. When your code throws an error, a teacher walks over to your desk and teaches you how to trace and fix it immediately.
                 </p>
               </div>
 
               <div className="pillar-card">
                 <div className="pillar-icon-box icon-box-net">
-                  <Network size={24} />
+                  <CheckCircle2 size={24} />
                 </div>
-                <h3>Real Hardware &amp; Wire Packets</h3>
+                <h3>We Start From Absolute Zero</h3>
                 <p>
-                  You cannot learn networking from a browser simulator. At Elite, you crimp RJ45 cables, configure
-                  physical Cisco switches, sniff wire packets, and deploy microservices to physical local servers.
+                  No prior programming background required. We explain every concept in simple, accessible language with relatable real-world examples.
                 </p>
               </div>
 
@@ -201,10 +198,9 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 <div className="pillar-icon-box icon-box-os">
                   <Users size={24} />
                 </div>
-                <h3>Hacker Cohorts &amp; Daily Standups</h3>
+                <h3>Small Batches (10–15 Students)</h3>
                 <p>
-                  Surrounded by 50+ hungry developers coding 10 hours a day. Morning standups, peer code reviews,
-                  whiteboard system architecture debates, and high-intensity weekend hackathons.
+                  We keep batches small so that every single student receives personal attention, active practice time, and honest feedback from the teacher.
                 </p>
               </div>
             </div>
@@ -217,9 +213,9 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 <Terminal size={13} />
                 <span>WHAT WE TEACH</span>
               </div>
-              <h2>From Silicon to Cloud Infrastructure</h2>
+              <h2>Practical Skills Taught From the Ground Up</h2>
               <p>
-                Our curriculum bridges the gap between high-level web engineering and low-level computer systems.
+                From MERN stack and Next.js to DSA and foundational programming in C, C++, Java, and Python.
               </p>
             </div>
 
@@ -228,41 +224,28 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 <div className="pillar-icon-box icon-box-dev">
                   <Code2 size={24} />
                 </div>
-                <h3>Full-Stack &amp; Systems Dev</h3>
-                <p>Distributed microservices, Next.js, Go, Node.js, PostgreSQL query tuning, and Redis caching.</p>
+                <h3>Full-Stack MERN &amp; Next.js</h3>
+                <p>MongoDB, Express.js, React.js, Node.js, Next.js 15, REST APIs, and Git &amp; GitHub workflows.</p>
                 <div className="pillar-tags">
+                  <span className="pillar-tag">MongoDB</span>
+                  <span className="pillar-tag">React.js</span>
                   <span className="pillar-tag">Next.js</span>
-                  <span className="pillar-tag">TypeScript</span>
-                  <span className="pillar-tag">Go</span>
-                  <span className="pillar-tag">Postgres</span>
+                  <span className="pillar-tag">Node.js</span>
+                  <span className="pillar-tag">Git / GitHub</span>
                 </div>
               </div>
 
               <div className="pillar-card">
                 <div className="pillar-icon-box icon-box-net">
-                  <Network size={24} />
+                  <Sparkles size={24} />
                 </div>
-                <h3>Computer Networks &amp; Cloud</h3>
-                <p>TCP/IP stack, Cisco Catalyst switching, Wireshark packet capture, VLANs, BGP/OSPF, and firewalls.</p>
+                <h3>Frontend, Tailwind &amp; GSAP</h3>
+                <p>Pixel-perfect responsive design, modern UI component libraries, and slick interactive animations with GSAP.</p>
                 <div className="pillar-tags">
-                  <span className="pillar-tag">TCP/IP</span>
-                  <span className="pillar-tag">Cisco</span>
-                  <span className="pillar-tag">Wireshark</span>
-                  <span className="pillar-tag">Firewalls</span>
-                </div>
-              </div>
-
-              <div className="pillar-card">
-                <div className="pillar-icon-box icon-box-os">
-                  <Cpu size={24} />
-                </div>
-                <h3>Operating Systems &amp; Kernel</h3>
-                <p>Linux kernel internals, custom memory allocators, system calls, POSIX threads, C and Rust.</p>
-                <div className="pillar-tags">
-                  <span className="pillar-tag">Linux</span>
-                  <span className="pillar-tag">C/C++</span>
-                  <span className="pillar-tag">Rust</span>
-                  <span className="pillar-tag">Syscalls</span>
+                  <span className="pillar-tag">Tailwind CSS</span>
+                  <span className="pillar-tag">GSAP</span>
+                  <span className="pillar-tag">UI Libraries</span>
+                  <span className="pillar-tag">Responsive UI</span>
                 </div>
               </div>
 
@@ -270,12 +253,27 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 <div className="pillar-icon-box icon-box-dsa">
                   <Layers size={24} />
                 </div>
-                <h3>DSA &amp; Whiteboard Design</h3>
-                <p>Algorithmic problem solving, dynamic programming, and floor-to-ceiling whiteboard mock rounds.</p>
+                <h3>Data Structures &amp; Algorithms (DSA)</h3>
+                <p>Problem-solving strategies, loops, arrays, strings, recursion, and step-by-step whiteboard logic drills.</p>
                 <div className="pillar-tags">
-                  <span className="pillar-tag">Algorithms</span>
-                  <span className="pillar-tag">DP</span>
-                  <span className="pillar-tag">System Design</span>
+                  <span className="pillar-tag">Problem Solving</span>
+                  <span className="pillar-tag">Arrays &amp; Trees</span>
+                  <span className="pillar-tag">Recursion</span>
+                  <span className="pillar-tag">Whiteboard Logic</span>
+                </div>
+              </div>
+
+              <div className="pillar-card">
+                <div className="pillar-icon-box icon-box-os">
+                  <Cpu size={24} />
+                </div>
+                <h3>C, C++, Java &amp; Python</h3>
+                <p>Learn core programming: C pointers, C++ and Java Object-Oriented Programming (OOP), and Python scripting.</p>
+                <div className="pillar-tags">
+                  <span className="pillar-tag">C Language</span>
+                  <span className="pillar-tag">C++ &amp; OOP</span>
+                  <span className="pillar-tag">Core Java</span>
+                  <span className="pillar-tag">Python 3</span>
                 </div>
               </div>
             </div>
@@ -286,10 +284,10 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
             <div className="section-header">
               <div className="section-kicker">
                 <Building2 size={13} />
-                <span>PHYSICAL CAMPUS AMENITIES</span>
+                <span>PRACTICAL SETUP</span>
               </div>
-              <h2>Tour Our Offline Facility</h2>
-              <p>Designed for focused coding sessions from 9:00 AM to 9:00 PM.</p>
+              <h2>Simple, Clean &amp; Practical Classroom</h2>
+              <p>Everything you need for focused learning and hands-on coding practice.</p>
             </div>
 
             <div className="campus-tour-grid">
@@ -297,32 +295,32 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 <div className="tour-icon-wrap">
                   <Monitor size={22} />
                 </div>
-                <h4>Dual-Screen Workstations</h4>
-                <p>Dual 27-inch 4K IPS monitors, mechanical keyboards, ergonomic seating, and dual-boot OS rigs.</p>
+                <h4>Comfortable Desks &amp; Power</h4>
+                <p>Clean desks with dedicated laptop charging points so you can code without battery worries.</p>
               </div>
 
               <div className="tour-card">
                 <div className="tour-icon-wrap">
-                  <Server size={22} />
+                  <Wifi size={22} />
                 </div>
-                <h4>Cisco Hardware Rack Bay</h4>
-                <p>Live patch bays, managed enterprise switches, router testbeds, and local Kubernetes clusters.</p>
+                <h4>High-Speed Classroom Wi-Fi</h4>
+                <p>Dependable high-speed internet for live package installs, documentation lookups, and GitHub pushes.</p>
               </div>
 
               <div className="tour-card">
                 <div className="tour-icon-wrap">
                   <Layers size={22} />
                 </div>
-                <h4>Whiteboard War Rooms</h4>
-                <p>Floor-to-ceiling magnetic whiteboards for architecture planning and mock interview rounds.</p>
+                <h4>Projector &amp; Whiteboard</h4>
+                <p>Teachers explain code step-by-step on the screen and draw diagrams clearly on the whiteboard.</p>
               </div>
 
               <div className="tour-card">
                 <div className="tour-icon-wrap">
-                  <Radio size={22} />
+                  <Users size={22} />
                 </div>
-                <h4>Developer Study Lounge</h4>
-                <p>High-speed campus Wi-Fi, systems engineering book library, and coffee bar for evening hack sessions.</p>
+                <h4>Extra Practice Space</h4>
+                <p>Stay after class to practice your assignments, review notes, and discuss doubts with fellow classmates.</p>
               </div>
             </div>
           </section>
@@ -331,10 +329,9 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
           <section className="campus-cta-shell">
             <div className="campus-cta-card">
               <div className="cta-left">
-                <h2>Visit the Coding Lab in Person Today.</h2>
+                <h2>Attend a Free Trial Demo Class Before Deciding.</h2>
                 <p>
-                  Walk in during open lab hours. Sit at a workstation, explore our Cisco hardware racks,
-                  and meet our senior instructors for a free 1-hour trial.
+                  Walk in during our visiting hours. Meet our teachers, see the classroom, and attend a 1-hour trial class to experience our genuine teaching firsthand.
                 </p>
                 <div className="cta-contact-chips">
                   <div className="contact-chip">
@@ -354,12 +351,12 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
 
               <div className="cta-right">
                 <Link className="btn-cta-main" href="/contact">
-                  <span>Book Free 1-Day Lab Trial</span>
+                  <span>Book Free Demo Class</span>
                   <ArrowRight size={17} />
                 </Link>
                 <Link className="btn-cta-ghost" href="/courses">
                   <BookOpen size={16} />
-                  <span>Browse In-Person Courses</span>
+                  <span>Browse Classroom Courses</span>
                 </Link>
               </div>
             </div>
@@ -373,29 +370,28 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
               <div className="courses-hero-copy">
                 <div className="kicker">
                   <span className="pulse-dot" />
-                  <span>CAMPUS ADMISSIONS &amp; WALK-IN CENTER</span>
+                  <span>VISIT US &amp; ATTEND A DEMO CLASS</span>
                 </div>
                 <h1>
-                  Visit Our Coding Lab in Person. <br />
-                  <span className="gradient-text-purple">Walk In Today.</span>
+                  Visit Our Coaching Center in Person. <br />
+                  <span className="gradient-text-purple">Meet the Teachers.</span>
                 </h1>
                 <p className="lead">
-                  We encourage prospective engineers to experience our offline lab before enrolling.
-                  Sit at a workstation, test our Cisco network rack, meet our senior faculty, and discuss your career goals.
+                  We believe every student should experience how we teach before enrolling. Walk in during visiting hours, meet our teachers, inspect our clean classroom, and book a free trial demo class.
                 </p>
 
                 <div className="offline-chips-row">
                   <div className="offline-chip">
                     <Clock size={14} />
-                    <span>Open 9:00 AM - 9:00 PM (Mon-Sat)</span>
+                    <span>Open 9:00 AM - 7:00 PM (Mon-Sat)</span>
                   </div>
                   <div className="offline-chip">
                     <MapPin size={14} />
-                    <span>200m from Metro Station</span>
+                    <span>Near Metro Station Walkway</span>
                   </div>
                   <div className="offline-chip">
                     <Sparkles size={14} />
-                    <span>Free 1-Day Trial Pass Available</span>
+                    <span>Free Trial Demo Available</span>
                   </div>
                 </div>
               </div>
@@ -405,7 +401,7 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 <div className="lab-specs-header">
                   <div className="lab-specs-title">
                     <Building2 size={15} color="#c084fc" />
-                    <span>CAMPUS WALK-IN TIMINGS</span>
+                    <span>CENTER VISITING HOURS</span>
                   </div>
                   <div className="lab-status-badge">
                     <span className="pulse-dot" />
@@ -416,19 +412,19 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px", fontSize: "13px" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.06)", paddingBottom: "8px" }}>
                     <span style={{ color: "#94a3b8" }}>Monday – Friday:</span>
-                    <strong style={{ color: "#ffffff" }}>09:00 AM – 09:00 PM</strong>
+                    <strong style={{ color: "#ffffff" }}>09:00 AM – 07:00 PM</strong>
                   </div>
                   <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.06)", paddingBottom: "8px" }}>
                     <span style={{ color: "#94a3b8" }}>Saturday:</span>
-                    <strong style={{ color: "#ffffff" }}>09:00 AM – 08:30 PM</strong>
+                    <strong style={{ color: "#ffffff" }}>09:00 AM – 06:00 PM</strong>
                   </div>
                   <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.06)", paddingBottom: "8px" }}>
                     <span style={{ color: "#94a3b8" }}>Sunday:</span>
-                    <strong style={{ color: "#34d399" }}>Open for Student Hackathons</strong>
+                    <strong style={{ color: "#34d399" }}>Special Doubt Clearing Sessions</strong>
                   </div>
                   <div style={{ display: "flex", justifyContent: "space-between", paddingTop: "4px" }}>
-                    <span style={{ color: "#94a3b8" }}>Appointment:</span>
-                    <strong style={{ color: "#38bdf8" }}>No prior booking required</strong>
+                    <span style={{ color: "#94a3b8" }}>Demo Appointment:</span>
+                    <strong style={{ color: "#38bdf8" }}>Walk in directly or call</strong>
                   </div>
                 </div>
               </div>
@@ -552,16 +548,16 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                         Do I need to bring my own laptop?
                       </strong>
                       <span style={{ color: "#94a3b8", fontSize: "12px", lineHeight: 1.5, display: "block" }}>
-                        Every enrolled student gets a dedicated dual-monitor workstation in our coding lab. You can bring a laptop if you prefer, but it is not required.
+                        Yes, carrying your own laptop is necessary for your daily coding practice. Every desk is equipped with dedicated power charging sockets and fast Wi-Fi so you can code directly on your personal machine and keep all your work safe.
                       </span>
                     </div>
 
                     <div style={{ background: "#090e2e", border: "1px solid rgba(255,255,255,0.06)", borderRadius: "12px", padding: "14px" }}>
                       <strong style={{ color: "#ffffff", fontSize: "13px", display: "block", marginBottom: "4px" }}>
-                        Can I test the lab before paying fees?
+                        Can I attend a free demo class before enrolling?
                       </strong>
                       <span style={{ color: "#94a3b8", fontSize: "12px", lineHeight: 1.5, display: "block" }}>
-                        Yes! We offer a free 1-day lab trial where you can sit at a workstation, code with current students, and meet our instructors.
+                        Yes! We offer a free trial demo class. Just bring your laptop, sit in the classroom, experience how our teachers break down concepts, and see if it feels right for you.
                       </span>
                     </div>
                   </div>
@@ -588,7 +584,7 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
               </Link>
               <div className="footer-live-status">
                 <span className="pulse-dot" />
-                <span>CAMPUS OPEN NOW (09:00 - 21:00 IST)</span>
+                <span>CENTER OPEN TODAY (09:00 - 19:00 IST)</span>
               </div>
             </div>
 
@@ -610,46 +606,41 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
 
           <div className="footer-columns">
             <div className="footer-col">
-              <h4>Offline Campus Hub</h4>
+              <h4>Offline Coaching Center</h4>
               <p className="lead">
-                India&apos;s premier in-person coding institute for software engineers, network architects, and systems developers.
+                A newly opened coaching center started by dedicated teachers focused on genuine, concept-first education in small batches.
               </p>
               <div className="footer-address-card">
-                <strong>📍 Campus Location:</strong>
+                <strong>📍 Center Location:</strong>
                 {address}
                 <br />
                 <span style={{ color: "#34d399", fontWeight: 600, display: "block", marginTop: "6px" }}>
-                  ● Walk-ins welcome Mon-Sat (9 AM - 9 PM)
+                  ● Walk-ins welcome Mon-Sat (9 AM - 7 PM)
                 </span>
               </div>
             </div>
 
             <div className="footer-col">
-              <h4>Technology Tracks</h4>
+              <h4>Curriculum Verticals</h4>
               <ul className="footer-nav-list">
                 <li>
                   <Link href="/courses">
-                    <ChevronRight size={13} /> Full-Stack Development
+                    <ChevronRight size={13} /> Full-Stack Web Development
                   </Link>
                 </li>
                 <li>
                   <Link href="/courses">
-                    <ChevronRight size={13} /> Computer Networks &amp; CCNA
+                    <ChevronRight size={13} /> Computer Networks Fundamentals
                   </Link>
                 </li>
                 <li>
                   <Link href="/courses">
-                    <ChevronRight size={13} /> Linux &amp; OS Kernel Internals
+                    <ChevronRight size={13} /> Linux &amp; OS Basics
                   </Link>
                 </li>
                 <li>
                   <Link href="/courses">
-                    <ChevronRight size={13} /> Low-Level Systems (C / Rust)
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/courses">
-                    <ChevronRight size={13} /> Data Structures &amp; System Design
+                    <ChevronRight size={13} /> Programming Logic &amp; DSA
                   </Link>
                 </li>
               </ul>
@@ -665,7 +656,7 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 </li>
                 <li>
                   <Link href="/register">
-                    <ChevronRight size={13} /> Apply for Upcoming Cohort
+                    <ChevronRight size={13} /> Book a Free Demo Class
                   </Link>
                 </li>
                 <li>
@@ -680,18 +671,18 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 </li>
                 <li>
                   <Link href="/contact">
-                    <ChevronRight size={13} /> Request Fee Structure PDF
+                    <ChevronRight size={13} /> Center Walk-in Info
                   </Link>
                 </li>
               </ul>
             </div>
 
             <div className="footer-col">
-              <h4>Campus Contact</h4>
+              <h4>Center Contact</h4>
               <ul className="footer-contact-list">
                 <li>
                   <Phone size={15} />
-                  <span>{phone} (Admissions)</span>
+                  <span>{phone} (Admissions Desk)</span>
                 </li>
                 <li>
                   <Mail size={15} />
@@ -699,11 +690,11 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 </li>
                 <li>
                   <Clock size={15} />
-                  <span>Lab Hours: {hours}</span>
+                  <span>Visiting Hours: {hours}</span>
                 </li>
                 <li>
                   <Building2 size={15} />
-                  <span>Metro Station: 200m Walk</span>
+                  <span>Near Metro Station Walkway</span>
                 </li>
               </ul>
             </div>
@@ -712,28 +703,28 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
           <div className="footer-assurance-strip">
             <div className="assurance-item">
               <Monitor size={16} />
-              <span>Dedicated High-Spec Linux Desks</span>
+              <span>Clean Desks &amp; Laptop Charging</span>
             </div>
             <div className="assurance-item">
-              <Server size={16} />
-              <span>Physical Cisco Switches &amp; Hardware Bay</span>
+              <Wifi size={16} />
+              <span>High-Speed Classroom Wi-Fi</span>
             </div>
             <div className="assurance-item">
               <Users size={16} />
-              <span>1:1 Desk-Side Senior Mentoring</span>
+              <span>10–15 Students Small Batches</span>
             </div>
             <div className="assurance-item">
               <ShieldCheck size={16} />
-              <span>100% In-Person &bull; Zero Recorded Videos</span>
+              <span>Genuine Concept-First Teaching</span>
             </div>
           </div>
 
           <div className="footer-bottom-bar">
-            <span>&copy; {new Date().getFullYear()} {name}. All rights reserved. Built for ambitious engineers.</span>
+            <span>&copy; {new Date().getFullYear()} {name}. Dedicated to genuine, practical teaching.</span>
             <div className="footer-bottom-links">
-              <Link href="/about">About Institute</Link>
-              <Link href="/contact">Campus Tour</Link>
-              <Link href="/courses">All Programs</Link>
+              <Link href="/about">About Center</Link>
+              <Link href="/contact">Visit Us</Link>
+              <Link href="/courses">All Courses</Link>
               <Link href="/">Back Home</Link>
             </div>
           </div>
