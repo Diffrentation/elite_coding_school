@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Navbar } from "@/components/navbar";
+import { CopyrightYear } from "@/components/copyright-year";
 import {
   ArrowRight,
   BookOpen,
@@ -720,7 +721,7 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
           </div>
 
           <div className="footer-bottom-bar">
-            <span>&copy; {new Date().getFullYear()} {name}. Dedicated to genuine, practical teaching.</span>
+            <span>&copy; <CopyrightYear /> {name}. Dedicated to genuine, practical teaching.</span>
             <div className="footer-bottom-links">
               <Link href="/about">About Center</Link>
               <Link href="/contact">Visit Us</Link>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
+import { CopyrightYear } from "@/components/copyright-year";
 import {
   ArrowRight,
   BookOpen,
@@ -1195,7 +1196,7 @@ export default function Home() {
 
           {/* Bottom Bar */}
           <div className="footer-bottom-bar">
-            <span>&copy; {new Date().getFullYear()} Elite Coding School. All rights reserved.</span>
+            <span>&copy; <CopyrightYear /> Elite Coding School. All rights reserved.</span>
             <div className="footer-bottom-links">
               <Link href="/about">About Center</Link>
               <Link href="/contact">Visit Us</Link>

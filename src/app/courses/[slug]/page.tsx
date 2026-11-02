@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Navbar } from "@/components/navbar";
+import { CopyrightYear } from "@/components/copyright-year";
 import {
   ArrowLeft,
   ArrowRight,
@@ -897,7 +898,7 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
           </div>
 
           <div className="footer-bottom-bar">
-            <span>&copy; {new Date().getFullYear()} Elite Coding School. Dedicated to genuine, practical teaching.</span>
+            <span>&copy; <CopyrightYear /> Elite Coding School. Dedicated to genuine, practical teaching.</span>
             <div className="footer-bottom-links">
               <Link href="/about">About Center</Link>
               <Link href="/contact">Visit Us</Link>
