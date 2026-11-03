@@ -66,7 +66,7 @@ const COURSES_DATA: CourseItem[] = [
     description: "Learn to build complete production-grade web applications from scratch with React, Next.js, Node.js, Express, and MongoDB.",
     duration: "4 Months",
     labHours: "120+ Class Hours",
-    fee: "₹3,000 / mo",
+    fee: "₹1,900 / mo",
     perks: [
       "Daily coding on your laptop with live guidance",
       "Build 5+ full-stack projects with Git & GitHub",
@@ -82,7 +82,7 @@ const COURSES_DATA: CourseItem[] = [
     description: "Master modern responsive design, UI component libraries, React.js, and slick interactive animations with GSAP and Tailwind CSS.",
     duration: "3 Months",
     labHours: "90+ Class Hours",
-    fee: "₹2,500 / mo",
+    fee: "₹1,900 / mo",
     perks: [
       "Pixel-perfect responsive layout techniques",
       "Interactive animations using GSAP & modern UI kits",
@@ -98,7 +98,7 @@ const COURSES_DATA: CourseItem[] = [
     description: "Build robust backend servers, RESTful APIs, JWT authentication, and database schemas with Node.js, Express, and MongoDB.",
     duration: "3 Months",
     labHours: "90+ Class Hours",
-    fee: "₹2,800 / mo",
+    fee: "₹1,900 / mo",
     perks: [
       "Hands-on API design & Postman testing",
       "Database schema modeling with Mongoose",
@@ -114,7 +114,7 @@ const COURSES_DATA: CourseItem[] = [
     description: "Understand how the internet, routers, switches, IP addressing, and networking protocols work with clear whiteboard demos and laptop exercises.",
     duration: "3 Months",
     labHours: "90+ Class Hours",
-    fee: "₹2,500 / mo",
+    fee: "₹1,900 / mo",
     perks: [
       "Taught from absolute zero with whiteboard diagrams",
       "Practical Wi-Fi, router & LAN setup demos",
@@ -130,7 +130,7 @@ const COURSES_DATA: CourseItem[] = [
     description: "Master the Linux command line, bash automation scripts, process management, memory concepts, and foundational C programming from scratch.",
     duration: "3 Months",
     labHours: "90+ Class Hours",
-    fee: "₹2,500 / mo",
+    fee: "₹1,900 / mo",
     perks: [
       "Complete zero-level start on your laptop terminal",
       "Hands-on bash scripting & task automation",
@@ -146,7 +146,7 @@ const COURSES_DATA: CourseItem[] = [
     description: "Master logic building, algorithmic thinking, and problem solving from scratch with whiteboard explanations and live coding.",
     duration: "3 Months",
     labHours: "90+ Class Hours",
-    fee: "₹2,800 / mo",
+    fee: "₹1,900 / mo",
     perks: [
       "Step-by-step logic explained on the whiteboard",
       "100+ solved problems in C++ or Java",
@@ -162,7 +162,7 @@ const COURSES_DATA: CourseItem[] = [
     description: "Learn High-Level (HLD) & Low-Level Design (LLD), microservices, load balancers, caching, and scalable architecture with whiteboard case studies.",
     duration: "3 Months",
     labHours: "90+ Class Hours",
-    fee: "₹2,800 / mo",
+    fee: "₹1,900 / mo",
     perks: [
       "Whiteboard breakdowns of real-world scalable systems",
       "HLD & LLD: Microservices, Redis, Nginx & DB sharding",
@@ -178,7 +178,7 @@ const COURSES_DATA: CourseItem[] = [
     description: "Start programming from absolute zero. Understand memory management, pointers, and Object-Oriented Programming (OOP) in C++.",
     duration: "3 Months",
     labHours: "90+ Class Hours",
-    fee: "₹2,500 / mo",
+    fee: "₹1,900 / mo",
     perks: [
       "Complete zero-level start with simple explanations",
       "Deep understanding of memory, pointers & logic",
@@ -194,7 +194,7 @@ const COURSES_DATA: CourseItem[] = [
     description: "Learn Core Java from the ground up: classes, inheritance, interfaces, exception handling, and the Collections framework.",
     duration: "3 Months",
     labHours: "90+ Class Hours",
-    fee: "₹2,500 / mo",
+    fee: "₹1,900 / mo",
     perks: [
       "Clear object-oriented mindset from day one",
       "Hands-on Java exercises every single class",
@@ -210,7 +210,7 @@ const COURSES_DATA: CourseItem[] = [
     description: "Learn beginner-friendly Python programming, clean syntax, logic building, data handling, and automation scripting.",
     duration: "2.5 Months",
     labHours: "75+ Class Hours",
-    fee: "₹2,500 / mo",
+    fee: "₹1,900 / mo",
     perks: [
       "Easiest language to start your coding journey",
       "Daily coding challenges and logic drills",

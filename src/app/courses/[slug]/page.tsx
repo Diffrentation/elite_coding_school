@@ -55,7 +55,7 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
     category: "MERN Stack",
     level: "Beginner to Intermediate",
     durationMonths: 4,
-    monthlyFee: 3000,
+    monthlyFee: 1900,
     description:
       "A hands-on classroom program where you learn to build real websites and full-stack web applications from scratch with React, Next.js, Node.js, Express, and MongoDB.",
     skills: ["MongoDB", "Express.js", "React.js", "Node.js", "Next.js", "Tailwind CSS", "Git/GitHub"],
@@ -89,7 +89,7 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
     category: "MERN Stack",
     level: "Beginner",
     durationMonths: 3,
-    monthlyFee: 2500,
+    monthlyFee: 1900,
     description:
       "Master modern responsive design, UI component libraries, React.js, and slick interactive animations with GSAP and Tailwind CSS.",
     skills: ["HTML5/CSS3", "JavaScript (ES6+)", "React.js", "Tailwind CSS", "GSAP Animations", "Git/GitHub"],
@@ -122,7 +122,7 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
     category: "MERN Stack",
     level: "Intermediate",
     durationMonths: 3,
-    monthlyFee: 2800,
+    monthlyFee: 1900,
     description:
       "Build robust backend servers, RESTful APIs, JWT authentication, and database schemas with Node.js, Express, and MongoDB.",
     skills: ["Node.js", "Express.js", "MongoDB", "Mongoose", "REST APIs", "JWT Auth", "Postman"],
@@ -155,7 +155,7 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
     category: "DSA & Logic",
     level: "Beginner",
     durationMonths: 3,
-    monthlyFee: 2800,
+    monthlyFee: 1900,
     description:
       "Master logic building, algorithmic thinking, and problem solving from scratch with whiteboard explanations and live coding.",
     skills: ["C++", "Java", "Arrays & Strings", "Recursion", "Trees & Graphs", "Time Complexity"],
@@ -189,7 +189,7 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
     category: "DSA & System Design",
     level: "Intermediate",
     durationMonths: 3,
-    monthlyFee: 2800,
+    monthlyFee: 1900,
     description:
       "Master High-Level (HLD) and Low-Level Design (LLD), microservice communication, caching, load balancing, and scalable system case studies with whiteboard walkthroughs.",
     skills: ["System Design", "HLD / LLD", "Microservices", "Redis", "Load Balancers", "DB Sharding", "Scalability"],
@@ -223,7 +223,7 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
     category: "Programming Languages",
     level: "Beginner",
     durationMonths: 3,
-    monthlyFee: 2500,
+    monthlyFee: 1900,
     description:
       "Start programming from absolute zero. Understand memory management, pointers, and Object-Oriented Programming (OOP) in C++.",
     skills: ["C Language", "C++", "Pointers", "OOP (Classes & Objects)", "STL Basics", "Problem Solving"],
@@ -256,7 +256,7 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
     category: "Programming Languages",
     level: "Beginner",
     durationMonths: 3,
-    monthlyFee: 2500,
+    monthlyFee: 1900,
     description:
       "Learn Core Java from the ground up: classes, inheritance, interfaces, exception handling, and the Collections framework.",
     skills: ["Core Java", "OOP Concepts", "Collections Framework", "Exceptions", "File I/O", "Git"],
@@ -289,7 +289,7 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
     category: "Programming Languages",
     level: "Beginner",
     durationMonths: 2.5,
-    monthlyFee: 2500,
+    monthlyFee: 1900,
     description:
       "Learn beginner-friendly Python programming, clean syntax, logic building, data handling, and automation scripting.",
     skills: ["Python 3", "Data Structures", "Functions", "Automation Scripts", "Logic Building", "Git"],
@@ -322,7 +322,7 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
     category: "Networking & Systems",
     level: "Beginner",
     durationMonths: 3,
-    monthlyFee: 2500,
+    monthlyFee: 1900,
     description:
       "Understand how the internet, routers, switches, IP addressing, and networking protocols work with clear whiteboard explanations and laptop demos.",
     skills: ["TCP/IP Stack", "IP Subnetting", "DNS/DHCP", "Wireshark", "Routers & LAN", "Network Tools"],
@@ -356,7 +356,7 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
     category: "Networking & Systems",
     level: "Beginner",
     durationMonths: 3,
-    monthlyFee: 2500,
+    monthlyFee: 1900,
     description:
       "Master the Linux command line, automate workflows with bash scripts, and understand how operating systems manage processes, memory, and files.",
     skills: ["Linux Terminal", "Bash Scripting", "File Systems", "Processes & Memory", "C Basics", "Git"],
@@ -413,7 +413,7 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
               category: fallback.category ?? "Technology",
               level: fallback.level ?? "Beginner",
               durationMonths: fallback.durationMonths ?? 3,
-              monthlyFee: fallback.monthlyFee ?? 2500,
+              monthlyFee: fallback.monthlyFee ?? 1900,
               skills: fallback.skills ?? ["Logic", "Coding", "Practical Projects"],
               prerequisites: fallback.prerequisites ?? ["Curiosity to learn programming from scratch"],
               perks: fallback.perks ?? [
@@ -446,7 +446,7 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
             category: fallback.category ?? "Technology",
             level: fallback.level ?? "Beginner",
             durationMonths: fallback.durationMonths ?? 3,
-            monthlyFee: fallback.monthlyFee ?? 2500,
+            monthlyFee: fallback.monthlyFee ?? 1900,
             skills: fallback.skills ?? ["Logic", "Coding", "Practical Projects"],
             prerequisites: fallback.prerequisites ?? ["Curiosity to learn programming from scratch"],
             perks: fallback.perks ?? [

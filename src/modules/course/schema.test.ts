@@ -10,7 +10,7 @@ describe("course validation", () => {
     category: "Web development",
     level: "beginner" as const,
     durationMonths: 12,
-    monthlyFee: 2500,
+    monthlyFee: 1900,
     prerequisites: [],
     skills: [],
     syllabus: [],

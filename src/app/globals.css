@@ -204,12 +204,12 @@ select:disabled {
   pointer-events: none;
 }
 .navbar-spacer {
-  height: 76px;
+  height: 64px;
   width: 100%;
   flex-shrink: 0;
 }
 .courses-header {
-  height: 76px;
+  height: 64px;
   max-width: 1280px;
   margin: auto;
   display: flex;
@@ -301,10 +301,29 @@ select:disabled {
   position: relative;
   padding: 44px 24px 48px;
   background:
-    radial-gradient(circle at 15% 20%, rgba(124, 58, 237, 0.18) 0%, transparent 40%),
-    radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.16) 0%, transparent 40%),
-    linear-gradient(180deg, #06091e 0%, #080d28 100%);
+    linear-gradient(90deg, rgba(6, 9, 30, 0.68) 0%, rgba(6, 9, 30, 0.54) 44%, rgba(6, 9, 30, 0.18) 100%),
+    linear-gradient(180deg, rgba(6, 9, 30, 0.04), rgba(6, 9, 30, 0.24)),
+    url("/images/courses-classroom-hero.png") center / cover no-repeat;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.courses-page > .courses-catalog-hero,
+.institute-page--contact > .courses-catalog-hero {
+  box-sizing: border-box;
+  height: calc(100svh - 64px);
+  display: flex;
+  align-items: center;
+}
+.institute-page--about .courses-catalog-hero {
+  background-image:
+    linear-gradient(90deg, rgba(6, 9, 30, 0.68) 0%, rgba(6, 9, 30, 0.54) 44%, rgba(6, 9, 30, 0.18) 100%),
+    linear-gradient(180deg, rgba(6, 9, 30, 0.04), rgba(6, 9, 30, 0.24)),
+    url("/images/about-classroom-hero.png");
+}
+.institute-page--contact .courses-catalog-hero {
+  background-image:
+    linear-gradient(90deg, rgba(6, 9, 30, 0.68) 0%, rgba(6, 9, 30, 0.54) 44%, rgba(6, 9, 30, 0.18) 100%),
+    linear-gradient(180deg, rgba(6, 9, 30, 0.04), rgba(6, 9, 30, 0.24)),
+    url("/images/contact-classroom-hero.png");
 }
 .courses-hero-inner {
   max-width: 1280px;
@@ -348,11 +367,11 @@ select:disabled {
 
 /* Offline Lab Spec Card in Hero */
 .lab-specs-card {
-  background: #090e2e;
-  border: 1px solid rgba(133, 41, 244, 0.35);
+  background: rgba(9, 14, 46, 0.08);
+  border: 1px solid rgba(133, 41, 244, 0.5);
   border-radius: 18px;
   padding: 24px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
   position: relative;
   overflow: hidden;
 }
@@ -378,7 +397,7 @@ select:disabled {
   font-size: 11px;
   font-weight: 600;
   color: #34d399;
-  background: rgba(16, 185, 129, 0.15);
+  background: rgba(16, 185, 129, 0.08);
   border: 1px solid rgba(16, 185, 129, 0.3);
   padding: 3px 8px;
   border-radius: 12px;
@@ -499,7 +518,7 @@ select:disabled {
   cursor: pointer;
 }
 .course-filter-bar select option {
-  background: #080d28;
+  background: rgba(8, 13, 40, 0.62);
   color: #ffffff;
 }
 
@@ -812,7 +831,7 @@ select:disabled {
     display: none;
     position: absolute;
     z-index: 50;
-    top: 76px;
+    top: 64px;
     left: 0;
     right: 0;
     padding: 24px;
@@ -876,7 +895,7 @@ a {
 .nav-wrap {
   max-width: 1280px;
   margin: 0 auto;
-  height: 76px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1022,10 +1041,9 @@ a {
   overflow: hidden;
   padding: 44px 24px 72px;
   background:
-    radial-gradient(circle at 18% 25%, rgba(124, 58, 237, 0.2) 0%, transparent 40%),
-    radial-gradient(circle at 82% 35%, rgba(6, 182, 212, 0.18) 0%, transparent 40%),
-    radial-gradient(circle at 50% 90%, rgba(16, 185, 129, 0.12) 0%, transparent 50%),
-    linear-gradient(180deg, #06091e 0%, #080d28 65%, #06091e 100%);
+    linear-gradient(90deg, rgba(6, 9, 30, 0.9) 0%, rgba(6, 9, 30, 0.8) 38%, rgba(6, 9, 30, 0.48) 67%, rgba(6, 9, 30, 0.62) 100%),
+    linear-gradient(180deg, rgba(6, 9, 30, 0.12), rgba(6, 9, 30, 0.5)),
+    url("/images/hero-coding-classroom.png") center / cover no-repeat;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 .hero-shell::before {
@@ -1187,19 +1205,20 @@ a {
   position: relative;
   z-index: 2;
   border-radius: 16px;
-  background: #080d28;
+  background: transparent;
   border: 1px solid rgba(133, 41, 244, 0.35);
   box-shadow:
     0 24px 50px rgba(0, 0, 0, 0.6),
     0 0 20px rgba(133, 41, 244, 0.15) inset;
   overflow: hidden;
+  backdrop-filter: none;
 }
 .terminal-top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 12px 18px;
-  background: #0d1339;
+  background: rgba(13, 19, 57, 0.06);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 .terminal-dots {
@@ -1238,7 +1257,7 @@ a {
 /* Terminal Tab Switcher */
 .terminal-tabs {
   display: flex;
-  background: #070b22;
+  background: rgba(7, 11, 34, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   padding: 0 8px;
   overflow-x: auto;
@@ -1286,7 +1305,7 @@ a {
   line-height: 1.7;
   color: #e2e8f0;
   min-height: 220px;
-  background: #080d2a;
+  background: rgba(8, 13, 42, 0.03);
 }
 .code-line {
   display: flex;
@@ -1316,7 +1335,7 @@ a {
   align-items: center;
   justify-content: space-between;
   padding: 10px 18px;
-  background: #06091e;
+  background: rgba(6, 9, 30, 0.06);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   font-family: var(--font-mono);
   font-size: 11px;
@@ -1339,7 +1358,7 @@ a {
   z-index: 3;
   padding: 10px 18px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #1e1b4b, #311042);
+  background: linear-gradient(135deg, rgba(30, 27, 75, 0.78), rgba(49, 16, 66, 0.78));
   border: 1px solid rgba(168, 85, 247, 0.4);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
   display: flex;
@@ -1725,6 +1744,68 @@ a {
   gap: 32px;
   margin-top: 20px;
 }
+#why-offline {
+  max-width: none;
+  padding-right: max(24px, calc((100vw - 1232px) / 2));
+  padding-left: max(24px, calc((100vw - 1232px) / 2));
+  background:
+    linear-gradient(90deg, rgba(6, 9, 30, 0.88) 0%, rgba(6, 9, 30, 0.68) 50%, rgba(6, 9, 30, 0.34) 100%),
+    linear-gradient(180deg, rgba(6, 9, 30, 0.28), rgba(6, 9, 30, 0.68)),
+    url("/images/why-offline-mentor-help.png") center / cover no-repeat;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+@media (min-width: 769px) {
+  #why-offline {
+    box-sizing: border-box;
+    min-height: calc(100svh - 64px);
+    padding-top: 42px;
+    padding-bottom: 42px;
+  }
+  #why-offline .section-header {
+    margin-bottom: 28px;
+  }
+  #why-offline .section-header h2 {
+    font-size: clamp(28px, 3vw, 39px);
+    margin-bottom: 10px;
+  }
+  #why-offline .section-header p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  #why-offline .why-offline-grid {
+    gap: 24px;
+    margin-top: 0;
+  }
+  #why-offline .comparison-card {
+    padding: 24px 28px;
+  }
+  #why-offline .card-header-badge {
+    margin-bottom: 13px;
+  }
+  #why-offline .comparison-card h3 {
+    font-size: 21px;
+    margin-bottom: 8px;
+  }
+  #why-offline .comparison-card p.sub {
+    margin-bottom: 14px;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+  #why-offline .comparison-points {
+    gap: 10px;
+  }
+  #why-offline .point-row {
+    gap: 11px;
+  }
+  #why-offline .point-text strong {
+    font-size: 14px;
+  }
+  #why-offline .point-text span {
+    font-size: 12px;
+    line-height: 1.38;
+  }
+}
 .comparison-card {
   border-radius: 20px;
   padding: 36px;
@@ -1732,11 +1813,11 @@ a {
   font-family: var(--font-body);
 }
 .comparison-card.card-online {
-  background: #090d26;
+  background: rgba(9, 13, 38, 0.36);
   border: 1px solid rgba(239, 68, 68, 0.2);
 }
 .comparison-card.card-offline {
-  background: linear-gradient(145deg, #0d1238, #13194a);
+  background: linear-gradient(145deg, rgba(13, 18, 56, 0.38), rgba(19, 25, 74, 0.3));
   border: 1px solid rgba(16, 185, 129, 0.35);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
 }
@@ -2253,7 +2334,7 @@ a {
   .nav-links {
     display: none;
     position: absolute;
-    top: 76px;
+    top: 64px;
     left: 0;
     right: 0;
     background: #080d28;

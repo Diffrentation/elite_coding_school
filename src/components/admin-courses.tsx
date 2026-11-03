@@ -215,6 +215,7 @@ export function AdminCourses() {
               name="monthlyFee"
               type="number"
               min="0"
+              max="1999"
               defaultValue={editing?.monthlyFee}
               required
             />

@@ -58,7 +58,7 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     isFeatured: true,
     shortDescription: "Learn to build complete production-grade web applications from scratch with React, Next.js, Node.js, Express, and MongoDB.",
     durationMonths: 4,
-    monthlyFee: 3000,
+    monthlyFee: 1900,
     level: "beginner",
     perks: [
       "Daily coding on your laptop with live guidance",
@@ -75,7 +75,7 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     isFeatured: true,
     shortDescription: "Master modern responsive design, UI component libraries, React.js, and slick interactive animations with GSAP and Tailwind CSS.",
     durationMonths: 3,
-    monthlyFee: 2500,
+    monthlyFee: 1900,
     level: "beginner",
     perks: [
       "Pixel-perfect responsive layout techniques",
@@ -92,7 +92,7 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     isFeatured: false,
     shortDescription: "Build robust backend servers, RESTful APIs, JWT authentication, and database schemas with Node.js, Express, and MongoDB.",
     durationMonths: 3,
-    monthlyFee: 2800,
+    monthlyFee: 1900,
     level: "intermediate",
     perks: [
       "Hands-on API design & Postman testing",
@@ -109,7 +109,7 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     isFeatured: true,
     shortDescription: "Master logic building, algorithmic thinking, and problem solving from scratch with whiteboard explanations and live coding.",
     durationMonths: 3,
-    monthlyFee: 2800,
+    monthlyFee: 1900,
     level: "beginner",
     perks: [
       "Step-by-step logic explained on the whiteboard",
@@ -126,7 +126,7 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     isFeatured: true,
     shortDescription: "Learn High-Level (HLD) & Low-Level Design (LLD), microservices, load balancers, caching, and scalable architecture with whiteboard case studies.",
     durationMonths: 3,
-    monthlyFee: 2800,
+    monthlyFee: 1900,
     level: "intermediate",
     perks: [
       "Whiteboard breakdowns of real-world scalable systems",
@@ -143,7 +143,7 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     isFeatured: false,
     shortDescription: "Start programming from absolute zero. Understand memory management, pointers, and Object-Oriented Programming (OOP) in C++.",
     durationMonths: 3,
-    monthlyFee: 2500,
+    monthlyFee: 1900,
     level: "beginner",
     perks: [
       "Complete zero-level start with simple explanations",
@@ -160,7 +160,7 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     isFeatured: false,
     shortDescription: "Learn Core Java from the ground up: classes, inheritance, interfaces, exception handling, and the Collections framework.",
     durationMonths: 3,
-    monthlyFee: 2500,
+    monthlyFee: 1900,
     level: "beginner",
     perks: [
       "Clear object-oriented mindset from day one",
@@ -177,7 +177,7 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     isFeatured: false,
     shortDescription: "Learn beginner-friendly Python programming, clean syntax, logic building, data handling, and automation scripting.",
     durationMonths: 2.5,
-    monthlyFee: 2500,
+    monthlyFee: 1900,
     level: "beginner",
     perks: [
       "Easiest language to start your coding journey",
@@ -194,7 +194,7 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     isFeatured: true,
     shortDescription: "Understand how the internet, routers, switches, IP addressing, and networking protocols work with clear whiteboard demos and laptop exercises.",
     durationMonths: 3,
-    monthlyFee: 2500,
+    monthlyFee: 1900,
     level: "beginner",
     perks: [
       "Taught from absolute zero with whiteboard diagrams",
@@ -211,7 +211,7 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     isFeatured: true,
     shortDescription: "Master the Linux command line, bash automation scripts, process management, memory concepts, and foundational C programming from scratch.",
     durationMonths: 3,
-    monthlyFee: 2500,
+    monthlyFee: 1900,
     level: "beginner",
     perks: [
       "Complete zero-level start on your laptop terminal",
@@ -318,7 +318,7 @@ export default function CoursesPage() {
   };
 
   return (
-    <main className="courses-redesign">
+    <main className="courses-redesign courses-page">
       {/* 1. STICKY GLASS HEADER */}
       <Navbar activePage="courses" />
 

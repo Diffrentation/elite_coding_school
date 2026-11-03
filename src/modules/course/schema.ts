@@ -37,7 +37,7 @@ export const courseSchema = z.object({
     .number()
     .int("Monthly fee must be a whole number.")
     .min(0, "Monthly fee cannot be negative.")
-    .max(1_000_000, "Monthly fee cannot exceed ₹10,00,000."),
+    .max(1_999, "Monthly fee must be below ₹2,000."),
   prerequisites: z.array(z.string().max(120)).default([]),
   skills: z.array(z.string().max(120)).default([]),
   syllabus: z

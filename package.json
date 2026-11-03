@@ -11,7 +11,8 @@
     "test": "vitest run",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "seed:courses": "node scripts/seed-courses.mjs"
+    "seed:courses": "node scripts/seed-courses.mjs",
+    "cap:course-fees": "node scripts/cap-course-fees.mjs"
   },
   "dependencies": {
     "@types/nodemailer": "^8.0.2",

@@ -12,7 +12,7 @@ const courses = [
     "Web Development",
     "Build modern full-stack applications with practical projects.",
     6,
-    6000,
+    1900,
     "intermediate",
   ],
   [
@@ -22,7 +22,7 @@ const courses = [
     "Web Development",
     "Create responsive, accessible interfaces with modern tools.",
     3,
-    6000,
+    1900,
     "beginner",
   ],
   [
@@ -32,7 +32,7 @@ const courses = [
     "Backend",
     "Build secure APIs, databases, and server-side applications.",
     4,
-    6000,
+    1900,
     "intermediate",
   ],
   [
@@ -42,7 +42,7 @@ const courses = [
     "Computer Science",
     "Strengthen problem-solving skills for technical interviews.",
     3,
-    6000,
+    1900,
     "intermediate",
   ],
   [
@@ -52,7 +52,7 @@ const courses = [
     "Architecture",
     "Learn to design scalable, reliable software systems.",
     3,
-    6000,
+    1900,
     "advanced",
   ],
   [
@@ -62,7 +62,7 @@ const courses = [
     "Programming",
     "Master Python fundamentals and real-world projects.",
     3,
-    6000,
+    1900,
     "beginner",
   ],
 ];

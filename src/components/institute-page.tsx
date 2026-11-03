@@ -59,7 +59,7 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
   const hours = settings?.openingHours || "Monday – Saturday: 9:00 AM – 7:00 PM";
 
   return (
-    <main className="courses-redesign">
+    <main className={`courses-redesign institute-page institute-page--${type}`}>
       {/* 1. STICKY HEADER */}
       <Navbar activePage={type} />
 
