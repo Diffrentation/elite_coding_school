@@ -53,9 +53,9 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
   const name = settings?.instituteName ?? "Elite Coding School";
   const address =
     settings?.address ||
-    "Elite Coding School, Main Market Road, Near Metro Station.";
-  const phone = settings?.phone || "+91 98765 43210";
-  const email = settings?.email || "admissions@elitecodingschool.com";
+    "Vijay Nagar Bypass, Bagu";
+  const phone = settings?.phone || "+91 9311278407";
+  const email = settings?.email || "bbhupender100@gmail.com";
   const hours = settings?.openingHours || "Monday – Saturday: 9:00 AM – 7:00 PM";
 
   return (
@@ -388,7 +388,7 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                   </div>
                   <div className="offline-chip">
                     <MapPin size={14} />
-                    <span>Near Metro Station Walkway</span>
+                    <span>Vijay Nagar Bypass, Bagu</span>
                   </div>
                   <div className="offline-chip">
                     <Sparkles size={14} />
@@ -695,7 +695,7 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 </li>
                 <li>
                   <Building2 size={15} />
-                  <span>Near Metro Station Walkway</span>
+                  <span>Vijay Nagar Bypass, Bagu</span>
                 </li>
               </ul>
             </div>

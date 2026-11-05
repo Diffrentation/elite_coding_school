@@ -1021,7 +1021,7 @@ export default function Home() {
             <div className="cta-contact-chips">
               <div className="contact-chip">
                 <MapPin size={15} color="#38bdf8" />
-                <span>Elite Coding School, Coaching Center</span>
+                <span>Vijay Nagar Bypass, Bagu</span>
               </div>
               <div className="contact-chip">
                 <Clock size={15} color="#10b981" />
@@ -1029,7 +1029,7 @@ export default function Home() {
               </div>
               <div className="contact-chip">
                 <Phone size={15} color="#c084fc" />
-                <span>Teacher Helpline: +91 98765 43210</span>
+                <span>Teacher Helpline: +91 9311278407</span>
               </div>
             </div>
           </div>
@@ -1156,7 +1156,7 @@ export default function Home() {
               <ul className="footer-contact-list">
                 <li>
                   <Phone size={15} />
-                  <span>+91 98765 43210 (Inquiries)</span>
+                  <span>+91 9311278407 (Inquiries)</span>
                 </li>
                 <li>
                   <Mail size={15} />

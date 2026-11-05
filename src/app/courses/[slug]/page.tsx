@@ -776,7 +776,7 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
               <a className="social-btn" href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
                 <Globe size={17} />
               </a>
-              <a className="social-btn" href="mailto:admissions@elitecodingschool.com" aria-label="Email">
+              <a className="social-btn" href="mailto:bbhupender100@gmail.com" aria-label="Email">
                 <Mail size={17} />
               </a>
             </div>
@@ -790,7 +790,7 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
               </p>
               <div className="footer-address-card">
                 <strong>📍 Center Location:</strong>
-                Elite Coding School, Main Market Road, Near Metro Station.
+                Vijay Nagar Bypass, Bagu
                 <br />
                 <span style={{ color: "#34d399", fontWeight: 600, display: "block", marginTop: "6px" }}>
                   ● Walk-ins welcome Mon-Sat (9 AM - 7 PM)
@@ -860,11 +860,11 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
               <ul className="footer-contact-list">
                 <li>
                   <Phone size={15} />
-                  <span>+91 98765 43210 (Admissions Desk)</span>
+                  <span>+91 9311278407 (Admissions Desk)</span>
                 </li>
                 <li>
                   <Mail size={15} />
-                  <span>admissions@elitecodingschool.com</span>
+                  <span>bbhupender100@gmail.com</span>
                 </li>
                 <li>
                   <Clock size={15} />
@@ -872,7 +872,7 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
                 </li>
                 <li>
                   <Building2 size={15} />
-                  <span>Near Metro Station Walkway</span>
+                  <span>Vijay Nagar Bypass, Bagu</span>
                 </li>
               </ul>
             </div>

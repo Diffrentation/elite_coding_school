@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { ArrowRight, Cpu, Monitor, Network, Users } from "lucide-react";
 
 type Mode = "login" | "register" | "verify" | "forgot" | "reset";
@@ -23,6 +23,9 @@ export function AuthForm({ mode }: { mode: Mode }) {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  useEffect(() => {
+    if (mode === "reset") setEmail(new URLSearchParams(window.location.search).get("email") ?? "");
+  }, [mode]);
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setBusy(true);
@@ -52,7 +55,8 @@ export function AuthForm({ mode }: { mode: Mode }) {
         return;
       }
       if (mode === "forgot") {
-        setMessage((await call("/api/auth/forgot-password", { email })).message);
+        await call("/api/auth/forgot-password", { email });
+        router.push(`/reset-password?email=${encodeURIComponent(email)}`);
         return;
       }
       await call("/api/auth/reset-password", {
@@ -145,20 +149,20 @@ export function AuthForm({ mode }: { mode: Mode }) {
                 ? "We will send a single-use code to your registered email."
                 : "Student & Faculty Portal &bull; Elite Coding School"}
           </p>
-          <form onSubmit={submit}>
+          <form onSubmit={submit} className={mode === "register" ? "auth-register-form" : undefined}>
             {mode === "register" && (
               <>
-                <label>
+                <label className="auth-field">
                   Full name
                   <input name="fullName" required maxLength={80} placeholder="Your full name" />
                 </label>
-                <label>
+                <label className="auth-field">
                   Mobile number
                   <input name="phone" type="tel" inputMode="numeric" required placeholder="9876543210" />
                 </label>
               </>
             )}
-            <label>
+            <label className={mode === "register" ? "auth-field auth-field-wide" : undefined}>
               Email address
               <input
                 name="email"
@@ -171,7 +175,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
               />
             </label>
             {["verify", "reset"].includes(mode) && (
-              <label>
+              <label className={mode === "register" ? "auth-field" : undefined}>
                 Verification code
                 <input
                   name="code"
@@ -184,7 +188,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
               </label>
             )}
             {["login", "register", "reset"].includes(mode) && (
-              <label>
+              <label className={mode === "register" ? "auth-field" : undefined}>
                 Password
                 <input
                   name="password"
@@ -197,7 +201,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
               </label>
             )}
             {["register", "reset"].includes(mode) && (
-              <label>
+              <label className={mode === "register" ? "auth-field" : undefined}>
                 Confirm password
                 <input
                   name="confirmPassword"

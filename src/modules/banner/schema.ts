@@ -3,8 +3,8 @@ import { z } from "zod";
 export const bannerSchema = z.object({
   title: z.string().trim().min(3).max(140),
   description: z.string().trim().max(400).default(""),
-  desktopImageUrl: z.url().nullable().optional(),
-  mobileImageUrl: z.url().nullable().optional(),
+  desktopImageUrl: z.string().trim().nullable().optional(),
+  mobileImageUrl: z.string().trim().nullable().optional(),
   ctaLabel: z.string().trim().min(2).max(50).default("Explore courses"),
   ctaUrl: z.string().trim().min(1).max(250).default("/courses"),
   order: z.number().int().min(0).default(0),

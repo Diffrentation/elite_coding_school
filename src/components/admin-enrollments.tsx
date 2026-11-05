@@ -1,6 +1,19 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import {
+  GraduationCap,
+  Check,
+  X,
+  Plus,
+  Calendar,
+  Clock,
+  BookOpen,
+  DollarSign,
+  UserCheck,
+  CheckCircle2,
+  AlertCircle,
+} from "lucide-react";
 
 type Student = { _id: string; fullName: string; studentId: string };
 type Course = { _id: string; title: string; monthlyFee: number; status: string };
@@ -33,7 +46,10 @@ export function AdminEnrollments() {
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
   const [enrollmentRequests, setEnrollmentRequests] = useState<EnrollmentRequest[]>([]);
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [processingId, setProcessingId] = useState("");
+  const [selectedCourseFee, setSelectedCourseFee] = useState<number | "">("");
 
   const load = () =>
     Promise.all([
@@ -48,7 +64,7 @@ export function AdminEnrollments() {
         setEnrollments(enrollmentData.enrollments ?? []);
         setEnrollmentRequests(requestData.requests ?? []);
       })
-      .catch((reason: Error) => setMessage(reason.message));
+      .catch((reason: Error) => setError(reason.message));
 
   useEffect(() => {
     void load();
@@ -58,6 +74,7 @@ export function AdminEnrollments() {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     setMessage("");
+    setError("");
     setSubmitting(true);
     try {
       await request("/api/admin/enrollments", {
@@ -72,10 +89,11 @@ export function AdminEnrollments() {
         }),
       });
       event.currentTarget.reset();
+      setSelectedCourseFee("");
       setMessage("Student enrolled successfully.");
       void load();
     } catch (reason) {
-      setMessage(reason instanceof Error ? reason.message : "Could not create enrollment.");
+      setError(reason instanceof Error ? reason.message : "Could not create enrollment.");
     } finally {
       setSubmitting(false);
     }
@@ -83,114 +101,485 @@ export function AdminEnrollments() {
 
   async function reviewRequest(id: string, action: "approve" | "reject") {
     setMessage("");
+    setError("");
+    setProcessingId(id);
     try {
       await request(`/api/admin/enrollment-requests/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action }),
       });
-      setMessage(`Enrollment request ${action === "approve" ? "approved" : "rejected"}.`);
+      setMessage(`Enrollment request ${action === "approve" ? "approved successfully" : "rejected"}.`);
       void load();
     } catch (reason) {
-      setMessage(reason instanceof Error ? reason.message : "Could not review request.");
+      setError(reason instanceof Error ? reason.message : "Could not review request.");
+    } finally {
+      setProcessingId("");
     }
   }
 
+  const pendingRequests = enrollmentRequests.filter((item) => item.status === "pending");
+
   return (
-    <main className="portal-content admin-enrollments">
-      <div className="portal-intro">
-        <div>
-          <p className="kicker">ADMISSIONS</p>
-          <h2>Create an enrollment.</h2>
-          <p>Assign a verified student to a published course while preserving the agreed fee snapshot.</p>
-        </div>
+    <main className="portal-content admin-enrollments-page" style={{ maxWidth: 1200, margin: "0 auto", padding: "28px" }}>
+      {/* Intro Header */}
+      <div style={{ marginBottom: 28 }}>
+        <p className="kicker" style={{ color: "#38bdf8", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", fontSize: 11, margin: "0 0 6px" }}>
+          ADMISSION & COURSE ASSIGNMENT
+        </p>
+        <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "28px", color: "#ffffff", margin: "0 0 8px" }}>
+          Student Enrollments
+        </h1>
+        <p style={{ color: "#94a3b8", fontSize: "14px", margin: 0 }}>
+          Assign verified students to active batches, lock agreed fee structures, and approve student-requested course enrollments.
+        </p>
       </div>
-      {message && <p className="form-success">{message}</p>}
-      <section className="enrollment-table" aria-label="Enrollment requests">
-        <h3>Student enrollment requests</h3>
-        {enrollmentRequests
-          .filter((item) => item.status === "pending")
-          .map((item) => (
-            <article key={item._id}>
-              <div>
-                <b>{item.studentId?.fullName ?? "Student"}</b>
-                <small>{item.studentId?.studentId ?? ""}</small>
+
+      {message && (
+        <div style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(16, 185, 129, 0.12)", border: "1px solid rgba(16, 185, 129, 0.3)", color: "#34d399", padding: "12px 18px", borderRadius: 10, marginBottom: 22, fontSize: 13.5 }}>
+          <CheckCircle2 size={16} /> {message}
+        </div>
+      )}
+
+      {error && (
+        <div style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(239, 68, 68, 0.12)", border: "1px solid rgba(239, 68, 68, 0.3)", color: "#fca5a5", padding: "12px 18px", borderRadius: 10, marginBottom: 22, fontSize: 13.5 }}>
+          <AlertCircle size={16} /> {error}
+        </div>
+      )}
+
+      {/* 1. Student Enrollment Requests Card */}
+      <section
+        style={{
+          background: "#0a0f32",
+          border: "1px solid rgba(255, 255, 255, 0.08)",
+          borderRadius: 16,
+          overflow: "hidden",
+          boxShadow: "0 14px 35px rgba(0, 0, 0, 0.35)",
+          marginBottom: 28,
+        }}
+      >
+        <div
+          style={{
+            padding: "18px 24px",
+            borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(245, 158, 11, 0.15)", color: "#fbbf24", display: "grid", placeItems: "center" }}>
+              <Clock size={18} />
+            </div>
+            <div>
+              <h2 style={{ margin: 0, fontSize: 16, color: "#ffffff", fontFamily: "var(--font-heading)" }}>
+                Student Enrollment Requests
+              </h2>
+              <span style={{ fontSize: 12, color: "#94a3b8" }}>
+                Students who requested to join a published course from their student portal
+              </span>
+            </div>
+          </div>
+          <span
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: 12,
+              fontWeight: 700,
+              padding: "4px 10px",
+              borderRadius: 20,
+              background: pendingRequests.length > 0 ? "rgba(245, 158, 11, 0.18)" : "rgba(255, 255, 255, 0.05)",
+              color: pendingRequests.length > 0 ? "#fbbf24" : "#94a3b8",
+              border: `1px solid ${pendingRequests.length > 0 ? "rgba(245, 158, 11, 0.3)" : "rgba(255, 255, 255, 0.1)"}`,
+            }}
+          >
+            {pendingRequests.length} Pending
+          </span>
+        </div>
+
+        {pendingRequests.length > 0 ? (
+          <div>
+            {pendingRequests.map((item) => (
+              <div
+                key={item._id}
+                style={{
+                  padding: "16px 24px",
+                  borderBottom: "1px solid rgba(255, 255, 255, 0.05)",
+                  display: "grid",
+                  gridTemplateColumns: "1.2fr 1.2fr auto auto",
+                  alignItems: "center",
+                  gap: 16,
+                }}
+              >
+                <div>
+                  <b style={{ color: "#ffffff", fontSize: 14, display: "block" }}>{item.studentId?.fullName ?? "Student"}</b>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "#94a3b8", background: "rgba(255, 255, 255, 0.05)", padding: "1px 6px", borderRadius: 4, display: "inline-block", marginTop: 3 }}>
+                    {item.studentId?.studentId || "No ID"}
+                  </span>
+                </div>
+
+                <div>
+                  <b style={{ color: "#e2e8f0", fontSize: 13.5, display: "block" }}>{item.courseId?.title ?? "Course"}</b>
+                  <span style={{ color: "#38bdf8", fontSize: 12, fontWeight: 600 }}>
+                    ₹{item.courseId?.monthlyFee?.toLocaleString("en-IN") ?? "0"}/month
+                  </span>
+                </div>
+
+                <div>
+                  <span
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                      padding: "3px 10px",
+                      borderRadius: 6,
+                      background: "rgba(245, 158, 11, 0.15)",
+                      color: "#fbbf24",
+                      border: "1px solid rgba(245, 158, 11, 0.3)",
+                    }}
+                  >
+                    Pending Review
+                  </span>
+                </div>
+
+                <div style={{ display: "flex", gap: 8 }}>
+                  <button
+                    type="button"
+                    disabled={processingId === item._id}
+                    onClick={() => reviewRequest(item._id, "approve")}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 5,
+                      padding: "7px 14px",
+                      borderRadius: 8,
+                      background: "rgba(16, 185, 129, 0.2)",
+                      border: "1px solid rgba(16, 185, 129, 0.4)",
+                      color: "#34d399",
+                      fontSize: 12.5,
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      transition: "all 0.15s ease",
+                    }}
+                  >
+                    <Check size={14} /> Approve
+                  </button>
+
+                  <button
+                    type="button"
+                    disabled={processingId === item._id}
+                    onClick={() => reviewRequest(item._id, "reject")}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 5,
+                      padding: "7px 14px",
+                      borderRadius: 8,
+                      background: "rgba(239, 68, 68, 0.12)",
+                      border: "1px solid rgba(239, 68, 68, 0.3)",
+                      color: "#f87171",
+                      fontSize: 12.5,
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      transition: "all 0.15s ease",
+                    }}
+                  >
+                    <X size={14} /> Reject
+                  </button>
+                </div>
               </div>
-              <div>
-                <b>{item.courseId?.title ?? "Course"}</b>
-                <small>Rs. {item.courseId?.monthlyFee?.toLocaleString("en-IN") ?? "0"}/month</small>
-              </div>
-              <em className="status-pending">Pending</em>
-              <div>
-                <button onClick={() => reviewRequest(item._id, "approve")}>Approve</button>
-                <button onClick={() => reviewRequest(item._id, "reject")}>Reject</button>
-              </div>
-            </article>
-          ))}
-        {!enrollmentRequests.some((item) => item.status === "pending") && (
-          <p className="dashboard-empty">No pending enrollment requests.</p>
+            ))}
+          </div>
+        ) : (
+          <div style={{ padding: "32px 24px", textAlign: "center", color: "#64748b", fontSize: 13 }}>
+            No pending enrollment requests from students at this time.
+          </div>
         )}
       </section>
-      <form className="course-form" onSubmit={submit}>
-        <label>
-          Student
-          <select name="studentId" required>
-            <option value="">Select a student</option>
-            {students.map((student) => (
-              <option key={student._id} value={student._id}>
-                {student.fullName} ({student.studentId})
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Published course
-          <select name="courseId" required>
-            <option value="">Select a course</option>
-            {courses.map((course) => (
-              <option key={course._id} value={course._id}>
-                {course.title} (Rs. {course.monthlyFee.toLocaleString("en-IN")}/month)
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Batch
-          <input name="batch" minLength={2} required placeholder="Weekday evening batch" />
-        </label>
-        <label>
-          Joining date
-          <input name="joiningDate" type="date" required />
-        </label>
-        <label>
-          Agreed monthly fee
-          <input name="agreedMonthlyFee" type="number" min="0" required />
-        </label>
-        <button className="button primary admin-action" disabled={submitting}>
-          {submitting ? "Creating..." : "Create enrollment"}
-        </button>
-      </form>
 
-      <section className="enrollment-table" aria-label="Enrollments">
-        <h3>Existing enrollments</h3>
-        {enrollments.map((enrollment) => (
-          <article key={enrollment._id}>
-            <div>
-              <b>{enrollment.studentId?.fullName ?? "Student"}</b>
-              <small>{enrollment.studentId?.studentId ?? ""}</small>
+      {/* 2. Create Enrollment Form Card */}
+      <section
+        style={{
+          background: "#0a0f32",
+          border: "1px solid rgba(133, 41, 244, 0.25)",
+          borderRadius: 16,
+          padding: 26,
+          boxShadow: "0 14px 35px rgba(0, 0, 0, 0.35)",
+          marginBottom: 28,
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
+          <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(124, 58, 237, 0.18)", color: "#c084fc", display: "grid", placeItems: "center" }}>
+            <Plus size={18} />
+          </div>
+          <div>
+            <h2 style={{ margin: 0, fontSize: 17, color: "#ffffff", fontFamily: "var(--font-heading)" }}>
+              Direct Student Enrollment
+            </h2>
+            <p style={{ margin: "2px 0 0", fontSize: 12.5, color: "#94a3b8" }}>
+              Manually enroll a student into a batch with an agreed monthly fee snapshot
+            </p>
+          </div>
+        </div>
+
+        <form onSubmit={submit} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 }}>
+          <label style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12.5, fontWeight: 600, color: "#cbd5e1" }}>
+            Student Account
+            <select
+              name="studentId"
+              required
+              style={{
+                height: 44,
+                borderRadius: 10,
+                background: "#070b24",
+                border: "1px solid rgba(255, 255, 255, 0.12)",
+                color: "#ffffff",
+                padding: "0 12px",
+                fontSize: 13,
+                cursor: "pointer",
+              }}
+            >
+              <option value="">Select a registered student</option>
+              {students.map((student) => (
+                <option key={student._id} value={student._id}>
+                  {student.fullName} ({student.studentId})
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12.5, fontWeight: 600, color: "#cbd5e1" }}>
+            Published Course
+            <select
+              name="courseId"
+              required
+              onChange={(e) => {
+                const course = courses.find((c) => c._id === e.target.value);
+                if (course) {
+                  setSelectedCourseFee(course.monthlyFee);
+                }
+              }}
+              style={{
+                height: 44,
+                borderRadius: 10,
+                background: "#070b24",
+                border: "1px solid rgba(255, 255, 255, 0.12)",
+                color: "#ffffff",
+                padding: "0 12px",
+                fontSize: 13,
+                cursor: "pointer",
+              }}
+            >
+              <option value="">Select a published course</option>
+              {courses.map((course) => (
+                <option key={course._id} value={course._id}>
+                  {course.title} (₹{course.monthlyFee.toLocaleString("en-IN")}/mo)
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12.5, fontWeight: 600, color: "#cbd5e1" }}>
+            Batch Timing / Group
+            <input
+              name="batch"
+              minLength={2}
+              required
+              placeholder="e.g. Weekday Evening (6:00 PM - 8:00 PM)"
+              style={{
+                height: 44,
+                borderRadius: 10,
+                background: "#070b24",
+                border: "1px solid rgba(255, 255, 255, 0.12)",
+                color: "#ffffff",
+                padding: "0 14px",
+                fontSize: 13,
+              }}
+            />
+          </label>
+
+          <label style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12.5, fontWeight: 600, color: "#cbd5e1" }}>
+            Joining Date
+            <input
+              name="joiningDate"
+              type="date"
+              required
+              defaultValue={new Date().toISOString().split("T")[0]}
+              style={{
+                height: 44,
+                borderRadius: 10,
+                background: "#070b24",
+                border: "1px solid rgba(255, 255, 255, 0.12)",
+                color: "#ffffff",
+                padding: "0 14px",
+                fontSize: 13,
+              }}
+            />
+          </label>
+
+          <label style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12.5, fontWeight: 600, color: "#cbd5e1" }}>
+            Agreed Monthly Fee (₹)
+            <input
+              name="agreedMonthlyFee"
+              type="number"
+              min="0"
+              required
+              value={selectedCourseFee !== "" ? selectedCourseFee : undefined}
+              onChange={(e) => setSelectedCourseFee(e.target.value === "" ? "" : Number(e.target.value))}
+              placeholder="e.g. 5000"
+              style={{
+                height: 44,
+                borderRadius: 10,
+                background: "#070b24",
+                border: "1px solid rgba(255, 255, 255, 0.12)",
+                color: "#ffffff",
+                padding: "0 14px",
+                fontSize: 13,
+              }}
+            />
+          </label>
+
+          <div style={{ display: "flex", alignItems: "flex-end" }}>
+            <button
+              type="submit"
+              disabled={submitting}
+              style={{
+                height: 44,
+                width: "100%",
+                borderRadius: 10,
+                background: "linear-gradient(135deg, #7c3aed, #9333ea)",
+                color: "#ffffff",
+                border: "1px solid rgba(255, 255, 255, 0.15)",
+                boxShadow: "0 6px 18px rgba(124, 58, 237, 0.4)",
+                fontSize: 14,
+                fontWeight: 700,
+                cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 8,
+              }}
+            >
+              <UserCheck size={16} /> {submitting ? "Enrolling..." : "Create Enrollment"}
+            </button>
+          </div>
+        </form>
+      </section>
+
+      {/* 3. Existing Enrollments Card */}
+      <section
+        style={{
+          background: "#0a0f32",
+          border: "1px solid rgba(255, 255, 255, 0.08)",
+          borderRadius: 16,
+          overflow: "hidden",
+          boxShadow: "0 14px 35px rgba(0, 0, 0, 0.35)",
+        }}
+      >
+        <div
+          style={{
+            padding: "18px 24px",
+            borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(16, 185, 129, 0.15)", color: "#34d399", display: "grid", placeItems: "center" }}>
+              <BookOpen size={18} />
             </div>
             <div>
-              <b>{enrollment.courseTitleSnapshot}</b>
-              <small>{enrollment.batch}</small>
+              <h2 style={{ margin: 0, fontSize: 16, color: "#ffffff", fontFamily: "var(--font-heading)" }}>
+                Existing Active Enrollments
+              </h2>
+              <span style={{ fontSize: 12, color: "#94a3b8" }}>
+                Students actively enrolled in institute batches
+              </span>
             </div>
-            <div>
-              <b>Rs. {enrollment.agreedMonthlyFee.toLocaleString("en-IN")}</b>
-              <small>monthly fee</small>
-            </div>
-            <em className={`status-${enrollment.status}`}>{enrollment.status}</em>
-          </article>
-        ))}
-        {!enrollments.length && <p className="dashboard-empty">No enrollments have been created yet.</p>}
+          </div>
+
+          <span
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: 12,
+              fontWeight: 700,
+              padding: "4px 10px",
+              borderRadius: 20,
+              background: "rgba(255, 255, 255, 0.05)",
+              color: "#cbd5e1",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+            }}
+          >
+            {enrollments.length} Total
+          </span>
+        </div>
+
+        {enrollments.length > 0 ? (
+          <div style={{ overflowX: "auto" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: 13 }}>
+              <thead>
+                <tr style={{ background: "#070b24", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>
+                  <th style={{ padding: "12px 20px", color: "#94a3b8", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Student</th>
+                  <th style={{ padding: "12px 16px", color: "#94a3b8", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Course & Batch</th>
+                  <th style={{ padding: "12px 16px", color: "#94a3b8", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Agreed Fee</th>
+                  <th style={{ padding: "12px 16px", color: "#94a3b8", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Joining Date</th>
+                  <th style={{ padding: "12px 20px", color: "#94a3b8", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {enrollments.map((enrollment) => (
+                  <tr key={enrollment._id} style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)" }}>
+                    <td style={{ padding: "14px 20px" }}>
+                      <b style={{ color: "#ffffff", fontSize: 13.5, display: "block" }}>
+                        {enrollment.studentId?.fullName ?? "Student"}
+                      </b>
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "#94a3b8" }}>
+                        {enrollment.studentId?.studentId ?? "N/A"}
+                      </span>
+                    </td>
+
+                    <td style={{ padding: "14px 16px" }}>
+                      <b style={{ color: "#e2e8f0", fontSize: 13, display: "block" }}>{enrollment.courseTitleSnapshot}</b>
+                      <span style={{ color: "#a855f7", fontSize: 11.5 }}>{enrollment.batch}</span>
+                    </td>
+
+                    <td style={{ padding: "14px 16px" }}>
+                      <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, color: "#34d399", fontSize: 13 }}>
+                        ₹{enrollment.agreedMonthlyFee.toLocaleString("en-IN")}
+                      </span>
+                      <small style={{ display: "block", color: "#64748b", fontSize: 10.5 }}>monthly fee</small>
+                    </td>
+
+                    <td style={{ padding: "14px 16px", color: "#94a3b8", fontSize: 12 }}>
+                      {enrollment.joiningDate}
+                    </td>
+
+                    <td style={{ padding: "14px 20px" }}>
+                      <span
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 700,
+                          textTransform: "uppercase",
+                          padding: "3px 8px",
+                          borderRadius: 5,
+                          background: enrollment.status === "active" ? "rgba(16, 185, 129, 0.15)" : "rgba(148, 163, 184, 0.15)",
+                          color: enrollment.status === "active" ? "#34d399" : "#cbd5e1",
+                          border: `1px solid ${enrollment.status === "active" ? "rgba(16, 185, 129, 0.3)" : "rgba(148, 163, 184, 0.3)"}`,
+                        }}
+                      >
+                        {enrollment.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div style={{ padding: "36px 24px", textAlign: "center", color: "#64748b", fontSize: 13 }}>
+            No enrollments have been created yet. Use the form above to enroll a student.
+          </div>
+        )}
       </section>
     </main>
   );

@@ -639,7 +639,7 @@ export default function CoursesPage() {
             <div className="cta-contact-chips">
               <div className="contact-chip">
                 <MapPin size={15} color="#38bdf8" />
-                <span>Elite Coding School, Main Market Road, Near Metro</span>
+                <span>Vijay Nagar Bypass, Bagu</span>
               </div>
               <div className="contact-chip">
                 <Clock size={15} color="#10b981" />
@@ -647,7 +647,7 @@ export default function CoursesPage() {
               </div>
               <div className="contact-chip">
                 <Phone size={15} color="#c084fc" />
-                <span>Center Helpline: +91 98765 43210</span>
+                <span>Center Helpline: +91 9311278407</span>
               </div>
             </div>
           </div>
@@ -690,7 +690,7 @@ export default function CoursesPage() {
               <a className="social-btn" href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
                 <Globe size={17} />
               </a>
-              <a className="social-btn" href="mailto:admissions@elitecodingschool.com" aria-label="Email">
+              <a className="social-btn" href="mailto:bbhupender100@gmail.com" aria-label="Email">
                 <Mail size={17} />
               </a>
             </div>
@@ -704,7 +704,7 @@ export default function CoursesPage() {
               </p>
               <div className="footer-address-card">
                 <strong>📍 Center Location:</strong>
-                Elite Coding School, Main Market Road, Near Metro Station.
+                Vijay Nagar Bypass, Bagu
                 <br />
                 <span style={{ color: "#34d399", fontWeight: 600, display: "block", marginTop: "6px" }}>
                   ● Walk-ins &amp; Demo Classes welcome Mon-Sat (9 AM - 7 PM)
@@ -774,11 +774,11 @@ export default function CoursesPage() {
               <ul className="footer-contact-list">
                 <li>
                   <Phone size={15} />
-                  <span>+91 98765 43210 (Admissions Desk)</span>
+                  <span>+91 9311278407 (Admissions Desk)</span>
                 </li>
                 <li>
                   <Mail size={15} />
-                  <span>admissions@elitecodingschool.com</span>
+                  <span>bbhupender100@gmail.com</span>
                 </li>
                 <li>
                   <Clock size={15} />
@@ -786,7 +786,7 @@ export default function CoursesPage() {
                 </li>
                 <li>
                   <Building2 size={15} />
-                  <span>Near Metro Station Walkway</span>
+                  <span>Vijay Nagar Bypass, Bagu</span>
                 </li>
               </ul>
             </div>

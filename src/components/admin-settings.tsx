@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import { CheckCircle2, AlertCircle, X } from "lucide-react";
 
 type Settings = {
   instituteName: string;
@@ -16,7 +17,7 @@ type Settings = {
 
 export function AdminSettings() {
   const [settings, setSettings] = useState<Settings | null>(null);
-  const [message, setMessage] = useState("");
+  const [toast, setToast] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ export function AdminSettings() {
         if (!response.ok) throw new Error(body.error?.message ?? "Could not load settings.");
         setSettings(body.data.settings);
       })
-      .catch((reason: Error) => setMessage(reason.message));
+      .catch((reason: Error) => setToast({ type: "error", text: reason.message }));
   }, []);
 
   async function save(event: FormEvent<HTMLFormElement>) {
@@ -34,7 +35,7 @@ export function AdminSettings() {
     if (!settings) return;
     const form = new FormData(event.currentTarget);
     setSaving(true);
-    setMessage("");
+    setToast(null);
     try {
       const response = await fetch("/api/admin/settings", {
         method: "PATCH",
@@ -58,9 +59,12 @@ export function AdminSettings() {
       const body = await response.json();
       if (!response.ok) throw new Error(body.error?.message ?? "Could not save settings.");
       setSettings(body.data.settings);
-      setMessage("Public institute information updated.");
+      setToast({ type: "success", text: "Public institute information updated successfully." });
     } catch (reason) {
-      setMessage(reason instanceof Error ? reason.message : "Could not save settings.");
+      setToast({
+        type: "error",
+        text: reason instanceof Error ? reason.message : "Could not save settings.",
+      });
     } finally {
       setSaving(false);
     }
@@ -85,7 +89,57 @@ export function AdminSettings() {
           <p>These details appear across the public website, including the About and Contact pages.</p>
         </div>
       </div>
-      {message && <p className="form-success">{message}</p>}
+
+      {toast && (
+        <div
+          role="alert"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 12,
+            padding: "13px 20px",
+            borderRadius: 12,
+            marginBottom: 24,
+            fontSize: "13.5px",
+            fontWeight: 600,
+            background: toast.type === "success" ? "rgba(16, 185, 129, 0.15)" : "rgba(239, 68, 68, 0.15)",
+            border: `1px solid ${toast.type === "success" ? "rgba(16, 185, 129, 0.4)" : "rgba(239, 68, 68, 0.4)"}`,
+            color: toast.type === "success" ? "#34d399" : "#fca5a5",
+            boxShadow:
+              toast.type === "success"
+                ? "0 4px 18px rgba(16, 185, 129, 0.2)"
+                : "0 4px 18px rgba(239, 68, 68, 0.2)",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            {toast.type === "success" ? (
+              <CheckCircle2 size={18} color="#34d399" style={{ flexShrink: 0 }} />
+            ) : (
+              <AlertCircle size={18} color="#f87171" style={{ flexShrink: 0 }} />
+            )}
+            <span>{toast.text}</span>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setToast(null)}
+            style={{
+              background: "transparent",
+              border: 0,
+              color: toast.type === "success" ? "#34d399" : "#fca5a5",
+              cursor: "pointer",
+              padding: 4,
+              display: "grid",
+              placeItems: "center",
+              opacity: 0.8,
+            }}
+            title="Dismiss notification"
+          >
+            <X size={15} />
+          </button>
+        </div>
+      )}
       <form className="course-form" onSubmit={save}>
         <label>
           Institute name

@@ -38,6 +38,10 @@ export const courseSchema = z.object({
     .int("Monthly fee must be a whole number.")
     .min(0, "Monthly fee cannot be negative.")
     .max(1_999, "Monthly fee must be below ₹2,000."),
+  track: z.enum(["web", "dsa", "systems", "core"]).default("web"),
+  trackLabel: z.string().trim().max(60).default(""),
+  labHours: z.string().trim().max(60).default("90+ Class Hours"),
+  perks: z.array(z.string().max(200)).default([]),
   prerequisites: z.array(z.string().max(120)).default([]),
   skills: z.array(z.string().max(120)).default([]),
   syllabus: z
@@ -51,8 +55,8 @@ export const courseSchema = z.object({
     )
     .max(50)
     .default([]),
-  thumbnailUrl: z.url().nullable().optional(),
-  heroImageUrl: z.url().nullable().optional(),
+  thumbnailUrl: z.string().trim().nullable().optional(),
+  heroImageUrl: z.string().trim().nullable().optional(),
   isFeatured: z.boolean().default(false),
   order: z.number().int().min(0).default(0),
   version: z.number().int().nonnegative().optional(),

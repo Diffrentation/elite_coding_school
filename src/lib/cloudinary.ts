@@ -19,6 +19,19 @@ export function uploadProfileImage(buffer: Buffer, userId: string) {
     stream.end(buffer);
   });
 }
+
+export function uploadAdminAsset(buffer: Buffer, folder: string) {
+  return new Promise<{ secure_url: string; public_id: string }>((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: `elite-coding-school/${folder}`,
+        resource_type: "image",
+      },
+      (error, result) => (error || !result ? reject(error ?? new Error("Upload failed")) : resolve(result)),
+    );
+    stream.end(buffer);
+  });
+}
 export async function deleteImage(publicId?: string | null) {
   if (publicId) await cloudinary.uploader.destroy(publicId, { resource_type: "image" });
 }
