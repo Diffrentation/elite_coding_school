@@ -13,7 +13,18 @@ import {
   UserCheck,
   CheckCircle2,
   AlertCircle,
+  Search,
+  Filter,
 } from "lucide-react";
+import { CustomSelect, type CustomSelectOption } from "./ui/custom-select";
+import { AgTable, type AgColumn } from "./ui/ag-table";
+
+const ENROLLMENT_STATUS_OPTIONS: CustomSelectOption[] = [
+  { value: "all", label: "All Enrollment Statuses" },
+  { value: "active", label: "Active Enrollments" },
+  { value: "completed", label: "Completed" },
+  { value: "paused", label: "Paused" },
+];
 
 type Student = { _id: string; fullName: string; studentId: string };
 type Course = { _id: string; title: string; monthlyFee: number; status: string };
@@ -50,6 +61,8 @@ export function AdminEnrollments() {
   const [submitting, setSubmitting] = useState(false);
   const [processingId, setProcessingId] = useState("");
   const [selectedCourseFee, setSelectedCourseFee] = useState<number | "">("");
+  const [searchFilter, setSearchFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const load = () =>
     Promise.all([
@@ -119,6 +132,95 @@ export function AdminEnrollments() {
   }
 
   const pendingRequests = enrollmentRequests.filter((item) => item.status === "pending");
+
+  const enrollmentColumns: AgColumn<Enrollment>[] = [
+    {
+      key: "student",
+      header: "Student Profile",
+      sortable: true,
+      accessor: (e) => e.studentId?.fullName ?? "",
+      render: (enrollment) => (
+        <div>
+          <b style={{ color: "#ffffff", fontSize: 13.5, display: "block" }}>
+            {enrollment.studentId?.fullName ?? "Student"}
+          </b>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "#94a3b8" }}>
+            #{enrollment.studentId?.studentId ?? "N/A"}
+          </span>
+        </div>
+      ),
+    },
+    {
+      key: "course",
+      header: "Course & Batch",
+      sortable: true,
+      accessor: (e) => e.courseTitleSnapshot,
+      render: (enrollment) => (
+        <div>
+          <b style={{ color: "#e2e8f0", fontSize: 13, display: "block" }}>
+            {enrollment.courseTitleSnapshot}
+          </b>
+          <span style={{ color: "#a855f7", fontSize: 11.5 }}>{enrollment.batch}</span>
+        </div>
+      ),
+    },
+    {
+      key: "agreedMonthlyFee",
+      header: "Agreed Fee",
+      sortable: true,
+      render: (enrollment) => (
+        <div>
+          <span
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontWeight: 700,
+              color: "#34d399",
+              fontSize: 13,
+            }}
+          >
+            ₹{enrollment.agreedMonthlyFee.toLocaleString("en-IN")}
+          </span>
+          <small style={{ display: "block", color: "#64748b", fontSize: 10.5 }}>monthly fee</small>
+        </div>
+      ),
+    },
+    {
+      key: "joiningDate",
+      header: "Joining Date",
+      sortable: true,
+      render: (enrollment) => (
+        <span style={{ color: "#94a3b8", fontSize: 12 }}>{enrollment.joiningDate}</span>
+      ),
+    },
+    {
+      key: "status",
+      header: "Status",
+      sortable: true,
+      render: (enrollment) => (
+        <span
+          style={{
+            fontSize: 11,
+            fontWeight: 700,
+            textTransform: "uppercase",
+            padding: "3px 8px",
+            borderRadius: 5,
+            background:
+              enrollment.status === "active"
+                ? "rgba(16, 185, 129, 0.15)"
+                : "rgba(148, 163, 184, 0.15)",
+            color: enrollment.status === "active" ? "#34d399" : "#cbd5e1",
+            border: `1px solid ${
+              enrollment.status === "active"
+                ? "rgba(16, 185, 129, 0.3)"
+                : "rgba(148, 163, 184, 0.3)"
+            }`,
+          }}
+        >
+          {enrollment.status}
+        </span>
+      ),
+    },
+  ];
 
   return (
     <main className="portal-content admin-enrollments-page" style={{ maxWidth: 1200, margin: "0 auto", padding: "28px" }}>
@@ -465,122 +567,33 @@ export function AdminEnrollments() {
         </form>
       </section>
 
-      {/* 3. Existing Enrollments Card */}
-      <section
-        style={{
-          background: "#0a0f32",
-          border: "1px solid rgba(255, 255, 255, 0.08)",
-          borderRadius: 16,
-          overflow: "hidden",
-          boxShadow: "0 14px 35px rgba(0, 0, 0, 0.35)",
-        }}
-      >
-        <div
-          style={{
-            padding: "18px 24px",
-            borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(16, 185, 129, 0.15)", color: "#34d399", display: "grid", placeItems: "center" }}>
-              <BookOpen size={18} />
-            </div>
-            <div>
-              <h2 style={{ margin: 0, fontSize: 16, color: "#ffffff", fontFamily: "var(--font-heading)" }}>
-                Existing Active Enrollments
-              </h2>
-              <span style={{ fontSize: 12, color: "#94a3b8" }}>
-                Students actively enrolled in institute batches
-              </span>
-            </div>
-          </div>
-
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 12,
-              fontWeight: 700,
-              padding: "4px 10px",
-              borderRadius: 20,
-              background: "rgba(255, 255, 255, 0.05)",
-              color: "#cbd5e1",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-            }}
-          >
-            {enrollments.length} Total
-          </span>
-        </div>
-
-        {enrollments.length > 0 ? (
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: 13 }}>
-              <thead>
-                <tr style={{ background: "#070b24", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>
-                  <th style={{ padding: "12px 20px", color: "#94a3b8", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Student</th>
-                  <th style={{ padding: "12px 16px", color: "#94a3b8", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Course & Batch</th>
-                  <th style={{ padding: "12px 16px", color: "#94a3b8", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Agreed Fee</th>
-                  <th style={{ padding: "12px 16px", color: "#94a3b8", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Joining Date</th>
-                  <th style={{ padding: "12px 20px", color: "#94a3b8", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {enrollments.map((enrollment) => (
-                  <tr key={enrollment._id} style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)" }}>
-                    <td style={{ padding: "14px 20px" }}>
-                      <b style={{ color: "#ffffff", fontSize: 13.5, display: "block" }}>
-                        {enrollment.studentId?.fullName ?? "Student"}
-                      </b>
-                      <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "#94a3b8" }}>
-                        {enrollment.studentId?.studentId ?? "N/A"}
-                      </span>
-                    </td>
-
-                    <td style={{ padding: "14px 16px" }}>
-                      <b style={{ color: "#e2e8f0", fontSize: 13, display: "block" }}>{enrollment.courseTitleSnapshot}</b>
-                      <span style={{ color: "#a855f7", fontSize: 11.5 }}>{enrollment.batch}</span>
-                    </td>
-
-                    <td style={{ padding: "14px 16px" }}>
-                      <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, color: "#34d399", fontSize: 13 }}>
-                        ₹{enrollment.agreedMonthlyFee.toLocaleString("en-IN")}
-                      </span>
-                      <small style={{ display: "block", color: "#64748b", fontSize: 10.5 }}>monthly fee</small>
-                    </td>
-
-                    <td style={{ padding: "14px 16px", color: "#94a3b8", fontSize: 12 }}>
-                      {enrollment.joiningDate}
-                    </td>
-
-                    <td style={{ padding: "14px 20px" }}>
-                      <span
-                        style={{
-                          fontSize: 11,
-                          fontWeight: 700,
-                          textTransform: "uppercase",
-                          padding: "3px 8px",
-                          borderRadius: 5,
-                          background: enrollment.status === "active" ? "rgba(16, 185, 129, 0.15)" : "rgba(148, 163, 184, 0.15)",
-                          color: enrollment.status === "active" ? "#34d399" : "#cbd5e1",
-                          border: `1px solid ${enrollment.status === "active" ? "rgba(16, 185, 129, 0.3)" : "rgba(148, 163, 184, 0.3)"}`,
-                        }}
-                      >
-                        {enrollment.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <div style={{ padding: "36px 24px", textAlign: "center", color: "#64748b", fontSize: 13 }}>
-            No enrollments have been created yet. Use the form above to enroll a student.
-          </div>
-        )}
-      </section>
+      {/* 3. Existing Enrollments Section */}
+      <AgTable<Enrollment>
+        breadcrumbs={["Admin", "Admissions", "Student Enrollments"]}
+        statusTabs={[
+          { key: "all", label: "All Enrollments", count: enrollments.length },
+          { key: "active", label: "Active", count: enrollments.filter((e) => e.status === "active").length },
+          { key: "completed", label: "Completed", count: enrollments.filter((e) => e.status === "completed").length },
+          { key: "paused", label: "Paused", count: enrollments.filter((e) => e.status === "paused").length },
+        ]}
+        activeStatusTab={statusFilter}
+        onStatusTabChange={(tabKey) => setStatusFilter(tabKey)}
+        columns={enrollmentColumns}
+        data={enrollments.filter((e) => statusFilter === "all" || e.status === statusFilter)}
+        title="Existing Student Enrollments"
+        subtitle="Manage actively enrolled classroom batch students, schedules, and locked fee snapshot"
+        searchPlaceholder="Search enrollments by student name, ID, course, or batch..."
+        searchAccessor={(e) => `${e.studentId?.fullName ?? ""} ${e.studentId?.studentId ?? ""} ${e.courseTitleSnapshot} ${e.batch}`}
+        filterOptions={ENROLLMENT_STATUS_OPTIONS}
+        filterValue={statusFilter}
+        onFilterChange={(val) => setStatusFilter(val)}
+        filterPlaceholder="Any status"
+        initialPageSize={10}
+        emptyMessage="No student enrollments found."
+        getRowId={(e) => e._id}
+        onRefresh={load}
+        exportFilename="student-enrollments"
+      />
     </main>
   );
 }

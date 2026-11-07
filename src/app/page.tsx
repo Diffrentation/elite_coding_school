@@ -40,6 +40,8 @@ type HeroBanner = {
   description: string;
   ctaLabel: string;
   ctaUrl: string;
+  desktopImageUrl?: string | null;
+  mobileImageUrl?: string | null;
 };
 
 type SessionUser = { role: "admin" | "student" } | null;
@@ -252,7 +254,19 @@ export default function Home() {
       <Navbar activePage="home" />
 
       {/* 2. HERO SECTION */}
-      <section className="hero-shell" id="home">
+      <section
+        className="hero-shell"
+        id="home"
+        style={
+          banner?.desktopImageUrl
+            ? {
+                backgroundImage: `linear-gradient(90deg, rgba(6, 9, 30, 0.92) 0%, rgba(6, 9, 30, 0.82) 38%, rgba(6, 9, 30, 0.55) 67%, rgba(6, 9, 30, 0.72) 100%), linear-gradient(180deg, rgba(6, 9, 30, 0.15), rgba(6, 9, 30, 0.6)), url("${banner.desktopImageUrl}")`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+              }
+            : undefined
+        }
+      >
         <div className="hero-grid">
           {/* Left Column: Hero Copy */}
           <div className="hero-copy">

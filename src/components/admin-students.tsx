@@ -21,7 +21,33 @@ import {
   RefreshCw,
   ExternalLink,
   ChevronDown,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
 } from "lucide-react";
+import { CustomSelect, type CustomSelectOption } from "./ui/custom-select";
+import { AgTable, type AgColumn } from "./ui/ag-table";
+
+const ADMISSION_FILTER_OPTIONS: CustomSelectOption[] = [
+  { value: "", label: "All Admission Statuses" },
+  { value: "approved", label: "Approved & Enrolled" },
+  { value: "pending", label: "Pending Review" },
+  { value: "not_enrolled", label: "Not Enrolled" },
+  { value: "rejected", label: "Rejected" },
+];
+
+const ADMISSION_STATUS_OPTIONS: CustomSelectOption[] = [
+  { value: "pending", label: "Pending" },
+  { value: "approved", label: "Approved" },
+  { value: "not_enrolled", label: "Not Enrolled" },
+  { value: "rejected", label: "Rejected" },
+];
+
+const INQUIRY_STATUS_OPTIONS: CustomSelectOption[] = [
+  { value: "new", label: "New (Needs Follow-up)" },
+  { value: "contacted", label: "Contacted / Call Done" },
+  { value: "closed", label: "Closed / Enrolled" },
+];
 
 type Student = {
   _id: string;
@@ -61,6 +87,15 @@ export function AdminStudents() {
   const [inquiryFilter, setInquiryFilter] = useState<string>("all");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+
+  function handleSort(field: string) {
+    if (sortBy === field) {
+      setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+    } else {
+      setSortBy(field);
+      setSortDirection("asc");
+    }
+  }
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState<Pagination>({ page: 1, total: 0, totalPages: 0 });
   const [error, setError] = useState("");
@@ -170,6 +205,219 @@ export function AdminStudents() {
   // Summary Metrics
   const enrolledCount = students.filter((s) => s.admissionStatus === "approved").length;
   const pendingCount = students.filter((s) => s.admissionStatus === "pending").length;
+  const studentColumns: AgColumn<Student>[] = [
+    {
+      key: "fullName",
+      header: "Student Profile",
+      sortable: true,
+      render: (student) => {
+        const initials = student.fullName
+          .split(" ")
+          .map((p) => p[0])
+          .join("")
+          .slice(0, 2)
+          .toUpperCase();
+        return (
+          <div className="student-profile-cell">
+            <span className="profile-avatar">{initials}</span>
+            <div className="profile-text">
+              <strong className="profile-name">{student.fullName}</strong>
+              <small className="profile-email">{student.userId?.email ?? "No login email"}</small>
+            </div>
+          </div>
+        );
+      },
+    },
+    {
+      key: "studentId",
+      header: "Student ID",
+      sortable: true,
+      render: (student) => <span className="student-id-badge">#{student.studentId}</span>,
+    },
+    {
+      key: "accountStatus",
+      header: "Login Status",
+      sortable: false,
+      render: (student) => {
+        const isVerified = Boolean(student.userId?.emailVerifiedAt);
+        const accountStatus = student.userId?.accountStatus ?? "pending";
+        return (
+          <div className="status-meta-cell">
+            <span className={`status-badge account-${accountStatus}`}>{accountStatus} account</span>
+            <span className={`verify-badge ${isVerified ? "verified" : "unverified"}`}>
+              {isVerified ? "✓ Email Verified" : "⏳ Unverified"}
+            </span>
+          </div>
+        );
+      },
+    },
+    {
+      key: "phone",
+      header: "Phone & Contact",
+      sortable: false,
+      render: (student) => (
+        <div className="phone-cell">
+          <span>{student.phone}</span>
+          <div className="phone-quick-actions">
+            <a href={`tel:${student.phone}`} className="quick-icon-btn" title="Call student" aria-label="Call student">
+              <Phone size={13} />
+            </a>
+            <a
+              href={`https://wa.me/91${student.phone.replace(/[^0-9]/g, "")}`}
+              target="_blank"
+              rel="noreferrer"
+              className="quick-icon-btn whatsapp"
+              title="WhatsApp student"
+              aria-label="WhatsApp student"
+            >
+              <MessageCircle size={13} />
+            </a>
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: "admissionStatus",
+      header: "Admission Status",
+      sortable: true,
+      render: (student) => (
+        <CustomSelect
+          size="sm"
+          variant="status-pill"
+          options={ADMISSION_STATUS_OPTIONS}
+          disabled={updatingId === student._id}
+          value={student.admissionStatus}
+          onChange={(val) => updateStudentStatus(student._id, val)}
+        />
+      ),
+    },
+    {
+      key: "registrationDate",
+      header: "Registered On",
+      sortable: true,
+      render: (student) => (
+        <time className="date-cell">
+          {new Intl.DateTimeFormat("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          }).format(new Date(student.registrationDate))}
+        </time>
+      ),
+    },
+    {
+      key: "actions",
+      header: "Actions",
+      sortable: false,
+      render: (student) => (
+        <button
+          type="button"
+          className="view-dossier-btn"
+          onClick={() => setSelectedStudent(student)}
+        >
+          <Eye size={14} />
+          <span>Details</span>
+        </button>
+      ),
+    },
+  ];
+
+  const inquiryColumns: AgColumn<Inquiry>[] = [
+    {
+      key: "fullName",
+      header: "Lead Profile",
+      sortable: true,
+      render: (inq) => {
+        const isDemo = inq.type === "demo";
+        return (
+          <div>
+            <strong style={{ color: "#ffffff", fontSize: 13.5, display: "block" }}>{inq.fullName}</strong>
+            <span className={`lead-type-badge ${isDemo ? "type-demo" : "type-admission"}`}>
+              {isDemo ? "Free Demo Class" : "Admission Counseling"}
+            </span>
+          </div>
+        );
+      },
+    },
+    {
+      key: "phone",
+      header: "Contact Channels",
+      sortable: false,
+      render: (inq) => (
+        <div className="phone-cell">
+          <a href={`tel:${inq.phone}`} style={{ color: "#38bdf8", fontWeight: 600, fontSize: 12.5 }}>
+            {inq.phone}
+          </a>
+          <div className="phone-quick-actions">
+            <a
+              href={`https://wa.me/91${inq.phone.replace(/[^0-9]/g, "")}?text=Hi%20${encodeURIComponent(inq.fullName)},%20greetings%20from%20Elite%20Coding%20School.`}
+              target="_blank"
+              rel="noreferrer"
+              className="quick-icon-btn whatsapp"
+              title="WhatsApp lead"
+            >
+              <MessageCircle size={13} />
+            </a>
+            <a href={`mailto:${inq.email}`} className="quick-icon-btn" title="Email lead">
+              <Mail size={13} />
+            </a>
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: "interestedCourse",
+      header: "Program of Interest",
+      sortable: true,
+      render: (inq) => (
+        <span style={{ color: "#e2e8f0", fontWeight: 600, fontSize: 12.5 }}>
+          {inq.interestedCourse || "General Inquiry"}
+        </span>
+      ),
+    },
+    {
+      key: "message",
+      header: "Student Message",
+      sortable: false,
+      render: (inq) => (
+        <p style={{ margin: 0, color: "#94a3b8", fontSize: 12, maxWidth: 260, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={inq.message}>
+          {inq.message || "—"}
+        </p>
+      ),
+    },
+    {
+      key: "createdAt",
+      header: "Submitted On",
+      sortable: true,
+      render: (inq) => (
+        <time className="date-cell">
+          {new Intl.DateTimeFormat("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          }).format(new Date(inq.createdAt))}
+        </time>
+      ),
+    },
+    {
+      key: "status",
+      header: "Follow-up Status",
+      sortable: true,
+      render: (inq) => (
+        <CustomSelect
+          size="sm"
+          variant="status-pill"
+          options={INQUIRY_STATUS_OPTIONS}
+          disabled={updatingId === inq._id}
+          value={inq.status}
+          onChange={(val) => updateInquiryStatus(inq._id, val as "new" | "contacted" | "closed")}
+        />
+      ),
+    },
+  ];
+
   const newInquiriesCount = inquiries.filter((i) => i.status === "new").length;
 
   return (
@@ -268,298 +516,77 @@ export function AdminStudents() {
       {/* TAB 1: REGISTERED STUDENTS */}
       {activeTab === "students" && (
         <section className="students-tab-content">
-          {/* Search & Filter Bar */}
-          <form className="student-tools-bar" onSubmit={submitSearch}>
-            <div className="search-input-wrap">
-              <Search size={16} className="search-icon" />
-              <input
-                aria-label="Search students"
-                placeholder="Search by student name, ID, email, or mobile..."
-                value={searchDraft}
-                onChange={(e) => setSearchDraft(e.target.value)}
-              />
-              {searchDraft && (
-                <button type="button" className="clear-btn" onClick={() => { setSearchDraft(""); setSearch(""); }}>
-                  <X size={15} />
-                </button>
-              )}
-            </div>
-
-            <div className="filter-select-wrap">
-              <Filter size={15} className="filter-icon" />
-              <select
-                aria-label="Filter by Admission Status"
-                value={admissionStatus}
-                onChange={(e) => {
-                  setPage(1);
-                  setAdmissionStatus(e.target.value);
-                }}
-              >
-                <option value="">All Admission Statuses</option>
-                <option value="approved">Approved &amp; Enrolled</option>
-                <option value="pending">Pending Review</option>
-                <option value="not_enrolled">Not Enrolled</option>
-                <option value="rejected">Rejected</option>
-              </select>
-            </div>
-
-            <button className="button primary search-btn" type="submit">
-              Search
-            </button>
-          </form>
-
-          {/* Table Container */}
-          <div className="table-responsive-container">
-            <table className="modern-data-table" aria-label="Student records">
-              <thead>
-                <tr>
-                  <th>Student Profile</th>
-                  <th>Student ID</th>
-                  <th>Login &amp; Email Status</th>
-                  <th>Phone Number</th>
-                  <th>Admission Status</th>
-                  <th>Registered On</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {students.map((student) => {
-                  const initials = student.fullName
-                    .split(" ")
-                    .map((p) => p[0])
-                    .join("")
-                    .slice(0, 2)
-                    .toUpperCase();
-                  const isVerified = Boolean(student.userId?.emailVerifiedAt);
-                  const accountStatus = student.userId?.accountStatus ?? "pending";
-
-                  return (
-                    <tr key={student._id}>
-                      <td>
-                        <div className="student-profile-cell">
-                          <span className="profile-avatar">{initials}</span>
-                          <div className="profile-text">
-                            <strong className="profile-name">{student.fullName}</strong>
-                            <small className="profile-email">{student.userId?.email ?? "No login email"}</small>
-                          </div>
-                        </div>
-                      </td>
-
-                      <td>
-                        <span className="student-id-badge">#{student.studentId}</span>
-                      </td>
-
-                      <td>
-                        <div className="status-meta-cell">
-                          <span className={`status-badge account-${accountStatus}`}>
-                            {accountStatus} account
-                          </span>
-                          <span className={`verify-badge ${isVerified ? "verified" : "unverified"}`}>
-                            {isVerified ? "✓ Email Verified" : "⏳ Unverified"}
-                          </span>
-                        </div>
-                      </td>
-
-                      <td>
-                        <div className="phone-cell">
-                          <span>{student.phone}</span>
-                          <div className="phone-quick-actions">
-                            <a
-                              href={`tel:${student.phone}`}
-                              className="quick-icon-btn"
-                              title="Call student"
-                              aria-label="Call student"
-                            >
-                              <Phone size={13} />
-                            </a>
-                            <a
-                              href={`https://wa.me/91${student.phone.replace(/[^0-9]/g, "")}`}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="quick-icon-btn whatsapp"
-                              title="WhatsApp message"
-                              aria-label="WhatsApp student"
-                            >
-                              <MessageCircle size={13} />
-                            </a>
-                          </div>
-                        </div>
-                      </td>
-
-                      <td>
-                        <select
-                          className={`admission-select status-${student.admissionStatus}`}
-                          disabled={updatingId === student._id}
-                          value={student.admissionStatus}
-                          onChange={(e) => updateStudentStatus(student._id, e.target.value)}
-                        >
-                          <option value="not_enrolled">Not Enrolled</option>
-                          <option value="pending">Pending</option>
-                          <option value="approved">Approved</option>
-                          <option value="rejected">Rejected</option>
-                        </select>
-                      </td>
-
-                      <td>
-                        <time className="date-cell">
-                          {new Intl.DateTimeFormat("en-IN", {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                          }).format(new Date(student.registrationDate))}
-                        </time>
-                      </td>
-
-                      <td>
-                        <button
-                          type="button"
-                          className="view-dossier-btn"
-                          onClick={() => setSelectedStudent(student)}
-                        >
-                          <Eye size={14} />
-                          <span>Details</span>
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-
-            {!students.length && (
-              <div className="dashboard-empty-card">
-                <Users size={36} />
-                <p>No student records match the specified filters.</p>
-              </div>
-            )}
-          </div>
-
-          {/* Pagination */}
-          {pagination.totalPages > 1 && (
-            <nav className="pagination-bar" aria-label="Student table pagination">
-              <button
-                className="page-btn"
-                disabled={page <= 1}
-                onClick={() => setPage((current) => current - 1)}
-              >
-                Previous
-              </button>
-              <span className="page-indicator">
-                Page {pagination.page} of {pagination.totalPages} ({pagination.total} records)
-              </span>
-              <button
-                className="page-btn"
-                disabled={page >= pagination.totalPages}
-                onClick={() => setPage((current) => current + 1)}
-              >
-                Next
-              </button>
-            </nav>
-          )}
+          <AgTable<Student>
+            breadcrumbs={["Admin", "Admissions", "Registered Students"]}
+            statusTabs={[
+              { key: "", label: "All", count: students.length },
+              { key: "pending", label: "Pending Review", count: students.filter((s) => s.admissionStatus === "pending").length },
+              { key: "approved", label: "Approved & Enrolled", count: students.filter((s) => s.admissionStatus === "approved").length },
+              { key: "not_enrolled", label: "Not Enrolled", count: students.filter((s) => s.admissionStatus === "not_enrolled").length },
+              { key: "rejected", label: "Rejected", count: students.filter((s) => s.admissionStatus === "rejected").length },
+            ]}
+            activeStatusTab={admissionStatus}
+            onStatusTabChange={(tabKey) => {
+              setPage(1);
+              setAdmissionStatus(tabKey);
+            }}
+            columns={studentColumns}
+            data={students}
+            title="Registered Student Accounts"
+            subtitle="Directory of verified student portal accounts and classroom batch admissions"
+            searchPlaceholder="Search by student name, ID, email, or mobile..."
+            searchAccessor={(s) => `${s.fullName} ${s.studentId} ${s.userId?.email ?? ""} ${s.phone}`}
+            filterOptions={ADMISSION_FILTER_OPTIONS}
+            filterValue={admissionStatus}
+            onFilterChange={(val) => {
+              setPage(1);
+              setAdmissionStatus(val);
+            }}
+            filterPlaceholder="Any status"
+            initialPageSize={10}
+            emptyMessage="No student records found."
+            getRowId={(s) => s._id}
+            onRefresh={() => {
+              loadStudents();
+              loadInquiries();
+            }}
+            exportFilename="students-directory"
+          />
         </section>
       )}
 
       {/* TAB 2: PUBLIC INQUIRIES & DEMO LEADS */}
       {activeTab === "inquiries" && (
         <section className="inquiries-tab-content">
-          <div className="inquiry-filter-bar">
-            <span className="filter-label">Filter by Follow-up:</span>
-            {(["all", "new", "contacted", "closed"] as const).map((st) => (
-              <button
-                key={st}
-                type="button"
-                className={`filter-pill-btn ${inquiryFilter === st ? "active" : ""}`}
-                onClick={() => setInquiryFilter(st)}
-              >
-                {st === "all" ? "All Inquiries" : st.charAt(0).toUpperCase() + st.slice(1)}
-              </button>
-            ))}
-          </div>
-
-          <div className="inquiry-cards-grid">
-            {inquiries.map((inq) => {
-              const isDemo = inq.type === "demo";
-              return (
-                <article className={`inquiry-lead-card status-${inq.status}`} key={inq._id}>
-                  <div className="lead-header">
-                    <div className="lead-identity">
-                      <strong className="lead-name">{inq.fullName}</strong>
-                      <span className={`lead-type-badge ${isDemo ? "type-demo" : "type-admission"}`}>
-                        {isDemo ? "Free Demo Class Request" : "Admission Counseling"}
-                      </span>
-                    </div>
-                    <div className="lead-date">
-                      {new Intl.DateTimeFormat("en-IN", {
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      }).format(new Date(inq.createdAt))}
-                    </div>
-                  </div>
-
-                  <div className="lead-details">
-                    <div className="detail-item">
-                      <span className="detail-label">Program of Interest:</span>
-                      <strong className="detail-val">{inq.interestedCourse || "General Inquiry"}</strong>
-                    </div>
-
-                    <div className="detail-contact-row">
-                      <a href={`tel:${inq.phone}`} className="contact-link">
-                        <Phone size={14} />
-                        <span>{inq.phone}</span>
-                      </a>
-                      <a href={`mailto:${inq.email}`} className="contact-link">
-                        <Mail size={14} />
-                        <span>{inq.email}</span>
-                      </a>
-                      <a
-                        href={`https://wa.me/91${inq.phone.replace(/[^0-9]/g, "")}?text=Hi%20${encodeURIComponent(inq.fullName)},%20greetings%20from%20Elite%20Coding%20School.`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="contact-link whatsapp"
-                      >
-                        <MessageCircle size={14} />
-                        <span>WhatsApp Lead</span>
-                      </a>
-                    </div>
-
-                    {inq.message && (
-                      <div className="lead-message-box">
-                        <span className="message-label">Student Message:</span>
-                        <p>{inq.message}</p>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="lead-footer">
-                    <label className="status-changer">
-                      <span>Status:</span>
-                      <select
-                        disabled={updatingId === inq._id}
-                        value={inq.status}
-                        onChange={(e) =>
-                          updateInquiryStatus(inq._id, e.target.value as "new" | "contacted" | "closed")
-                        }
-                      >
-                        <option value="new">New (Needs Follow-up)</option>
-                        <option value="contacted">Contacted / Call Done</option>
-                        <option value="closed">Closed / Enrolled</option>
-                      </select>
-                    </label>
-                  </div>
-                </article>
-              );
-            })}
-
-            {!inquiries.length && (
-              <div className="dashboard-empty-card">
-                <Inbox size={36} />
-                <p>No public inquiries found for the selected filter.</p>
-              </div>
-            )}
-          </div>
+          <AgTable<Inquiry>
+            breadcrumbs={["Admin", "Admissions", "Public Website Leads"]}
+            statusTabs={[
+              { key: "all", label: "All Leads", count: inquiries.length },
+              { key: "new", label: "New Leads", count: inquiries.filter((i) => i.status === "new").length },
+              { key: "contacted", label: "Contacted", count: inquiries.filter((i) => i.status === "contacted").length },
+              { key: "closed", label: "Closed / Enrolled", count: inquiries.filter((i) => i.status === "closed").length },
+            ]}
+            activeStatusTab={inquiryFilter}
+            onStatusTabChange={(tabKey) => setInquiryFilter(tabKey)}
+            columns={inquiryColumns}
+            data={inquiries}
+            title="Public Website Leads & Demo Inquiries"
+            subtitle="Incoming prospective student admissions and free demo class bookings"
+            searchPlaceholder="Search by name, email, phone, or interested course..."
+            searchAccessor={(i) => `${i.fullName} ${i.email} ${i.phone} ${i.interestedCourse} ${i.message}`}
+            filterOptions={[{ value: "all", label: "All Follow-up Statuses" }, ...INQUIRY_STATUS_OPTIONS]}
+            filterValue={inquiryFilter}
+            onFilterChange={(val) => setInquiryFilter(val)}
+            filterPlaceholder="Any status"
+            initialPageSize={10}
+            emptyMessage="No public leads found."
+            getRowId={(i) => i._id}
+            onRefresh={() => {
+              loadStudents();
+              loadInquiries();
+            }}
+            exportFilename="public-leads-inquiries"
+          />
         </section>
       )}
 
@@ -649,16 +676,14 @@ export function AdminStudents() {
                   </div>
                   <div className="dossier-field">
                     <span>Change Status:</span>
-                    <select
-                      className="modal-select"
+                    <CustomSelect
+                      size="md"
+                      variant="status-pill"
+                      options={ADMISSION_STATUS_OPTIONS}
+                      disabled={updatingId === selectedStudent._id}
                       value={selectedStudent.admissionStatus}
-                      onChange={(e) => updateStudentStatus(selectedStudent._id, e.target.value)}
-                    >
-                      <option value="not_enrolled">Not Enrolled</option>
-                      <option value="pending">Pending Approval</option>
-                      <option value="approved">Approved for Batch</option>
-                      <option value="rejected">Rejected</option>
-                    </select>
+                      onChange={(val) => updateStudentStatus(selectedStudent._id, val)}
+                    />
                   </div>
                 </div>
               </div>

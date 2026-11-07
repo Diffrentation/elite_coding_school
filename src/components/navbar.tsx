@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { ArrowRight, Menu, X } from "lucide-react";
 
 export type NavbarProps = {
   activePage?: "home" | "courses" | "about" | "contact" | "none";
@@ -151,13 +151,16 @@ export function Navbar({ activePage = "home" }: NavbarProps) {
             </Link>
 
             {sessionUser ? (
-              <Link
-                className="courses-home-btn"
-                href={portalHref}
-                onClick={() => setOpen(false)}
-              >
-                {portalLabel}
-              </Link>
+              <div className="nav-actions">
+                <Link
+                  className="btn-nav-primary"
+                  href={portalHref}
+                  onClick={() => setOpen(false)}
+                >
+                  <span>{portalLabel}</span>
+                  <ArrowRight size={14} className="btn-nav-arrow" />
+                </Link>
+              </div>
             ) : (
               <div className="nav-actions">
                 <Link
@@ -165,14 +168,15 @@ export function Navbar({ activePage = "home" }: NavbarProps) {
                   href="/login"
                   onClick={() => setOpen(false)}
                 >
-                  Login
+                  <span>Login</span>
                 </Link>
                 <Link
-                  className="courses-home-btn"
+                  className="btn-nav-primary"
                   href="/register"
                   onClick={() => setOpen(false)}
                 >
-                  Book Free Demo
+                  <span>Book Free Demo</span>
+                  <ArrowRight size={14} className="btn-nav-arrow" />
                 </Link>
               </div>
             )}

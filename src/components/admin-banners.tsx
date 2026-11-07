@@ -1,8 +1,33 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import { Plus, X, Edit3, Globe, Archive, Layers, CheckCircle2, AlertCircle } from "lucide-react";
+import { Plus, X, Edit3, Globe, Archive, Layers, CheckCircle2, AlertCircle, Search, Filter } from "lucide-react";
 import { ImagePickerInput } from "@/components/image-picker-input";
+import { CustomSelect, type CustomSelectOption } from "@/components/ui/custom-select";
+import { AgTable, type AgColumn } from "@/components/ui/ag-table";
+
+const CTA_URL_OPTIONS: CustomSelectOption[] = [
+  { value: "/courses", label: "Courses Catalog (/courses)", badge: "Hero BG Supported" },
+  { value: "/", label: "Homepage Top Hero (/)", badge: "Hero BG Supported" },
+  { value: "/#why-offline", label: "Why Offline Tech Lab (/#why-offline)" },
+  { value: "/contact", label: "Walk-in & In-Person Counseling (/contact)" },
+  { value: "/register", label: "Book Free Trial Demo (/register)" },
+  { value: "/about", label: "Campus & Classrooms (/about)" },
+  { value: "/courses/mern-stack-development", label: "MERN Stack Course Page" },
+  { value: "/courses/dsa-system-design", label: "DSA & System Design Course Page" },
+  { value: "/courses/c-cpp-foundations", label: "C & C++ Programming Page" },
+  { value: "/courses/core-java-oop", label: "Core Java & OOP Course Page" },
+  { value: "/courses/python-programming", label: "Python Programming Course Page" },
+  { value: "/courses/computer-networks-linux", label: "Computer Networks & Linux Page" },
+  { value: "__custom__", label: "Custom URL or External Link..." },
+];
+
+const BANNER_FILTER_OPTIONS: CustomSelectOption[] = [
+  { value: "all", label: "All Banner Statuses" },
+  { value: "published", label: "Published Banners" },
+  { value: "draft", label: "Draft Banners" },
+  { value: "archived", label: "Archived Banners" },
+];
 
 type Banner = {
   _id: string;
@@ -29,6 +54,10 @@ export function AdminBanners() {
   const [toast, setToast] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [editing, setEditing] = useState<Banner | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [searchFilter, setSearchFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [selectedCtaOption, setSelectedCtaOption] = useState("/courses");
+  const [customCtaUrl, setCustomCtaUrl] = useState("");
 
   const load = () =>
     request("/api/admin/banners")
@@ -42,23 +71,35 @@ export function AdminBanners() {
   function startCreate() {
     setEditing(null);
     setToast(null);
+    setSelectedCtaOption("/courses");
+    setCustomCtaUrl("");
     setShowForm((open) => !open);
   }
 
   function startEdit(banner: Banner) {
     setToast(null);
     setEditing(banner);
+    const isKnown = CTA_URL_OPTIONS.some((opt) => opt.value === banner.ctaUrl);
+    if (isKnown) {
+      setSelectedCtaOption(banner.ctaUrl);
+      setCustomCtaUrl("");
+    } else {
+      setSelectedCtaOption("__custom__");
+      setCustomCtaUrl(banner.ctaUrl);
+    }
     setShowForm(true);
   }
 
   async function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
+    const finalCtaUrl = selectedCtaOption === "__custom__" ? customCtaUrl : selectedCtaOption;
+
     const payload = {
       title: form.get("title"),
       description: form.get("description"),
       ctaLabel: form.get("ctaLabel"),
-      ctaUrl: form.get("ctaUrl"),
+      ctaUrl: finalCtaUrl || "/courses",
       desktopImageUrl: String(form.get("desktopImageUrl") ?? "") || null,
       mobileImageUrl: String(form.get("mobileImageUrl") ?? "") || null,
       order: Number(form.get("order")),
@@ -107,6 +148,183 @@ export function AdminBanners() {
       });
     }
   }
+
+  const bannerColumns: AgColumn<Banner>[] = [
+    {
+      key: "title",
+      header: "Banner",
+      sortable: true,
+      render: (banner) => (
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          {banner.desktopImageUrl && (
+            <img
+              src={banner.desktopImageUrl}
+              alt=""
+              style={{
+                width: 48,
+                height: 32,
+                borderRadius: 6,
+                objectFit: "cover",
+                border: "1px solid rgba(255, 255, 255, 0.15)",
+                background: "#070b24",
+                flexShrink: 0,
+              }}
+            />
+          )}
+          <div>
+            <b style={{ color: "#ffffff", fontSize: 13.5, display: "block" }}>{banner.title}</b>
+            <span
+              style={{
+                fontFamily: "var(--font-mono, monospace)",
+                fontSize: 11,
+                color: "#c084fc",
+                background: "rgba(168, 85, 247, 0.12)",
+                padding: "1px 6px",
+                borderRadius: 4,
+              }}
+            >
+              Order: {banner.order}
+            </span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: "description",
+      header: "Description",
+      sortable: false,
+      render: (banner) => (
+        <p
+          style={{
+            margin: 0,
+            color: "#94a3b8",
+            fontSize: 12.5,
+            maxWidth: 320,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
+          title={banner.description}
+        >
+          {banner.description || "No description provided"}
+        </p>
+      ),
+    },
+    {
+      key: "ctaUrl",
+      header: "CTA Destination",
+      sortable: true,
+      render: (banner) => (
+        <div>
+          <strong style={{ color: "#ffffff", fontSize: 13, display: "block" }}>{banner.ctaLabel}</strong>
+          <small style={{ color: "#38bdf8", fontFamily: "var(--font-mono, monospace)", fontSize: 11 }}>
+            {banner.ctaUrl}
+          </small>
+        </div>
+      ),
+    },
+    {
+      key: "status",
+      header: "Status",
+      sortable: true,
+      render: (banner) => (
+        <span
+          style={{
+            fontSize: 11,
+            fontWeight: 700,
+            textTransform: "uppercase",
+            padding: "3px 8px",
+            borderRadius: 5,
+            background:
+              banner.status === "published"
+                ? "rgba(16, 185, 129, 0.15)"
+                : banner.status === "archived"
+                  ? "rgba(239, 68, 68, 0.15)"
+                  : "rgba(245, 158, 11, 0.15)",
+            color:
+              banner.status === "published"
+                ? "#34d399"
+                : banner.status === "archived"
+                  ? "#f87171"
+                  : "#fbbf24",
+            border: `1px solid ${
+              banner.status === "published"
+                ? "rgba(16, 185, 129, 0.3)"
+                : banner.status === "archived"
+                  ? "rgba(239, 68, 68, 0.3)"
+                  : "rgba(245, 158, 11, 0.3)"
+            }`,
+          }}
+        >
+          {banner.status}
+        </span>
+      ),
+    },
+    {
+      key: "actions",
+      header: "Actions",
+      sortable: false,
+      render: (banner) => (
+        <div style={{ display: "flex", gap: 6 }}>
+          <button
+            onClick={() => startEdit(banner)}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 4,
+              padding: "5px 10px",
+              borderRadius: 6,
+              background: "rgba(255, 255, 255, 0.06)",
+              border: "1px solid rgba(255, 255, 255, 0.12)",
+              color: "#cbd5e1",
+              fontSize: 12,
+              cursor: "pointer",
+            }}
+          >
+            <Edit3 size={12} /> Edit
+          </button>
+          {banner.status !== "published" && (
+            <button
+              onClick={() => changeStatus(banner._id, "publish")}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 4,
+                padding: "5px 10px",
+                borderRadius: 6,
+                background: "rgba(16, 185, 129, 0.15)",
+                border: "1px solid rgba(16, 185, 129, 0.3)",
+                color: "#34d399",
+                fontSize: 12,
+                cursor: "pointer",
+              }}
+            >
+              <Globe size={12} /> Publish
+            </button>
+          )}
+          {banner.status !== "archived" && (
+            <button
+              onClick={() => changeStatus(banner._id, "archive")}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 4,
+                padding: "5px 10px",
+                borderRadius: 6,
+                background: "rgba(239, 68, 68, 0.12)",
+                border: "1px solid rgba(239, 68, 68, 0.3)",
+                color: "#f87171",
+                fontSize: 12,
+                cursor: "pointer",
+              }}
+            >
+              <Archive size={12} /> Archive
+            </button>
+          )}
+        </div>
+      ),
+    },
+  ];
 
   return (
     <main className="portal-content admin-banners">
@@ -278,10 +496,34 @@ export function AdminBanners() {
             Display order
             <input name="order" type="number" min="0" defaultValue={editing?.order ?? 0} required />
           </label>
-          <label>
-            CTA URL
-            <input name="ctaUrl" defaultValue={editing?.ctaUrl ?? "/courses"} required />
-          </label>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>
+              CTA URL &amp; Target Destination
+            </span>
+            <CustomSelect
+              options={CTA_URL_OPTIONS}
+              value={selectedCtaOption}
+              onChange={(val) => setSelectedCtaOption(val)}
+            />
+            {selectedCtaOption === "__custom__" && (
+              <input
+                style={{ marginTop: 6 }}
+                placeholder="Enter custom path or URL (e.g. /custom-page)"
+                value={customCtaUrl}
+                onChange={(e) => setCustomCtaUrl(e.target.value)}
+                required
+              />
+            )}
+            <input
+              type="hidden"
+              name="ctaUrl"
+              value={selectedCtaOption === "__custom__" ? customCtaUrl : selectedCtaOption}
+            />
+            <small style={{ color: "#34d399", fontSize: 11.5, display: "flex", alignItems: "center", gap: 4, marginTop: 2 }}>
+              <CheckCircle2 size={13} />
+              <span>Desktop image will be featured as the background on this target page.</span>
+            </small>
+          </div>
           <label className="form-wide">
             Description
             <textarea name="description" defaultValue={editing?.description ?? ""} />
@@ -353,89 +595,32 @@ export function AdminBanners() {
           </div>
         </form>
       )}
-      <div className="course-table" role="region" aria-label="Homepage banners">
-        <div className="course-table-head">
-          <span>Banner</span>
-          <span>Description</span>
-          <span>CTA</span>
-          <span>Status</span>
-          <span>Actions</span>
-        </div>
-        {banners.map((banner) => (
-          <div className="course-table-row" key={banner._id}>
-            <b>
-              {banner.title}
-              <small>Order {banner.order}</small>
-            </b>
-            <span>{banner.description || "No description"}</span>
-            <span>{banner.ctaLabel}</span>
-            <em className={`status-${banner.status}`}>{banner.status}</em>
-            <div style={{ display: "flex", gap: 6 }}>
-              <button
-                onClick={() => startEdit(banner)}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 4,
-                  padding: "5px 10px",
-                  borderRadius: 6,
-                  background: "rgba(255, 255, 255, 0.06)",
-                  border: "1px solid rgba(255, 255, 255, 0.12)",
-                  color: "#cbd5e1",
-                  fontSize: 12,
-                  cursor: "pointer",
-                }}
-              >
-                <Edit3 size={12} /> Edit
-              </button>
-              {banner.status !== "published" && (
-                <button
-                  onClick={() => changeStatus(banner._id, "publish")}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 4,
-                    padding: "5px 10px",
-                    borderRadius: 6,
-                    background: "rgba(16, 185, 129, 0.15)",
-                    border: "1px solid rgba(16, 185, 129, 0.3)",
-                    color: "#34d399",
-                    fontSize: 12,
-                    cursor: "pointer",
-                  }}
-                >
-                  <Globe size={12} /> Publish
-                </button>
-              )}
-              {banner.status !== "archived" && (
-                <button
-                  onClick={() => changeStatus(banner._id, "archive")}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 4,
-                    padding: "5px 10px",
-                    borderRadius: 6,
-                    background: "rgba(239, 68, 68, 0.12)",
-                    border: "1px solid rgba(239, 68, 68, 0.3)",
-                    color: "#f87171",
-                    fontSize: 12,
-                    cursor: "pointer",
-                  }}
-                >
-                  <Archive size={12} /> Archive
-                </button>
-              )}
-            </div>
-          </div>
-        ))}
-        {!banners.length && (
-          <div className="blank-state">
-            <b>Banner</b>
-            <p>Create a banner draft to customize your homepage.</p>
-          </div>
-        )}
-      </div>
+      <AgTable<Banner>
+        breadcrumbs={["Admin", "Content", "Hero Banners"]}
+        statusTabs={[
+          { key: "all", label: "All Banners", count: banners.length },
+          { key: "published", label: "Published", count: banners.filter((b) => b.status === "published").length },
+          { key: "draft", label: "Drafts", count: banners.filter((b) => b.status === "draft").length },
+          { key: "archived", label: "Archived", count: banners.filter((b) => b.status === "archived").length },
+        ]}
+        activeStatusTab={statusFilter}
+        onStatusTabChange={(tabKey) => setStatusFilter(tabKey)}
+        columns={bannerColumns}
+        data={banners.filter((b) => statusFilter === "all" || b.status === statusFilter)}
+        title="Homepage Hero Banners"
+        subtitle="Manage hero banner slides, CTA destinations, and responsive desktop/mobile backgrounds"
+        searchPlaceholder="Search banners by title, CTA label, or URL..."
+        searchAccessor={(b) => `${b.title} ${b.ctaLabel} ${b.ctaUrl} ${b.description ?? ""}`}
+        filterOptions={BANNER_FILTER_OPTIONS}
+        filterValue={statusFilter}
+        onFilterChange={(val) => setStatusFilter(val)}
+        filterPlaceholder="Any status"
+        initialPageSize={10}
+        emptyMessage="No hero banners found."
+        getRowId={(b) => b._id}
+        onRefresh={load}
+        exportFilename="hero-banners"
+      />
     </main>
   );
 }

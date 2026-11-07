@@ -229,6 +229,21 @@ export default function CoursesPage() {
   const [duration, setDuration] = useState("");
   const [selectedTrack, setSelectedTrack] = useState("all");
   const [loading, setLoading] = useState(true);
+  const [catalogBannerBg, setCatalogBannerBg] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("/api/banners")
+      .then((res) => res.json())
+      .then((body) => {
+        const banners = body.data?.banners ?? [];
+        const matching = banners.find(
+          (b: { ctaUrl: string; desktopImageUrl: string | null }) =>
+            (b.ctaUrl === "/courses" || b.ctaUrl === "/courses/") && b.desktopImageUrl,
+        );
+        if (matching?.desktopImageUrl) setCatalogBannerBg(matching.desktopImageUrl);
+      })
+      .catch(() => setCatalogBannerBg(null));
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -323,7 +338,18 @@ export default function CoursesPage() {
       <Navbar activePage="courses" />
 
       {/* 2. COURSES CATALOG HERO */}
-      <section className="courses-catalog-hero">
+      <section
+        className="courses-catalog-hero"
+        style={
+          catalogBannerBg
+            ? {
+                backgroundImage: `linear-gradient(90deg, rgba(6, 9, 30, 0.92) 0%, rgba(6, 9, 30, 0.8) 44%, rgba(6, 9, 30, 0.35) 100%), linear-gradient(180deg, rgba(6, 9, 30, 0.1), rgba(6, 9, 30, 0.5)), url("${catalogBannerBg}")`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+              }
+            : undefined
+        }
+      >
         <div className="courses-hero-inner">
           <div className="courses-hero-copy">
             <div className="kicker">

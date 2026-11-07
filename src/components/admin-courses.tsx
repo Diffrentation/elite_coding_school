@@ -15,8 +15,19 @@ import {
   Layers,
   Tag,
   Check,
+  Search,
+  Filter,
 } from "lucide-react";
 import { ImagePickerInput } from "@/components/image-picker-input";
+import { CustomSelect, type CustomSelectOption } from "./ui/custom-select";
+import { AgTable, type AgColumn } from "./ui/ag-table";
+
+const COURSE_STATUS_FILTER_OPTIONS: CustomSelectOption[] = [
+  { value: "all", label: "All Program Statuses" },
+  { value: "published", label: "Published Programs" },
+  { value: "draft", label: "Draft Programs" },
+  { value: "archived", label: "Archived Programs" },
+];
 
 type Course = {
   _id: string;
@@ -70,6 +81,8 @@ export function AdminCourses() {
   const [toast, setToast] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [editing, setEditing] = useState<Course | null>(null);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [searchFilter, setSearchFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const inputClass = (name: string) => (fieldErrors[name]?.length ? "input-invalid" : undefined);
   const fieldError = (name: string) =>
@@ -165,6 +178,161 @@ export function AdminCourses() {
       });
     }
   };
+
+  const courseColumns: AgColumn<Course>[] = [
+    {
+      key: "title",
+      header: "Course Program",
+      sortable: true,
+      render: (course) => (
+        <div>
+          <b style={{ color: "#ffffff", fontSize: 14, display: "block" }}>{course.title}</b>
+          <small style={{ fontFamily: "var(--font-mono)", color: "#a855f7" }}>/{course.slug}</small>
+        </div>
+      ),
+    },
+    {
+      key: "category",
+      header: "Track & Category",
+      sortable: true,
+      render: (course) => (
+        <div>
+          <span
+            style={{
+              display: "inline-block",
+              fontSize: 11,
+              fontWeight: 700,
+              textTransform: "uppercase",
+              padding: "2px 7px",
+              borderRadius: 4,
+              background: "rgba(56, 189, 248, 0.12)",
+              color: "#38bdf8",
+              marginRight: 6,
+            }}
+          >
+            {course.track?.toUpperCase() || "WEB"}
+          </span>
+          <span style={{ color: "#cbd5e1", fontSize: 12.5 }}>{course.category}</span>
+        </div>
+      ),
+    },
+    {
+      key: "monthlyFee",
+      header: "Fee / Duration",
+      sortable: true,
+      render: (course) => (
+        <div>
+          <b style={{ color: "#34d399", fontFamily: "var(--font-mono)", fontSize: 13.5, display: "block" }}>
+            ₹{course.monthlyFee.toLocaleString("en-IN")}/mo
+          </b>
+          <small style={{ color: "#94a3b8" }}>
+            {course.durationMonths} mo &bull; {course.labHours || "90+ hrs"}
+          </small>
+        </div>
+      ),
+    },
+    {
+      key: "status",
+      header: "Status",
+      sortable: true,
+      render: (course) => (
+        <span
+          style={{
+            fontSize: 11,
+            fontWeight: 700,
+            textTransform: "uppercase",
+            padding: "3px 8px",
+            borderRadius: 5,
+            background:
+              course.status === "published"
+                ? "rgba(16, 185, 129, 0.15)"
+                : course.status === "archived"
+                  ? "rgba(239, 68, 68, 0.15)"
+                  : "rgba(245, 158, 11, 0.15)",
+            color:
+              course.status === "published"
+                ? "#34d399"
+                : course.status === "archived"
+                  ? "#f87171"
+                  : "#fbbf24",
+            border: `1px solid ${
+              course.status === "published"
+                ? "rgba(16, 185, 129, 0.3)"
+                : course.status === "archived"
+                  ? "rgba(239, 68, 68, 0.3)"
+                  : "rgba(245, 158, 11, 0.3)"
+            }`,
+          }}
+        >
+          {course.status}
+        </span>
+      ),
+    },
+    {
+      key: "actions",
+      header: "Actions",
+      sortable: false,
+      render: (course) => (
+        <div style={{ display: "flex", gap: 6 }}>
+          <button
+            onClick={() => openEdit(course)}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 4,
+              padding: "5px 10px",
+              borderRadius: 6,
+              background: "rgba(255, 255, 255, 0.06)",
+              border: "1px solid rgba(255, 255, 255, 0.12)",
+              color: "#cbd5e1",
+              fontSize: 12,
+              cursor: "pointer",
+            }}
+          >
+            <Edit3 size={12} /> Edit
+          </button>
+          {course.status !== "published" && (
+            <button
+              onClick={() => changeStatus(course._id, "publish")}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 4,
+                padding: "5px 10px",
+                borderRadius: 6,
+                background: "rgba(16, 185, 129, 0.15)",
+                border: "1px solid rgba(16, 185, 129, 0.3)",
+                color: "#34d399",
+                fontSize: 12,
+                cursor: "pointer",
+              }}
+            >
+              <Globe size={12} /> Publish
+            </button>
+          )}
+          {course.status !== "archived" && (
+            <button
+              onClick={() => changeStatus(course._id, "archive")}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 4,
+                padding: "5px 10px",
+                borderRadius: 6,
+                background: "rgba(239, 68, 68, 0.12)",
+                border: "1px solid rgba(239, 68, 68, 0.3)",
+                color: "#f87171",
+                fontSize: 12,
+                cursor: "pointer",
+              }}
+            >
+              <Archive size={12} /> Archive
+            </button>
+          )}
+        </div>
+      ),
+    },
+  ];
 
   return (
     <main className="portal-content admin-courses-page" style={{ maxWidth: 1300, margin: "0 auto", padding: "28px" }}>
@@ -663,112 +831,32 @@ export function AdminCourses() {
         </form>
       )}
 
-      {/* Courses List Table */}
-      <div className="course-table" role="region" aria-label="Courses">
-        <div className="course-table-head">
-          <span>Course Program</span>
-          <span>Track & Category</span>
-          <span>Fee / Duration</span>
-          <span>Status</span>
-          <span>Actions</span>
-        </div>
-        {courses.map((course) => (
-          <div className="course-table-row" key={course._id}>
-            <div>
-              <b style={{ color: "#ffffff", fontSize: 14 }}>{course.title}</b>
-              <small style={{ fontFamily: "var(--font-mono)", color: "#a855f7" }}>/{course.slug}</small>
-            </div>
-            <div>
-              <span
-                style={{
-                  display: "inline-block",
-                  fontSize: 11,
-                  fontWeight: 700,
-                  textTransform: "uppercase",
-                  padding: "2px 7px",
-                  borderRadius: 4,
-                  background: "rgba(56, 189, 248, 0.12)",
-                  color: "#38bdf8",
-                  marginRight: 6,
-                }}
-              >
-                {course.track?.toUpperCase() || "WEB"}
-              </span>
-              <span style={{ color: "#cbd5e1", fontSize: 12.5 }}>{course.category}</span>
-            </div>
-            <div>
-              <b style={{ color: "#34d399", fontFamily: "var(--font-mono)", fontSize: 13.5 }}>
-                ₹{course.monthlyFee.toLocaleString("en-IN")}
-              </b>
-              <small style={{ color: "#94a3b8" }}>{course.durationMonths} mo &bull; {course.labHours || "90+ hrs"}</small>
-            </div>
-            <em className={`status-${course.status}`}>{course.status}</em>
-            <div style={{ display: "flex", gap: 6 }}>
-              <button
-                onClick={() => openEdit(course)}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 4,
-                  padding: "5px 10px",
-                  borderRadius: 6,
-                  background: "rgba(255, 255, 255, 0.06)",
-                  border: "1px solid rgba(255, 255, 255, 0.12)",
-                  color: "#cbd5e1",
-                  fontSize: 12,
-                  cursor: "pointer",
-                }}
-              >
-                <Edit3 size={12} /> Edit
-              </button>
-              {course.status !== "published" && (
-                <button
-                  onClick={() => changeStatus(course._id, "publish")}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 4,
-                    padding: "5px 10px",
-                    borderRadius: 6,
-                    background: "rgba(16, 185, 129, 0.15)",
-                    border: "1px solid rgba(16, 185, 129, 0.3)",
-                    color: "#34d399",
-                    fontSize: 12,
-                    cursor: "pointer",
-                  }}
-                >
-                  <Globe size={12} /> Publish
-                </button>
-              )}
-              {course.status !== "archived" && (
-                <button
-                  onClick={() => changeStatus(course._id, "archive")}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 4,
-                    padding: "5px 10px",
-                    borderRadius: 6,
-                    background: "rgba(239, 68, 68, 0.12)",
-                    border: "1px solid rgba(239, 68, 68, 0.3)",
-                    color: "#f87171",
-                    fontSize: 12,
-                    cursor: "pointer",
-                  }}
-                >
-                  <Archive size={12} /> Archive
-                </button>
-              )}
-            </div>
-          </div>
-        ))}
-        {!courses.length && (
-          <div className="blank-state">
-            <b>◇</b>
-            <p>Create your first course draft to begin.</p>
-          </div>
-        )}
-      </div>
+      <AgTable<Course>
+        breadcrumbs={["Admin", "Curriculum", "Courses"]}
+        statusTabs={[
+          { key: "all", label: "All Programs", count: courses.length },
+          { key: "published", label: "Published", count: courses.filter((c) => c.status === "published").length },
+          { key: "draft", label: "Drafts", count: courses.filter((c) => c.status === "draft").length },
+          { key: "archived", label: "Archived", count: courses.filter((c) => c.status === "archived").length },
+        ]}
+        activeStatusTab={statusFilter}
+        onStatusTabChange={(tabKey) => setStatusFilter(tabKey)}
+        columns={courseColumns}
+        data={courses.filter((c) => statusFilter === "all" || c.status === statusFilter)}
+        title="Curriculum Programs"
+        subtitle="Manage course drafts, configure card details, syllabus topics, and published status"
+        searchPlaceholder="Search programs by title, slug, track, or category..."
+        searchAccessor={(c) => `${c.title} ${c.slug} ${c.category} ${c.track ?? ""}`}
+        filterOptions={COURSE_STATUS_FILTER_OPTIONS}
+        filterValue={statusFilter}
+        onFilterChange={(val) => setStatusFilter(val)}
+        filterPlaceholder="Any status"
+        initialPageSize={10}
+        emptyMessage="No course programs found."
+        getRowId={(c) => c._id}
+        onRefresh={load}
+        exportFilename="curriculum-courses"
+      />
     </main>
   );
 }
