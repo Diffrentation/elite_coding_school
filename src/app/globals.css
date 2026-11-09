@@ -10101,26 +10101,38 @@ a {
   margin-left: 34px;
 }
 .course-slug-code {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
   font-family: var(--font-mono);
-  font-size: 11.5px;
-  color: #a855f7;
-  background: rgba(168, 85, 247, 0.1);
-  padding: 1px 6px;
-  border-radius: 4px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #d8b4fe;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.22), rgba(168, 85, 247, 0.08));
+  border: 1px solid rgba(168, 85, 247, 0.24);
+  padding: 0 8px;
+  border-radius: 999px;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .course-live-link {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  font-weight: 600;
-  color: #38bdf8;
+  justify-content: center;
+  gap: 5px;
+  min-height: 26px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #7dd3fc;
   text-decoration: none;
-  padding: 2px 7px;
-  border-radius: 5px;
-  background: rgba(56, 189, 248, 0.08);
-  border: 1px solid rgba(56, 189, 248, 0.2);
+  padding: 0 8px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.16), rgba(56, 189, 248, 0.06));
+  border: 1px solid rgba(56, 189, 248, 0.28);
   transition: all 0.15s ease;
+  white-space: nowrap;
 }
 .course-live-link:hover {
   background: rgba(56, 189, 248, 0.18);
@@ -10138,14 +10150,16 @@ a {
 .course-track-badge {
   display: inline-flex;
   align-items: center;
-  font-size: 10.5px;
+  justify-content: center;
+  min-height: 26px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.05em;
-  padding: 2px 7px;
-  border-radius: 5px;
-  background: rgba(56, 189, 248, 0.12);
-  color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.26);
+  letter-spacing: 0.07em;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.18), rgba(56, 189, 248, 0.06));
+  color: #7dd3fc;
+  border: 1px solid rgba(56, 189, 248, 0.3);
   white-space: nowrap;
 }
 .course-category-label {
@@ -10172,44 +10186,46 @@ a {
 }
 
 /* Course Status Badges */
-.status-badge.course-status-published {
-  background: rgba(16, 185, 129, 0.15);
-  color: #34d399;
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  padding: 3px 8px;
-  border-radius: 6px;
+.status-badge.course-status-published,
+.status-badge.course-status-draft,
+.status-badge.course-status-archived {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  justify-content: center;
+  min-height: 30px;
+  width: fit-content;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.055em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.status-badge.course-status-published {
+  background: linear-gradient(135deg, rgba(5, 150, 105, 0.25), rgba(16, 185, 129, 0.1));
+  color: #5eead4;
+  border: 1px solid rgba(45, 212, 191, 0.4);
 }
 .status-badge.course-status-draft {
-  background: rgba(245, 158, 11, 0.15);
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.35);
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  padding: 3px 8px;
-  border-radius: 6px;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+  background: linear-gradient(135deg, rgba(217, 119, 6, 0.24), rgba(245, 158, 11, 0.1));
+  color: #fcd34d;
+  border: 1px solid rgba(251, 191, 36, 0.38);
 }
 .status-badge.course-status-archived {
-  background: rgba(239, 68, 68, 0.15);
-  color: #f87171;
-  border: 1px solid rgba(239, 68, 68, 0.35);
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  padding: 3px 8px;
-  border-radius: 6px;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.22), rgba(239, 68, 68, 0.09));
+  color: #fca5a5;
+  border: 1px solid rgba(248, 113, 113, 0.38);
+}
+.course-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 9px currentColor;
+  flex: 0 0 auto;
+  margin-right: 6px;
 }
 
 /* Course Table Actions Group */
@@ -10393,4 +10409,427 @@ a {
   width: 100% !important;
   margin-bottom: 18px !important;
   clear: both !important;
+}
+
+/* Keep the course editor contained on narrow mobile screens. */
+@media (max-width: 700px) {
+  .portal-content.admin-courses-page {
+    overflow-x: clip;
+  }
+
+  .admin-course-editor-form {
+    box-sizing: border-box !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    padding: 16px 12px !important;
+    gap: 14px !important;
+  }
+
+  .admin-course-editor-form > *,
+  .course-editor-heading-wrap,
+  .course-editor-title-row {
+    min-width: 0;
+  }
+
+  .course-editor-top-bar {
+    grid-column: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+
+  .course-editor-title {
+    font-size: 16px !important;
+    overflow-wrap: anywhere;
+  }
+
+  .course-editor-subtitle {
+    overflow-wrap: anywhere;
+  }
+
+  .course-editor-actions-group {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    width: 100% !important;
+    gap: 8px !important;
+  }
+
+  .course-editor-actions-group > button {
+    min-width: 0 !important;
+    width: 100% !important;
+    padding: 9px 6px !important;
+    justify-content: center !important;
+    white-space: nowrap;
+  }
+
+  .course-editor-bottom-bar {
+    grid-column: 1 !important;
+    position: static !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 12px !important;
+  }
+
+  .course-editor-bottom-status {
+    min-width: 0;
+    flex-wrap: wrap;
+  }
+
+  .admin-course-editor-form .form-wide {
+    grid-column: 1 !important;
+  }
+}
+
+/* Tablet portal: use the drawer navigation so data screens retain full width. */
+.admin-portal .portal-content {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+@media (min-width: 801px) and (max-width: 1100px) {
+  .admin-portal .portal-sidebar,
+  .student-portal .portal-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 100;
+    width: min(300px, 86vw) !important;
+    min-height: 100dvh;
+    padding: 22px 14px;
+    overflow-y: auto;
+    box-shadow: 12px 0 36px rgba(0, 0, 0, 0.62);
+    transform: translateX(-105%);
+    transition: transform 0.22s ease;
+  }
+
+  .admin-portal .portal-sidebar.open,
+  .student-portal .portal-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .admin-portal .portal-main,
+  .student-portal .portal-main {
+    width: 100%;
+    margin-left: 0 !important;
+  }
+
+  .portal-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(3, 5, 20, 0.62);
+    transition: opacity 0.22s ease;
+  }
+
+  .portal-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-toggle-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .admin-header {
+    min-height: 64px !important;
+    height: auto !important;
+    padding: 12px 22px !important;
+  }
+
+  .admin-portal .portal-content {
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+    padding: 26px 24px 48px;
+  }
+
+  .ag-status-pills-scroll {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ag-status-pills-scroll::-webkit-scrollbar { display: none; }
+  .ag-status-pill-btn { flex: 0 0 auto; }
+}
+
+/* Compact summary cards used by enrollment and billing workflows. */
+.admin-workflow-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0 0 24px;
+}
+
+.admin-workflow-summary > article {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  min-height: 88px;
+  padding: 16px;
+  background: linear-gradient(135deg, #101844 0%, #0b1133 100%);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 15px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.2);
+}
+
+.workflow-summary-icon {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+}
+
+.workflow-summary-icon.purple { background: rgba(124, 58, 237, 0.22); color: #c084fc; }
+.workflow-summary-icon.green { background: rgba(16, 185, 129, 0.17); color: #34d399; }
+.workflow-summary-icon.amber { background: rgba(245, 158, 11, 0.18); color: #fbbf24; }
+
+.admin-workflow-summary article > div {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.admin-workflow-summary small,
+.admin-workflow-summary em {
+  overflow: hidden;
+  color: #9fb2d5;
+  font-size: 12px;
+  font-style: normal;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-workflow-summary strong {
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 24px;
+  line-height: 1.05;
+}
+
+/* Hero banner editor: smaller, calmer form with one clear action area. */
+.admin-banner-editor-form {
+  max-width: 980px !important;
+  padding: 20px 22px 22px !important;
+  gap: 14px !important;
+  margin: 12px 0 26px !important;
+  background: linear-gradient(145deg, #0c1338, #090e2a) !important;
+}
+
+.admin-banner-editor-form .admin-banner-editor-header {
+  padding-bottom: 12px !important;
+  margin-bottom: 2px !important;
+}
+
+.admin-banner-editor-form .admin-banner-editor-header h3 {
+  font-size: 17px !important;
+}
+
+.admin-banner-editor-form .image-picker-upload-box {
+  min-height: 62px;
+  padding: 9px 10px !important;
+  border-radius: 10px !important;
+}
+
+.admin-banner-editor-form .image-picker-upload-copy > div:first-child {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.admin-banner-editor-form .image-picker-browse-button {
+  padding: 6px 10px !important;
+  border-radius: 8px !important;
+  font-size: 11px !important;
+}
+
+.admin-banner-editor-form .admin-banner-save-bar {
+  position: static !important;
+  margin-top: 4px !important;
+  padding: 11px 14px !important;
+  border-color: rgba(168, 85, 247, 0.5) !important;
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, rgba(39, 22, 86, 0.95), rgba(12, 19, 56, 0.98)) !important;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.36) !important;
+}
+
+.admin-banner-editor-form .admin-banner-save-actions {
+  align-items: center;
+}
+
+.admin-banner-editor-form .admin-banner-save-actions button {
+  min-height: 38px;
+  padding: 0 14px !important;
+  border-radius: 9px !important;
+  transition: transform 0.16s ease, filter 0.16s ease;
+}
+
+.admin-banner-editor-form .admin-banner-save-actions button:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 700px) {
+  .admin-workflow-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .admin-workflow-summary > article {
+    min-height: 82px;
+    padding: 13px;
+    gap: 10px;
+  }
+
+  .admin-workflow-summary > article:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  .workflow-summary-icon {
+    flex-basis: 36px;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  .admin-workflow-summary strong { font-size: 21px; }
+  .admin-workflow-summary small,
+  .admin-workflow-summary em { font-size: 11px; }
+
+  .admin-banner-editor-form {
+    padding: 16px !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .admin-banner-editor-form .admin-banner-save-bar,
+  .admin-banner-editor-form .admin-banner-save-actions {
+    align-items: stretch !important;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .admin-banner-editor-form .admin-banner-save-status {
+    align-items: flex-start !important;
+    flex-wrap: wrap;
+  }
+
+  .admin-banner-editor-form .admin-banner-save-actions button {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* Ensure workflow metrics never fall back to unstyled inline content. */
+.admin-portal .admin-workflow-summary {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  width: 100%;
+  gap: 14px !important;
+  margin: 0 0 24px !important;
+}
+
+.admin-portal .admin-workflow-summary > article {
+  display: flex !important;
+  align-items: center !important;
+  min-width: 0 !important;
+  min-height: 92px;
+  padding: 16px !important;
+  border-radius: 15px !important;
+  background: linear-gradient(135deg, #101844 0%, #0b1133 100%) !important;
+  border: 1px solid rgba(148, 163, 184, 0.16) !important;
+}
+
+.admin-portal .admin-workflow-summary .workflow-summary-icon {
+  display: inline-grid !important;
+  place-items: center;
+  flex: 0 0 40px !important;
+}
+
+.admin-portal .admin-workflow-summary article > div {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  flex-direction: column !important;
+  gap: 3px;
+}
+
+/* Payment controls: each grid cell may shrink, and native select stays inside it. */
+.admin-fees-page .admin-payment-fields {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  min-width: 0;
+}
+
+.admin-fees-page .admin-payment-fields > label,
+.admin-fees-page .admin-payment-fields input,
+.admin-fees-page .admin-payment-fields select {
+  min-width: 0 !important;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 700px) {
+  .admin-portal .admin-workflow-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .admin-portal .admin-workflow-summary > article:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  .admin-fees-page .admin-payment-fields {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Course editor grid: labels and native selects must be allowed to shrink. */
+.admin-course-editor-form {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.admin-course-editor-form > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.admin-course-editor-form label,
+.admin-course-editor-form .course-editor-top-bar,
+.admin-course-editor-form .course-editor-heading-wrap,
+.admin-course-editor-form .course-editor-actions-group {
+  min-width: 0;
+}
+
+@media (max-width: 800px) {
+  .admin-course-editor-form {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .admin-course-editor-form .form-wide,
+  .admin-course-editor-form .course-editor-top-bar {
+    grid-column: 1 !important;
+  }
 }

@@ -251,7 +251,8 @@ export function AdminCourses() {
       sortable: true,
       render: (course) => (
         <span className={`status-badge course-status-${course.status}`}>
-          ● {course.status}
+          <span className="course-status-dot" aria-hidden="true" />
+          {course.status}
         </span>
       ),
     },

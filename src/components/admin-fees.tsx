@@ -305,8 +305,16 @@ export function AdminFees() {
               </select>
             </label>
 
-            <div className="admin-payment-fields" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-              <label style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12.5, fontWeight: 600, color: "#cbd5e1" }}>
+            <div
+              className="admin-payment-fields"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+                gap: 12,
+                minWidth: 0,
+              }}
+            >
+              <label style={{ display: "flex", flexDirection: "column", gap: 6, minWidth: 0, fontSize: 12.5, fontWeight: 600, color: "#cbd5e1" }}>
                 Amount (₹)
                 <input
                   name="amount"
@@ -315,6 +323,9 @@ export function AdminFees() {
                   required
                   placeholder="e.g. 5000"
                   style={{
+                    width: "100%",
+                    minWidth: 0,
+                    boxSizing: "border-box",
                     height: 42,
                     borderRadius: 10,
                     background: "#070b24",
@@ -326,12 +337,15 @@ export function AdminFees() {
                 />
               </label>
 
-              <label style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12.5, fontWeight: 600, color: "#cbd5e1" }}>
+              <label style={{ display: "flex", flexDirection: "column", gap: 6, minWidth: 0, fontSize: 12.5, fontWeight: 600, color: "#cbd5e1" }}>
                 Payment Method
                 <select
                   name="method"
                   defaultValue="upi"
                   style={{
+                    width: "100%",
+                    minWidth: 0,
+                    boxSizing: "border-box",
                     height: 42,
                     borderRadius: 10,
                     background: "#070b24",

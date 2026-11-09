@@ -20,7 +20,7 @@ import {
   Inbox,
   Check,
 } from "lucide-react";
-import { CustomSelect, type CustomSelectOption } from "./custom-select";
+import type { CustomSelectOption } from "./custom-select";
 import { SkeletonTableRows } from "./skeleton-patterns";
 
 export type AgColumn<T> = {
@@ -92,11 +92,6 @@ export function AgTable<T>({
   statusTabHint,
   searchPlaceholder = "Search title, company or creator...",
   searchAccessor,
-  dropdownFilters,
-  filterOptions,
-  filterValue,
-  onFilterChange,
-  filterPlaceholder = "Any status",
   headerActions,
   initialPageSize = 10,
   pageSizeOptions = [10, 25, 50, 100],
@@ -136,23 +131,6 @@ export function AgTable<T>({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showColumnsMenu]);
-
-  // Combine single filter with multi dropdownFilters
-  const allDropdownFilters: DropdownFilter[] = useMemo(() => {
-    const list: DropdownFilter[] = [];
-    if (dropdownFilters && dropdownFilters.length > 0) {
-      list.push(...dropdownFilters);
-    } else if (filterOptions && onFilterChange) {
-      list.push({
-        key: "default-filter",
-        options: filterOptions,
-        value: filterValue ?? "",
-        onChange: onFilterChange,
-        placeholder: filterPlaceholder,
-      });
-    }
-    return list;
-  }, [dropdownFilters, filterOptions, filterValue, onFilterChange, filterPlaceholder]);
 
   // Filter & sort data
   const filteredData = useMemo(() => {
@@ -355,7 +333,7 @@ export function AgTable<T>({
         </div>
       )}
 
-      {/* 2. TOOLBAR CONTROLS BAR (Search + Dropdown Filters + Columns & Actions) */}
+      {/* 2. TOOLBAR CONTROLS BAR (Search + actions) */}
       <div className="ag-controls-toolbar">
         {/* Search box with Q icon */}
         <div className="ag-search-field">
@@ -385,28 +363,8 @@ export function AgTable<T>({
           )}
         </div>
 
-        {/* Secondary Controls Bar: Filters on Left, Actions & Columns on Right */}
+        {/* Secondary Controls Bar: actions and columns */}
         <div className="ag-controls-secondary-row">
-          {allDropdownFilters.length > 0 && (
-            <div className="ag-toolbar-filters-subgroup">
-              {allDropdownFilters.map((df) => (
-                <div key={df.key} className="ag-filter-dropdown-wrap" style={{ minWidth: df.width ?? 160 }}>
-                  <CustomSelect
-                    size="sm"
-                    options={df.options}
-                    value={df.value}
-                    onChange={(val) => {
-                      df.onChange(val);
-                      setPage(1);
-                    }}
-                    placeholder={df.placeholder ?? "Filter..."}
-                    icon={df.icon}
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-
           {/* Right Controls: Export CSV + Columns Visibility + Refresh + Custom header actions */}
           <div className="ag-toolbar-right-group">
             {headerActions}

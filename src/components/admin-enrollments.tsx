@@ -316,13 +316,23 @@ export function AdminEnrollments() {
           <span
             style={{
               fontFamily: "var(--font-mono)",
-              fontSize: 12,
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 6,
+              minHeight: 32,
+              fontSize: 11.5,
               fontWeight: 700,
-              padding: "4px 10px",
-              borderRadius: 20,
-              background: pendingRequests.length > 0 ? "rgba(245, 158, 11, 0.18)" : "rgba(255, 255, 255, 0.05)",
-              color: pendingRequests.length > 0 ? "#fbbf24" : "#94a3b8",
-              border: `1px solid ${pendingRequests.length > 0 ? "rgba(245, 158, 11, 0.3)" : "rgba(255, 255, 255, 0.1)"}`,
+              letterSpacing: "0.02em",
+              lineHeight: 1,
+              whiteSpace: "nowrap",
+              flexShrink: 0,
+              padding: "0 12px",
+              borderRadius: 999,
+              background: pendingRequests.length > 0 ? "rgba(245, 158, 11, 0.18)" : "rgba(16, 185, 129, 0.14)",
+              color: pendingRequests.length > 0 ? "#fbbf24" : "#5eead4",
+              border: `1px solid ${pendingRequests.length > 0 ? "rgba(245, 158, 11, 0.34)" : "rgba(45, 212, 191, 0.35)"}`,
+              boxShadow: pendingRequests.length > 0 ? "0 4px 14px rgba(245, 158, 11, 0.12)" : "0 4px 14px rgba(16, 185, 129, 0.12)",
             }}
           >
             {pendingRequests.length} Pending

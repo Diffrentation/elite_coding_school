@@ -453,22 +453,6 @@ export function AdminBanners() {
               </span>
             </div>
 
-            <button
-              className="button primary admin-action admin-banner-top-save"
-              type="submit"
-              style={{
-                padding: "8px 20px",
-                borderRadius: 8,
-                background: "linear-gradient(135deg, #7c3aed, #9333ea)",
-                color: "#ffffff",
-                fontSize: 13,
-                fontWeight: 700,
-                cursor: "pointer",
-                border: "1px solid rgba(255, 255, 255, 0.2)",
-              }}
-            >
-              {editing ? "Save Changes" : "Save as Draft"}
-            </button>
           </div>
 
           <label>

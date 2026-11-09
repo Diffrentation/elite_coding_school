@@ -272,6 +272,7 @@ export function AdminQueries() {
     {
       key: "actions",
       header: "Actions",
+      width: 118,
       sortable: false,
       render: (q) => (
         <button
@@ -280,16 +281,19 @@ export function AdminQueries() {
           style={{
             display: "inline-flex",
             alignItems: "center",
-            gap: 5,
-            padding: "6px 12px",
-            borderRadius: 8,
+            gap: 4,
+            minHeight: 32,
+            padding: "0 8px",
+            borderRadius: 7,
             background: "rgba(124, 58, 237, 0.18)",
             border: "1px solid rgba(168, 85, 247, 0.35)",
             color: "#c084fc",
-            fontSize: 12.5,
+            fontSize: 11.5,
             fontWeight: 600,
             cursor: "pointer",
             transition: "all 0.15s ease",
+            whiteSpace: "nowrap",
+            flexShrink: 0,
           }}
         >
           <MessageSquare size={13} />
@@ -323,15 +327,18 @@ export function AdminQueries() {
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: 6,
-              padding: "6px 12px",
+              gap: 5,
+              minHeight: 32,
+              padding: "0 9px",
               borderRadius: 7,
-              fontSize: 12.5,
+              fontSize: 11.5,
               fontWeight: 600,
               background: viewMode === "table" ? "linear-gradient(135deg, #7c3aed, #9333ea)" : "transparent",
               color: viewMode === "table" ? "#ffffff" : "#94a3b8",
               border: 0,
               cursor: "pointer",
+              whiteSpace: "nowrap",
+              flexShrink: 0,
             }}
           >
             <TableIcon size={14} />
@@ -343,15 +350,18 @@ export function AdminQueries() {
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: 6,
-              padding: "6px 12px",
+              gap: 5,
+              minHeight: 32,
+              padding: "0 9px",
               borderRadius: 7,
-              fontSize: 12.5,
+              fontSize: 11.5,
               fontWeight: 600,
               background: viewMode === "cards" ? "linear-gradient(135deg, #7c3aed, #9333ea)" : "transparent",
               color: viewMode === "cards" ? "#ffffff" : "#94a3b8",
               border: 0,
               cursor: "pointer",
+              whiteSpace: "nowrap",
+              flexShrink: 0,
             }}
           >
             <LayoutGrid size={14} />
