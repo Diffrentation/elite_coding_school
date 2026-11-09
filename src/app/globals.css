@@ -10109,12 +10109,18 @@ a {
 .skeleton-shimmer {
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.04) 0%,
-    rgba(255, 255, 255, 0.1) 50%,
-    rgba(255, 255, 255, 0.04) 100%
+    #0b1740 0%,
+    #172d60 50%,
+    #0b1740 100%
   );
   background-size: 200% 100%;
   animation: skeleton-wave 1.6s ease-in-out infinite;
+}
+
+.admin-skeleton-page {
+  min-height: 100vh;
+  background: #06091e;
+  color: #f1f5f9;
 }
 
 @keyframes skeleton-wave {

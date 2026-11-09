@@ -128,7 +128,7 @@ export function SkeletonCardsGrid({
  */
 export function SkeletonPagePattern({ title = "Loading page..." }: { title?: string }) {
   return (
-    <main className="portal-content" aria-busy="true" aria-label={title}>
+    <main className="portal-content admin-skeleton-page" aria-busy="true" aria-label={title}>
       {/* Header skeleton */}
       <div style={{ marginBottom: 28, display: "flex", flexDirection: "column", gap: 8 }}>
         <SkeletonBlock width={140} height={12} borderRadius={4} />
