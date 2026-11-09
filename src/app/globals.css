@@ -9955,7 +9955,8 @@ a {
     padding: 16px 12px 36px !important;
   }
   .admin-dashboard-kpi-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
   }
   .admin-profile-info {
     display: none !important;
@@ -10831,5 +10832,53 @@ a {
   .admin-course-editor-form .form-wide,
   .admin-course-editor-form .course-editor-top-bar {
     grid-column: 1 !important;
+  }
+}
+
+/* Compact dashboard metrics: retain a useful two-column overview on phones. */
+@media (max-width: 600px) {
+  .admin-dashboard-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+  }
+
+  .admin-dashboard-kpi-grid > div {
+    min-width: 0;
+    min-height: 104px;
+    padding: 12px !important;
+    gap: 9px !important;
+  }
+
+  .admin-dashboard-kpi-grid > div > div:first-child {
+    flex: 0 0 38px !important;
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 10px !important;
+  }
+
+  .admin-dashboard-kpi-grid > div > div:first-child svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .admin-dashboard-kpi-grid > div strong {
+    font-size: 22px !important;
+  }
+
+  .admin-dashboard-kpi-grid > div span {
+    font-size: 10.5px !important;
+    line-height: 1.25;
+  }
+
+  .admin-dashboard-kpi-grid > div > a {
+    flex: 0 0 28px;
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 8px !important;
+  }
+
+  .admin-dashboard-kpi-grid > div > a svg {
+    width: 14px;
+    height: 14px;
   }
 }

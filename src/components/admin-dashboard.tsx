@@ -217,8 +217,8 @@ export function AdminDashboard() {
         className="admin-dashboard-kpi-grid"
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 220px), 1fr))",
-          gap: 18,
+          gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+          gap: 12,
           marginBottom: 30,
         }}
       >
