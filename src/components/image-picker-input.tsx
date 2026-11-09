@@ -72,13 +72,13 @@ export function ImagePickerInput({
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 6, width: "100%", minWidth: 0, boxSizing: "border-box" }}>
+    <div className="image-picker-input" style={{ display: "flex", flexDirection: "column", gap: 6, width: "100%", minWidth: 0, boxSizing: "border-box" }}>
       {/* Hidden input ensuring the selected URL is submitted with standard FormData */}
       <input type="hidden" name={name} value={value} />
 
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", minWidth: 0 }}>
+      <div className="image-picker-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", minWidth: 0 }}>
         <span style={{ fontSize: "12.5px", fontWeight: 600, color: "#cbd5e1" }}>{label}</span>
-        <div style={{ display: "inline-flex", background: "rgba(255, 255, 255, 0.06)", borderRadius: 6, padding: 2, flexShrink: 0 }}>
+        <div className="image-picker-mode-toggle" style={{ display: "inline-flex", background: "rgba(255, 255, 255, 0.06)", borderRadius: 6, padding: 2, flexShrink: 0 }}>
           <button
             type="button"
             onClick={() => setMode("upload")}
@@ -123,6 +123,7 @@ export function ImagePickerInput({
       {/* Input Mode: Local Laptop File Upload */}
       {mode === "upload" && (
         <div
+          className="image-picker-upload-box"
           style={{
             border: "1px dashed rgba(255, 255, 255, 0.16)",
             borderRadius: 10,
@@ -136,7 +137,7 @@ export function ImagePickerInput({
             boxSizing: "border-box",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0, flex: 1 }}>
+          <div className="image-picker-upload-copy" style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0, flex: 1 }}>
             <div
               style={{
                 width: 36,
@@ -166,6 +167,7 @@ export function ImagePickerInput({
           </div>
 
           <label
+            className="image-picker-browse-button"
             style={{
               display: "inline-flex",
               alignItems: "center",

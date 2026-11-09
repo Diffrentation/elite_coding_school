@@ -14,6 +14,7 @@ import {
   Code2,
   Cpu,
   Globe,
+  HelpCircle,
   Layers,
   Mail,
   MapPin,
@@ -30,6 +31,7 @@ import {
   Zap,
 } from "lucide-react";
 import { InquiryForm } from "@/components/inquiry-form";
+import { Footer } from "@/components/footer";
 
 type Settings = {
   instituteName: string;
@@ -49,6 +51,31 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
       .then((body) => setSettings(body.data?.settings ?? null))
       .catch(() => setSettings(null));
   }, []);
+
+  // Auto-scroll directly to contact form if arrived via #contact-form or #book-demo
+  useEffect(() => {
+    if (type !== "contact") return;
+    const scrollToForm = () => {
+      const hash = typeof window !== "undefined" ? window.location.hash : "";
+      if (hash === "#contact-form" || hash === "#book-demo" || hash === "#inquiry-form") {
+        const el = document.getElementById("contact-form") || document.getElementById("book-demo");
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+          const firstInput = el.querySelector("input") as HTMLInputElement | null;
+          if (firstInput) {
+            setTimeout(() => firstInput.focus({ preventScroll: true }), 400);
+          }
+        }
+      }
+    };
+
+    const timer = setTimeout(scrollToForm, 150);
+    window.addEventListener("hashchange", scrollToForm);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("hashchange", scrollToForm);
+    };
+  }, [type]);
 
   const name = settings?.instituteName ?? "Elite Coding School";
   const address =
@@ -86,11 +113,11 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 <div className="offline-chips-row">
                   <div className="offline-chip">
                     <CheckCircle2 size={14} />
-                    <span>Genuine Classroom Teaching</span>
+                    <span>In-Person Classroom</span>
                   </div>
                   <div className="offline-chip">
                     <Users size={14} />
-                    <span>Small Batches (10–15 Students)</span>
+                    <span>Small Batches (10–15)</span>
                   </div>
                   <div className="offline-chip">
                     <Code2 size={14} />
@@ -98,7 +125,7 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                   </div>
                   <div className="offline-chip">
                     <Zap size={14} />
-                    <span>1:1 Teacher Doubt Solving</span>
+                    <span>1:1 Teacher Help</span>
                   </div>
                 </div>
 
@@ -107,7 +134,7 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                     <span>View Classroom Courses</span>
                     <ArrowRight size={17} />
                   </Link>
-                  <Link className="btn-secondary-hero" href="/contact">
+                  <Link className="btn-secondary-hero" href="/contact#contact-form">
                     <Building2 size={16} />
                     <span>Visit Our Center &amp; Take Demo</span>
                   </Link>
@@ -174,7 +201,7 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
               </p>
             </div>
 
-            <div className="tech-pillars-grid" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+            <div className="tech-pillars-grid teaching-commitment-grid">
               <div className="pillar-card">
                 <div className="pillar-icon-box icon-box-dev">
                   <Zap size={24} />
@@ -351,7 +378,7 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
               </div>
 
               <div className="cta-right">
-                <Link className="btn-cta-main" href="/contact">
+                <Link className="btn-cta-main" href="/contact#contact-form">
                   <span>Book Free Demo Class</span>
                   <ArrowRight size={17} />
                 </Link>
@@ -369,9 +396,9 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
           <section className="courses-catalog-hero" style={{ paddingBottom: "50px" }}>
             <div className="courses-hero-inner">
               <div className="courses-hero-copy">
-                <div className="kicker">
-                  <span className="pulse-dot" />
-                  <span>VISIT US &amp; ATTEND A DEMO CLASS</span>
+                <div className="kicker kicker-vertical">
+                  <span className="kicker-line">● VISIT OUR COACHING CENTER</span>
+                  <span className="kicker-sub-line">IN-PERSON DEMO CLASS</span>
                 </div>
                 <h1>
                   Visit Our Coaching Center in Person. <br />
@@ -384,16 +411,43 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 <div className="offline-chips-row">
                   <div className="offline-chip">
                     <Clock size={14} />
-                    <span>Open 9:00 AM - 7:00 PM (Mon-Sat)</span>
+                    <span>09:00 AM – 07:00 PM</span>
                   </div>
                   <div className="offline-chip">
                     <MapPin size={14} />
-                    <span>Vijay Nagar Bypass, Bagu</span>
+                    <span>Vijay Nagar Bypass</span>
                   </div>
                   <div className="offline-chip">
                     <Sparkles size={14} />
-                    <span>Free Trial Demo Available</span>
+                    <span>Free Trial Demo Class</span>
                   </div>
+                  <div className="offline-chip">
+                    <Users size={14} />
+                    <span>Small Batches (10–15)</span>
+                  </div>
+                </div>
+
+                <div className="hero-actions" style={{ marginTop: "24px" }}>
+                  <a
+                    className="btn-primary-hero"
+                    href="#contact-form"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const el = document.getElementById("contact-form") || document.getElementById("book-demo");
+                      if (el) {
+                        el.scrollIntoView({ behavior: "smooth", block: "start" });
+                        const firstInput = el.querySelector("input") as HTMLInputElement | null;
+                        if (firstInput) setTimeout(() => firstInput.focus({ preventScroll: true }), 400);
+                      }
+                    }}
+                  >
+                    <span>Book Free Trial Demo Class</span>
+                    <ArrowRight size={17} />
+                  </a>
+                  <a className="btn-secondary-hero" href="#campus-directory">
+                    <Building2 size={16} />
+                    <span>View Campus Details</span>
+                  </a>
                 </div>
               </div>
 
@@ -432,133 +486,80 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
             </div>
           </section>
 
-          {/* 2-Column Contact Info + Form */}
-          <section className="catalog-content-section" style={{ paddingTop: "50px" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1.15fr", gap: "40px", alignItems: "start" }}>
+          {/* Contact Info + Inquiry Form Section */}
+          <section className="catalog-content-section contact-body-section">
+            <div className="contact-main-grid">
               {/* Left Column: Campus Info Cards */}
-              <div>
+              <div className="contact-dir-column" id="campus-directory">
                 <div className="section-kicker" style={{ marginBottom: "12px" }}>
                   <MapPin size={13} />
-                  <span>DIRECT DIRECTORY</span>
+                  <span>CAMPUS DIRECTORY</span>
                 </div>
-                <h2 style={{ fontSize: "28px", fontWeight: 800, color: "#ffffff", margin: "0 0 24px" }}>
+                <h2 className="contact-section-title">
                   Campus Contact &amp; Location
                 </h2>
+                <p className="contact-section-subtitle">
+                  Visit our classroom for in-person counseling or connect directly with our mentors.
+                </p>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                <div className="contact-cards-stack">
                   {/* Address Card */}
-                  <div
-                    style={{
-                      background: "#090e2e",
-                      border: "1px solid rgba(255, 255, 255, 0.08)",
-                      borderRadius: "16px",
-                      padding: "20px",
-                      display: "flex",
-                      gap: "16px",
-                    }}
-                  >
-                    <div className="pillar-icon-box icon-box-dev" style={{ width: "42px", height: "42px", marginBottom: 0 }}>
+                  <div className="contact-info-card">
+                    <div className="pillar-icon-box icon-box-dev" style={{ width: "44px", height: "44px", minWidth: "44px", marginBottom: 0 }}>
                       <MapPin size={20} />
                     </div>
-                    <div>
-                      <h4 style={{ fontSize: "16px", fontWeight: 700, color: "#ffffff", margin: "0 0 4px" }}>
-                        Physical Campus Address
-                      </h4>
-                      <p style={{ color: "#cbd5e1", fontSize: "13px", lineHeight: 1.6, margin: 0 }}>
-                        {address}
-                      </p>
-                      <span style={{ color: "#38bdf8", fontSize: "12px", display: "block", marginTop: "6px" }}>
+                    <div className="contact-info-body">
+                      <h4>Physical Campus Address</h4>
+                      <p>{address}</p>
+                      <span className="contact-sub-highlight">
                         🚇 200m walk from Metro Station &bull; Visitor parking available
                       </span>
                     </div>
                   </div>
 
                   {/* Phone Helpline Card */}
-                  <div
-                    style={{
-                      background: "#090e2e",
-                      border: "1px solid rgba(255, 255, 255, 0.08)",
-                      borderRadius: "16px",
-                      padding: "20px",
-                      display: "flex",
-                      gap: "16px",
-                    }}
-                  >
-                    <div className="pillar-icon-box icon-box-net" style={{ width: "42px", height: "42px", marginBottom: 0 }}>
+                  <div className="contact-info-card">
+                    <div className="pillar-icon-box icon-box-net" style={{ width: "44px", height: "44px", minWidth: "44px", marginBottom: 0 }}>
                       <Phone size={20} />
                     </div>
-                    <div>
-                      <h4 style={{ fontSize: "16px", fontWeight: 700, color: "#ffffff", margin: "0 0 4px" }}>
-                        Admissions Desk &amp; Helpline
-                      </h4>
-                      <p style={{ color: "#cbd5e1", fontSize: "14px", fontWeight: 700, margin: 0 }}>
-                        {phone}
-                      </p>
-                      <span style={{ color: "#94a3b8", fontSize: "12px", display: "block", marginTop: "4px" }}>
-                        Direct calls &amp; WhatsApp counseling available Mon-Sat
+                    <div className="contact-info-body">
+                      <h4>Admissions Desk &amp; Helpline</h4>
+                      <a href={`tel:${phone.replace(/\s+/g, "")}`} className="contact-action-link contact-phone-link">
+                        <span>{phone}</span>
+                        <ArrowRight size={14} />
+                      </a>
+                      <span className="contact-sub-note">
+                        Direct calls &amp; WhatsApp counseling available Mon–Sat
                       </span>
                     </div>
                   </div>
 
                   {/* Email Card */}
-                  <div
-                    style={{
-                      background: "#090e2e",
-                      border: "1px solid rgba(255, 255, 255, 0.08)",
-                      borderRadius: "16px",
-                      padding: "20px",
-                      display: "flex",
-                      gap: "16px",
-                    }}
-                  >
-                    <div className="pillar-icon-box icon-box-os" style={{ width: "42px", height: "42px", marginBottom: 0 }}>
+                  <div className="contact-info-card">
+                    <div className="pillar-icon-box icon-box-os" style={{ width: "44px", height: "44px", minWidth: "44px", marginBottom: 0 }}>
                       <Mail size={20} />
                     </div>
-                    <div>
-                      <h4 style={{ fontSize: "16px", fontWeight: 700, color: "#ffffff", margin: "0 0 4px" }}>
-                        Official Email
-                      </h4>
-                      <p style={{ color: "#cbd5e1", fontSize: "13px", margin: 0 }}>
-                        {email}
-                      </p>
-                      <span style={{ color: "#94a3b8", fontSize: "12px", display: "block", marginTop: "4px" }}>
+                    <div className="contact-info-body">
+                      <h4>Official Email</h4>
+                      <a href={`mailto:${email}`} className="contact-action-link contact-email-link">
+                        <span>{email}</span>
+                      </a>
+                      <span className="contact-sub-note">
                         Send inquiries for syllabus PDFs or corporate training
                       </span>
                     </div>
                   </div>
-                </div>
 
-                {/* Campus Visit FAQs */}
-                <div style={{ marginTop: "32px" }}>
-                  <h3 style={{ fontSize: "18px", fontWeight: 700, color: "#ffffff", marginBottom: "14px" }}>
-                    Frequently Asked Questions
-                  </h3>
-
-                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                    <div style={{ background: "#090e2e", border: "1px solid rgba(255,255,255,0.06)", borderRadius: "12px", padding: "14px" }}>
-                      <strong style={{ color: "#ffffff", fontSize: "13px", display: "block", marginBottom: "4px" }}>
-                        Do I need an appointment before visiting?
-                      </strong>
-                      <span style={{ color: "#94a3b8", fontSize: "12px", lineHeight: 1.5, display: "block" }}>
-                        No appointment is necessary! You are welcome to walk in between 9:00 AM and 8:30 PM Monday through Saturday.
-                      </span>
+                  {/* Visiting Hours Card */}
+                  <div className="contact-info-card">
+                    <div className="pillar-icon-box icon-box-data" style={{ width: "44px", height: "44px", minWidth: "44px", marginBottom: 0 }}>
+                      <Clock size={20} />
                     </div>
-
-                    <div style={{ background: "#090e2e", border: "1px solid rgba(255,255,255,0.06)", borderRadius: "12px", padding: "14px" }}>
-                      <strong style={{ color: "#ffffff", fontSize: "13px", display: "block", marginBottom: "4px" }}>
-                        Do I need to bring my own laptop?
-                      </strong>
-                      <span style={{ color: "#94a3b8", fontSize: "12px", lineHeight: 1.5, display: "block" }}>
-                        Yes, carrying your own laptop is necessary for your daily coding practice. Every desk is equipped with dedicated power charging sockets and fast Wi-Fi so you can code directly on your personal machine and keep all your work safe.
-                      </span>
-                    </div>
-
-                    <div style={{ background: "#090e2e", border: "1px solid rgba(255,255,255,0.06)", borderRadius: "12px", padding: "14px" }}>
-                      <strong style={{ color: "#ffffff", fontSize: "13px", display: "block", marginBottom: "4px" }}>
-                        Can I attend a free demo class before enrolling?
-                      </strong>
-                      <span style={{ color: "#94a3b8", fontSize: "12px", lineHeight: 1.5, display: "block" }}>
-                        Yes! We offer a free trial demo class. Just bring your laptop, sit in the classroom, experience how our teachers break down concepts, and see if it feels right for you.
+                    <div className="contact-info-body">
+                      <h4>Center Walk-in Hours</h4>
+                      <p>{hours}</p>
+                      <span className="contact-sub-highlight" style={{ color: "#34d399" }}>
+                        ● Walk-ins welcome anytime during open hours
                       </span>
                     </div>
                   </div>
@@ -566,171 +567,54 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
               </div>
 
               {/* Right Column: Inquiry & Demo Booking Form */}
-              <div>
+              <div className="contact-form-column" id="contact-form">
                 <InquiryForm />
+              </div>
+            </div>
+
+            {/* Campus Visit FAQs (Full Width Section below) */}
+            <div className="contact-faqs-section">
+              <div className="contact-faqs-header">
+                <div className="section-kicker">
+                  <HelpCircle size={13} />
+                  <span>FREQUENT QUESTIONS</span>
+                </div>
+                <h3>Campus Visit &amp; Walk-in FAQs</h3>
+                <p>Everything you need to know before visiting our offline coaching center.</p>
+              </div>
+
+              <div className="contact-faqs-grid">
+                <div className="contact-faq-card">
+                  <div className="contact-faq-badge">01</div>
+                  <strong>Do I need an appointment before visiting?</strong>
+                  <p>
+                    No appointment is necessary! You are welcome to walk in between 9:00 AM and 7:00 PM Monday through Saturday. Our teachers and counselors are always present in the center to show you the lab.
+                  </p>
+                </div>
+
+                <div className="contact-faq-card">
+                  <div className="contact-faq-badge">02</div>
+                  <strong>Do I need to bring my own laptop?</strong>
+                  <p>
+                    Yes, carrying your own laptop is necessary for daily coding practice. Every desk has dedicated power charging sockets and fast Wi-Fi so you code directly on your personal machine and keep all your projects safe.
+                  </p>
+                </div>
+
+                <div className="contact-faq-card">
+                  <div className="contact-faq-badge">03</div>
+                  <strong>Can I attend a free demo class before enrolling?</strong>
+                  <p>
+                    Yes! We offer a free trial demo class. Just bring your laptop, sit in the classroom, experience how our teachers break down concepts, and see if our practical teaching style feels right for you.
+                  </p>
+                </div>
               </div>
             </div>
           </section>
         </>
       )}
 
-      {/* 3. COMPREHENSIVE FOOTER */}
-      <footer className="site-footer" id="contact">
-        <div className="footer-inner">
-          <div className="footer-top-strip">
-            <div className="footer-brand-lockup">
-              <Link className="brand" href="/">
-                <span className="brand-mark">&lt;/&gt;</span>
-                <span>{name}</span>
-              </Link>
-              <div className="footer-live-status">
-                <span className="pulse-dot" />
-                <span>CENTER OPEN TODAY (09:00 - 19:00 IST)</span>
-              </div>
-            </div>
-
-            <div className="social-icons-row">
-              <a className="social-btn" href="https://github.com" target="_blank" rel="noreferrer" aria-label="GitHub">
-                <Code2 size={17} />
-              </a>
-              <a className="social-btn" href="https://discord.com" target="_blank" rel="noreferrer" aria-label="Discord">
-                <Radio size={17} />
-              </a>
-              <a className="social-btn" href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                <Globe size={17} />
-              </a>
-              <a className="social-btn" href={`mailto:${email}`} aria-label="Email">
-                <Mail size={17} />
-              </a>
-            </div>
-          </div>
-
-          <div className="footer-columns">
-            <div className="footer-col">
-              <h4>Offline Coaching Center</h4>
-              <p className="lead">
-                A newly opened coaching center started by dedicated teachers focused on genuine, concept-first education in small batches.
-              </p>
-              <div className="footer-address-card">
-                <strong>📍 Center Location:</strong>
-                {address}
-                <br />
-                <span style={{ color: "#34d399", fontWeight: 600, display: "block", marginTop: "6px" }}>
-                  ● Walk-ins welcome Mon-Sat (9 AM - 7 PM)
-                </span>
-              </div>
-            </div>
-
-            <div className="footer-col">
-              <h4>Curriculum Verticals</h4>
-              <ul className="footer-nav-list">
-                <li>
-                  <Link href="/courses">
-                    <ChevronRight size={13} /> Full-Stack Web Development
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/courses">
-                    <ChevronRight size={13} /> Computer Networks Fundamentals
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/courses">
-                    <ChevronRight size={13} /> Linux &amp; OS Basics
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/courses">
-                    <ChevronRight size={13} /> Programming Logic &amp; DSA
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="footer-col">
-              <h4>Admissions &amp; Portal</h4>
-              <ul className="footer-nav-list">
-                <li>
-                  <Link href="/courses">
-                    <ChevronRight size={13} /> All Courses &amp; Syllabi
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/register">
-                    <ChevronRight size={13} /> Book a Free Demo Class
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/login">
-                    <ChevronRight size={13} /> Student Portal Login
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/admin">
-                    <ChevronRight size={13} /> Faculty &amp; Admin Panel
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact">
-                    <ChevronRight size={13} /> Center Walk-in Info
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="footer-col">
-              <h4>Center Contact</h4>
-              <ul className="footer-contact-list">
-                <li>
-                  <Phone size={15} />
-                  <span>{phone} (Admissions Desk)</span>
-                </li>
-                <li>
-                  <Mail size={15} />
-                  <span>{email}</span>
-                </li>
-                <li>
-                  <Clock size={15} />
-                  <span>Visiting Hours: {hours}</span>
-                </li>
-                <li>
-                  <Building2 size={15} />
-                  <span>Vijay Nagar Bypass, Bagu</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="footer-assurance-strip">
-            <div className="assurance-item">
-              <Monitor size={16} />
-              <span>Clean Desks &amp; Laptop Charging</span>
-            </div>
-            <div className="assurance-item">
-              <Wifi size={16} />
-              <span>High-Speed Classroom Wi-Fi</span>
-            </div>
-            <div className="assurance-item">
-              <Users size={16} />
-              <span>10–15 Students Small Batches</span>
-            </div>
-            <div className="assurance-item">
-              <ShieldCheck size={16} />
-              <span>Genuine Concept-First Teaching</span>
-            </div>
-          </div>
-
-          <div className="footer-bottom-bar">
-            <span>&copy; <CopyrightYear /> {name}. Dedicated to genuine, practical teaching.</span>
-            <div className="footer-bottom-links">
-              <Link href="/about">About Center</Link>
-              <Link href="/contact">Visit Us</Link>
-              <Link href="/courses">All Courses</Link>
-              <Link href="/">Back Home</Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      {/* 3. COMPREHENSIVE SMART ACCORDION FOOTER */}
+      <Footer name={name} address={address} phone={phone} email={email} hours={hours} />
     </main>
   );
 }

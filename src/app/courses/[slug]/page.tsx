@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
 import { CopyrightYear } from "@/components/copyright-year";
+import { CourseDetailSkeleton } from "@/components/ui/skeleton-patterns";
 import {
   ArrowLeft,
   ArrowRight,
@@ -395,6 +397,7 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
 
   useEffect(() => {
     params.then(({ slug }) => {
+      const normalizedSlug = slug.replace(/_/g, "-");
       setResolvedSlug(slug);
       fetch(`/api/courses/${slug}`)
         .then((r) => r.json())
@@ -404,7 +407,7 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
             setCourse(apiCourse);
           } else {
             // Fallback to high-quality curated course
-            const fallback = FALLBACK_COURSES[slug] ?? FALLBACK_COURSES["full-stack-development"];
+            const fallback = FALLBACK_COURSES[slug] ?? FALLBACK_COURSES[normalizedSlug] ?? FALLBACK_COURSES["full-stack-development"];
             setCourse({
               _id: `course-${slug}`,
               slug,
@@ -437,7 +440,7 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
           }
         })
         .catch(() => {
-          const fallback = FALLBACK_COURSES[slug] ?? FALLBACK_COURSES["full-stack-development"];
+          const fallback = FALLBACK_COURSES[slug] ?? FALLBACK_COURSES[normalizedSlug] ?? FALLBACK_COURSES["full-stack-development"];
           setCourse({
             _id: `course-${slug}`,
             slug,
@@ -480,13 +483,11 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
     }
   }
 
-  if (!course) {
+    if (!course) {
     return (
-      <main className="courses-redesign" style={{ display: "grid", placeItems: "center", minHeight: "80vh" }}>
-        <div style={{ textAlign: "center" }}>
-          <span className="pulse-dot" style={{ width: "16px", height: "16px", margin: "0 auto 16px" }} />
-          <h3 style={{ color: "#ffffff", fontSize: "20px" }}>Loading Offline Lab Course...</h3>
-        </div>
+      <main className="courses-redesign">
+        <Navbar activePage="courses" />
+        <CourseDetailSkeleton />
       </main>
     );
   }
@@ -500,24 +501,30 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
       <section className="courses-catalog-hero" style={{ paddingBottom: "60px" }}>
         <div className="courses-hero-inner">
           <div className="courses-hero-copy">
-            <Link
-              href="/courses"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px",
-                color: "#c084fc",
-                fontSize: "13px",
-                fontWeight: 600,
-                marginBottom: "16px",
-              }}
-            >
-              <ArrowLeft size={14} /> Back to all courses
-            </Link>
+            {/* Row 1: Back Navigation */}
+            <div className="course-back-row" style={{ marginBottom: "14px", display: "block" }}>
+              <Link
+                href="/courses"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  color: "#c084fc",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  textDecoration: "none",
+                }}
+              >
+                <ArrowLeft size={14} /> Back to all courses
+              </Link>
+            </div>
 
-            <div className="kicker">
-              <span className="pulse-dot" />
-              <span>OFFLINE CLASSROOM &amp; LAB COHORT</span>
+            {/* Row 2: Offline Cohort Badge */}
+            <div className="course-kicker-row" style={{ marginBottom: "18px", display: "block" }}>
+              <div className="kicker" style={{ margin: 0 }}>
+                <span className="pulse-dot" />
+                <span>OFFLINE CLASSROOM &amp; LAB COHORT</span>
+              </div>
             </div>
 
             <h1>{course.title}</h1>
@@ -626,67 +633,34 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
       </section>
 
       {/* 3. SYLLABUS & CURRICULUM SECTION */}
-      <section className="catalog-content-section" style={{ paddingTop: "40px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1.3fr 0.7fr", gap: "40px" }}>
+      <section className="catalog-content-section course-syllabus-section">
+        <div className="course-curriculum-grid">
           {/* Left: Syllabus Modules */}
-          <div>
+          <div className="curriculum-main">
             <div className="section-kicker" style={{ marginBottom: "14px" }}>
               <BookOpen size={13} />
               <span>DETAILED LAB SYLLABUS</span>
             </div>
-            <h2 style={{ fontSize: "28px", fontWeight: 800, color: "#ffffff", margin: "0 0 24px" }}>
+            <h2 className="curriculum-heading">
               What You&apos;ll Build &amp; Master
             </h2>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            <div className="modules-list">
               {course.syllabus.map((mod, idx) => (
                 <div
                   key={mod.id ?? idx}
-                  style={{
-                    background: "#0a0f33",
-                    border: "1px solid rgba(255, 255, 255, 0.09)",
-                    borderRadius: "14px",
-                    padding: "20px",
-                  }}
+                  className="module-card"
                 >
-                  <h3
-                    style={{
-                      fontSize: "17px",
-                      fontWeight: 700,
-                      color: "#ffffff",
-                      margin: "0 0 12px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: "var(--font-mono)",
-                        color: "#a855f7",
-                        background: "rgba(168, 85, 247, 0.15)",
-                        padding: "2px 8px",
-                        borderRadius: "6px",
-                        fontSize: "12px",
-                      }}
-                    >
+                  <h3 className="module-title">
+                    <span className="module-badge">
                       0{idx + 1}
                     </span>
                     <span>{mod.title}</span>
                   </h3>
-                  <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "8px" }}>
+                  <ul className="module-topics-list">
                     {mod.topics.map((t) => (
-                      <li
-                        key={t}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "8px",
-                          color: "#cbd5e1",
-                          fontSize: "13px",
-                        }}
-                      >
-                        <CheckCircle2 size={14} color="#10b981" />
+                      <li key={t}>
+                        <CheckCircle2 size={15} color="#10b981" className="topic-icon" />
                         <span>{t}</span>
                       </li>
                     ))}
@@ -697,33 +671,14 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
           </div>
 
           {/* Right: Tech Stack & Prerequisites */}
-          <div>
-            <div
-              style={{
-                background: "#090e2e",
-                border: "1px solid rgba(255, 255, 255, 0.08)",
-                borderRadius: "16px",
-                padding: "24px",
-                marginBottom: "24px",
-              }}
-            >
-              <h4 style={{ fontSize: "16px", fontWeight: 700, color: "#ffffff", margin: "0 0 16px" }}>
+          <div className="curriculum-sidebar">
+            <div className="sidebar-card">
+              <h4 className="sidebar-card-title">
                 Technologies &amp; Tools Covered
               </h4>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+              <div className="tech-tags-list">
                 {course.skills.map((s) => (
-                  <span
-                    key={s}
-                    style={{
-                      fontFamily: "var(--font-mono)",
-                      fontSize: "12px",
-                      padding: "4px 10px",
-                      borderRadius: "8px",
-                      background: "rgba(255, 255, 255, 0.05)",
-                      border: "1px solid rgba(255, 255, 255, 0.1)",
-                      color: "#cbd5e1",
-                    }}
-                  >
+                  <span key={s} className="tech-tag">
                     {s}
                   </span>
                 ))}
@@ -731,18 +686,11 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
             </div>
 
             {course.prerequisites && course.prerequisites.length > 0 && (
-              <div
-                style={{
-                  background: "#090e2e",
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
-                  borderRadius: "16px",
-                  padding: "24px",
-                }}
-              >
-                <h4 style={{ fontSize: "16px", fontWeight: 700, color: "#ffffff", margin: "0 0 12px" }}>
+              <div className="sidebar-card">
+                <h4 className="sidebar-card-title">
                   Prerequisites
                 </h4>
-                <p style={{ color: "#949dbd", fontSize: "13px", lineHeight: 1.6, margin: 0 }}>
+                <p className="prereq-text">
                   {course.prerequisites.join(" • ")}
                 </p>
               </div>
@@ -751,163 +699,8 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
         </div>
       </section>
 
-      {/* 4. COMPREHENSIVE FOOTER */}
-      <footer className="site-footer" id="contact">
-        <div className="footer-inner">
-          <div className="footer-top-strip">
-            <div className="footer-brand-lockup">
-              <Link className="brand" href="/">
-                <span className="brand-mark">&lt;/&gt;</span>
-                <span>Elite Coding School</span>
-              </Link>
-              <div className="footer-live-status">
-                <span className="pulse-dot" />
-                <span>CENTER OPEN TODAY (09:00 - 19:00 IST)</span>
-              </div>
-            </div>
-
-            <div className="social-icons-row">
-              <a className="social-btn" href="https://github.com" target="_blank" rel="noreferrer" aria-label="GitHub">
-                <Code2 size={17} />
-              </a>
-              <a className="social-btn" href="https://discord.com" target="_blank" rel="noreferrer" aria-label="Discord">
-                <Radio size={17} />
-              </a>
-              <a className="social-btn" href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                <Globe size={17} />
-              </a>
-              <a className="social-btn" href="mailto:bbhupender100@gmail.com" aria-label="Email">
-                <Mail size={17} />
-              </a>
-            </div>
-          </div>
-
-          <div className="footer-columns">
-            <div className="footer-col">
-              <h4>Offline Coaching Center</h4>
-              <p className="lead">
-                A newly opened coaching center started by dedicated teachers focused on genuine, concept-first education in small batches.
-              </p>
-              <div className="footer-address-card">
-                <strong>📍 Center Location:</strong>
-                Vijay Nagar Bypass, Bagu
-                <br />
-                <span style={{ color: "#34d399", fontWeight: 600, display: "block", marginTop: "6px" }}>
-                  ● Walk-ins welcome Mon-Sat (9 AM - 7 PM)
-                </span>
-              </div>
-            </div>
-
-            <div className="footer-col">
-              <h4>Curriculum Verticals</h4>
-              <ul className="footer-nav-list">
-                <li>
-                  <Link href="/courses">
-                    <ChevronRight size={13} /> Full-Stack Web Development
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/courses">
-                    <ChevronRight size={13} /> Computer Networks Fundamentals
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/courses">
-                    <ChevronRight size={13} /> Linux &amp; OS Basics
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/courses">
-                    <ChevronRight size={13} /> Programming Logic &amp; DSA
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="footer-col">
-              <h4>Admissions &amp; Portal</h4>
-              <ul className="footer-nav-list">
-                <li>
-                  <Link href="/courses">
-                    <ChevronRight size={13} /> All Courses &amp; Syllabi
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/register">
-                    <ChevronRight size={13} /> Book a Free Demo Class
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/login">
-                    <ChevronRight size={13} /> Student Portal Login
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/admin">
-                    <ChevronRight size={13} /> Faculty &amp; Admin Panel
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact">
-                    <ChevronRight size={13} /> Center Walk-in Info
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="footer-col">
-              <h4>Center Contact</h4>
-              <ul className="footer-contact-list">
-                <li>
-                  <Phone size={15} />
-                  <span>+91 9311278407 (Admissions Desk)</span>
-                </li>
-                <li>
-                  <Mail size={15} />
-                  <span>bbhupender100@gmail.com</span>
-                </li>
-                <li>
-                  <Clock size={15} />
-                  <span>Visiting Hours: 9:00 AM - 7:00 PM (Mon-Sat)</span>
-                </li>
-                <li>
-                  <Building2 size={15} />
-                  <span>Vijay Nagar Bypass, Bagu</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="footer-assurance-strip">
-            <div className="assurance-item">
-              <Monitor size={16} />
-              <span>Clean Desks &amp; Laptop Charging</span>
-            </div>
-            <div className="assurance-item">
-              <Wifi size={16} />
-              <span>High-Speed Classroom Wi-Fi</span>
-            </div>
-            <div className="assurance-item">
-              <Users size={16} />
-              <span>10–15 Students Small Batches</span>
-            </div>
-            <div className="assurance-item">
-              <ShieldCheck size={16} />
-              <span>Genuine Concept-First Teaching</span>
-            </div>
-          </div>
-
-          <div className="footer-bottom-bar">
-            <span>&copy; <CopyrightYear /> Elite Coding School. Dedicated to genuine, practical teaching.</span>
-            <div className="footer-bottom-links">
-              <Link href="/about">About Center</Link>
-              <Link href="/contact">Visit Us</Link>
-              <Link href="/courses">All Courses</Link>
-              <Link href="/">Back Home</Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      {/* 4. COMPREHENSIVE SMART ACCORDION FOOTER */}
+      <Footer />
     </main>
   );
 }

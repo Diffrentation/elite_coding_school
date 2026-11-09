@@ -46,6 +46,14 @@ export function AuthForm({ mode }: { mode: Mode }) {
       }
       if (mode === "login") {
         const result = await call("/api/auth/login", { email, password: values.get("password") });
+        if (typeof window !== "undefined") {
+          try {
+            sessionStorage.removeItem("ecs_session_user");
+            sessionStorage.removeItem("ecs_session_checked");
+          } catch {
+            // ignore
+          }
+        }
         router.push(result.redirectTo);
         return;
       }

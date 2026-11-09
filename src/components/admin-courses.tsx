@@ -3,6 +3,9 @@
 import { FormEvent, useEffect, useState } from "react";
 import {
   Plus,
+  ExternalLink,
+  Eye,
+  RefreshCw,
   X,
   Edit3,
   Globe,
@@ -83,15 +86,20 @@ export function AdminCourses() {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [searchFilter, setSearchFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [loading, setLoading] = useState(true);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
   const inputClass = (name: string) => (fieldErrors[name]?.length ? "input-invalid" : undefined);
   const fieldError = (name: string) =>
     fieldErrors[name]?.[0] ? <small className="field-error">{fieldErrors[name][0]}</small> : null;
 
-  const load = () =>
-    api("/api/admin/courses")
+  const load = () => {
+    setLoading(true);
+    return api("/api/admin/courses")
       .then((data) => setCourses(data.courses))
-      .catch((error) => setToast({ type: "error", text: error.message }));
+      .catch((error) => setToast({ type: "error", text: error.message }))
+      .finally(() => setLoading(false));
+  };
 
   useEffect(() => {
     void load();
@@ -185,9 +193,27 @@ export function AdminCourses() {
       header: "Course Program",
       sortable: true,
       render: (course) => (
-        <div>
-          <b style={{ color: "#ffffff", fontSize: 14, display: "block" }}>{course.title}</b>
-          <small style={{ fontFamily: "var(--font-mono)", color: "#a855f7" }}>/{course.slug}</small>
+        <div className="course-profile-cell">
+          <div className="course-profile-title-row">
+            <span className="course-icon-badge">
+              <BookOpen size={14} />
+            </span>
+            <strong className="course-profile-title">{course.title}</strong>
+          </div>
+          <div className="course-profile-slug-row">
+            <code className="course-slug-code">/{course.slug}</code>
+            <a
+              href={`/courses/${course.slug}`}
+              target="_blank"
+              rel="noreferrer"
+              className="course-live-link"
+              onClick={(e) => e.stopPropagation()}
+              title="Open public course page in new tab"
+            >
+              <ExternalLink size={11} />
+              <span>Live Page</span>
+            </a>
+          </div>
         </div>
       ),
     },
@@ -196,23 +222,11 @@ export function AdminCourses() {
       header: "Track & Category",
       sortable: true,
       render: (course) => (
-        <div>
-          <span
-            style={{
-              display: "inline-block",
-              fontSize: 11,
-              fontWeight: 700,
-              textTransform: "uppercase",
-              padding: "2px 7px",
-              borderRadius: 4,
-              background: "rgba(56, 189, 248, 0.12)",
-              color: "#38bdf8",
-              marginRight: 6,
-            }}
-          >
+        <div className="course-track-cell">
+          <span className="course-track-badge">
             {course.track?.toUpperCase() || "WEB"}
           </span>
-          <span style={{ color: "#cbd5e1", fontSize: 12.5 }}>{course.category}</span>
+          <span className="course-category-label">{course.category}</span>
         </div>
       ),
     },
@@ -221,11 +235,11 @@ export function AdminCourses() {
       header: "Fee / Duration",
       sortable: true,
       render: (course) => (
-        <div>
-          <b style={{ color: "#34d399", fontFamily: "var(--font-mono)", fontSize: 13.5, display: "block" }}>
+        <div className="course-fee-cell">
+          <b className="course-fee-amount">
             ₹{course.monthlyFee.toLocaleString("en-IN")}/mo
           </b>
-          <small style={{ color: "#94a3b8" }}>
+          <small className="course-duration-sub">
             {course.durationMonths} mo &bull; {course.labHours || "90+ hrs"}
           </small>
         </div>
@@ -236,35 +250,8 @@ export function AdminCourses() {
       header: "Status",
       sortable: true,
       render: (course) => (
-        <span
-          style={{
-            fontSize: 11,
-            fontWeight: 700,
-            textTransform: "uppercase",
-            padding: "3px 8px",
-            borderRadius: 5,
-            background:
-              course.status === "published"
-                ? "rgba(16, 185, 129, 0.15)"
-                : course.status === "archived"
-                  ? "rgba(239, 68, 68, 0.15)"
-                  : "rgba(245, 158, 11, 0.15)",
-            color:
-              course.status === "published"
-                ? "#34d399"
-                : course.status === "archived"
-                  ? "#f87171"
-                  : "#fbbf24",
-            border: `1px solid ${
-              course.status === "published"
-                ? "rgba(16, 185, 129, 0.3)"
-                : course.status === "archived"
-                  ? "rgba(239, 68, 68, 0.3)"
-                  : "rgba(245, 158, 11, 0.3)"
-            }`,
-          }}
-        >
-          {course.status}
+        <span className={`status-badge course-status-${course.status}`}>
+          ● {course.status}
         </span>
       ),
     },
@@ -273,60 +260,36 @@ export function AdminCourses() {
       header: "Actions",
       sortable: false,
       render: (course) => (
-        <div style={{ display: "flex", gap: 6 }}>
+        <div className="course-actions-group">
           <button
+            type="button"
             onClick={() => openEdit(course)}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 4,
-              padding: "5px 10px",
-              borderRadius: 6,
-              background: "rgba(255, 255, 255, 0.06)",
-              border: "1px solid rgba(255, 255, 255, 0.12)",
-              color: "#cbd5e1",
-              fontSize: 12,
-              cursor: "pointer",
-            }}
+            className="course-action-btn edit"
+            title="Edit course details & syllabus"
           >
-            <Edit3 size={12} /> Edit
+            <Edit3 size={13} />
+            <span>Edit</span>
           </button>
           {course.status !== "published" && (
             <button
+              type="button"
               onClick={() => changeStatus(course._id, "publish")}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 4,
-                padding: "5px 10px",
-                borderRadius: 6,
-                background: "rgba(16, 185, 129, 0.15)",
-                border: "1px solid rgba(16, 185, 129, 0.3)",
-                color: "#34d399",
-                fontSize: 12,
-                cursor: "pointer",
-              }}
+              className="course-action-btn publish"
+              title="Publish to live website"
             >
-              <Globe size={12} /> Publish
+              <Globe size={13} />
+              <span>Publish</span>
             </button>
           )}
           {course.status !== "archived" && (
             <button
+              type="button"
               onClick={() => changeStatus(course._id, "archive")}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 4,
-                padding: "5px 10px",
-                borderRadius: 6,
-                background: "rgba(239, 68, 68, 0.12)",
-                border: "1px solid rgba(239, 68, 68, 0.3)",
-                color: "#f87171",
-                fontSize: 12,
-                cursor: "pointer",
-              }}
+              className="course-action-btn archive"
+              title="Archive program"
             >
-              <Archive size={12} /> Archive
+              <Archive size={13} />
+              <span>Archive</span>
             </button>
           )}
         </div>
@@ -335,7 +298,7 @@ export function AdminCourses() {
   ];
 
   return (
-    <main className="portal-content admin-courses-page" style={{ maxWidth: 1300, margin: "0 auto", padding: "28px" }}>
+    <main className="portal-content admin-courses-page">
       <div className="portal-intro" style={{ marginBottom: 28 }}>
         <div>
           <p className="kicker" style={{ color: "#38bdf8", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", fontSize: 11, margin: "0 0 6px" }}>
@@ -370,6 +333,61 @@ export function AdminCourses() {
         </button>
       </div>
 
+
+      {/* 2. KPI Metrics Grid */}
+      <div
+        className="kpi-grid"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 220px), 1fr))",
+          gap: 16,
+          marginBottom: 28,
+        }}
+      >
+        <div className="kpi-card">
+          <div className="kpi-icon-wrap icon-purple">
+            <BookOpen size={20} />
+          </div>
+          <div className="kpi-meta">
+            <span className="kpi-title">Total Programs</span>
+            <strong className="kpi-val">{courses.length}</strong>
+            <small className="kpi-sub">Curriculum offerings</small>
+          </div>
+        </div>
+
+        <div className="kpi-card">
+          <div className="kpi-icon-wrap icon-emerald">
+            <CheckCircle2 size={20} />
+          </div>
+          <div className="kpi-meta">
+            <span className="kpi-title">Published Live</span>
+            <strong className="kpi-val">{courses.filter((c) => c.status === "published").length}</strong>
+            <small className="kpi-sub">Active on public website</small>
+          </div>
+        </div>
+
+        <div className="kpi-card">
+          <div className="kpi-icon-wrap icon-amber">
+            <Clock size={20} />
+          </div>
+          <div className="kpi-meta">
+            <span className="kpi-title">Draft Courses</span>
+            <strong className="kpi-val">{courses.filter((c) => c.status === "draft").length}</strong>
+            <small className="kpi-sub">Unpublished work-in-progress</small>
+          </div>
+        </div>
+
+        <div className="kpi-card">
+          <div className="kpi-icon-wrap icon-cyan">
+            <Sparkles size={20} />
+          </div>
+          <div className="kpi-meta">
+            <span className="kpi-title">Featured on Home</span>
+            <strong className="kpi-val">{courses.filter((c) => c.isFeatured).length}</strong>
+            <small className="kpi-sub">Highlighted homepage cards</small>
+          </div>
+        </div>
+      </div>
       {toast && (
         <div
           role="alert"
@@ -423,85 +441,40 @@ export function AdminCourses() {
 
       {showForm && (
         <form
-          className="course-form"
+          className="course-form admin-course-editor-form"
           key={editing?._id ?? "new"}
           noValidate
           onSubmit={save}
-          style={{
-            background: "#0a0f32",
-            border: "1px solid rgba(133, 41, 244, 0.35)",
-            borderRadius: 18,
-            padding: "26px 30px 36px",
-            boxShadow: "0 18px 45px rgba(0, 0, 0, 0.45)",
-            marginBottom: 32,
-            display: "grid",
-            gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-            gap: 18,
-            maxWidth: "100%",
-            boxSizing: "border-box",
-            overflow: "hidden",
-          }}
         >
-          <div
-            style={{
-              gridColumn: "1 / -1",
-              borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
-              paddingBottom: 16,
-              marginBottom: 8,
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: 14,
-            }}
-          >
-            <div>
-              <h3 style={{ margin: 0, fontSize: 18, color: "#ffffff", fontFamily: "var(--font-heading)" }}>
-                {editing ? `Editing: ${editing.title}` : "Create New Course Program"}
-              </h3>
-              <span style={{ fontSize: 12.5, color: "#94a3b8" }}>
+          {/* Top Form Header with Title & Action Controls */}
+          <div className="course-editor-top-bar">
+            <div className="course-editor-heading-wrap">
+              <div className="course-editor-title-row">
+                <span className="course-editor-mode-indicator" />
+                <h3 className="course-editor-title">
+                  {editing ? `Editing: ${editing.title}` : "Create New Course Program"}
+                </h3>
+              </div>
+              <p className="course-editor-subtitle">
                 Configure all fields that appear on the homepage course card, catalog, and detailed syllabus page.
-              </span>
+              </p>
             </div>
 
-            {/* Quick Top Save Button */}
-            <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+            {/* Quick Top Save & Cancel Actions */}
+            <div className="course-editor-actions-group">
               <button
                 type="button"
                 onClick={() => setShowForm(false)}
-                style={{
-                  padding: "8px 16px",
-                  borderRadius: 8,
-                  background: "rgba(255, 255, 255, 0.06)",
-                  border: "1px solid rgba(255, 255, 255, 0.12)",
-                  color: "#cbd5e1",
-                  fontSize: 13,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                }}
+                className="course-editor-btn-cancel"
               >
                 Cancel
               </button>
               <button
-                className="button primary admin-action"
+                className="button primary course-editor-btn-save"
                 type="submit"
-                style={{
-                  padding: "9px 20px",
-                  borderRadius: 9,
-                  background: "linear-gradient(135deg, #7c3aed, #9333ea)",
-                  color: "#ffffff",
-                  border: "1px solid rgba(255, 255, 255, 0.2)",
-                  boxShadow: "0 6px 18px rgba(124, 58, 237, 0.4)",
-                  fontSize: 13.5,
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 6,
-                }}
               >
                 <Check size={15} />
-                {editing ? "Save Changes" : "Save Course"}
+                <span>{editing ? "Save Changes" : "Save Course"}</span>
               </button>
             </div>
           </div>
@@ -760,71 +733,30 @@ export function AdminCourses() {
             <span style={{ fontWeight: 600, color: "#ffffff" }}>Feature on public catalogue & homepage</span>
           </label>
 
-          {/* Sticky Bottom Action Bar: Always visible on screen! */}
-          <div
-            style={{
-              gridColumn: "1 / -1",
-              position: "sticky",
-              bottom: "16px",
-              zIndex: 50,
-              background: "#080d2c",
-              border: "1px solid #a855f7",
-              borderRadius: 14,
-              padding: "14px 22px",
-              boxShadow: "0 12px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(133, 41, 244, 0.35)",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: 14,
-              marginTop: 18,
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <span style={{ width: 9, height: 9, borderRadius: "50%", background: "#10b981", boxShadow: "0 0 0 3px rgba(16, 185, 129, 0.35)" }} />
-              <span style={{ fontSize: 13.5, color: "#ffffff", fontWeight: 700 }}>
+                    {/* Sticky Bottom Action Bar: Always visible on screen! */}
+          <div className="course-editor-bottom-bar">
+            <div className="course-editor-bottom-status">
+              <span className="save-status-dot" />
+              <strong className="save-status-title">
                 {editing ? `Editing "${editing.title}"` : "New Course Draft"}
-              </span>
-              <span style={{ fontSize: 12, color: "#94a3b8" }}>— Changes ready to save</span>
+              </strong>
+              <span className="save-status-sub">— Changes ready to save</span>
             </div>
 
-            <div style={{ display: "flex", gap: 10 }}>
+            <div className="course-editor-actions-group">
               <button
                 type="button"
                 onClick={() => setShowForm(false)}
-                style={{
-                  padding: "10px 18px",
-                  borderRadius: 8,
-                  background: "rgba(255, 255, 255, 0.08)",
-                  border: "1px solid rgba(255, 255, 255, 0.14)",
-                  color: "#cbd5e1",
-                  fontSize: 13,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                }}
+                className="course-editor-btn-cancel"
               >
                 Cancel
               </button>
               <button
-                className="button primary admin-action"
+                className="button primary course-editor-btn-save"
                 type="submit"
-                style={{
-                  padding: "10px 26px",
-                  borderRadius: 8,
-                  background: "linear-gradient(135deg, #7c3aed, #9333ea)",
-                  color: "#ffffff",
-                  border: "1px solid rgba(255, 255, 255, 0.25)",
-                  boxShadow: "0 6px 20px rgba(124, 58, 237, 0.5)",
-                  fontSize: 14,
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 7,
-                }}
               >
                 <Check size={16} />
-                {editing ? "Save Changes" : "Create & Save Course"}
+                <span>{editing ? "Save Changes" : "Create & Save Course"}</span>
               </button>
             </div>
           </div>
@@ -832,7 +764,8 @@ export function AdminCourses() {
       )}
 
       <AgTable<Course>
-        breadcrumbs={["Admin", "Curriculum", "Courses"]}
+        loading={loading}
+        onRowClick={(c) => setSelectedCourse(c)}
         statusTabs={[
           { key: "all", label: "All Programs", count: courses.length },
           { key: "published", label: "Published", count: courses.filter((c) => c.status === "published").length },
@@ -843,20 +776,159 @@ export function AdminCourses() {
         onStatusTabChange={(tabKey) => setStatusFilter(tabKey)}
         columns={courseColumns}
         data={courses.filter((c) => statusFilter === "all" || c.status === statusFilter)}
-        title="Curriculum Programs"
-        subtitle="Manage course drafts, configure card details, syllabus topics, and published status"
         searchPlaceholder="Search programs by title, slug, track, or category..."
         searchAccessor={(c) => `${c.title} ${c.slug} ${c.category} ${c.track ?? ""}`}
-        filterOptions={COURSE_STATUS_FILTER_OPTIONS}
-        filterValue={statusFilter}
-        onFilterChange={(val) => setStatusFilter(val)}
-        filterPlaceholder="Any status"
         initialPageSize={10}
         emptyMessage="No course programs found."
         getRowId={(c) => c._id}
         onRefresh={load}
         exportFilename="curriculum-courses"
       />
+
+      {/* COURSE CURRICULUM PREVIEW MODAL */}
+      {selectedCourse && (
+        <div className="modal-backdrop" onClick={() => setSelectedCourse(null)}>
+          <div className="student-dossier-modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 760, maxHeight: "90vh", overflowY: "auto" }}>
+            <div className="modal-header">
+              <div className="modal-title-row" style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <BookOpen size={20} className="text-purple-400" />
+                <h3 style={{ margin: 0, fontSize: 17, color: "#ffffff" }}>Course Program &amp; Curriculum</h3>
+              </div>
+              <button
+                type="button"
+                className="close-modal-btn"
+                onClick={() => setSelectedCourse(null)}
+                aria-label="Close modal"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="modal-body" style={{ padding: 24 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, marginBottom: 20, flexWrap: "wrap" }}>
+                <div>
+                  <h4 style={{ margin: 0, fontSize: 20, color: "#ffffff" }}>{selectedCourse.title}</h4>
+                  <div style={{ display: "flex", gap: 8, marginTop: 6, flexWrap: "wrap", alignItems: "center" }}>
+                    <code style={{ color: "#a855f7", fontSize: 12 }}>/{selectedCourse.slug}</code>
+                    <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 4, background: "rgba(56, 189, 248, 0.15)", color: "#38bdf8", textTransform: "capitalize" }}>
+                      {selectedCourse.category}
+                    </span>
+                    <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 4, background: "rgba(168, 85, 247, 0.15)", color: "#c084fc", textTransform: "capitalize" }}>
+                      {selectedCourse.level} Level
+                    </span>
+                    <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 4, background: selectedCourse.status === "published" ? "rgba(16, 185, 129, 0.15)" : "rgba(245, 158, 11, 0.15)", color: selectedCourse.status === "published" ? "#34d399" : "#fbbf24" }}>
+                      {selectedCourse.status.toUpperCase()}
+                    </span>
+                  </div>
+                </div>
+
+                <div style={{ textAlign: "right" }}>
+                  <div style={{ fontSize: 22, fontWeight: 800, color: "#38bdf8" }}>
+                    ₹{selectedCourse.monthlyFee.toLocaleString("en-IN")} <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 400 }}>/ month</span>
+                  </div>
+                  <small style={{ color: "#94a3b8" }}>{selectedCourse.durationMonths} Months Duration &bull; {selectedCourse.labHours}</small>
+                </div>
+              </div>
+
+              {/* Description */}
+              <div style={{ background: "#070b24", border: "1px solid rgba(255, 255, 255, 0.08)", borderRadius: 12, padding: 16, marginBottom: 18 }}>
+                <p style={{ margin: 0, color: "#cbd5e1", fontSize: 13.5, lineHeight: 1.6 }}>
+                  {selectedCourse.description}
+                </p>
+              </div>
+
+              {/* Skills and Prerequisites */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 20 }}>
+                <div style={{ background: "#070b24", border: "1px solid rgba(255, 255, 255, 0.08)", borderRadius: 12, padding: 14 }}>
+                  <h6 style={{ margin: "0 0 8px", fontSize: 11.5, color: "#38bdf8", textTransform: "uppercase" }}>Core Skills Taught</h6>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                    {selectedCourse.skills.map((s) => (
+                      <span key={s} style={{ fontSize: 11, background: "rgba(56, 189, 248, 0.1)", color: "#38bdf8", padding: "2px 8px", borderRadius: 4, border: "1px solid rgba(56, 189, 248, 0.2)" }}>
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div style={{ background: "#070b24", border: "1px solid rgba(255, 255, 255, 0.08)", borderRadius: 12, padding: 14 }}>
+                  <h6 style={{ margin: "0 0 8px", fontSize: 11.5, color: "#a855f7", textTransform: "uppercase" }}>Prerequisites</h6>
+                  <p style={{ margin: 0, fontSize: 12.5, color: "#cbd5e1" }}>
+                    {selectedCourse.prerequisites.join(", ") || "None (Beginner friendly)"}
+                  </p>
+                </div>
+              </div>
+
+              {/* Syllabus Breakdown */}
+              <div style={{ marginBottom: 24 }}>
+                <h5 style={{ margin: "0 0 12px", fontSize: 14, color: "#ffffff", display: "flex", alignItems: "center", gap: 8 }}>
+                  <BookOpen size={16} color="#a855f7" /> Syllabus Curriculum Modules ({selectedCourse.syllabus.length})
+                </h5>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {selectedCourse.syllabus.map((mod, mIdx) => (
+                    <div key={mod.id || mIdx} style={{ background: "#070b24", border: "1px solid rgba(255, 255, 255, 0.06)", borderRadius: 10, padding: 14 }}>
+                      <b style={{ color: "#ffffff", fontSize: 13.5, display: "block", marginBottom: 6 }}>
+                        {mod.title}
+                      </b>
+                      <ul style={{ margin: 0, paddingLeft: 18, color: "#94a3b8", fontSize: 12.5, lineHeight: 1.6 }}>
+                        {mod.topics.map((t, tIdx) => (
+                          <li key={tIdx}>{t}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", flexWrap: "wrap", borderTop: "1px solid rgba(255, 255, 255, 0.08)", paddingTop: 18 }}>
+                <a
+                  href={`/courses/${selectedCourse.slug}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    padding: "9px 16px",
+                    borderRadius: 8,
+                    background: "rgba(255, 255, 255, 0.06)",
+                    border: "1px solid rgba(255, 255, 255, 0.12)",
+                    color: "#cbd5e1",
+                    fontSize: 13,
+                    fontWeight: 600,
+                    textDecoration: "none",
+                  }}
+                >
+                  <ExternalLink size={14} /> View Live Page
+                </a>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const c = selectedCourse;
+                    setSelectedCourse(null);
+                    openEdit(c);
+                  }}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    padding: "9px 18px",
+                    borderRadius: 8,
+                    background: "linear-gradient(135deg, #7c3aed, #9333ea)",
+                    border: "1px solid rgba(255, 255, 255, 0.2)",
+                    color: "#ffffff",
+                    fontSize: 13,
+                    fontWeight: 700,
+                    cursor: "pointer",
+                  }}
+                >
+                  Edit This Program
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

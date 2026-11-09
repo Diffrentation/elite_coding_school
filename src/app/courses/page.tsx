@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState, useMemo } from "react";
 import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
 import { CopyrightYear } from "@/components/copyright-year";
 import {
   ArrowRight,
@@ -352,9 +353,14 @@ export default function CoursesPage() {
       >
         <div className="courses-hero-inner">
           <div className="courses-hero-copy">
-            <div className="kicker">
-              <span className="pulse-dot" />
-              <span>OFFLINE CLASSROOM PROGRAMS &bull; IN-PERSON TEACHING</span>
+            <div className="kicker kicker-vertical">
+              <div className="kicker-line">
+                <span className="pulse-dot" />
+                <span>OFFLINE CLASSROOM PROGRAMS</span>
+              </div>
+              <div className="kicker-line kicker-sub-line">
+                <span>IN-PERSON TEACHING</span>
+              </div>
             </div>
             <h1>
               Practical Tech Courses. <br />
@@ -368,19 +374,19 @@ export default function CoursesPage() {
             <div className="offline-chips-row">
               <div className="offline-chip">
                 <CheckCircle2 size={14} />
-                <span>Genuine Classroom Teaching</span>
+                <span>In-Person Classroom</span>
               </div>
               <div className="offline-chip">
                 <Users size={14} />
-                <span>Small Batches (10–15 Students)</span>
+                <span>Small Batches (10–15)</span>
               </div>
               <div className="offline-chip">
                 <Code2 size={14} />
-                <span>Daily Laptop Coding in Class</span>
+                <span>Daily Laptop Coding</span>
               </div>
               <div className="offline-chip">
                 <Sparkles size={14} />
-                <span>1:1 Teacher Doubt Solving</span>
+                <span>1:1 Teacher Help</span>
               </div>
             </div>
           </div>
@@ -473,13 +479,13 @@ export default function CoursesPage() {
         </div>
 
         {/* Search & Dropdown Filters */}
-        <div className="course-filter-bar">
-          <label>
+        <div className="catalog-filter-bar">
+          <label className="catalog-search-label">
             <Search />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by topic, e.g. React, Next.js, MongoDB, Node.js, Networking, Linux, C++, Java, Python, DSA..."
+              placeholder="Search topics (React, Next.js, Python, C++, DSA...)"
             />
             {search && (
               <button
@@ -492,30 +498,35 @@ export default function CoursesPage() {
             )}
           </label>
 
-          <select value={level} onChange={(e) => setLevel(e.target.value)}>
-            <option value="">All Experience Levels</option>
-            <option value="beginner">Beginner (Foundations from Zero)</option>
-            <option value="intermediate">Intermediate (Web &amp; Core Dev)</option>
-            <option value="advanced">Advanced (DSA, Architecture &amp; OS)</option>
-          </select>
+          <div className="catalog-selects-row">
+            <select value={level} onChange={(e) => setLevel(e.target.value)}>
+              <option value="">All Experience Levels</option>
+              <option value="beginner">Beginner (From Zero)</option>
+              <option value="intermediate">Intermediate (Dev)</option>
+              <option value="advanced">Advanced (DSA &amp; OS)</option>
+            </select>
 
-          <select value={duration} onChange={(e) => setDuration(e.target.value)}>
-            <option value="">All Durations</option>
-            <option value="short">Up to 3 Months (Foundations)</option>
-            <option value="medium">4–6 Months (Full Track)</option>
-            <option value="long">More than 6 Months (Mastery)</option>
-          </select>
+            <select value={duration} onChange={(e) => setDuration(e.target.value)}>
+              <option value="">All Durations</option>
+              <option value="short">Up to 3 Months</option>
+              <option value="medium">4–6 Months</option>
+              <option value="long">6+ Months</option>
+            </select>
+          </div>
         </div>
 
         {/* Filter Summary */}
         <div className="filter-summary-row">
-          <span className="active-results-badge">
-            Showing <strong>{filteredCourses.length}</strong> In-Person Programs &bull; Offline Cohorts Enrolling
-          </span>
+          <div className="active-results-badge">
+            <span className="results-dot" />
+            <span>
+              Showing <strong>{filteredCourses.length}</strong> {filteredCourses.length === 1 ? "Program" : "Programs"}
+            </span>
+          </div>
           {(search || level || duration || selectedTrack !== "all") && (
             <button className="clear-filters-btn" onClick={clear}>
-              <X size={14} />
-              <span>Reset all filters</span>
+              <X size={13} />
+              <span>Reset filters</span>
             </button>
           )}
         </div>
@@ -691,163 +702,8 @@ export default function CoursesPage() {
         </div>
       </section>
 
-      {/* 7. COMPREHENSIVE FOOTER */}
-      <footer className="site-footer" id="contact">
-        <div className="footer-inner">
-          <div className="footer-top-strip">
-            <div className="footer-brand-lockup">
-              <Link className="brand" href="/">
-                <span className="brand-mark">&lt;/&gt;</span>
-                <span>Elite Coding School</span>
-              </Link>
-              <div className="footer-live-status">
-                <span className="pulse-dot" />
-                <span>CENTER OPEN TODAY (09:00 - 19:00 IST)</span>
-              </div>
-            </div>
-
-            <div className="social-icons-row">
-              <a className="social-btn" href="https://github.com" target="_blank" rel="noreferrer" aria-label="GitHub">
-                <Code2 size={17} />
-              </a>
-              <a className="social-btn" href="https://discord.com" target="_blank" rel="noreferrer" aria-label="Discord">
-                <Radio size={17} />
-              </a>
-              <a className="social-btn" href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                <Globe size={17} />
-              </a>
-              <a className="social-btn" href="mailto:bbhupender100@gmail.com" aria-label="Email">
-                <Mail size={17} />
-              </a>
-            </div>
-          </div>
-
-          <div className="footer-columns">
-            <div className="footer-col">
-              <h4>Offline Coaching Center</h4>
-              <p className="lead">
-                A newly opened local coaching center started by passionate teachers focused on genuine, concept-first education in small batches.
-              </p>
-              <div className="footer-address-card">
-                <strong>📍 Center Location:</strong>
-                Vijay Nagar Bypass, Bagu
-                <br />
-                <span style={{ color: "#34d399", fontWeight: 600, display: "block", marginTop: "6px" }}>
-                  ● Walk-ins &amp; Demo Classes welcome Mon-Sat (9 AM - 7 PM)
-                </span>
-              </div>
-            </div>
-
-            <div className="footer-col">
-              <h4>Curriculum Verticals</h4>
-              <ul className="footer-nav-list">
-                <li>
-                  <a href="#" onClick={(e) => { e.preventDefault(); setSelectedTrack("dev"); }}>
-                    <ChevronRight size={13} /> Full-Stack Web Development
-                  </a>
-                </li>
-                <li>
-                  <a href="#" onClick={(e) => { e.preventDefault(); setSelectedTrack("net"); }}>
-                    <ChevronRight size={13} /> Computer Networks Fundamentals
-                  </a>
-                </li>
-                <li>
-                  <a href="#" onClick={(e) => { e.preventDefault(); setSelectedTrack("os"); }}>
-                    <ChevronRight size={13} /> Linux &amp; Operating Systems Basics
-                  </a>
-                </li>
-                <li>
-                  <a href="#" onClick={(e) => { e.preventDefault(); setSelectedTrack("dsa"); }}>
-                    <ChevronRight size={13} /> Programming Logic &amp; DSA Basics
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div className="footer-col">
-              <h4>Admissions &amp; Portal</h4>
-              <ul className="footer-nav-list">
-                <li>
-                  <Link href="/courses">
-                    <ChevronRight size={13} /> All Courses &amp; Syllabi
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/register">
-                    <ChevronRight size={13} /> Book a Free Demo Class
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/login">
-                    <ChevronRight size={13} /> Student Portal Login
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/admin">
-                    <ChevronRight size={13} /> Faculty &amp; Admin Panel
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact">
-                    <ChevronRight size={13} /> Center Walk-in Info
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="footer-col">
-              <h4>Center Contact</h4>
-              <ul className="footer-contact-list">
-                <li>
-                  <Phone size={15} />
-                  <span>+91 9311278407 (Admissions Desk)</span>
-                </li>
-                <li>
-                  <Mail size={15} />
-                  <span>bbhupender100@gmail.com</span>
-                </li>
-                <li>
-                  <Clock size={15} />
-                  <span>Center Hours: 9:00 AM - 7:00 PM (Mon-Sat)</span>
-                </li>
-                <li>
-                  <Building2 size={15} />
-                  <span>Vijay Nagar Bypass, Bagu</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="footer-assurance-strip">
-            <div className="assurance-item">
-              <Monitor size={16} />
-              <span>Clean Desks &amp; Laptop Charging</span>
-            </div>
-            <div className="assurance-item">
-              <Wifi size={16} />
-              <span>High-Speed Classroom Wi-Fi</span>
-            </div>
-            <div className="assurance-item">
-              <Users size={16} />
-              <span>10–15 Students Small Batches</span>
-            </div>
-            <div className="assurance-item">
-              <ShieldCheck size={16} />
-              <span>Genuine Concept-First Teaching</span>
-            </div>
-          </div>
-
-          <div className="footer-bottom-bar">
-            <span>&copy; <CopyrightYear /> Elite Coding School. Dedicated to genuine, practical teaching.</span>
-            <div className="footer-bottom-links">
-              <Link href="/about">About Center</Link>
-              <Link href="/contact">Visit Us</Link>
-              <Link href="/courses">All Courses</Link>
-              <Link href="/">Back Home</Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      {/* 7. COMPREHENSIVE SMART ACCORDION FOOTER */}
+      <Footer onSelectTrack={(track) => setSelectedTrack(track as any)} />
     </main>
   );
 }

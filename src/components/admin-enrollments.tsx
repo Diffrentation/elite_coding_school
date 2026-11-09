@@ -3,6 +3,12 @@
 import { FormEvent, useEffect, useState } from "react";
 import {
   GraduationCap,
+  Eye,
+  RefreshCw,
+  Phone,
+  MessageCircle,
+  Mail,
+  Users,
   Check,
   X,
   Plus,
@@ -26,7 +32,7 @@ const ENROLLMENT_STATUS_OPTIONS: CustomSelectOption[] = [
   { value: "paused", label: "Paused" },
 ];
 
-type Student = { _id: string; fullName: string; studentId: string };
+type Student = { _id: string; fullName: string; studentId: string; phone?: string };
 type Course = { _id: string; title: string; monthlyFee: number; status: string };
 type Enrollment = {
   _id: string;
@@ -35,7 +41,7 @@ type Enrollment = {
   batch: string;
   joiningDate: string;
   status: string;
-  studentId?: { fullName?: string; studentId?: string } | null;
+  studentId?: { fullName?: string; studentId?: string; phone?: string; email?: string } | null;
 };
 type EnrollmentRequest = {
   _id: string;
@@ -60,12 +66,16 @@ export function AdminEnrollments() {
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [processingId, setProcessingId] = useState("");
+  const [loading, setLoading] = useState(true);
   const [selectedCourseFee, setSelectedCourseFee] = useState<number | "">("");
   const [searchFilter, setSearchFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [selectedEnrollment, setSelectedEnrollment] = useState<Enrollment | null>(null);
+  const [showEnrollForm, setShowEnrollForm] = useState(false);
 
-  const load = () =>
-    Promise.all([
+  const load = () => {
+    setLoading(true);
+    return Promise.all([
       request("/api/admin/students?limit=100"),
       request("/api/admin/courses"),
       request("/api/admin/enrollments"),
@@ -77,7 +87,9 @@ export function AdminEnrollments() {
         setEnrollments(enrollmentData.enrollments ?? []);
         setEnrollmentRequests(requestData.requests ?? []);
       })
-      .catch((reason: Error) => setError(reason.message));
+      .catch((reason: Error) => setError(reason.message))
+      .finally(() => setLoading(false));
+  };
 
   useEffect(() => {
     void load();
@@ -132,6 +144,7 @@ export function AdminEnrollments() {
   }
 
   const pendingRequests = enrollmentRequests.filter((item) => item.status === "pending");
+  const activeEnrollmentCount = enrollments.filter((item) => item.status === "active").length;
 
   const enrollmentColumns: AgColumn<Enrollment>[] = [
     {
@@ -171,6 +184,7 @@ export function AdminEnrollments() {
       render: (enrollment) => (
         <div>
           <span
+            className="admin-request-count-pill"
             style={{
               fontFamily: "var(--font-mono)",
               fontWeight: 700,
@@ -223,7 +237,7 @@ export function AdminEnrollments() {
   ];
 
   return (
-    <main className="portal-content admin-enrollments-page" style={{ maxWidth: 1200, margin: "0 auto", padding: "28px" }}>
+    <main className="portal-content admin-enrollments-page">
       {/* Intro Header */}
       <div style={{ marginBottom: 28 }}>
         <p className="kicker" style={{ color: "#38bdf8", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", fontSize: 11, margin: "0 0 6px" }}>
@@ -236,6 +250,21 @@ export function AdminEnrollments() {
           Assign verified students to active batches, lock agreed fee structures, and approve student-requested course enrollments.
         </p>
       </div>
+
+      <section className="admin-workflow-summary" aria-label="Enrollment summary">
+        <article>
+          <span className="workflow-summary-icon purple"><GraduationCap size={18} /></span>
+          <div><small>Total enrollments</small><strong>{enrollments.length}</strong></div>
+        </article>
+        <article>
+          <span className="workflow-summary-icon green"><UserCheck size={18} /></span>
+          <div><small>Active batches</small><strong>{activeEnrollmentCount}</strong></div>
+        </article>
+        <article>
+          <span className="workflow-summary-icon amber"><Clock size={18} /></span>
+          <div><small>Awaiting review</small><strong>{pendingRequests.length}</strong></div>
+        </article>
+      </section>
 
       {message && (
         <div style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(16, 185, 129, 0.12)", border: "1px solid rgba(16, 185, 129, 0.3)", color: "#34d399", padding: "12px 18px", borderRadius: 10, marginBottom: 22, fontSize: 13.5 }}>
@@ -251,6 +280,7 @@ export function AdminEnrollments() {
 
       {/* 1. Student Enrollment Requests Card */}
       <section
+        className="admin-enrollment-requests-card"
         style={{
           background: "#0a0f32",
           border: "1px solid rgba(255, 255, 255, 0.08)",
@@ -261,6 +291,7 @@ export function AdminEnrollments() {
         }}
       >
         <div
+          className="admin-enrollment-section-header"
           style={{
             padding: "18px 24px",
             borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
@@ -302,6 +333,7 @@ export function AdminEnrollments() {
           <div>
             {pendingRequests.map((item) => (
               <div
+                className="admin-enrollment-request-row"
                 key={item._id}
                 style={{
                   padding: "16px 24px",
@@ -328,6 +360,7 @@ export function AdminEnrollments() {
 
                 <div>
                   <span
+                    className="admin-request-status-pill"
                     style={{
                       fontSize: 11,
                       fontWeight: 700,
@@ -343,7 +376,7 @@ export function AdminEnrollments() {
                   </span>
                 </div>
 
-                <div style={{ display: "flex", gap: 8 }}>
+                <div className="admin-enrollment-request-actions" style={{ display: "flex", gap: 8 }}>
                   <button
                     type="button"
                     disabled={processingId === item._id}
@@ -400,6 +433,7 @@ export function AdminEnrollments() {
 
       {/* 2. Create Enrollment Form Card */}
       <section
+        className="admin-direct-enrollment-card"
         style={{
           background: "#0a0f32",
           border: "1px solid rgba(133, 41, 244, 0.25)",
@@ -423,7 +457,7 @@ export function AdminEnrollments() {
           </div>
         </div>
 
-        <form onSubmit={submit} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 }}>
+        <form className="admin-direct-enrollment-form" onSubmit={submit} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 }}>
           <label style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12.5, fontWeight: 600, color: "#cbd5e1" }}>
             Student Account
             <select
@@ -569,7 +603,8 @@ export function AdminEnrollments() {
 
       {/* 3. Existing Enrollments Section */}
       <AgTable<Enrollment>
-        breadcrumbs={["Admin", "Admissions", "Student Enrollments"]}
+        loading={loading}
+        onRowClick={(e) => setSelectedEnrollment(e)}
         statusTabs={[
           { key: "all", label: "All Enrollments", count: enrollments.length },
           { key: "active", label: "Active", count: enrollments.filter((e) => e.status === "active").length },
@@ -584,16 +619,174 @@ export function AdminEnrollments() {
         subtitle="Manage actively enrolled classroom batch students, schedules, and locked fee snapshot"
         searchPlaceholder="Search enrollments by student name, ID, course, or batch..."
         searchAccessor={(e) => `${e.studentId?.fullName ?? ""} ${e.studentId?.studentId ?? ""} ${e.courseTitleSnapshot} ${e.batch}`}
-        filterOptions={ENROLLMENT_STATUS_OPTIONS}
-        filterValue={statusFilter}
-        onFilterChange={(val) => setStatusFilter(val)}
-        filterPlaceholder="Any status"
         initialPageSize={10}
         emptyMessage="No student enrollments found."
         getRowId={(e) => e._id}
         onRefresh={load}
         exportFilename="student-enrollments"
       />
+
+      {/* ENROLLMENT DOSSIER MODAL */}
+      {selectedEnrollment && (
+        <div className="modal-backdrop" onClick={() => setSelectedEnrollment(null)}>
+          <div className="student-dossier-modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 640 }}>
+            <div className="modal-header">
+              <div className="modal-title-row" style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <UserCheck size={20} className="text-purple-400" />
+                <h3 style={{ margin: 0, fontSize: 17, color: "#ffffff" }}>Student Enrollment Dossier</h3>
+              </div>
+              <button
+                type="button"
+                className="close-modal-btn"
+                onClick={() => setSelectedEnrollment(null)}
+                aria-label="Close modal"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="modal-body" style={{ padding: 24 }}>
+              <div className="dossier-hero" style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
+                <div
+                  style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: "50%",
+                    background: "linear-gradient(135deg, #7c3aed, #a855f7)",
+                    display: "grid",
+                    placeItems: "center",
+                    color: "#ffffff",
+                    fontWeight: 800,
+                    fontSize: 18,
+                    flexShrink: 0,
+                  }}
+                >
+                  {(selectedEnrollment.studentId?.fullName || "S")
+                    .split(" ")
+                    .map((p) => p[0])
+                    .join("")
+                    .slice(0, 2)
+                    .toUpperCase()}
+                </div>
+                <div>
+                  <h4 style={{ margin: 0, fontSize: 18, color: "#ffffff" }}>
+                    {selectedEnrollment.studentId?.fullName ?? "Enrolled Student"}
+                  </h4>
+                  <div style={{ display: "flex", gap: 8, marginTop: 4, flexWrap: "wrap", alignItems: "center" }}>
+                    <code style={{ color: "#a855f7", fontSize: 12 }}>
+                      #{selectedEnrollment.studentId?.studentId ?? "No ID"}
+                    </code>
+                    <span
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                        padding: "2px 8px",
+                        borderRadius: 4,
+                        background: selectedEnrollment.status === "active" ? "rgba(16, 185, 129, 0.15)" : "rgba(148, 163, 184, 0.15)",
+                        color: selectedEnrollment.status === "active" ? "#34d399" : "#cbd5e1",
+                      }}
+                    >
+                      {selectedEnrollment.status.toUpperCase()}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="dossier-grid" style={{ marginBottom: 20 }}>
+                <div className="dossier-card" style={{ background: "#070b24", border: "1px solid rgba(255, 255, 255, 0.08)", borderRadius: 12, padding: 16 }}>
+                  <h5 style={{ margin: "0 0 10px", fontSize: 12.5, color: "#38bdf8", textTransform: "uppercase" }}>
+                    Enrolled Program &amp; Batch
+                  </h5>
+                  <div className="dossier-field" style={{ marginBottom: 8 }}>
+                    <span style={{ fontSize: 11, color: "#94a3b8" }}>Course Title:</span>
+                    <strong style={{ color: "#ffffff", fontSize: 13 }}>{selectedEnrollment.courseTitleSnapshot}</strong>
+                  </div>
+                  <div className="dossier-field">
+                    <span style={{ fontSize: 11, color: "#94a3b8" }}>Batch Timing:</span>
+                    <strong style={{ color: "#ffffff", fontSize: 13 }}>{selectedEnrollment.batch}</strong>
+                  </div>
+                </div>
+
+                <div className="dossier-card" style={{ background: "#070b24", border: "1px solid rgba(255, 255, 255, 0.08)", borderRadius: 12, padding: 16 }}>
+                  <h5 style={{ margin: "0 0 10px", fontSize: 12.5, color: "#a855f7", textTransform: "uppercase" }}>
+                    Fee Structure &amp; Dates
+                  </h5>
+                  <div className="dossier-field" style={{ marginBottom: 8 }}>
+                    <span style={{ fontSize: 11, color: "#94a3b8" }}>Locked Monthly Fee:</span>
+                    <strong style={{ color: "#38bdf8", fontSize: 15 }}>₹{selectedEnrollment.agreedMonthlyFee.toLocaleString("en-IN")}/mo</strong>
+                  </div>
+                  <div className="dossier-field">
+                    <span style={{ fontSize: 11, color: "#94a3b8" }}>Joining Date:</span>
+                    <strong style={{ color: "#ffffff", fontSize: 13 }}>
+                      {new Intl.DateTimeFormat("en-IN", { dateStyle: "medium" }).format(new Date(selectedEnrollment.joiningDate))}
+                    </strong>
+                  </div>
+                </div>
+              </div>
+
+              {/* Communication Actions */}
+              {selectedEnrollment.studentId?.phone && (() => {
+                const rawPhone = selectedEnrollment.studentId.phone.replace(/[^0-9]/g, "");
+                const waPhone = rawPhone.length === 10 ? "91" + rawPhone : rawPhone;
+                const waUrl = "https://wa.me/" + waPhone + "?text=" + encodeURIComponent(
+                  "Hi " + selectedEnrollment.studentId.fullName + ", regarding your " + selectedEnrollment.courseTitleSnapshot + " batch at Elite Coding School."
+                );
+                return (
+                  <div className="dossier-actions-bar" style={{ display: "flex", gap: 10, flexWrap: "wrap", borderTop: "1px solid rgba(255, 255, 255, 0.08)", paddingTop: 16 }}>
+                    <a
+                      href={"tel:" + selectedEnrollment.studentId.phone}
+                      className="button secondary-btn"
+                      style={{
+                        flex: 1,
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 6,
+                        padding: "10px 16px",
+                        borderRadius: 8,
+                        background: "rgba(56, 189, 248, 0.12)",
+                        border: "1px solid rgba(56, 189, 248, 0.3)",
+                        color: "#38bdf8",
+                        fontWeight: 600,
+                        fontSize: 13,
+                        textDecoration: "none",
+                      }}
+                    >
+                      <Phone size={14} />
+                      <span>Call {selectedEnrollment.studentId.phone}</span>
+                    </a>
+                    <a
+                      href={waUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="button whatsapp-btn"
+                      style={{
+                        flex: 1,
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 6,
+                        padding: "10px 16px",
+                        borderRadius: 8,
+                        background: "rgba(34, 197, 94, 0.15)",
+                        border: "1px solid rgba(34, 197, 94, 0.3)",
+                        color: "#4ade80",
+                        fontWeight: 600,
+                        fontSize: 13,
+                        textDecoration: "none",
+                      }}
+                    >
+                      <MessageCircle size={14} />
+                      <span>WhatsApp Batch Notice</span>
+                    </a>
+                  </div>
+                );
+              })()}
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

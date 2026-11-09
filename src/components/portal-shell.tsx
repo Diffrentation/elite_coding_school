@@ -14,7 +14,6 @@ import {
   MessageSquare,
   Settings,
   User,
-  Search,
   Menu,
   X,
   LogOut,
@@ -85,6 +84,14 @@ export function PortalShell({ children, kind }: { children: ReactNode; kind: Por
   async function logout() {
     setLoggingOut(true);
     try {
+      if (typeof window !== "undefined") {
+        try {
+          sessionStorage.removeItem("ecs_session_user");
+          sessionStorage.removeItem("ecs_session_checked");
+        } catch {
+          // ignore
+        }
+      }
       await fetch("/api/auth/logout", { method: "POST" });
     } finally {
       router.replace("/login");
@@ -94,6 +101,13 @@ export function PortalShell({ children, kind }: { children: ReactNode; kind: Por
 
   return (
     <div className={`portal ${kind}-portal`}>
+      {/* Mobile Backdrop Overlay (Click to close sidebar) */}
+      <div
+        className={`portal-backdrop ${open ? "open" : ""}`}
+        onClick={() => setOpen(false)}
+        aria-hidden="true"
+      />
+
       <aside className={`portal-sidebar ${open ? "open" : ""}`}>
         <div className="portal-brand-block">
           <Link className="portal-brand" href="/">
@@ -103,10 +117,20 @@ export function PortalShell({ children, kind }: { children: ReactNode; kind: Por
               <small>{role}</small>
             </div>
           </Link>
-          <Link href="/" className="sidebar-view-site" title="Open Public Website" target="_blank">
-            <ExternalLink size={13} />
-            <span>Public Site</span>
-          </Link>
+          <div className="portal-brand-actions">
+            <Link href="/" className="sidebar-view-site" title="Open Public Website" target="_blank">
+              <ExternalLink size={13} />
+              <span>Public Site</span>
+            </Link>
+            <button
+              type="button"
+              className="portal-sidebar-close"
+              onClick={() => setOpen(false)}
+              aria-label="Close sidebar"
+            >
+              <X size={18} />
+            </button>
+          </div>
         </div>
 
         <nav className="portal-nav">
@@ -149,13 +173,6 @@ export function PortalShell({ children, kind }: { children: ReactNode; kind: Por
             <button className="mobile-toggle-btn" onClick={() => setOpen(!open)} aria-label="Toggle navigation">
               {open ? <X size={20} /> : <Menu size={20} />}
             </button>
-            <label className="admin-search">
-              <Search size={17} className="search-icon" />
-              <input
-                aria-label="Search institute records"
-                placeholder="Search students, courses, inquiries, enrollments..."
-              />
-            </label>
             <div className="admin-header-account">
               <span className="live-data">
                 <span className="live-pulse" />

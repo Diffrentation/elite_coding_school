@@ -51,6 +51,7 @@ const request = async (url: string, init?: RequestInit) => {
 
 export function AdminBanners() {
   const [banners, setBanners] = useState<Banner[]>([]);
+  const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [editing, setEditing] = useState<Banner | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -59,10 +60,13 @@ export function AdminBanners() {
   const [selectedCtaOption, setSelectedCtaOption] = useState("/courses");
   const [customCtaUrl, setCustomCtaUrl] = useState("");
 
-  const load = () =>
-    request("/api/admin/banners")
+  const load = () => {
+    setLoading(true);
+    return request("/api/admin/banners")
       .then((data) => setBanners(data.banners ?? []))
-      .catch((reason: Error) => setToast({ type: "error", text: reason.message }));
+      .catch((reason: Error) => setToast({ type: "error", text: reason.message }))
+      .finally(() => setLoading(false));
+  };
 
   useEffect(() => {
     void load();
@@ -408,7 +412,7 @@ export function AdminBanners() {
       )}
       {showForm && (
         <form
-          className="course-form"
+          className="course-form admin-banner-editor-form"
           key={editing?._id ?? "new"}
           onSubmit={save}
           style={{
@@ -427,6 +431,7 @@ export function AdminBanners() {
           }}
         >
           <div
+            className="admin-banner-editor-header"
             style={{
               gridColumn: "1 / -1",
               borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
@@ -449,7 +454,7 @@ export function AdminBanners() {
             </div>
 
             <button
-              className="button primary admin-action"
+              className="button primary admin-action admin-banner-top-save"
               type="submit"
               style={{
                 padding: "8px 20px",
@@ -474,7 +479,7 @@ export function AdminBanners() {
             CTA label
             <input name="ctaLabel" defaultValue={editing?.ctaLabel ?? "Explore courses"} required />
           </label>
-          <div style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
+          <div className="admin-banner-image-field" style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
             <ImagePickerInput
               label="Desktop Banner Image"
               name="desktopImageUrl"
@@ -483,7 +488,7 @@ export function AdminBanners() {
               helperText="Recommended: 1920x800 px landscape image"
             />
           </div>
-          <div style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
+          <div className="admin-banner-image-field" style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
             <ImagePickerInput
               label="Mobile Banner Image"
               name="mobileImageUrl"
@@ -531,6 +536,7 @@ export function AdminBanners() {
 
           {/* Sticky Bottom Action Bar */}
           <div
+            className="admin-banner-save-bar"
             style={{
               gridColumn: "1 / -1",
               position: "sticky",
@@ -549,7 +555,7 @@ export function AdminBanners() {
               marginTop: 18,
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div className="admin-banner-save-status" style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <span style={{ width: 9, height: 9, borderRadius: "50%", background: "#10b981", boxShadow: "0 0 0 3px rgba(16, 185, 129, 0.35)" }} />
               <span style={{ fontSize: 13.5, color: "#ffffff", fontWeight: 700 }}>
                 {editing ? `Editing "${editing.title}"` : "New Banner Draft"}
@@ -557,7 +563,7 @@ export function AdminBanners() {
               <span style={{ fontSize: 12, color: "#94a3b8" }}>— Ready to save</span>
             </div>
 
-            <div style={{ display: "flex", gap: 10 }}>
+            <div className="admin-banner-save-actions" style={{ display: "flex", gap: 10 }}>
               <button
                 type="button"
                 onClick={() => setShowForm(false)}
@@ -596,7 +602,7 @@ export function AdminBanners() {
         </form>
       )}
       <AgTable<Banner>
-        breadcrumbs={["Admin", "Content", "Hero Banners"]}
+        loading={loading}
         statusTabs={[
           { key: "all", label: "All Banners", count: banners.length },
           { key: "published", label: "Published", count: banners.filter((b) => b.status === "published").length },
@@ -611,10 +617,6 @@ export function AdminBanners() {
         subtitle="Manage hero banner slides, CTA destinations, and responsive desktop/mobile backgrounds"
         searchPlaceholder="Search banners by title, CTA label, or URL..."
         searchAccessor={(b) => `${b.title} ${b.ctaLabel} ${b.ctaUrl} ${b.description ?? ""}`}
-        filterOptions={BANNER_FILTER_OPTIONS}
-        filterValue={statusFilter}
-        onFilterChange={(val) => setStatusFilter(val)}
-        filterPlaceholder="Any status"
         initialPageSize={10}
         emptyMessage="No hero banners found."
         getRowId={(b) => b._id}

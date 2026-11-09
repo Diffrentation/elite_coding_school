@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
 import { CopyrightYear } from "@/components/copyright-year";
 import {
   ArrowRight,
@@ -270,10 +271,20 @@ export default function Home() {
         <div className="hero-grid">
           {/* Left Column: Hero Copy */}
           <div className="hero-copy">
-            <div className="campus-banner-pill">
-              <span className="pulse-dot" />
-              <span>NEW BATCH STARTING &bull; OFFLINE COACHING CENTER</span>
-              <span className="sub">Mon - Sat: 9:00 AM - 7:00 PM</span>
+            <div className="campus-banner-group">
+              <div className="campus-banner-pill campus-banner-pill--vertical">
+                <div className="campus-banner-line">
+                  <span className="pulse-dot" />
+                  <span>NEW BATCH STARTING</span>
+                </div>
+                <div className="campus-banner-line campus-banner-sub-line">
+                  <span>OFFLINE COACHING CENTER</span>
+                </div>
+              </div>
+              <div className="campus-timing-pill">
+                <Calendar size={13} />
+                <span>Mon &ndash; Sat: 9:00 AM &ndash; 7:00 PM</span>
+              </div>
             </div>
 
             <h1>
@@ -293,28 +304,28 @@ export default function Home() {
 
             <div className="offline-chips-row">
               <div className="offline-chip">
-                <CheckCircle2 size={15} />
+                <Layers size={15} />
                 <span>MERN &amp; Next.js Stack</span>
               </div>
               <div className="offline-chip">
-                <Sparkles size={15} />
+                <Code2 size={15} />
                 <span>DSA &amp; System Design</span>
               </div>
               <div className="offline-chip">
-                <Code2 size={15} />
-                <span>C, C++, Java &amp; Python</span>
+                <Network size={15} />
+                <span>Networking &amp; Linux OS</span>
               </div>
               <div className="offline-chip">
-                <Users size={15} />
-                <span>Networking &amp; Linux OS</span>
+                <Terminal size={15} />
+                <span>C, C++, Java &amp; Python</span>
               </div>
             </div>
 
             <div className="hero-actions">
-              <a className="btn-primary-hero" href="#contact-walkin">
+              <Link className="btn-primary-hero" href="/contact#contact-form">
                 <span>Book Free Trial Demo Class</span>
                 <ArrowRight size={18} />
-              </a>
+              </Link>
               <a className="btn-secondary-hero" href="#courses">
                 <BookOpen size={17} />
                 <span>Explore All Courses</span>
@@ -1049,11 +1060,11 @@ export default function Home() {
           </div>
 
           <div className="cta-right">
-            <Link className="btn-cta-main" href="/register">
+            <Link className="btn-cta-main" href="/contact#contact-form">
               <span>Book Free Demo Class</span>
               <ArrowRight size={18} />
             </Link>
-            <Link className="btn-cta-ghost" href="/contact">
+            <Link className="btn-cta-ghost" href="/contact#contact-form">
               <Mail size={16} />
               <span>Contact Teachers / Center</span>
             </Link>
@@ -1061,165 +1072,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 10. COMPREHENSIVE FOOTER */}
-      <footer className="site-footer" id="contact">
-        <div className="footer-inner">
-          {/* Top Strip */}
-          <div className="footer-top-strip">
-            <div className="footer-brand-lockup">
-              <Link className="brand" href="/">
-                <span className="brand-mark">&lt;/&gt;</span>
-                <span>Elite Coding School</span>
-              </Link>
-              <div className="footer-live-status">
-                <span className="pulse-dot" />
-                <span>COACHING CENTER OPEN (09:00 - 19:00 IST)</span>
-              </div>
-            </div>
-
-            <div className="social-icons-row">
-              <a className="social-btn" href="https://github.com" target="_blank" rel="noreferrer" aria-label="GitHub">
-                <Code2 size={17} />
-              </a>
-              <a className="social-btn" href="mailto:info@elitecodingschool.com" aria-label="Email">
-                <Mail size={17} />
-              </a>
-            </div>
-          </div>
-
-          {/* 4-Column Grid */}
-          <div className="footer-columns">
-            {/* Column 1: Campus & Walk-in Hub */}
-            <div className="footer-col">
-              <h4>About Elite Coding School</h4>
-              <p className="lead">
-                A newly opened offline tech coaching center dedicated to genuine, hands-on teaching for coders, college students, and beginners.
-              </p>
-              <div className="footer-address-card">
-                <strong>📍 Coaching Center Location:</strong>
-                Elite Coding School Campus, Near Main Road &amp; Metro Station.
-                <br />
-                <span style={{ color: "#34d399", fontWeight: 600, display: "block", marginTop: "6px" }}>
-                  ● Walk-ins welcome Mon-Sat (9 AM - 7 PM)
-                </span>
-              </div>
-            </div>
-
-            {/* Column 2: Tech Tracks */}
-            <div className="footer-col">
-              <h4>Classroom Courses</h4>
-              <ul className="footer-nav-list">
-                <li>
-                  <a href="#courses" onClick={() => setCourseFilter("mern")}>
-                    <ChevronRight size={13} /> Full-Stack MERN &amp; Next.js
-                  </a>
-                </li>
-                <li>
-                  <a href="#courses" onClick={() => setCourseFilter("mern")}>
-                    <ChevronRight size={13} /> Frontend, Tailwind CSS &amp; GSAP
-                  </a>
-                </li>
-                <li>
-                  <a href="#courses" onClick={() => setCourseFilter("core")}>
-                    <ChevronRight size={13} /> C, C++, Java &amp; Python
-                  </a>
-                </li>
-                <li>
-                  <a href="#courses" onClick={() => setCourseFilter("dsa")}>
-                    <ChevronRight size={13} /> Data Structures &amp; Algorithms (DSA)
-                  </a>
-                </li>
-                <li>
-                  <a href="#courses" onClick={() => setCourseFilter("systems")}>
-                    <ChevronRight size={13} /> Networking &amp; Linux OS
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Column 3: Admissions & Portals */}
-            <div className="footer-col">
-              <h4>Admissions &amp; Trial</h4>
-              <ul className="footer-nav-list">
-                <li>
-                  <Link href="/courses">
-                    <ChevronRight size={13} /> All Courses &amp; Syllabi
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/register">
-                    <ChevronRight size={13} /> Book a Free Demo Class
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact">
-                    <ChevronRight size={13} /> Walk-in &amp; Center Address
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/login">
-                    <ChevronRight size={13} /> Student Portal Login
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Column 4: Contact & Mentorship */}
-            <div className="footer-col">
-              <h4>Center Contact</h4>
-              <ul className="footer-contact-list">
-                <li>
-                  <Phone size={15} />
-                  <span>+91 9311278407 (Inquiries)</span>
-                </li>
-                <li>
-                  <Mail size={15} />
-                  <span>info@elitecodingschool.com</span>
-                </li>
-                <li>
-                  <Clock size={15} />
-                  <span>Classes: 9:00 AM - 7:00 PM (Mon-Sat)</span>
-                </li>
-                <li>
-                  <Building2 size={15} />
-                  <span>Near Metro Station • Walk-ins Open</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Offline Quality Assurance Strip */}
-          <div className="footer-assurance-strip">
-            <div className="assurance-item">
-              <CheckCircle2 size={16} />
-              <span>Genuine Classroom Teaching</span>
-            </div>
-            <div className="assurance-item">
-              <Users size={16} />
-              <span>Small Batches (10–15 Students)</span>
-            </div>
-            <div className="assurance-item">
-              <Sparkles size={16} />
-              <span>1:1 Teacher Desk Doubt Solving</span>
-            </div>
-            <div className="assurance-item">
-              <ShieldCheck size={16} />
-              <span>Free Demo Class Before Admission</span>
-            </div>
-          </div>
-
-          {/* Bottom Bar */}
-          <div className="footer-bottom-bar">
-            <span>&copy; <CopyrightYear /> Elite Coding School. All rights reserved.</span>
-            <div className="footer-bottom-links">
-              <Link href="/about">About Center</Link>
-              <Link href="/contact">Visit Us</Link>
-              <a href="#tracks">Curriculum</a>
-              <Link href="/courses">Courses</Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      {/* 10. COMPREHENSIVE SMART ACCORDION FOOTER */}
+      <Footer onSelectTrack={(track) => setCourseFilter(track as any)} />
     </main>
   );
 }

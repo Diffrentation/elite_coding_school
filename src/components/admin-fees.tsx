@@ -110,9 +110,12 @@ export function AdminFees() {
   }
 
   const currentMonth = new Date().toISOString().slice(0, 7);
+  const outstandingTotal = invoices.reduce((sum, invoice) => sum + invoice.remainingAmount, 0);
+  const collectedTotal = payments.reduce((sum, payment) => sum + payment.amount, 0);
+  const openInvoiceCount = invoices.filter((invoice) => invoice.remainingAmount > 0).length;
 
   return (
-    <main className="portal-content admin-fees-page" style={{ maxWidth: 1200, margin: "0 auto", padding: "28px" }}>
+    <main className="portal-content admin-fees-page">
       <div style={{ marginBottom: 28 }}>
         <p className="kicker" style={{ color: "#38bdf8", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", fontSize: 11, margin: "0 0 6px" }}>
           ACCOUNTS & BILLING
@@ -124,6 +127,21 @@ export function AdminFees() {
           Generate monthly student invoices, log cash/UPI/bank payments, and generate official downloadable receipts.
         </p>
       </div>
+
+      <section className="admin-workflow-summary admin-finance-summary" aria-label="Fee overview">
+        <article>
+          <span className="workflow-summary-icon purple"><FileText size={18} /></span>
+          <div><small>Total invoices</small><strong>{invoices.length}</strong></div>
+        </article>
+        <article>
+          <span className="workflow-summary-icon amber"><AlertCircle size={18} /></span>
+          <div><small>Outstanding balance</small><strong>₹{outstandingTotal.toLocaleString("en-IN")}</strong><em>{openInvoiceCount} open invoice{openInvoiceCount === 1 ? "" : "s"}</em></div>
+        </article>
+        <article>
+          <span className="workflow-summary-icon green"><DollarSign size={18} /></span>
+          <div><small>Payments recorded</small><strong>₹{collectedTotal.toLocaleString("en-IN")}</strong><em>{payments.length} receipt{payments.length === 1 ? "" : "s"}</em></div>
+        </article>
+      </section>
 
       {message && (
         <div style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(16, 185, 129, 0.12)", border: "1px solid rgba(16, 185, 129, 0.3)", color: "#34d399", padding: "12px 18px", borderRadius: 10, marginBottom: 22, fontSize: 13.5 }}>
@@ -138,9 +156,10 @@ export function AdminFees() {
       )}
 
       {/* Two Action Forms Side-by-Side */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: 20, marginBottom: 30 }}>
+      <div className="admin-fees-forms-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))", gap: 20, marginBottom: 30 }}>
         {/* Form 1: Issue Monthly Invoice */}
         <div
+          className="admin-fee-action-card"
           style={{
             background: "#0a0f32",
             border: "1px solid rgba(255, 255, 255, 0.08)",
@@ -234,6 +253,7 @@ export function AdminFees() {
 
         {/* Form 2: Record Payment */}
         <div
+          className="admin-fee-action-card"
           style={{
             background: "#0a0f32",
             border: "1px solid rgba(255, 255, 255, 0.08)",
@@ -285,7 +305,7 @@ export function AdminFees() {
               </select>
             </label>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            <div className="admin-payment-fields" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
               <label style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12.5, fontWeight: 600, color: "#cbd5e1" }}>
                 Amount (₹)
                 <input
@@ -355,9 +375,10 @@ export function AdminFees() {
       </div>
 
       {/* Two Data Lists: Invoices and Recent Payments */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(480px, 1fr))", gap: 24 }}>
+      <div className="admin-fees-data-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(480px, 1fr))", gap: 24 }}>
         {/* Card: Invoices */}
         <section
+          className="admin-fees-data-card"
           style={{
             background: "#0a0f32",
             border: "1px solid rgba(255, 255, 255, 0.08)",
@@ -385,6 +406,7 @@ export function AdminFees() {
             <div>
               {invoices.map((invoice) => (
                 <div
+                  className="admin-fee-list-row"
                   key={invoice._id}
                   style={{
                     padding: "16px 24px",
@@ -446,6 +468,7 @@ export function AdminFees() {
 
         {/* Card: Recent Payments */}
         <section
+          className="admin-fees-data-card"
           style={{
             background: "#0a0f32",
             border: "1px solid rgba(255, 255, 255, 0.08)",
@@ -473,6 +496,7 @@ export function AdminFees() {
             <div>
               {payments.map((payment) => (
                 <div
+                  className="admin-fee-list-row"
                   key={payment._id}
                   style={{
                     padding: "16px 24px",

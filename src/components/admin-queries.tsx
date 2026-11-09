@@ -66,6 +66,7 @@ export function AdminQueries() {
   const [successMsg, setSuccessMsg] = useState("");
   const [sendingId, setSendingId] = useState("");
   const [replyStatuses, setReplyStatuses] = useState<Record<string, QueryStatus>>({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const url = status === "all" ? "/api/admin/queries" : `/api/admin/queries?status=${status}`;
@@ -75,7 +76,8 @@ export function AdminQueries() {
         if (!response.ok) throw new Error(body.error?.message ?? "Could not load queries.");
         setQueries(body.data.queries ?? []);
       })
-      .catch((reason: Error) => setError(reason.message));
+      .catch((reason: Error) => setError(reason.message))
+      .finally(() => setLoading(false));
   }, [status]);
 
   async function reply(event: FormEvent<HTMLFormElement>, queryId: string) {
@@ -298,7 +300,7 @@ export function AdminQueries() {
   ];
 
   return (
-    <main className="portal-content admin-queries" style={{ maxWidth: 1300, margin: "0 auto", padding: "28px" }}>
+    <main className="portal-content admin-queries">
       {/* Intro Header */}
       <div className="portal-intro" style={{ marginBottom: 20 }}>
         <div>
@@ -393,6 +395,7 @@ export function AdminQueries() {
       {/* VIEW 1: AG-GRID TABLE VIEW */}
       {viewMode === "table" ? (
         <AgTable<StudentQuery>
+          loading={loading}
           breadcrumbs={["Admin", "Support", "Student Queries"]}
           statusTabs={[
             { key: "all", label: "All", count: queries.length },

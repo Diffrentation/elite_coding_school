@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { SkeletonBlock, SkeletonTableRows, SkeletonCardsGrid } from "@/components/ui/skeleton-patterns";
 import { useEffect, useState } from "react";
 import {
   Users,
@@ -81,25 +82,11 @@ export function AdminDashboard() {
   };
 
   return (
-    <main className="portal-content admin-dashboard-page" style={{ maxWidth: 1400, margin: "0 auto", padding: "28px" }}>
+    <main className="portal-content admin-dashboard-page">
       {/* Top Banner / Command Center Header */}
-      <section
-        style={{
-          background: "linear-gradient(135deg, #090e30 0%, #12194d 100%)",
-          border: "1px solid rgba(133, 41, 244, 0.35)",
-          borderRadius: 20,
-          padding: "32px 36px",
-          boxShadow: "0 20px 50px rgba(0, 0, 0, 0.5)",
-          marginBottom: 28,
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: 24,
-        }}
-      >
-        <div style={{ maxWidth: 650 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+      <section className="admin-command-hero">
+        <div className="admin-command-hero-copy">
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8, flexWrap: "wrap" }}>
             <span
               style={{
                 fontFamily: "var(--font-mono)",
@@ -142,7 +129,7 @@ export function AdminDashboard() {
           <h1
             style={{
               fontFamily: "var(--font-heading)",
-              fontSize: "clamp(26px, 3.2vw, 36px)",
+              fontSize: "clamp(22px, 3.2vw, 36px)",
               color: "#ffffff",
               margin: "6px 0 10px",
               lineHeight: 1.2,
@@ -151,13 +138,13 @@ export function AdminDashboard() {
             Institute at a <span style={{ color: "#c084fc" }}>glance.</span>
           </h1>
 
-          <p style={{ color: "#94a3b8", fontSize: "14.5px", margin: 0, lineHeight: 1.6 }}>
+          <p style={{ color: "#94a3b8", fontSize: "14px", margin: 0, lineHeight: 1.6 }}>
             Real-time management of registered students, curriculum offerings, public admission leads, and support queries.
           </p>
         </div>
 
         {/* Quick Action Shortcuts */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+        <div className="admin-hero-actions">
           <Link
             href="/admin/courses"
             style={{
@@ -227,9 +214,10 @@ export function AdminDashboard() {
 
       {/* 4 KPI Metric Cards */}
       <section
+        className="admin-dashboard-kpi-grid"
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 220px), 1fr))",
           gap: 18,
           marginBottom: 30,
         }}
@@ -264,7 +252,7 @@ export function AdminDashboard() {
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <strong style={{ fontSize: 28, fontFamily: "var(--font-heading)", color: "#ffffff", display: "block", lineHeight: 1.1 }}>
-              {loading ? "..." : metrics.students.toLocaleString("en-IN")}
+              {loading ? <SkeletonBlock width={52} height={28} borderRadius={6} /> : metrics.students.toLocaleString("en-IN")}
             </strong>
             <span style={{ fontSize: 13, color: "#94a3b8", display: "block", marginTop: 4 }}>
               Registered Students
@@ -318,7 +306,7 @@ export function AdminDashboard() {
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <strong style={{ fontSize: 28, fontFamily: "var(--font-heading)", color: "#ffffff", display: "block", lineHeight: 1.1 }}>
-              {loading ? "..." : metrics.activeCourses.toLocaleString("en-IN")}
+              {loading ? <SkeletonBlock width={52} height={28} borderRadius={6} /> : metrics.activeCourses.toLocaleString("en-IN")}
             </strong>
             <span style={{ fontSize: 13, color: "#94a3b8", display: "block", marginTop: 4 }}>
               Published Courses
@@ -372,7 +360,7 @@ export function AdminDashboard() {
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <strong style={{ fontSize: 28, fontFamily: "var(--font-heading)", color: "#ffffff", display: "block", lineHeight: 1.1 }}>
-              {loading ? "..." : (dashboard?.recentInquiries?.length ?? metrics.newInquiries ?? 0)}
+              {loading ? <SkeletonBlock width={52} height={28} borderRadius={6} /> : (dashboard?.recentInquiries?.length ?? metrics.newInquiries ?? 0)}
             </strong>
             <span style={{ fontSize: 13, color: "#94a3b8", display: "block", marginTop: 4 }}>
               Website Demo Leads
@@ -426,7 +414,7 @@ export function AdminDashboard() {
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <strong style={{ fontSize: 28, fontFamily: "var(--font-heading)", color: "#ffffff", display: "block", lineHeight: 1.1 }}>
-              {loading ? "..." : metrics.openQueries.toLocaleString("en-IN")}
+              {loading ? <SkeletonBlock width={52} height={28} borderRadius={6} /> : metrics.openQueries.toLocaleString("en-IN")}
             </strong>
             <span style={{ fontSize: 13, color: "#94a3b8", display: "block", marginTop: 4 }}>
               Pending Student Queries
@@ -452,7 +440,7 @@ export function AdminDashboard() {
       </section>
 
       {/* Main Grid: Recent Students & Recent Queries */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(480px, 1fr))", gap: 24, marginBottom: 28 }}>
+      <div className="admin-dashboard-dual-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 460px), 1fr))", gap: 24, marginBottom: 28 }}>
         {/* Card 1: Recent Registered Students */}
         <section
           style={{
@@ -499,7 +487,21 @@ export function AdminDashboard() {
           </div>
 
           <div style={{ overflowX: "auto" }}>
-            {dashboard?.recentStudents.length ? (
+            {loading ? (
+              <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: 13 }}>
+                <thead>
+                  <tr style={{ background: "#070b24", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>
+                    <th style={{ padding: "12px 20px", color: "#94a3b8", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Student</th>
+                    <th style={{ padding: "12px 16px", color: "#94a3b8", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Student ID</th>
+                    <th style={{ padding: "12px 16px", color: "#94a3b8", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Admission</th>
+                    <th style={{ padding: "12px 20px", color: "#94a3b8", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Joined</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <SkeletonTableRows rows={5} cols={4} />
+                </tbody>
+              </table>
+            ) : dashboard?.recentStudents.length ? (
               <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: 13 }}>
                 <thead>
                   <tr style={{ background: "#070b24", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>
@@ -636,7 +638,21 @@ export function AdminDashboard() {
           </div>
 
           <div style={{ overflowX: "auto" }}>
-            {dashboard?.recentQueries.length ? (
+            {loading ? (
+              <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: 13 }}>
+                <thead>
+                  <tr style={{ background: "#070b24", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>
+                    <th style={{ padding: "12px 20px", color: "#94a3b8", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Query & Topic</th>
+                    <th style={{ padding: "12px 16px", color: "#94a3b8", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Student</th>
+                    <th style={{ padding: "12px 16px", color: "#94a3b8", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Status</th>
+                    <th style={{ padding: "12px 20px", color: "#94a3b8", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <SkeletonTableRows rows={4} cols={4} />
+                </tbody>
+              </table>
+            ) : dashboard?.recentQueries.length ? (
               <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: 13 }}>
                 <thead>
                   <tr style={{ background: "#070b24", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>
@@ -698,7 +714,7 @@ export function AdminDashboard() {
       </div>
 
       {/* Card 3: Latest Public Inquiries & Leads (Full width bar) */}
-      {dashboard?.recentInquiries && dashboard.recentInquiries.length > 0 && (
+      {(loading || (dashboard?.recentInquiries && dashboard.recentInquiries.length > 0)) && (
         <section
           style={{
             background: "#0a0f32",
@@ -733,9 +749,12 @@ export function AdminDashboard() {
             </Link>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14 }}>
-            {dashboard.recentInquiries.map((inquiry) => {
-              const rawPhone = inquiry.phone.replace(/[^0-9]/g, "");
+          {loading ? (
+            <SkeletonCardsGrid count={4} columns="repeat(auto-fit, minmax(min(100%, 260px), 1fr))" />
+          ) : (
+            <div className="admin-dashboard-inquiries-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: 14 }}>
+              {dashboard?.recentInquiries?.map((inquiry) => {
+const rawPhone = inquiry.phone.replace(/[^0-9]/g, "");
               const waPhone = rawPhone.length === 10 ? `91${rawPhone}` : rawPhone;
               const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(
                 `Hi ${inquiry.fullName}, greetings from Elite Coding School regarding your ${inquiry.type === "demo" ? "free demo class" : "admission inquiry"}.`,
@@ -827,7 +846,8 @@ export function AdminDashboard() {
                 </div>
               );
             })}
-          </div>
+            </div>
+          )}
         </section>
       )}
     </main>

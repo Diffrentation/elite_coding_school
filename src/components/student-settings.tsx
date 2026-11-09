@@ -69,6 +69,14 @@ export function StudentSettings() {
   async function logout() {
     setLoggingOut(true);
     try {
+      if (typeof window !== "undefined") {
+        try {
+          sessionStorage.removeItem("ecs_session_user");
+          sessionStorage.removeItem("ecs_session_checked");
+        } catch {
+          // ignore
+        }
+      }
       await fetch("/api/auth/logout", { method: "POST" });
     } finally {
       router.replace("/login");

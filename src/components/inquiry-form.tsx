@@ -84,8 +84,12 @@ export function InquiryForm() {
   }
 
   return (
-    <form className="inquiry-form" onSubmit={submit}>
-      <h2>Book a Free Demo Class or In-Person Counseling</h2>
+    <form className="inquiry-form" id="book-demo" onSubmit={submit}>
+      <div className="inquiry-header-badge">
+        <span className="pulse-dot" />
+        <span>FREE TRIAL &amp; IN-PERSON COUNSELING</span>
+      </div>
+      <h2>Book a Free Demo Class</h2>
       <p>Schedule your walk-in visit to meet our teachers, inspect the classroom, and take a trial class.</p>
 
       {error && <p className="form-error">{error}</p>}
@@ -124,6 +128,53 @@ export function InquiryForm() {
       </label>
 
       <label>
+        Visit Preference
+        <div className="custom-dropdown" ref={visitDropdownRef}>
+          <button
+            type="button"
+            className={`dropdown-trigger ${visitOpen ? "is-open" : ""}`}
+            onClick={() => {
+              setVisitOpen((prev) => !prev);
+              setCourseOpen(false);
+            }}
+            aria-haspopup="listbox"
+            aria-expanded={visitOpen}
+          >
+            <span className="dropdown-label">
+              {fields.type === "demo"
+                ? "Book Free Trial Demo Class"
+                : "Fee Structure & Counseling"}
+            </span>
+            <ChevronDown size={16} className={`dropdown-chevron ${visitOpen ? "rotate-180" : ""}`} />
+          </button>
+
+          {visitOpen && (
+            <div className="dropdown-menu" role="listbox">
+              {VISIT_OPTIONS.map((opt) => {
+                const isSelected = fields.type === opt.value;
+                return (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    role="option"
+                    aria-selected={isSelected}
+                    className={`dropdown-option ${isSelected ? "is-selected" : ""}`}
+                    onClick={() => {
+                      setFields({ ...fields, type: opt.value });
+                      setVisitOpen(false);
+                    }}
+                  >
+                    <span>{opt.label}</span>
+                    {isSelected && <Check size={14} className="dropdown-check" />}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </label>
+
+      <label className="inquiry-full-width">
         Program of Interest
         <div className="custom-dropdown" ref={courseDropdownRef}>
           <button
@@ -157,53 +208,6 @@ export function InquiryForm() {
                     }}
                   >
                     <span>{course}</span>
-                    {isSelected && <Check size={14} className="dropdown-check" />}
-                  </button>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      </label>
-
-      <label>
-        Visit Preference
-        <div className="custom-dropdown" ref={visitDropdownRef}>
-          <button
-            type="button"
-            className={`dropdown-trigger ${visitOpen ? "is-open" : ""}`}
-            onClick={() => {
-              setVisitOpen((prev) => !prev);
-              setCourseOpen(false);
-            }}
-            aria-haspopup="listbox"
-            aria-expanded={visitOpen}
-          >
-            <span className="dropdown-label">
-              {fields.type === "demo"
-                ? "Book a Free Trial Demo Class"
-                : "Admissions & Fee Structure Counseling"}
-            </span>
-            <ChevronDown size={16} className={`dropdown-chevron ${visitOpen ? "rotate-180" : ""}`} />
-          </button>
-
-          {visitOpen && (
-            <div className="dropdown-menu" role="listbox">
-              {VISIT_OPTIONS.map((opt) => {
-                const isSelected = fields.type === opt.value;
-                return (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    role="option"
-                    aria-selected={isSelected}
-                    className={`dropdown-option ${isSelected ? "is-selected" : ""}`}
-                    onClick={() => {
-                      setFields({ ...fields, type: opt.value });
-                      setVisitOpen(false);
-                    }}
-                  >
-                    <span>{opt.label}</span>
                     {isSelected && <Check size={14} className="dropdown-check" />}
                   </button>
                 );
