@@ -8,6 +8,8 @@ RUN npm ci
 FROM base AS builder
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
+ARG MONGODB_URI
+ENV MONGODB_URI=$MONGODB_URI
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
