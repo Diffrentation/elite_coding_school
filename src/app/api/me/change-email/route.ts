@@ -4,7 +4,7 @@ import { failure, success } from "@/lib/api";
 import { getSession } from "@/modules/identity/session";
 import { User } from "@/models/User";
 import { issueOtp, consumeOtp } from "@/modules/identity/otp";
-import { sendOtpEmail } from "@/modules/identity/mailer";
+import { isEmailDeliveryConfigured, sendOtpEmail } from "@/modules/identity/mailer";
 const emailSchema = z.object({
   email: z.string().trim().toLowerCase().email(),
   code: z
@@ -24,8 +24,22 @@ export async function POST(request: Request) {
   if (!parsed.data.code) {
     if (await User.exists({ email: parsed.data.email, _id: { $ne: user._id } }))
       return failure("CONFLICT", "This email is already in use.", 409);
+    if (!isEmailDeliveryConfigured())
+      return failure(
+        "EMAIL_UNAVAILABLE",
+        "Email verification is temporarily unavailable. Please try again shortly.",
+        503,
+      );
     const code = await issueOtp(String(user._id), parsed.data.email, "email_change");
-    await sendOtpEmail(parsed.data.email, code, "verify").catch(() => undefined);
+    try {
+      await sendOtpEmail(parsed.data.email, code, "verify");
+    } catch {
+      return failure(
+        "EMAIL_UNAVAILABLE",
+        "We could not send the verification code. Please try again shortly.",
+        503,
+      );
+    }
     return success({ message: "A verification code has been sent to your new email." });
   }
   const verified = await consumeOtp(parsed.data.email, "email_change", parsed.data.code);

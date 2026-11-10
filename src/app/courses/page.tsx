@@ -292,20 +292,13 @@ export default function CoursesPage() {
         .then(async (r) => {
           if (!r.ok) throw new Error();
           const b = await r.json();
-          const apiCourses: Course[] = b.data?.courses ?? [];
-          // Filter out dummy test courses like 'Velit dolorem' with fee 6
-          const validApiCourses = apiCourses.filter(
-            (c) => c.title && !c.title.toLowerCase().includes("velit") && c.monthlyFee > 100,
-          );
-          if (validApiCourses.length > 0) {
-            setCourses(validApiCourses);
-          } else {
-            // Use curated offline courses catalog with matching search/filter
-            setCourses(CURATED_OFFLINE_COURSES);
-          }
+          // The catalogue must show the published database records exactly as
+          // returned. Keeping a hidden hard-coded catalogue here made the UI
+          // disagree with admin-managed course data.
+          setCourses(b.data?.courses ?? []);
         })
         .catch(() => {
-          setCourses(CURATED_OFFLINE_COURSES);
+          setCourses([]);
         })
         .finally(() => setLoading(false));
     }, 250);
@@ -667,44 +660,215 @@ export default function CoursesPage() {
 
       {/* 5. WHY OFFLINE LAB BEATS ONLINE TUTORIALS STRIP */}
       <section className="course-benefits" id="why-offline">
-        <div className="benefit-card-box">
-          <div className="benefit-icon-wrap">
-            <Zap size={22} />
+        {/* Card 1: 1:1 Doubt Solving */}
+        <article className="public-course-card benefit-transparent-card">
+          <div className="card-header-top">
+            <span className="card-track-badge badge-web-dev">1:1 MENTORSHIP</span>
+            <span className="card-mode-pill">
+              <span className="pulse-dot" />
+              In-Person Lab
+            </span>
           </div>
-          <div className="benefit-text-wrap">
-            <b>1:1 Teacher Doubt Solving</b>
-            <small>
-              Whenever you hit a bug or get stuck on a concept, teachers sit with you at your desk and guide
-              you until you understand.
-            </small>
-          </div>
-        </div>
 
-        <div className="benefit-card-box">
-          <div className="benefit-icon-wrap">
-            <Monitor size={22} />
+          <div
+            className="card-icon-box"
+            style={{
+              background: "rgba(168, 85, 247, 0.15)",
+              color: "#c084fc",
+              border: "1px solid rgba(168, 85, 247, 0.3)",
+            }}
+          >
+            <Zap size={24} />
           </div>
-          <div className="benefit-text-wrap">
-            <b>Clean Desks &amp; Power Sockets</b>
-            <small>
-              Bring your laptop, plug into dedicated power sockets, connect to high-speed classroom Wi-Fi, and
-              code comfortably.
-            </small>
-          </div>
-        </div>
 
-        <div className="benefit-card-box">
-          <div className="benefit-icon-wrap">
-            <Users size={22} />
+          <h2>1:1 Teacher Doubt Solving &amp; Error Debugging</h2>
+          <p className="card-desc">
+            Whenever you hit a bug or get stuck on a concept, teachers sit with you at your desk and guide
+            you until your code works and your understanding is 100% clear.
+          </p>
+
+          <ul className="card-perks-list">
+            <li>
+              <CheckCircle2 size={15} />
+              <span>Zero wait: teacher sits directly at your desk</span>
+            </li>
+            <li>
+              <CheckCircle2 size={15} />
+              <span>Line-by-line syntax &amp; compiler error debugging</span>
+            </li>
+            <li>
+              <CheckCircle2 size={15} />
+              <span>Whiteboard breakdown of logic before writing code</span>
+            </li>
+          </ul>
+
+          <div className="card-tags-row">
+            <span className="card-tech-tag">Desk-Side Help</span>
+            <span className="card-tech-tag">Live Debugging</span>
+            <span className="card-tech-tag">Logic Clarity</span>
+            <span className="card-tech-tag">Code Review</span>
           </div>
-          <div className="benefit-text-wrap">
-            <b>Small Batches (10–15 Students)</b>
-            <small>
-              We deliberately keep batch sizes small so that every single student gets direct teacher
-              interaction and personal guidance.
-            </small>
+
+          <div className="course-metadata">
+            <span>
+              <small>Support</small>
+              <b>Direct 1:1</b>
+            </span>
+            <span>
+              <small>Format</small>
+              <b>Desk-Side</b>
+            </span>
+            <span>
+              <small>Faculty</small>
+              <b style={{ color: "#c084fc" }}>In-Person</b>
+            </span>
           </div>
-        </div>
+
+          <Link className="card-action-btn" href="/contact#book-demo">
+            <span>Experience Teacher Help in Demo</span>
+            <ArrowRight size={15} />
+          </Link>
+        </article>
+
+        {/* Card 2: Clean Desks & Wi-Fi */}
+        <article className="public-course-card benefit-transparent-card">
+          <div className="card-header-top">
+            <span className="card-track-badge badge-networking">CAMPUS FACILITIES</span>
+            <span className="card-mode-pill">
+              <span className="pulse-dot" />
+              Dedicated Desks
+            </span>
+          </div>
+
+          <div
+            className="card-icon-box"
+            style={{
+              background: "rgba(16, 185, 129, 0.15)",
+              color: "#34d399",
+              border: "1px solid rgba(16, 185, 129, 0.3)",
+            }}
+          >
+            <Monitor size={24} />
+          </div>
+
+          <h2>Clean Desks, Power Sockets &amp; Fast Wi-Fi</h2>
+          <p className="card-desc">
+            Bring your laptop and code in complete comfort. Every desk has dedicated power sockets, ergonomic
+            seating, and high-speed optical fiber for fast GitHub and npm workflows.
+          </p>
+
+          <ul className="card-perks-list">
+            <li>
+              <CheckCircle2 size={15} />
+              <span>Individual power plugs at every single desk</span>
+            </li>
+            <li>
+              <CheckCircle2 size={15} />
+              <span>High-speed classroom optical fiber Wi-Fi</span>
+            </li>
+            <li>
+              <CheckCircle2 size={15} />
+              <span>Air-conditioned, quiet, distraction-free environment</span>
+            </li>
+          </ul>
+
+          <div className="card-tags-row">
+            <span className="card-tech-tag">Power Plugs</span>
+            <span className="card-tech-tag">Fast Wi-Fi</span>
+            <span className="card-tech-tag">Quiet Lab</span>
+            <span className="card-tech-tag">AC Classroom</span>
+          </div>
+
+          <div className="course-metadata">
+            <span>
+              <small>Power</small>
+              <b>Dedicated Socket</b>
+            </span>
+            <span>
+              <small>Internet</small>
+              <b>Fast Wi-Fi</b>
+            </span>
+            <span>
+              <small>Lab Access</small>
+              <b style={{ color: "#34d399" }}>Mon–Sat</b>
+            </span>
+          </div>
+
+          <Link className="card-action-btn" href="/contact#campus-directory">
+            <span>Visit Our Vijay Nagar Campus</span>
+            <ArrowRight size={15} />
+          </Link>
+        </article>
+
+        {/* Card 3: Small Batches */}
+        <article className="public-course-card benefit-transparent-card">
+          <div className="card-header-top">
+            <span className="card-track-badge badge-os-kernel">CLASSROOM COHORT</span>
+            <span className="card-mode-pill">
+              <span className="pulse-dot" />
+              10–15 Seats Max
+            </span>
+          </div>
+
+          <div
+            className="card-icon-box"
+            style={{
+              background: "rgba(56, 189, 248, 0.15)",
+              color: "#38bdf8",
+              border: "1px solid rgba(56, 189, 248, 0.3)",
+            }}
+          >
+            <Users size={24} />
+          </div>
+
+          <h2>Small Batches (Strictly 10–15 Students)</h2>
+          <p className="card-desc">
+            We deliberately keep batch sizes small so that every single student gets direct teacher
+            interaction. No crowded halls where you get ignored — everyone codes actively.
+          </p>
+
+          <ul className="card-perks-list">
+            <li>
+              <CheckCircle2 size={15} />
+              <span>Max 15 students per cohort: zero overcrowded rooms</span>
+            </li>
+            <li>
+              <CheckCircle2 size={15} />
+              <span>Every student&apos;s daily progress is tracked by teachers</span>
+            </li>
+            <li>
+              <CheckCircle2 size={15} />
+              <span>Ask questions anytime without feeling shy or hesitant</span>
+            </li>
+          </ul>
+
+          <div className="card-tags-row">
+            <span className="card-tech-tag">10-15 Seats</span>
+            <span className="card-tech-tag">Personal Focus</span>
+            <span className="card-tech-tag">Peer Group</span>
+            <span className="card-tech-tag">Daily Attention</span>
+          </div>
+
+          <div className="course-metadata">
+            <span>
+              <small>Cohort Size</small>
+              <b>10–15 Max</b>
+            </span>
+            <span>
+              <small>Attention</small>
+              <b>100% Personal</b>
+            </span>
+            <span>
+              <small>Admissions</small>
+              <b style={{ color: "#38bdf8" }}>Open Now</b>
+            </span>
+          </div>
+
+          <Link className="card-action-btn" href="/contact#book-demo">
+            <span>Reserve Seat in Next Batch</span>
+            <ArrowRight size={15} />
+          </Link>
+        </article>
       </section>
 
       {/* 6. CAMPUS WALK-IN BANNER */}

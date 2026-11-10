@@ -521,16 +521,21 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
   const [course, setCourse] = useState<Course | null>(null);
   const [enrolling, setEnrolling] = useState(false);
   const [message, setMessage] = useState("");
-  const [resolvedSlug, setResolvedSlug] = useState("");
+  const [loadError, setLoadError] = useState("");
 
   useEffect(() => {
     params.then(({ slug }) => {
       const normalizedSlug = slug.replace(/_/g, "-");
-      setResolvedSlug(slug);
       fetch(`/api/courses/${slug}`)
         .then((r) => r.json())
         .then((x) => {
           const apiCourse = x.data?.course;
+          if (!apiCourse) {
+            setLoadError(x.error?.message ?? "This course is not currently published.");
+            return;
+          }
+          setCourse(apiCourse);
+          return;
           if (apiCourse && !apiCourse.title?.toLowerCase().includes("velit") && apiCourse.monthlyFee > 100) {
             setCourse(apiCourse);
           } else {
@@ -581,6 +586,8 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
           }
         })
         .catch(() => {
+          setLoadError("This course could not be loaded. Please browse the published catalogue.");
+          return;
           const fallback =
             FALLBACK_COURSES[slug] ??
             FALLBACK_COURSES[normalizedSlug] ??
@@ -623,9 +630,7 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
       if (!response.ok) throw new Error(body.error?.message ?? "Could not request enrollment.");
       setMessage("✓ Enrollment request sent! Our admissions mentor will contact you for a lab slot.");
     } catch (error) {
-      setMessage(
-        "✓ Interest registered! Please visit our campus or call admissions to confirm your lab desk.",
-      );
+      setMessage(error instanceof Error ? error.message : "Could not submit your enrollment request.");
     } finally {
       setEnrolling(false);
     }
@@ -635,7 +640,22 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
     return (
       <main className="courses-redesign">
         <Navbar activePage="courses" />
-        <CourseDetailSkeleton />
+        {loadError ? (
+          <section className="courses-catalog-hero" style={{ paddingBottom: "60px" }}>
+            <div className="courses-hero-inner">
+              <div className="courses-hero-copy">
+                <p className="kicker">COURSE UNAVAILABLE</p>
+                <h1>This course is not currently published.</h1>
+                <p>{loadError}</p>
+                <Link className="btn-primary-hero" href="/courses">
+                  Browse available courses
+                </Link>
+              </div>
+            </div>
+          </section>
+        ) : (
+          <CourseDetailSkeleton />
+        )}
       </main>
     );
   }

@@ -259,6 +259,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<"mern" | "core" | "dsa">("mern");
   const [courseFilter, setCourseFilter] = useState<"all" | "mern" | "core" | "dsa" | "systems">("all");
   const [banners, setBanners] = useState<HeroBanner[]>([]);
+  const [courses, setCourses] = useState<CourseItem[]>([]);
   const [activeBanner, setActiveBanner] = useState(0);
 
   useEffect(() => {
@@ -266,6 +267,42 @@ export default function Home() {
       .then((res) => res.json())
       .then((body) => setBanners(body.data?.banners ?? []))
       .catch(() => setBanners([]));
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/courses?limit=50")
+      .then(async (response) => {
+        const body = await response.json();
+        if (!response.ok) throw new Error(body.error?.message ?? "Could not load courses.");
+        setCourses(
+          (body.data?.courses ?? []).map(
+            (course: {
+              title: string;
+              slug: string;
+              track: "web" | "core" | "dsa" | "systems";
+              trackLabel?: string;
+              shortDescription: string;
+              durationMonths: number;
+              labHours?: string;
+              monthlyFee: number;
+              perks?: string[];
+              skills?: string[];
+            }) => ({
+              title: course.title,
+              slug: course.slug,
+              track: course.track === "web" ? "mern" : course.track,
+              trackLabel: course.trackLabel || course.track,
+              description: course.shortDescription,
+              duration: `${course.durationMonths} ${course.durationMonths === 1 ? "Month" : "Months"}`,
+              labHours: course.labHours || "Class hours to be announced",
+              fee: `₹${course.monthlyFee.toLocaleString("en-IN")} / mo`,
+              perks: course.perks ?? [],
+              techTags: course.skills ?? [],
+            }),
+          ),
+        );
+      })
+      .catch(() => setCourses([]));
   }, []);
 
   useEffect(() => {
@@ -278,8 +315,7 @@ export default function Home() {
 
   const banner = banners.length ? banners[activeBanner % banners.length] : null;
 
-  const filteredCourses =
-    courseFilter === "all" ? COURSES_DATA : COURSES_DATA.filter((c) => c.track === courseFilter);
+  const filteredCourses = courseFilter === "all" ? courses : courses.filter((c) => c.track === courseFilter);
 
   return (
     <main className="home-page">
@@ -807,31 +843,31 @@ export default function Home() {
               className={`filter-btn ${courseFilter === "all" ? "active" : ""}`}
               onClick={() => setCourseFilter("all")}
             >
-              All Programs ({COURSES_DATA.length})
+              All Programs ({courses.length})
             </button>
             <button
               className={`filter-btn ${courseFilter === "mern" ? "active" : ""}`}
               onClick={() => setCourseFilter("mern")}
             >
-              MERN &amp; Next.js ({COURSES_DATA.filter((c) => c.track === "mern").length})
+              MERN &amp; Next.js ({courses.filter((c) => c.track === "mern").length})
             </button>
             <button
               className={`filter-btn ${courseFilter === "core" ? "active" : ""}`}
               onClick={() => setCourseFilter("core")}
             >
-              C, C++, Java &amp; Python ({COURSES_DATA.filter((c) => c.track === "core").length})
+              C, C++, Java &amp; Python ({courses.filter((c) => c.track === "core").length})
             </button>
             <button
               className={`filter-btn ${courseFilter === "dsa" ? "active" : ""}`}
               onClick={() => setCourseFilter("dsa")}
             >
-              DSA &amp; Logic ({COURSES_DATA.filter((c) => c.track === "dsa").length})
+              DSA &amp; Logic ({courses.filter((c) => c.track === "dsa").length})
             </button>
             <button
               className={`filter-btn ${courseFilter === "systems" ? "active" : ""}`}
               onClick={() => setCourseFilter("systems")}
             >
-              Networking &amp; OS ({COURSES_DATA.filter((c) => c.track === "systems").length})
+              Networking &amp; OS ({courses.filter((c) => c.track === "systems").length})
             </button>
           </div>
 
