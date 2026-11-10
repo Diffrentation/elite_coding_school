@@ -241,11 +241,7 @@ export function Navbar({ activePage = "home" }: NavbarProps) {
             </div>
           </Link>
 
-          <button
-            className="courses-menu"
-            onClick={() => setOpen(!open)}
-            aria-label="Toggle navigation menu"
-          >
+          <button className="courses-menu" onClick={() => setOpen(!open)} aria-label="Toggle navigation menu">
             {open ? <X size={22} /> : <Menu size={22} />}
           </button>
 
@@ -337,7 +333,8 @@ export function Navbar({ activePage = "home" }: NavbarProps) {
                   triggerNav();
                   setActiveSection("");
                   if (typeof window !== "undefined" && window.location.pathname === "/contact") {
-                    const el = document.getElementById("contact-form") || document.getElementById("book-demo");
+                    const el =
+                      document.getElementById("contact-form") || document.getElementById("book-demo");
                     if (el) {
                       el.scrollIntoView({ behavior: "smooth", block: "start" });
                     }
@@ -388,7 +385,8 @@ export function Navbar({ activePage = "home" }: NavbarProps) {
                     setOpen(false);
                     triggerNav();
                     if (typeof window !== "undefined" && window.location.pathname === "/contact") {
-                      const el = document.getElementById("contact-form") || document.getElementById("book-demo");
+                      const el =
+                        document.getElementById("contact-form") || document.getElementById("book-demo");
                       if (el) {
                         el.scrollIntoView({ behavior: "smooth", block: "start" });
                       }
@@ -414,4 +412,3 @@ export function Navbar({ activePage = "home" }: NavbarProps) {
     </>
   );
 }
-

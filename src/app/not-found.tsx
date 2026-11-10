@@ -55,8 +55,8 @@ export default function NotFound() {
             margin: "0 0 32px",
           }}
         >
-          The workstation route or program you are looking for does not exist on our campus LAN.
-          Let&apos;s get you back to the main campus or active course directory.
+          The workstation route or program you are looking for does not exist on our campus LAN. Let&apos;s
+          get you back to the main campus or active course directory.
         </p>
 
         <div style={{ display: "flex", justifyContent: "center", gap: "14px", flexWrap: "wrap" }}>

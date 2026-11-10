@@ -72,13 +72,35 @@ export function ImagePickerInput({
   }
 
   return (
-    <div className="image-picker-input" style={{ display: "flex", flexDirection: "column", gap: 6, width: "100%", minWidth: 0, boxSizing: "border-box" }}>
+    <div
+      className="image-picker-input"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 6,
+        width: "100%",
+        minWidth: 0,
+        boxSizing: "border-box",
+      }}
+    >
       {/* Hidden input ensuring the selected URL is submitted with standard FormData */}
       <input type="hidden" name={name} value={value} />
 
-      <div className="image-picker-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", minWidth: 0 }}>
+      <div
+        className="image-picker-header"
+        style={{ display: "flex", justifyContent: "space-between", alignItems: "center", minWidth: 0 }}
+      >
         <span style={{ fontSize: "12.5px", fontWeight: 600, color: "#cbd5e1" }}>{label}</span>
-        <div className="image-picker-mode-toggle" style={{ display: "inline-flex", background: "rgba(255, 255, 255, 0.06)", borderRadius: 6, padding: 2, flexShrink: 0 }}>
+        <div
+          className="image-picker-mode-toggle"
+          style={{
+            display: "inline-flex",
+            background: "rgba(255, 255, 255, 0.06)",
+            borderRadius: 6,
+            padding: 2,
+            flexShrink: 0,
+          }}
+        >
           <button
             type="button"
             onClick={() => setMode("upload")}
@@ -137,7 +159,10 @@ export function ImagePickerInput({
             boxSizing: "border-box",
           }}
         >
-          <div className="image-picker-upload-copy" style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0, flex: 1 }}>
+          <div
+            className="image-picker-upload-copy"
+            style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0, flex: 1 }}
+          >
             <div
               style={{
                 width: 36,
@@ -153,12 +178,22 @@ export function ImagePickerInput({
               {uploading ? <Loader2 size={18} className="spin" /> : <Upload size={18} />}
             </div>
             <div style={{ minWidth: 0, flex: 1 }}>
-              <span style={{ display: "block", fontSize: 12, color: value ? "#34d399" : "#cbd5e1", fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              <span
+                style={{
+                  display: "block",
+                  fontSize: 12,
+                  color: value ? "#34d399" : "#cbd5e1",
+                  fontWeight: 600,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 {uploading
                   ? `Uploading ${fileName}...`
                   : value
-                  ? fileName || "Image ready"
-                  : "Choose image from this laptop"}
+                    ? fileName || "Image ready"
+                    : "Choose image from this laptop"}
               </span>
               <span style={{ display: "block", fontSize: 10.5, color: "#64748b" }}>
                 PNG, JPG, WebP, GIF up to 10MB
@@ -280,10 +315,27 @@ export function ImagePickerInput({
             }}
           />
           <div style={{ flex: 1, minWidth: 0, overflow: "hidden" }}>
-            <span style={{ display: "block", fontSize: 11.5, color: "#e2e8f0", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            <span
+              style={{
+                display: "block",
+                fontSize: 11.5,
+                color: "#e2e8f0",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
               {value}
             </span>
-            <span style={{ fontSize: 10.5, color: "#34d399", display: "inline-flex", alignItems: "center", gap: 3 }}>
+            <span
+              style={{
+                fontSize: 10.5,
+                color: "#34d399",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 3,
+              }}
+            >
               <Check size={11} /> Image active
             </span>
           </div>
@@ -309,4 +361,3 @@ export function ImagePickerInput({
     </div>
   );
 }
-

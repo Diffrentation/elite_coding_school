@@ -7,11 +7,11 @@ const uri = env.match(/^MONGODB_URI=(.+)$/m)?.[1]?.trim();
 if (!uri) throw new Error("MONGODB_URI is missing from .env.local");
 
 await mongoose.connect(uri);
-const result = await mongoose.connection.collection("users").updateOne(
-  { email: adminEmail },
-  { $set: { role: "admin", updatedAt: new Date() } },
-);
+const result = await mongoose.connection
+  .collection("users")
+  .updateOne({ email: adminEmail }, { $set: { role: "admin", updatedAt: new Date() } });
 await mongoose.disconnect();
 
-if (!result.matchedCount) throw new Error(`No user account exists for ${adminEmail}. Register this email first.`);
+if (!result.matchedCount)
+  throw new Error(`No user account exists for ${adminEmail}. Register this email first.`);
 console.log(`Promoted ${adminEmail} to administrator.`);

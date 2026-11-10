@@ -68,8 +68,7 @@ export function CustomSelect({
     // Smart direction: open UP if space below cannot fit the menu AND space above has more space,
     // or if space below is under 190px while space above has at least 190px.
     const openUp =
-      (spaceBelow < requiredHeight && spaceAbove > spaceBelow) ||
-      (spaceBelow < 190 && spaceAbove >= 190);
+      (spaceBelow < requiredHeight && spaceAbove > spaceBelow) || (spaceBelow < 190 && spaceAbove >= 190);
 
     const minWidth = Math.max(rect.width, size === "sm" ? 175 : 220);
     let left = rect.left;
@@ -79,10 +78,7 @@ export function CustomSelect({
 
     const availableSpace = openUp ? spaceAbove - 20 : spaceBelow - 20;
     // Ensure all items fit comfortably when possible
-    const maxHeight = Math.min(
-      requiredHeight,
-      Math.max(180, Math.min(360, availableSpace))
-    );
+    const maxHeight = Math.min(requiredHeight, Math.max(180, Math.min(360, availableSpace)));
 
     if (openUp) {
       setCoords({
@@ -210,9 +206,7 @@ export function CustomSelect({
         <div className="trigger-content">
           {icon && <span className="trigger-icon">{icon}</span>}
           {statusColor && <span className="status-dot" style={{ background: statusColor.dot }} />}
-          <span className="trigger-label">
-            {selectedOption ? selectedOption.label : placeholder}
-          </span>
+          <span className="trigger-label">{selectedOption ? selectedOption.label : placeholder}</span>
         </div>
         <ChevronDown size={14} className={`trigger-chevron ${open ? "rotate-180" : ""}`} />
       </button>
@@ -253,13 +247,8 @@ export function CustomSelect({
                 >
                   <div className="item-label-group">
                     {opt.icon && <span className="item-icon">{opt.icon}</span>}
-                    {optStatus && (
-                      <span className="status-dot" style={{ background: optStatus.dot }} />
-                    )}
-                    <span
-                      className="item-label"
-                      style={optStatus ? { color: optStatus.text } : undefined}
-                    >
+                    {optStatus && <span className="status-dot" style={{ background: optStatus.dot }} />}
+                    <span className="item-label" style={optStatus ? { color: optStatus.text } : undefined}>
                       {opt.label}
                     </span>
                     {opt.badge && <span className="item-badge">{opt.badge}</span>}

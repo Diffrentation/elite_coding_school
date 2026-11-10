@@ -1,7 +1,18 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import { Plus, X, Edit3, Globe, Archive, Layers, CheckCircle2, AlertCircle, Search, Filter } from "lucide-react";
+import {
+  Plus,
+  X,
+  Edit3,
+  Globe,
+  Archive,
+  Layers,
+  CheckCircle2,
+  AlertCircle,
+  Search,
+  Filter,
+} from "lucide-react";
 import { ImagePickerInput } from "@/components/image-picker-input";
 import { CustomSelect, type CustomSelectOption } from "@/components/ui/custom-select";
 import { AgTable, type AgColumn } from "@/components/ui/ag-table";
@@ -452,7 +463,6 @@ export function AdminBanners() {
                 Upload responsive hero images or paste an image web link to display on the public homepage.
               </span>
             </div>
-
           </div>
 
           <label>
@@ -463,7 +473,10 @@ export function AdminBanners() {
             CTA label
             <input name="ctaLabel" defaultValue={editing?.ctaLabel ?? "Explore courses"} required />
           </label>
-          <div className="admin-banner-image-field" style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
+          <div
+            className="admin-banner-image-field"
+            style={{ display: "flex", flexDirection: "column", minWidth: 0 }}
+          >
             <ImagePickerInput
               label="Desktop Banner Image"
               name="desktopImageUrl"
@@ -472,7 +485,10 @@ export function AdminBanners() {
               helperText="Recommended: 1920x800 px landscape image"
             />
           </div>
-          <div className="admin-banner-image-field" style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
+          <div
+            className="admin-banner-image-field"
+            style={{ display: "flex", flexDirection: "column", minWidth: 0 }}
+          >
             <ImagePickerInput
               label="Mobile Banner Image"
               name="mobileImageUrl"
@@ -508,7 +524,16 @@ export function AdminBanners() {
               name="ctaUrl"
               value={selectedCtaOption === "__custom__" ? customCtaUrl : selectedCtaOption}
             />
-            <small style={{ color: "#34d399", fontSize: 11.5, display: "flex", alignItems: "center", gap: 4, marginTop: 2 }}>
+            <small
+              style={{
+                color: "#34d399",
+                fontSize: 11.5,
+                display: "flex",
+                alignItems: "center",
+                gap: 4,
+                marginTop: 2,
+              }}
+            >
               <CheckCircle2 size={13} />
               <span>Desktop image will be featured as the background on this target page.</span>
             </small>
@@ -539,8 +564,19 @@ export function AdminBanners() {
               marginTop: 18,
             }}
           >
-            <div className="admin-banner-save-status" style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <span style={{ width: 9, height: 9, borderRadius: "50%", background: "#10b981", boxShadow: "0 0 0 3px rgba(16, 185, 129, 0.35)" }} />
+            <div
+              className="admin-banner-save-status"
+              style={{ display: "flex", alignItems: "center", gap: 10 }}
+            >
+              <span
+                style={{
+                  width: 9,
+                  height: 9,
+                  borderRadius: "50%",
+                  background: "#10b981",
+                  boxShadow: "0 0 0 3px rgba(16, 185, 129, 0.35)",
+                }}
+              />
               <span style={{ fontSize: 13.5, color: "#ffffff", fontWeight: 700 }}>
                 {editing ? `Editing "${editing.title}"` : "New Banner Draft"}
               </span>
@@ -589,9 +625,17 @@ export function AdminBanners() {
         loading={loading}
         statusTabs={[
           { key: "all", label: "All Banners", count: banners.length },
-          { key: "published", label: "Published", count: banners.filter((b) => b.status === "published").length },
+          {
+            key: "published",
+            label: "Published",
+            count: banners.filter((b) => b.status === "published").length,
+          },
           { key: "draft", label: "Drafts", count: banners.filter((b) => b.status === "draft").length },
-          { key: "archived", label: "Archived", count: banners.filter((b) => b.status === "archived").length },
+          {
+            key: "archived",
+            label: "Archived",
+            count: banners.filter((b) => b.status === "archived").length,
+          },
         ]}
         activeStatusTab={statusFilter}
         onStatusTabChange={(tabKey) => setStatusFilter(tabKey)}

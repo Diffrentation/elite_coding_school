@@ -102,9 +102,7 @@ export function AdminQueries() {
       if (!response.ok) throw new Error(body.error?.message ?? "Could not save the reply.");
 
       const updatedQuery = body.data.query as StudentQuery;
-      setQueries((current) =>
-        current.map((q) => (q._id === queryId ? updatedQuery : q)),
-      );
+      setQueries((current) => current.map((q) => (q._id === queryId ? updatedQuery : q)));
       if (activeQueryModal && activeQueryModal._id === queryId) {
         setActiveQueryModal(updatedQuery);
       }
@@ -250,12 +248,7 @@ export function AdminQueries() {
                 : q.status === "closed"
                   ? "rgba(148, 163, 184, 0.15)"
                   : "rgba(245, 158, 11, 0.15)",
-            color:
-              q.status === "answered"
-                ? "#34d399"
-                : q.status === "closed"
-                  ? "#94a3b8"
-                  : "#fbbf24",
+            color: q.status === "answered" ? "#34d399" : q.status === "closed" ? "#94a3b8" : "#fbbf24",
             border: `1px solid ${
               q.status === "answered"
                 ? "rgba(16, 185, 129, 0.3)"
@@ -308,19 +301,47 @@ export function AdminQueries() {
       {/* Intro Header */}
       <div className="portal-intro" style={{ marginBottom: 20 }}>
         <div>
-          <p className="kicker" style={{ color: "#38bdf8", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", fontSize: 11, margin: "0 0 6px" }}>
+          <p
+            className="kicker"
+            style={{
+              color: "#38bdf8",
+              fontWeight: 700,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              fontSize: 11,
+              margin: "0 0 6px",
+            }}
+          >
             STUDENT SUPPORT &amp; HELPDESK
           </p>
-          <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "28px", color: "#ffffff", margin: "0 0 8px" }}>
+          <h1
+            style={{
+              fontFamily: "var(--font-heading)",
+              fontSize: "28px",
+              color: "#ffffff",
+              margin: "0 0 8px",
+            }}
+          >
             Student Query Queue
           </h1>
           <p style={{ color: "#94a3b8", fontSize: "14px", margin: 0 }}>
-            Respond directly to inquiries from registered students, give mentor guidance, and resolve support tickets.
+            Respond directly to inquiries from registered students, give mentor guidance, and resolve support
+            tickets.
           </p>
         </div>
 
         {/* View Mode Switcher */}
-        <div style={{ display: "flex", alignItems: "center", gap: 6, background: "#06091e", border: "1px solid rgba(255, 255, 255, 0.1)", borderRadius: 10, padding: 3 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            background: "#06091e",
+            border: "1px solid rgba(255, 255, 255, 0.1)",
+            borderRadius: 10,
+            padding: 3,
+          }}
+        >
           <button
             type="button"
             onClick={() => setViewMode("table")}
@@ -410,7 +431,11 @@ export function AdminQueries() {
           statusTabs={[
             { key: "all", label: "All", count: queries.length },
             { key: "new", label: "New", count: queries.filter((q) => q.status === "new").length },
-            { key: "answered", label: "Answered", count: queries.filter((q) => q.status === "answered").length },
+            {
+              key: "answered",
+              label: "Answered",
+              count: queries.filter((q) => q.status === "answered").length,
+            },
             { key: "closed", label: "Resolved", count: queries.filter((q) => q.status === "closed").length },
           ]}
           activeStatusTab={status}
@@ -420,7 +445,9 @@ export function AdminQueries() {
           title="Inquiry Tickets"
           subtitle="All tickets sorted by submission and latest response activity"
           searchPlaceholder="Search by student, email, subject, or message keyword..."
-          searchAccessor={(q) => `${q.userId?.pendingName ?? ""} ${q.userId?.email ?? ""} ${q.subject} ${q.category} ${q.messages.map((m) => m.body).join(" ")}`}
+          searchAccessor={(q) =>
+            `${q.userId?.pendingName ?? ""} ${q.userId?.email ?? ""} ${q.subject} ${q.category} ${q.messages.map((m) => m.body).join(" ")}`
+          }
           filterOptions={CATEGORY_FILTER_OPTIONS}
           filterValue={categoryFilter}
           onFilterChange={(val) => setCategoryFilter(val)}
@@ -471,21 +498,21 @@ export function AdminQueries() {
             const activeReplyStatus = replyStatuses[query._id] ?? "answered";
 
             return (
-              <article key={query._id} className={`query-card status-${query.status}`} style={{ marginBottom: 20 }}>
+              <article
+                key={query._id}
+                className={`query-card status-${query.status}`}
+                style={{ marginBottom: 20 }}
+              >
                 <header className="query-card-header">
                   <div className="query-student-info">
                     <span className="profile-avatar">{studentInitials}</span>
                     <div>
                       <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-                        <strong className="profile-name">
-                          {query.userId?.pendingName ?? "Student"}
-                        </strong>
+                        <strong className="profile-name">{query.userId?.pendingName ?? "Student"}</strong>
                         <span className="item-badge">{query.category}</span>
                         <em className={`status-${query.status}`}>{query.status}</em>
                       </div>
-                      <small className="profile-email">
-                        {query.userId?.email ?? "No student email"}
-                      </small>
+                      <small className="profile-email">{query.userId?.email ?? "No student email"}</small>
                     </div>
                   </div>
 
@@ -526,10 +553,7 @@ export function AdminQueries() {
 
                 {/* Reply Form */}
                 {query.status !== "closed" ? (
-                  <form
-                    className="query-reply-form"
-                    onSubmit={(event) => reply(event, query._id)}
-                  >
+                  <form className="query-reply-form" onSubmit={(event) => reply(event, query._id)}>
                     <textarea
                       name="message"
                       minLength={1}
@@ -591,7 +615,13 @@ export function AdminQueries() {
         <div className="modal-backdrop" onClick={() => setActiveQueryModal(null)}>
           <div
             className="student-dossier-modal"
-            style={{ maxWidth: 680, width: "100%", maxHeight: "90vh", display: "flex", flexDirection: "column" }}
+            style={{
+              maxWidth: 680,
+              width: "100%",
+              maxHeight: "90vh",
+              display: "flex",
+              flexDirection: "column",
+            }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -599,9 +629,7 @@ export function AdminQueries() {
               <div className="modal-title-row">
                 <MessageSquare size={20} className="text-purple-400" />
                 <div>
-                  <h3 style={{ margin: 0, fontSize: 17, color: "#ffffff" }}>
-                    {activeQueryModal.subject}
-                  </h3>
+                  <h3 style={{ margin: 0, fontSize: 17, color: "#ffffff" }}>{activeQueryModal.subject}</h3>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 4 }}>
                     <span style={{ fontSize: 12, color: "#94a3b8" }}>
                       From {activeQueryModal.userId?.pendingName ?? "Student"}
@@ -706,4 +734,3 @@ export function AdminQueries() {
     </main>
   );
 }
-

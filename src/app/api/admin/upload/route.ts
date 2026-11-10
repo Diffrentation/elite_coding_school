@@ -65,4 +65,3 @@ export async function POST(request: Request) {
     return failure("UPLOAD_FAILED", "Could not process image upload.", 500);
   }
 }
-

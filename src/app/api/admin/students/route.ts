@@ -49,11 +49,7 @@ export async function PATCH(request: NextRequest) {
     if (!studentId || !admissionStatus) {
       return failure("VALIDATION_ERROR", "studentId and admissionStatus are required.", 400);
     }
-    const student = await Student.findByIdAndUpdate(
-      studentId,
-      { admissionStatus },
-      { new: true },
-    )
+    const student = await Student.findByIdAndUpdate(studentId, { admissionStatus }, { new: true })
       .populate("userId", "email accountStatus emailVerifiedAt")
       .lean();
     if (!student) {

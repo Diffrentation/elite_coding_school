@@ -130,7 +130,8 @@ export function AdminStudents() {
 
   const loadInquiries = () => {
     setInquiryLoading(true);
-    const url = inquiryFilter === "all" ? "/api/admin/inquiries" : `/api/admin/inquiries?status=${inquiryFilter}`;
+    const url =
+      inquiryFilter === "all" ? "/api/admin/inquiries" : `/api/admin/inquiries?status=${inquiryFilter}`;
     fetch(url)
       .then(async (res) => {
         const body = await res.json();
@@ -259,7 +260,10 @@ export function AdminStudents() {
       sortable: false,
       render: (student) => (
         <div className="phone-cell">
-          <a href={`tel:${student.phone}`} style={{ color: "#38bdf8", fontWeight: 600, fontSize: 13, textDecoration: "none" }}>
+          <a
+            href={`tel:${student.phone}`}
+            style={{ color: "#38bdf8", fontWeight: 600, fontSize: 13, textDecoration: "none" }}
+          >
             {student.phone}
           </a>
           <div className="phone-quick-actions">
@@ -273,7 +277,12 @@ export function AdminStudents() {
             >
               <MessageCircle size={13} />
             </a>
-            <a href={`tel:${student.phone}`} className="quick-icon-btn" title="Call student" aria-label="Call student">
+            <a
+              href={`tel:${student.phone}`}
+              className="quick-icon-btn"
+              title="Call student"
+              aria-label="Call student"
+            >
               <Phone size={13} />
             </a>
           </div>
@@ -316,11 +325,7 @@ export function AdminStudents() {
       header: "Actions",
       sortable: false,
       render: (student) => (
-        <button
-          type="button"
-          className="view-dossier-btn"
-          onClick={() => setSelectedStudent(student)}
-        >
+        <button type="button" className="view-dossier-btn" onClick={() => setSelectedStudent(student)}>
           <Eye size={14} />
           <span>Details</span>
         </button>
@@ -414,7 +419,18 @@ export function AdminStudents() {
       header: "Student Message",
       sortable: false,
       render: (inq) => (
-        <p style={{ margin: 0, color: "#94a3b8", fontSize: 12, maxWidth: 260, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={inq.message}>
+        <p
+          style={{
+            margin: 0,
+            color: "#94a3b8",
+            fontSize: 12,
+            maxWidth: 260,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
+          title={inq.message}
+        >
           {inq.message || "—"}
         </p>
       ),
@@ -462,11 +478,18 @@ export function AdminStudents() {
           <p className="kicker">STUDENT &amp; LEAD INTELLIGENCE</p>
           <h2>All Student Records &amp; Public Inquiries</h2>
           <p>
-            Comprehensive directory of verified login students, classroom batch admissions, and incoming public demo inquiries.
+            Comprehensive directory of verified login students, classroom batch admissions, and incoming
+            public demo inquiries.
           </p>
         </div>
         <div className="intro-actions">
-          <button className="button refresh-btn" onClick={() => { loadStudents(); loadInquiries(); }}>
+          <button
+            className="button refresh-btn"
+            onClick={() => {
+              loadStudents();
+              loadInquiries();
+            }}
+          >
             <RefreshCw size={15} className={loading ? "spin" : ""} />
             <span>Refresh</span>
           </button>
@@ -539,7 +562,9 @@ export function AdminStudents() {
           onClick={() => setActiveTab("inquiries")}
         >
           <Inbox size={16} />
-          <span className="tab-desktop-text">Public Website Leads &amp; Demo Inquiries ({inquiries.length})</span>
+          <span className="tab-desktop-text">
+            Public Website Leads &amp; Demo Inquiries ({inquiries.length})
+          </span>
           <span className="tab-mobile-text">Leads ({inquiries.length})</span>
           {newInquiriesCount > 0 && <span className="tab-lead-count">{newInquiriesCount} new</span>}
         </button>
@@ -557,10 +582,26 @@ export function AdminStudents() {
             onRowClick={(s) => setSelectedStudent(s)}
             statusTabs={[
               { key: "", label: "All", count: students.length },
-              { key: "pending", label: "Pending Review", count: students.filter((s) => s.admissionStatus === "pending").length },
-              { key: "approved", label: "Approved & Enrolled", count: students.filter((s) => s.admissionStatus === "approved").length },
-              { key: "not_enrolled", label: "Not Enrolled", count: students.filter((s) => s.admissionStatus === "not_enrolled").length },
-              { key: "rejected", label: "Rejected", count: students.filter((s) => s.admissionStatus === "rejected").length },
+              {
+                key: "pending",
+                label: "Pending Review",
+                count: students.filter((s) => s.admissionStatus === "pending").length,
+              },
+              {
+                key: "approved",
+                label: "Approved & Enrolled",
+                count: students.filter((s) => s.admissionStatus === "approved").length,
+              },
+              {
+                key: "not_enrolled",
+                label: "Not Enrolled",
+                count: students.filter((s) => s.admissionStatus === "not_enrolled").length,
+              },
+              {
+                key: "rejected",
+                label: "Rejected",
+                count: students.filter((s) => s.admissionStatus === "rejected").length,
+              },
             ]}
             activeStatusTab={admissionStatus}
             onStatusTabChange={(tabKey) => {
@@ -592,8 +633,16 @@ export function AdminStudents() {
             statusTabs={[
               { key: "all", label: "All Leads", count: inquiries.length },
               { key: "new", label: "New Leads", count: inquiries.filter((i) => i.status === "new").length },
-              { key: "contacted", label: "Contacted", count: inquiries.filter((i) => i.status === "contacted").length },
-              { key: "closed", label: "Closed / Enrolled", count: inquiries.filter((i) => i.status === "closed").length },
+              {
+                key: "contacted",
+                label: "Contacted",
+                count: inquiries.filter((i) => i.status === "contacted").length,
+              },
+              {
+                key: "closed",
+                label: "Closed / Enrolled",
+                count: inquiries.filter((i) => i.status === "closed").length,
+              },
             ]}
             activeStatusTab={inquiryFilter}
             onStatusTabChange={(tabKey) => setInquiryFilter(tabKey)}
@@ -616,7 +665,11 @@ export function AdminStudents() {
       {/* LEAD DETAIL MODAL */}
       {selectedInquiry && (
         <div className="modal-backdrop" onClick={() => setSelectedInquiry(null)}>
-          <div className="student-dossier-modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 640 }}>
+          <div
+            className="student-dossier-modal"
+            onClick={(e) => e.stopPropagation()}
+            style={{ maxWidth: 640 }}
+          >
             <div className="modal-header">
               <div className="modal-title-row" style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <Sparkles size={20} className="text-cyan-400" />
@@ -633,15 +686,19 @@ export function AdminStudents() {
             </div>
 
             <div className="modal-body" style={{ padding: 24 }}>
-              <div className="dossier-hero" style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
+              <div
+                className="dossier-hero"
+                style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}
+              >
                 <div
                   style={{
                     width: 50,
                     height: 50,
                     borderRadius: "50%",
-                    background: selectedInquiry.type === "demo"
-                      ? "linear-gradient(135deg, #0284c7, #38bdf8)"
-                      : "linear-gradient(135deg, #7c3aed, #a855f7)",
+                    background:
+                      selectedInquiry.type === "demo"
+                        ? "linear-gradient(135deg, #0284c7, #38bdf8)"
+                        : "linear-gradient(135deg, #7c3aed, #a855f7)",
                     display: "grid",
                     placeItems: "center",
                     color: "#ffffff",
@@ -659,7 +716,9 @@ export function AdminStudents() {
                 </div>
                 <div>
                   <h4 style={{ margin: 0, fontSize: 18, color: "#ffffff" }}>{selectedInquiry.fullName}</h4>
-                  <div style={{ display: "flex", gap: 8, marginTop: 4, flexWrap: "wrap", alignItems: "center" }}>
+                  <div
+                    style={{ display: "flex", gap: 8, marginTop: 4, flexWrap: "wrap", alignItems: "center" }}
+                  >
                     <span
                       style={{
                         fontSize: 11,
@@ -667,15 +726,24 @@ export function AdminStudents() {
                         textTransform: "uppercase",
                         padding: "2px 8px",
                         borderRadius: 4,
-                        background: selectedInquiry.type === "demo" ? "rgba(56, 189, 248, 0.15)" : "rgba(168, 85, 247, 0.15)",
+                        background:
+                          selectedInquiry.type === "demo"
+                            ? "rgba(56, 189, 248, 0.15)"
+                            : "rgba(168, 85, 247, 0.15)",
                         color: selectedInquiry.type === "demo" ? "#38bdf8" : "#c084fc",
-                        border: selectedInquiry.type === "demo" ? "1px solid rgba(56, 189, 248, 0.3)" : "1px solid rgba(168, 85, 247, 0.3)",
+                        border:
+                          selectedInquiry.type === "demo"
+                            ? "1px solid rgba(56, 189, 248, 0.3)"
+                            : "1px solid rgba(168, 85, 247, 0.3)",
                       }}
                     >
                       {selectedInquiry.type === "demo" ? "Free Trial Demo Class" : "Admission Counseling"}
                     </span>
                     <span style={{ fontSize: 12, color: "#94a3b8" }}>
-                      Submitted {new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeStyle: "short" }).format(new Date(selectedInquiry.createdAt))}
+                      Submitted{" "}
+                      {new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeStyle: "short" }).format(
+                        new Date(selectedInquiry.createdAt),
+                      )}
                     </span>
                   </div>
                 </div>
@@ -710,7 +778,7 @@ export function AdminStudents() {
                       value={selectedInquiry.status}
                       onChange={(val) => {
                         updateInquiryStatus(selectedInquiry._id, val as any);
-                        setSelectedInquiry((prev) => prev ? { ...prev, status: val as any } : null);
+                        setSelectedInquiry((prev) => (prev ? { ...prev, status: val as any } : null));
                       }}
                     />
                   </div>
@@ -718,11 +786,34 @@ export function AdminStudents() {
               </div>
 
               {selectedInquiry.message && (
-                <div style={{ background: "#070b24", border: "1px solid rgba(255, 255, 255, 0.08)", borderRadius: 12, padding: 16, marginBottom: 20 }}>
-                  <h5 style={{ margin: "0 0 6px", fontSize: 11.5, color: "#94a3b8", textTransform: "uppercase" }}>
+                <div
+                  style={{
+                    background: "#070b24",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    borderRadius: 12,
+                    padding: 16,
+                    marginBottom: 20,
+                  }}
+                >
+                  <h5
+                    style={{
+                      margin: "0 0 6px",
+                      fontSize: 11.5,
+                      color: "#94a3b8",
+                      textTransform: "uppercase",
+                    }}
+                  >
                     Prospect Message:
                   </h5>
-                  <p style={{ margin: 0, color: "#e2e8f0", fontSize: 13, lineHeight: 1.6, whiteSpace: "pre-wrap" }}>
+                  <p
+                    style={{
+                      margin: 0,
+                      color: "#e2e8f0",
+                      fontSize: 13,
+                      lineHeight: 1.6,
+                      whiteSpace: "pre-wrap",
+                    }}
+                  >
                     {selectedInquiry.message}
                   </p>
                 </div>
@@ -731,9 +822,17 @@ export function AdminStudents() {
               {(() => {
                 const rawPhone = selectedInquiry.phone.replace(/[^0-9]/g, "");
                 const waPhone = rawPhone.length === 10 ? "91" + rawPhone : rawPhone;
-                const waUrl = "https://wa.me/" + waPhone + "?text=" + encodeURIComponent(
-                  "Hi " + selectedInquiry.fullName + ", greetings from Elite Coding School regarding your " + (selectedInquiry.type === "demo" ? "free demo class" : "admission inquiry") + "."
-                );
+                const waUrl =
+                  "https://wa.me/" +
+                  waPhone +
+                  "?text=" +
+                  encodeURIComponent(
+                    "Hi " +
+                      selectedInquiry.fullName +
+                      ", greetings from Elite Coding School regarding your " +
+                      (selectedInquiry.type === "demo" ? "free demo class" : "admission inquiry") +
+                      ".",
+                  );
                 return (
                   <div className="dossier-actions-bar" style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                     <a
@@ -824,7 +923,9 @@ export function AdminStudents() {
                   <h4>{selectedStudent.fullName}</h4>
                   <div className="hero-tags">
                     <span className="dossier-id">ID: #{selectedStudent.studentId}</span>
-                    <span className={`status-badge account-${selectedStudent.userId?.accountStatus ?? "pending"}`}>
+                    <span
+                      className={`status-badge account-${selectedStudent.userId?.accountStatus ?? "pending"}`}
+                    >
                       ● {selectedStudent.userId?.accountStatus ?? "pending"}
                     </span>
                     <span
@@ -900,18 +1001,12 @@ export function AdminStudents() {
                   <span>Open WhatsApp Conversation</span>
                 </a>
                 <div className="dossier-actions-subrow">
-                  <a
-                    href={`tel:${selectedStudent.phone}`}
-                    className="button secondary-btn"
-                  >
+                  <a href={`tel:${selectedStudent.phone}`} className="button secondary-btn">
                     <Phone size={14} />
                     <span>Call {selectedStudent.phone}</span>
                   </a>
                   {selectedStudent.userId?.email && (
-                    <a
-                      href={`mailto:${selectedStudent.userId.email}`}
-                      className="button secondary-btn"
-                    >
+                    <a href={`mailto:${selectedStudent.userId.email}`} className="button secondary-btn">
                       <Mail size={14} />
                       <span>Send Email</span>
                     </a>

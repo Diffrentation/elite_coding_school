@@ -170,7 +170,11 @@ export function PortalShell({ children, kind }: { children: ReactNode; kind: Por
       <section className="portal-main">
         {kind === "admin" ? (
           <header className="portal-header admin-header">
-            <button className="mobile-toggle-btn" onClick={() => setOpen(!open)} aria-label="Toggle navigation">
+            <button
+              className="mobile-toggle-btn"
+              onClick={() => setOpen(!open)}
+              aria-label="Toggle navigation"
+            >
               {open ? <X size={20} /> : <Menu size={20} />}
             </button>
             <div className="admin-header-account">
@@ -191,7 +195,11 @@ export function PortalShell({ children, kind }: { children: ReactNode; kind: Por
           </header>
         ) : (
           <header className="portal-header">
-            <button className="mobile-toggle-btn" onClick={() => setOpen(!open)} aria-label="Toggle navigation">
+            <button
+              className="mobile-toggle-btn"
+              onClick={() => setOpen(!open)}
+              aria-label="Toggle navigation"
+            >
               {open ? <X size={20} /> : <Menu size={20} />}
             </button>
             <div>

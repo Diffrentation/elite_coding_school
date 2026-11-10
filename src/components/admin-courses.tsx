@@ -223,9 +223,7 @@ export function AdminCourses() {
       sortable: true,
       render: (course) => (
         <div className="course-track-cell">
-          <span className="course-track-badge">
-            {course.track?.toUpperCase() || "WEB"}
-          </span>
+          <span className="course-track-badge">{course.track?.toUpperCase() || "WEB"}</span>
           <span className="course-category-label">{course.category}</span>
         </div>
       ),
@@ -236,9 +234,7 @@ export function AdminCourses() {
       sortable: true,
       render: (course) => (
         <div className="course-fee-cell">
-          <b className="course-fee-amount">
-            ₹{course.monthlyFee.toLocaleString("en-IN")}/mo
-          </b>
+          <b className="course-fee-amount">₹{course.monthlyFee.toLocaleString("en-IN")}/mo</b>
           <small className="course-duration-sub">
             {course.durationMonths} mo &bull; {course.labHours || "90+ hrs"}
           </small>
@@ -302,10 +298,27 @@ export function AdminCourses() {
     <main className="portal-content admin-courses-page">
       <div className="portal-intro" style={{ marginBottom: 28 }}>
         <div>
-          <p className="kicker" style={{ color: "#38bdf8", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", fontSize: 11, margin: "0 0 6px" }}>
+          <p
+            className="kicker"
+            style={{
+              color: "#38bdf8",
+              fontWeight: 700,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              fontSize: 11,
+              margin: "0 0 6px",
+            }}
+          >
             CURRICULUM MANAGEMENT
           </p>
-          <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "28px", color: "#ffffff", margin: "0 0 8px" }}>
+          <h1
+            style={{
+              fontFamily: "var(--font-heading)",
+              fontSize: "28px",
+              color: "#ffffff",
+              margin: "0 0 8px",
+            }}
+          >
             Course Programs
           </h1>
           <p style={{ color: "#94a3b8", fontSize: "14px", margin: 0 }}>
@@ -333,7 +346,6 @@ export function AdminCourses() {
           <span>{showForm && !editing ? "Close Form" : "Add Course"}</span>
         </button>
       </div>
-
 
       {/* 2. KPI Metrics Grid */}
       <div
@@ -457,23 +469,17 @@ export function AdminCourses() {
                 </h3>
               </div>
               <p className="course-editor-subtitle">
-                Configure all fields that appear on the homepage course card, catalog, and detailed syllabus page.
+                Configure all fields that appear on the homepage course card, catalog, and detailed syllabus
+                page.
               </p>
             </div>
 
             {/* Quick Top Save & Cancel Actions */}
             <div className="course-editor-actions-group">
-              <button
-                type="button"
-                onClick={() => setShowForm(false)}
-                className="course-editor-btn-cancel"
-              >
+              <button type="button" onClick={() => setShowForm(false)} className="course-editor-btn-cancel">
                 Cancel
               </button>
-              <button
-                className="button primary course-editor-btn-save"
-                type="submit"
-              >
+              <button className="button primary course-editor-btn-save" type="submit">
                 <Check size={15} />
                 <span>{editing ? "Save Changes" : "Save Course"}</span>
               </button>
@@ -526,7 +532,9 @@ export function AdminCourses() {
               defaultValue={editing?.trackLabel ?? ""}
               placeholder="e.g. MERN Stack, DSA & Logic, Networking, OS & Linux"
             />
-            <small style={{ color: "#64748b", fontSize: 11 }}>Badge text displayed on the top of the course card.</small>
+            <small style={{ color: "#64748b", fontSize: 11 }}>
+              Badge text displayed on the top of the course card.
+            </small>
           </label>
 
           {/* 5. Course Icon */}
@@ -590,7 +598,9 @@ export function AdminCourses() {
               defaultValue={editing?.labHours ?? "90+ Class Hours"}
               placeholder="e.g. 90+ Class Hours"
             />
-            <small style={{ color: "#64748b", fontSize: 11 }}>Appears beside duration on card (e.g. 3 Months &bull; 90+ Class Hours)</small>
+            <small style={{ color: "#64748b", fontSize: 11 }}>
+              Appears beside duration on card (e.g. 3 Months &bull; 90+ Class Hours)
+            </small>
           </label>
 
           {/* 10. Monthly Fee */}
@@ -635,7 +645,8 @@ export function AdminCourses() {
               style={{ minHeight: 80 }}
             />
             <small style={{ color: "#38bdf8", fontSize: 11 }}>
-              Enter each perk on a new line. These appear as the green checkmarked items on the frontend course card!
+              Enter each perk on a new line. These appear as the green checkmarked items on the frontend
+              course card!
             </small>
           </label>
 
@@ -663,7 +674,9 @@ export function AdminCourses() {
               defaultValue={editing?.skills?.join(", ")}
               placeholder="React, Next.js, Tailwind, Node.js, MongoDB"
             />
-            <small style={{ color: "#64748b", fontSize: 11 }}>Tags shown on the course detail syllabus page.</small>
+            <small style={{ color: "#64748b", fontSize: 11 }}>
+              Tags shown on the course detail syllabus page.
+            </small>
             {fieldError("skills")}
           </label>
 
@@ -711,7 +724,9 @@ export function AdminCourses() {
               placeholder="HTML and CSS: Semantic markup, flexbox, grid, responsive layouts&#10;JavaScript: ES6+, closures, async/await, fetch API&#10;React and Next.js: Components, hooks, SSR, routing"
               style={{ minHeight: 90 }}
             />
-            <small style={{ color: "#94a3b8", fontSize: 11 }}>One module per line: module title followed by comma-separated topics after a colon.</small>
+            <small style={{ color: "#94a3b8", fontSize: 11 }}>
+              One module per line: module title followed by comma-separated topics after a colon.
+            </small>
             {fieldError("syllabus")}
           </label>
 
@@ -734,7 +749,7 @@ export function AdminCourses() {
             <span style={{ fontWeight: 600, color: "#ffffff" }}>Feature on public catalogue & homepage</span>
           </label>
 
-                    {/* Sticky Bottom Action Bar: Always visible on screen! */}
+          {/* Sticky Bottom Action Bar: Always visible on screen! */}
           <div className="course-editor-bottom-bar">
             <div className="course-editor-bottom-status">
               <span className="save-status-dot" />
@@ -745,17 +760,10 @@ export function AdminCourses() {
             </div>
 
             <div className="course-editor-actions-group">
-              <button
-                type="button"
-                onClick={() => setShowForm(false)}
-                className="course-editor-btn-cancel"
-              >
+              <button type="button" onClick={() => setShowForm(false)} className="course-editor-btn-cancel">
                 Cancel
               </button>
-              <button
-                className="button primary course-editor-btn-save"
-                type="submit"
-              >
+              <button className="button primary course-editor-btn-save" type="submit">
                 <Check size={16} />
                 <span>{editing ? "Save Changes" : "Create & Save Course"}</span>
               </button>
@@ -769,9 +777,17 @@ export function AdminCourses() {
         onRowClick={(c) => setSelectedCourse(c)}
         statusTabs={[
           { key: "all", label: "All Programs", count: courses.length },
-          { key: "published", label: "Published", count: courses.filter((c) => c.status === "published").length },
+          {
+            key: "published",
+            label: "Published",
+            count: courses.filter((c) => c.status === "published").length,
+          },
           { key: "draft", label: "Drafts", count: courses.filter((c) => c.status === "draft").length },
-          { key: "archived", label: "Archived", count: courses.filter((c) => c.status === "archived").length },
+          {
+            key: "archived",
+            label: "Archived",
+            count: courses.filter((c) => c.status === "archived").length,
+          },
         ]}
         activeStatusTab={statusFilter}
         onStatusTabChange={(tabKey) => setStatusFilter(tabKey)}
@@ -789,7 +805,11 @@ export function AdminCourses() {
       {/* COURSE CURRICULUM PREVIEW MODAL */}
       {selectedCourse && (
         <div className="modal-backdrop" onClick={() => setSelectedCourse(null)}>
-          <div className="student-dossier-modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 760, maxHeight: "90vh", overflowY: "auto" }}>
+          <div
+            className="student-dossier-modal"
+            onClick={(e) => e.stopPropagation()}
+            style={{ maxWidth: 760, maxHeight: "90vh", overflowY: "auto" }}
+          >
             <div className="modal-header">
               <div className="modal-title-row" style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <BookOpen size={20} className="text-purple-400" />
@@ -806,18 +826,61 @@ export function AdminCourses() {
             </div>
 
             <div className="modal-body" style={{ padding: 24 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, marginBottom: 20, flexWrap: "wrap" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "flex-start",
+                  gap: 16,
+                  marginBottom: 20,
+                  flexWrap: "wrap",
+                }}
+              >
                 <div>
                   <h4 style={{ margin: 0, fontSize: 20, color: "#ffffff" }}>{selectedCourse.title}</h4>
-                  <div style={{ display: "flex", gap: 8, marginTop: 6, flexWrap: "wrap", alignItems: "center" }}>
+                  <div
+                    style={{ display: "flex", gap: 8, marginTop: 6, flexWrap: "wrap", alignItems: "center" }}
+                  >
                     <code style={{ color: "#a855f7", fontSize: 12 }}>/{selectedCourse.slug}</code>
-                    <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 4, background: "rgba(56, 189, 248, 0.15)", color: "#38bdf8", textTransform: "capitalize" }}>
+                    <span
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 700,
+                        padding: "2px 8px",
+                        borderRadius: 4,
+                        background: "rgba(56, 189, 248, 0.15)",
+                        color: "#38bdf8",
+                        textTransform: "capitalize",
+                      }}
+                    >
                       {selectedCourse.category}
                     </span>
-                    <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 4, background: "rgba(168, 85, 247, 0.15)", color: "#c084fc", textTransform: "capitalize" }}>
+                    <span
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 700,
+                        padding: "2px 8px",
+                        borderRadius: 4,
+                        background: "rgba(168, 85, 247, 0.15)",
+                        color: "#c084fc",
+                        textTransform: "capitalize",
+                      }}
+                    >
                       {selectedCourse.level} Level
                     </span>
-                    <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 4, background: selectedCourse.status === "published" ? "rgba(16, 185, 129, 0.15)" : "rgba(245, 158, 11, 0.15)", color: selectedCourse.status === "published" ? "#34d399" : "#fbbf24" }}>
+                    <span
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 700,
+                        padding: "2px 8px",
+                        borderRadius: 4,
+                        background:
+                          selectedCourse.status === "published"
+                            ? "rgba(16, 185, 129, 0.15)"
+                            : "rgba(245, 158, 11, 0.15)",
+                        color: selectedCourse.status === "published" ? "#34d399" : "#fbbf24",
+                      }}
+                    >
                       {selectedCourse.status.toUpperCase()}
                     </span>
                   </div>
@@ -825,14 +888,25 @@ export function AdminCourses() {
 
                 <div style={{ textAlign: "right" }}>
                   <div style={{ fontSize: 22, fontWeight: 800, color: "#38bdf8" }}>
-                    ₹{selectedCourse.monthlyFee.toLocaleString("en-IN")} <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 400 }}>/ month</span>
+                    ₹{selectedCourse.monthlyFee.toLocaleString("en-IN")}{" "}
+                    <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 400 }}>/ month</span>
                   </div>
-                  <small style={{ color: "#94a3b8" }}>{selectedCourse.durationMonths} Months Duration &bull; {selectedCourse.labHours}</small>
+                  <small style={{ color: "#94a3b8" }}>
+                    {selectedCourse.durationMonths} Months Duration &bull; {selectedCourse.labHours}
+                  </small>
                 </div>
               </div>
 
               {/* Description */}
-              <div style={{ background: "#070b24", border: "1px solid rgba(255, 255, 255, 0.08)", borderRadius: 12, padding: 16, marginBottom: 18 }}>
+              <div
+                style={{
+                  background: "#070b24",
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  borderRadius: 12,
+                  padding: 16,
+                  marginBottom: 18,
+                }}
+              >
                 <p style={{ margin: 0, color: "#cbd5e1", fontSize: 13.5, lineHeight: 1.6 }}>
                   {selectedCourse.description}
                 </p>
@@ -840,19 +914,61 @@ export function AdminCourses() {
 
               {/* Skills and Prerequisites */}
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 20 }}>
-                <div style={{ background: "#070b24", border: "1px solid rgba(255, 255, 255, 0.08)", borderRadius: 12, padding: 14 }}>
-                  <h6 style={{ margin: "0 0 8px", fontSize: 11.5, color: "#38bdf8", textTransform: "uppercase" }}>Core Skills Taught</h6>
+                <div
+                  style={{
+                    background: "#070b24",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    borderRadius: 12,
+                    padding: 14,
+                  }}
+                >
+                  <h6
+                    style={{
+                      margin: "0 0 8px",
+                      fontSize: 11.5,
+                      color: "#38bdf8",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Core Skills Taught
+                  </h6>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                     {selectedCourse.skills.map((s) => (
-                      <span key={s} style={{ fontSize: 11, background: "rgba(56, 189, 248, 0.1)", color: "#38bdf8", padding: "2px 8px", borderRadius: 4, border: "1px solid rgba(56, 189, 248, 0.2)" }}>
+                      <span
+                        key={s}
+                        style={{
+                          fontSize: 11,
+                          background: "rgba(56, 189, 248, 0.1)",
+                          color: "#38bdf8",
+                          padding: "2px 8px",
+                          borderRadius: 4,
+                          border: "1px solid rgba(56, 189, 248, 0.2)",
+                        }}
+                      >
                         {s}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                <div style={{ background: "#070b24", border: "1px solid rgba(255, 255, 255, 0.08)", borderRadius: 12, padding: 14 }}>
-                  <h6 style={{ margin: "0 0 8px", fontSize: 11.5, color: "#a855f7", textTransform: "uppercase" }}>Prerequisites</h6>
+                <div
+                  style={{
+                    background: "#070b24",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    borderRadius: 12,
+                    padding: 14,
+                  }}
+                >
+                  <h6
+                    style={{
+                      margin: "0 0 8px",
+                      fontSize: 11.5,
+                      color: "#a855f7",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Prerequisites
+                  </h6>
                   <p style={{ margin: 0, fontSize: 12.5, color: "#cbd5e1" }}>
                     {selectedCourse.prerequisites.join(", ") || "None (Beginner friendly)"}
                   </p>
@@ -861,16 +977,42 @@ export function AdminCourses() {
 
               {/* Syllabus Breakdown */}
               <div style={{ marginBottom: 24 }}>
-                <h5 style={{ margin: "0 0 12px", fontSize: 14, color: "#ffffff", display: "flex", alignItems: "center", gap: 8 }}>
-                  <BookOpen size={16} color="#a855f7" /> Syllabus Curriculum Modules ({selectedCourse.syllabus.length})
+                <h5
+                  style={{
+                    margin: "0 0 12px",
+                    fontSize: 14,
+                    color: "#ffffff",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                  }}
+                >
+                  <BookOpen size={16} color="#a855f7" /> Syllabus Curriculum Modules (
+                  {selectedCourse.syllabus.length})
                 </h5>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {selectedCourse.syllabus.map((mod, mIdx) => (
-                    <div key={mod.id || mIdx} style={{ background: "#070b24", border: "1px solid rgba(255, 255, 255, 0.06)", borderRadius: 10, padding: 14 }}>
+                    <div
+                      key={mod.id || mIdx}
+                      style={{
+                        background: "#070b24",
+                        border: "1px solid rgba(255, 255, 255, 0.06)",
+                        borderRadius: 10,
+                        padding: 14,
+                      }}
+                    >
                       <b style={{ color: "#ffffff", fontSize: 13.5, display: "block", marginBottom: 6 }}>
                         {mod.title}
                       </b>
-                      <ul style={{ margin: 0, paddingLeft: 18, color: "#94a3b8", fontSize: 12.5, lineHeight: 1.6 }}>
+                      <ul
+                        style={{
+                          margin: 0,
+                          paddingLeft: 18,
+                          color: "#94a3b8",
+                          fontSize: 12.5,
+                          lineHeight: 1.6,
+                        }}
+                      >
                         {mod.topics.map((t, tIdx) => (
                           <li key={tIdx}>{t}</li>
                         ))}
@@ -881,7 +1023,16 @@ export function AdminCourses() {
               </div>
 
               {/* Action Buttons */}
-              <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", flexWrap: "wrap", borderTop: "1px solid rgba(255, 255, 255, 0.08)", paddingTop: 18 }}>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 10,
+                  justifyContent: "flex-end",
+                  flexWrap: "wrap",
+                  borderTop: "1px solid rgba(255, 255, 255, 0.08)",
+                  paddingTop: 18,
+                }}
+              >
                 <a
                   href={`/courses/${selectedCourse.slug}`}
                   target="_blank"

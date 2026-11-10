@@ -62,13 +62,7 @@ export function SkeletonMetricCards({ count = 4 }: { count?: number }) {
 /**
  * Dummy empty table rows (used in AgTable and Admin Tables)
  */
-export function SkeletonTableRows({
-  rows = 5,
-  cols = 4,
-}: {
-  rows?: number;
-  cols?: number;
-}) {
+export function SkeletonTableRows({ rows = 5, cols = 4 }: { rows?: number; cols?: number }) {
   return (
     <>
       {Array.from({ length: rows }).map((_, rIdx) => (
@@ -76,9 +70,7 @@ export function SkeletonTableRows({
           {Array.from({ length: cols }).map((_, cIdx) => (
             <td key={cIdx} style={{ padding: "16px 20px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                {cIdx === 0 && (
-                  <SkeletonBlock width={30} height={30} borderRadius="50%" />
-                )}
+                {cIdx === 0 && <SkeletonBlock width={30} height={30} borderRadius="50%" />}
                 <SkeletonBlock
                   width={cIdx === 0 ? "65%" : cIdx === cols - 1 ? "40%" : "80%"}
                   height={14}
@@ -163,7 +155,6 @@ export function SkeletonPagePattern({ title = "Loading page..." }: { title?: str
   );
 }
 
-
 /**
  * Course detail page component skeleton
  */
@@ -197,7 +188,10 @@ export function CourseDetailSkeleton() {
             </div>
 
             {/* Row 5: 4 Chips */}
-            <div className="offline-chips-row" style={{ marginBottom: "28px", display: "flex", flexWrap: "wrap", gap: 10 }}>
+            <div
+              className="offline-chips-row"
+              style={{ marginBottom: "28px", display: "flex", flexWrap: "wrap", gap: 10 }}
+            >
               <SkeletonBlock width={140} height={34} borderRadius={8} />
               <SkeletonBlock width={130} height={34} borderRadius={8} />
               <SkeletonBlock width={150} height={34} borderRadius={8} />
@@ -244,7 +238,13 @@ export function CourseDetailSkeleton() {
 
       {/* 2. Syllabus / Curriculum Skeleton */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 24px 80px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 360px), 1fr))", gap: 36 }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 360px), 1fr))",
+            gap: 36,
+          }}
+        >
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <SkeletonBlock width={220} height={28} borderRadius={8} />
             <SkeletonBlock width={360} height={14} borderRadius={4} style={{ marginBottom: 12 }} />

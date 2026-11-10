@@ -141,9 +141,7 @@ export function InquiryForm() {
             aria-expanded={visitOpen}
           >
             <span className="dropdown-label">
-              {fields.type === "demo"
-                ? "Book Free Trial Demo Class"
-                : "Fee Structure & Counseling"}
+              {fields.type === "demo" ? "Book Free Trial Demo Class" : "Fee Structure & Counseling"}
             </span>
             <ChevronDown size={16} className={`dropdown-chevron ${visitOpen ? "rotate-180" : ""}`} />
           </button>

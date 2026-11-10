@@ -15,7 +15,16 @@ export default function RootLoading() {
       aria-busy="true"
       aria-label="Loading content..."
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "center", textAlign: "center", margin: "24px 0" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 12,
+          alignItems: "center",
+          textAlign: "center",
+          margin: "24px 0",
+        }}
+      >
         <SkeletonBlock width={130} height={20} borderRadius={20} />
         <SkeletonBlock width="min(90%, 460px)" height={36} borderRadius={10} />
         <SkeletonBlock width="min(80%, 320px)" height={16} borderRadius={6} />

@@ -10,29 +10,36 @@ export async function GET() {
   await connectDb();
   try {
     await requireAdminSession();
-    const [students, activeCourses, openQueries, newInquiries, recentStudents, recentQueries, recentInquiries] =
-      await Promise.all([
-        Student.countDocuments(),
-        Course.countDocuments({ status: "published" }),
-        StudentQuery.countDocuments({ status: { $in: ["new", "answered"] } }),
-        Inquiry.countDocuments({ status: "new" }),
-        Student.find()
-          .sort({ createdAt: -1 })
-          .limit(6)
-          .select("studentId fullName admissionStatus registrationDate")
-          .lean(),
-        StudentQuery.find()
-          .sort({ updatedAt: -1 })
-          .limit(6)
-          .populate("userId", "pendingName email")
-          .select("subject category status createdAt userId")
-          .lean(),
-        Inquiry.find()
-          .sort({ createdAt: -1 })
-          .limit(4)
-          .select("fullName phone type interestedCourse status createdAt")
-          .lean(),
-      ]);
+    const [
+      students,
+      activeCourses,
+      openQueries,
+      newInquiries,
+      recentStudents,
+      recentQueries,
+      recentInquiries,
+    ] = await Promise.all([
+      Student.countDocuments(),
+      Course.countDocuments({ status: "published" }),
+      StudentQuery.countDocuments({ status: { $in: ["new", "answered"] } }),
+      Inquiry.countDocuments({ status: "new" }),
+      Student.find()
+        .sort({ createdAt: -1 })
+        .limit(6)
+        .select("studentId fullName admissionStatus registrationDate")
+        .lean(),
+      StudentQuery.find()
+        .sort({ updatedAt: -1 })
+        .limit(6)
+        .populate("userId", "pendingName email")
+        .select("subject category status createdAt userId")
+        .lean(),
+      Inquiry.find()
+        .sort({ createdAt: -1 })
+        .limit(4)
+        .select("fullName phone type interestedCourse status createdAt")
+        .lean(),
+    ]);
 
     return success({
       metrics: {

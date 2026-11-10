@@ -66,7 +66,8 @@ const COURSES_DATA: CourseItem[] = [
     slug: "full-stack-development",
     track: "mern",
     trackLabel: "MERN & Next.js",
-    description: "Learn to build complete production-grade web applications from scratch with React, Next.js, Node.js, Express, and MongoDB.",
+    description:
+      "Learn to build complete production-grade web applications from scratch with React, Next.js, Node.js, Express, and MongoDB.",
     duration: "4 Months",
     labHours: "120+ Class Hours",
     fee: "₹1,900 / mo",
@@ -82,7 +83,8 @@ const COURSES_DATA: CourseItem[] = [
     slug: "frontend-development",
     track: "mern",
     trackLabel: "Frontend & UI",
-    description: "Master modern responsive design, UI component libraries, React.js, and slick interactive animations with GSAP and Tailwind CSS.",
+    description:
+      "Master modern responsive design, UI component libraries, React.js, and slick interactive animations with GSAP and Tailwind CSS.",
     duration: "3 Months",
     labHours: "90+ Class Hours",
     fee: "₹1,900 / mo",
@@ -91,14 +93,22 @@ const COURSES_DATA: CourseItem[] = [
       "Interactive animations using GSAP & modern UI kits",
       "Clean component architecture & state management",
     ],
-    techTags: ["HTML5/CSS3", "JavaScript (ES6+)", "React.js", "Tailwind CSS", "GSAP Animations", "Git/GitHub"],
+    techTags: [
+      "HTML5/CSS3",
+      "JavaScript (ES6+)",
+      "React.js",
+      "Tailwind CSS",
+      "GSAP Animations",
+      "Git/GitHub",
+    ],
   },
   {
     title: "Backend Development & REST APIs with MongoDB",
     slug: "backend-development",
     track: "mern",
     trackLabel: "Backend & DB",
-    description: "Build robust backend servers, RESTful APIs, JWT authentication, and database schemas with Node.js, Express, and MongoDB.",
+    description:
+      "Build robust backend servers, RESTful APIs, JWT authentication, and database schemas with Node.js, Express, and MongoDB.",
     duration: "3 Months",
     labHours: "90+ Class Hours",
     fee: "₹1,900 / mo",
@@ -114,7 +124,8 @@ const COURSES_DATA: CourseItem[] = [
     slug: "computer-networks",
     track: "systems",
     trackLabel: "Networking",
-    description: "Understand how the internet, routers, switches, IP addressing, and networking protocols work with clear whiteboard demos and laptop exercises.",
+    description:
+      "Understand how the internet, routers, switches, IP addressing, and networking protocols work with clear whiteboard demos and laptop exercises.",
     duration: "3 Months",
     labHours: "90+ Class Hours",
     fee: "₹1,900 / mo",
@@ -130,7 +141,8 @@ const COURSES_DATA: CourseItem[] = [
     slug: "operating-systems-kernel",
     track: "systems",
     trackLabel: "OS & Linux",
-    description: "Master the Linux command line, bash automation scripts, process management, memory concepts, and foundational C programming from scratch.",
+    description:
+      "Master the Linux command line, bash automation scripts, process management, memory concepts, and foundational C programming from scratch.",
     duration: "3 Months",
     labHours: "90+ Class Hours",
     fee: "₹1,900 / mo",
@@ -139,14 +151,22 @@ const COURSES_DATA: CourseItem[] = [
       "Hands-on bash scripting & task automation",
       "Understand processes, memory & file systems",
     ],
-    techTags: ["Linux Terminal", "Bash Scripting", "Processes & Memory", "File Permissions", "C Basics", "Git"],
+    techTags: [
+      "Linux Terminal",
+      "Bash Scripting",
+      "Processes & Memory",
+      "File Permissions",
+      "C Basics",
+      "Git",
+    ],
   },
   {
     title: "Data Structures & Algorithms (DSA)",
     slug: "data-structures-algorithms",
     track: "dsa",
     trackLabel: "DSA & Logic",
-    description: "Master logic building, algorithmic thinking, and problem solving from scratch with whiteboard explanations and live coding.",
+    description:
+      "Master logic building, algorithmic thinking, and problem solving from scratch with whiteboard explanations and live coding.",
     duration: "3 Months",
     labHours: "90+ Class Hours",
     fee: "₹1,900 / mo",
@@ -162,7 +182,8 @@ const COURSES_DATA: CourseItem[] = [
     slug: "system-design",
     track: "dsa",
     trackLabel: "System Design",
-    description: "Learn High-Level (HLD) & Low-Level Design (LLD), microservices, load balancers, caching, and scalable architecture with whiteboard case studies.",
+    description:
+      "Learn High-Level (HLD) & Low-Level Design (LLD), microservices, load balancers, caching, and scalable architecture with whiteboard case studies.",
     duration: "3 Months",
     labHours: "90+ Class Hours",
     fee: "₹1,900 / mo",
@@ -171,14 +192,23 @@ const COURSES_DATA: CourseItem[] = [
       "HLD & LLD: Microservices, Redis, Nginx & DB sharding",
       "Case studies: WhatsApp, URL Shortener & Netflix architecture",
     ],
-    techTags: ["System Design", "HLD / LLD", "Microservices", "Redis", "Load Balancers", "DB Sharding", "Scalability"],
+    techTags: [
+      "System Design",
+      "HLD / LLD",
+      "Microservices",
+      "Redis",
+      "Load Balancers",
+      "DB Sharding",
+      "Scalability",
+    ],
   },
   {
     title: "C & C++ Programming Foundations",
     slug: "c-cpp-programming",
     track: "core",
     trackLabel: "C & C++",
-    description: "Start programming from absolute zero. Understand memory management, pointers, and Object-Oriented Programming (OOP) in C++.",
+    description:
+      "Start programming from absolute zero. Understand memory management, pointers, and Object-Oriented Programming (OOP) in C++.",
     duration: "3 Months",
     labHours: "90+ Class Hours",
     fee: "₹1,900 / mo",
@@ -194,7 +224,8 @@ const COURSES_DATA: CourseItem[] = [
     slug: "java-programming",
     track: "core",
     trackLabel: "Java & OOP",
-    description: "Learn Core Java from the ground up: classes, inheritance, interfaces, exception handling, and the Collections framework.",
+    description:
+      "Learn Core Java from the ground up: classes, inheritance, interfaces, exception handling, and the Collections framework.",
     duration: "3 Months",
     labHours: "90+ Class Hours",
     fee: "₹1,900 / mo",
@@ -210,7 +241,8 @@ const COURSES_DATA: CourseItem[] = [
     slug: "python-programming",
     track: "core",
     trackLabel: "Python",
-    description: "Learn beginner-friendly Python programming, clean syntax, logic building, data handling, and automation scripting.",
+    description:
+      "Learn beginner-friendly Python programming, clean syntax, logic building, data handling, and automation scripting.",
     duration: "2.5 Months",
     labHours: "75+ Class Hours",
     fee: "₹1,900 / mo",
@@ -394,19 +426,23 @@ export default function Home() {
                     <div className="code-line">
                       <span className="line-num">2</span>
                       <span className="line-code">
-                        <span className="token-kw">import</span> &#123; useEffect &#125; <span className="token-kw">from</span> <span className="token-str">&quot;react&quot;</span>;
+                        <span className="token-kw">import</span> &#123; useEffect &#125;{" "}
+                        <span className="token-kw">from</span>{" "}
+                        <span className="token-str">&quot;react&quot;</span>;
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">3</span>
                       <span className="line-code">
-                        <span className="token-kw">import</span> gsap <span className="token-kw">from</span> <span className="token-str">&quot;gsap&quot;</span>;
+                        <span className="token-kw">import</span> gsap <span className="token-kw">from</span>{" "}
+                        <span className="token-str">&quot;gsap&quot;</span>;
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">4</span>
                       <span className="line-code">
-                        <span className="token-kw">export default function</span> <span className="token-fn">Card</span>() &#123;
+                        <span className="token-kw">export default function</span>{" "}
+                        <span className="token-fn">Card</span>() &#123;
                       </span>
                     </div>
                     <div className="code-line">
@@ -418,19 +454,23 @@ export default function Home() {
                     <div className="code-line">
                       <span className="line-num">6</span>
                       <span className="line-code">
-                        &nbsp;&nbsp;&nbsp;&nbsp;gsap.<span className="token-fn">from</span>(<span className="token-str">&quot;.card&quot;</span>, &#123; opacity: <span className="token-num">0</span>, y: <span className="token-num">30</span>, duration: <span className="token-num">0.8</span> &#125;);
+                        &nbsp;&nbsp;&nbsp;&nbsp;gsap.<span className="token-fn">from</span>(
+                        <span className="token-str">&quot;.card&quot;</span>, &#123; opacity:{" "}
+                        <span className="token-num">0</span>, y: <span className="token-num">30</span>,
+                        duration: <span className="token-num">0.8</span> &#125;);
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">7</span>
-                      <span className="line-code">
-                        &nbsp;&nbsp;&#125;, []);
-                      </span>
+                      <span className="line-code">&nbsp;&nbsp;&#125;, []);</span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">8</span>
                       <span className="line-code">
-                        &nbsp;&nbsp;<span className="token-kw">return</span> &lt;<span className="token-type">div</span> <span className="token-kw">className</span>=<span className="token-str">&quot;card p-6 bg-slate-900 rounded-xl&quot;</span>&gt;MERN + GSAP&lt;/<span className="token-type">div</span>&gt;;
+                        &nbsp;&nbsp;<span className="token-kw">return</span> &lt;
+                        <span className="token-type">div</span> <span className="token-kw">className</span>=
+                        <span className="token-str">&quot;card p-6 bg-slate-900 rounded-xl&quot;</span>
+                        &gt;MERN + GSAP&lt;/<span className="token-type">div</span>&gt;;
                       </span>
                     </div>
                     <div className="code-line">
@@ -451,25 +491,31 @@ export default function Home() {
                     <div className="code-line">
                       <span className="line-num">2</span>
                       <span className="line-code">
-                        <span className="token-kw">const</span> express = <span className="token-fn">require</span>(<span className="token-str">&quot;express&quot;</span>);
+                        <span className="token-kw">const</span> express ={" "}
+                        <span className="token-fn">require</span>(
+                        <span className="token-str">&quot;express&quot;</span>);
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">3</span>
                       <span className="line-code">
-                        <span className="token-kw">const</span> mongoose = <span className="token-fn">require</span>(<span className="token-str">&quot;mongoose&quot;</span>);
+                        <span className="token-kw">const</span> mongoose ={" "}
+                        <span className="token-fn">require</span>(
+                        <span className="token-str">&quot;mongoose&quot;</span>);
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">4</span>
                       <span className="line-code">
-                        <span className="token-kw">const</span> app = <span className="token-fn">express</span>();
+                        <span className="token-kw">const</span> app ={" "}
+                        <span className="token-fn">express</span>();
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">5</span>
                       <span className="line-code">
-                        <span className="token-kw">await</span> mongoose.<span className="token-fn">connect</span>(process.env.MONGO_URI);
+                        <span className="token-kw">await</span> mongoose.
+                        <span className="token-fn">connect</span>(process.env.MONGO_URI);
                       </span>
                     </div>
                     <div className="code-line">
@@ -492,19 +538,23 @@ export default function Home() {
                     <div className="code-line">
                       <span className="line-num">1</span>
                       <span className="line-code">
-                        <span className="token-comment">// DSA &amp; Logic Building Class: Two-Pointer Technique</span>
+                        <span className="token-comment">
+                          // DSA &amp; Logic Building Class: Two-Pointer Technique
+                        </span>
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">2</span>
                       <span className="line-code">
-                        <span className="token-kw">#include</span> <span className="token-str">&lt;iostream&gt;</span>
+                        <span className="token-kw">#include</span>{" "}
+                        <span className="token-str">&lt;iostream&gt;</span>
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">3</span>
                       <span className="line-code">
-                        <span className="token-kw">#include</span> <span className="token-str">&lt;vector&gt;</span>
+                        <span className="token-kw">#include</span>{" "}
+                        <span className="token-str">&lt;vector&gt;</span>
                       </span>
                     </div>
                     <div className="code-line">
@@ -516,25 +566,33 @@ export default function Home() {
                     <div className="code-line">
                       <span className="line-num">5</span>
                       <span className="line-code">
-                        <span className="token-type">int</span> <span className="token-fn">main</span>() &#123;
+                        <span className="token-type">int</span> <span className="token-fn">main</span>()
+                        &#123;
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">6</span>
                       <span className="line-code">
-                        &nbsp;&nbsp;vector&lt;<span className="token-type">int</span>&gt; arr = &#123;<span className="token-num">2</span>, <span className="token-num">7</span>, <span className="token-num">11</span>, <span className="token-num">15</span>&#125;;
+                        &nbsp;&nbsp;vector&lt;<span className="token-type">int</span>&gt; arr = &#123;
+                        <span className="token-num">2</span>, <span className="token-num">7</span>,{" "}
+                        <span className="token-num">11</span>, <span className="token-num">15</span>&#125;;
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">7</span>
                       <span className="line-code">
-                        &nbsp;&nbsp;cout &lt;&lt; <span className="token-str">&quot;✓ Teacher cleared: Time O(N) | Space O(1)\\n&quot;</span>;
+                        &nbsp;&nbsp;cout &lt;&lt;{" "}
+                        <span className="token-str">
+                          &quot;✓ Teacher cleared: Time O(N) | Space O(1)\\n&quot;
+                        </span>
+                        ;
                       </span>
                     </div>
                     <div className="code-line">
                       <span className="line-num">8</span>
                       <span className="line-code">
-                        &nbsp;&nbsp;<span className="token-kw">return</span> <span className="token-num">0</span>;
+                        &nbsp;&nbsp;<span className="token-kw">return</span>{" "}
+                        <span className="token-num">0</span>;
                       </span>
                     </div>
                     <div className="code-line">
@@ -549,15 +607,21 @@ export default function Home() {
               <div className="terminal-telemetry">
                 <div className="telemetry-item">
                   <Wifi size={12} color="#10b981" />
-                  <span>CLASSROOM: <strong>High-Speed Wi-Fi</strong></span>
+                  <span>
+                    CLASSROOM: <strong>High-Speed Wi-Fi</strong>
+                  </span>
                 </div>
                 <div className="telemetry-item">
                   <Users size={12} color="#38bdf8" />
-                  <span>TEACHER: <strong>1:1 In-Class Help</strong></span>
+                  <span>
+                    TEACHER: <strong>1:1 In-Class Help</strong>
+                  </span>
                 </div>
                 <div className="telemetry-item">
                   <Sparkles size={12} color="#a855f7" />
-                  <span>ADMISSIONS: <strong>New Batch Open</strong></span>
+                  <span>
+                    ADMISSIONS: <strong>New Batch Open</strong>
+                  </span>
                 </div>
               </div>
             </div>
@@ -621,8 +685,8 @@ export default function Home() {
           </div>
           <h2>Technologies We Specialize In &amp; Teach In-Person</h2>
           <p>
-            Whether you are starting from zero or sharpening your software engineering skills,
-            our teachers guide you through hands-on coding on your laptop every day.
+            Whether you are starting from zero or sharpening your software engineering skills, our teachers
+            guide you through hands-on coding on your laptop every day.
           </p>
         </div>
 
@@ -634,7 +698,8 @@ export default function Home() {
             </div>
             <h3>Full-Stack MERN &amp; Next.js</h3>
             <p>
-              Master MongoDB, Express.js, React.js, and Node.js, alongside Next.js 15 App Router, Tailwind CSS, and Git/GitHub for complete full-stack mastery.
+              Master MongoDB, Express.js, React.js, and Node.js, alongside Next.js 15 App Router, Tailwind
+              CSS, and Git/GitHub for complete full-stack mastery.
             </p>
             <div className="pillar-tags">
               <span className="pillar-tag">MongoDB</span>
@@ -657,7 +722,8 @@ export default function Home() {
             </div>
             <h3>Frontend, Tailwind &amp; GSAP</h3>
             <p>
-              Build stunning, interactive websites with modern CSS, Tailwind utility styling, UI component libraries, and buttery-smooth GSAP animations.
+              Build stunning, interactive websites with modern CSS, Tailwind utility styling, UI component
+              libraries, and buttery-smooth GSAP animations.
             </p>
             <div className="pillar-tags">
               <span className="pillar-tag">Tailwind CSS</span>
@@ -679,7 +745,8 @@ export default function Home() {
             </div>
             <h3>Data Structures &amp; Algorithms (DSA)</h3>
             <p>
-              Build rock-solid problem-solving intuition. Master arrays, strings, recursion, linked lists, trees, and time complexity with whiteboard walkthroughs.
+              Build rock-solid problem-solving intuition. Master arrays, strings, recursion, linked lists,
+              trees, and time complexity with whiteboard walkthroughs.
             </p>
             <div className="pillar-tags">
               <span className="pillar-tag">Problem Solving</span>
@@ -701,7 +768,8 @@ export default function Home() {
             </div>
             <h3>C, C++, Java &amp; Python</h3>
             <p>
-              Learn programming from the ground up: C for memory and pointers, C++ and Java for Object-Oriented Programming (OOP), and Python for logic and scripting.
+              Learn programming from the ground up: C for memory and pointers, C++ and Java for
+              Object-Oriented Programming (OOP), and Python for logic and scripting.
             </p>
             <div className="pillar-tags">
               <span className="pillar-tag">C Language</span>
@@ -728,8 +796,8 @@ export default function Home() {
             </div>
             <h2>Practical In-Person Programs</h2>
             <p>
-              Every course is taught offline at our coaching center. Bring your laptop, sit in class,
-              code alongside your teacher, and get every doubt resolved on the spot.
+              Every course is taught offline at our coaching center. Bring your laptop, sit in class, code
+              alongside your teacher, and get every doubt resolved on the spot.
             </p>
           </div>
 
@@ -772,9 +840,7 @@ export default function Home() {
             {filteredCourses.map((course) => (
               <article className="course-card" key={course.title}>
                 <div className="course-top-row">
-                  <span className={`course-badge-track badge-${course.track}`}>
-                    {course.trackLabel}
-                  </span>
+                  <span className={`course-badge-track badge-${course.track}`}>{course.trackLabel}</span>
                   <span className="course-mode-badge">
                     <span className="pulse-dot" />
                     Offline Lab
@@ -797,7 +863,9 @@ export default function Home() {
                 <div className="course-meta-box">
                   <div className="course-duration">
                     <Clock size={14} />
-                    <span>{course.duration} &bull; {course.labHours}</span>
+                    <span>
+                      {course.duration} &bull; {course.labHours}
+                    </span>
                   </div>
                   <div className="course-fee">{course.fee}</div>
                 </div>
@@ -821,8 +889,8 @@ export default function Home() {
           </div>
           <h2>Why Learning with a Teacher In-Person Works</h2>
           <p>
-            Watching someone code in an online video gives the illusion of learning until you try it yourself and get stuck.
-            Here is why our genuine classroom coaching makes all the difference.
+            Watching someone code in an online video gives the illusion of learning until you try it yourself
+            and get stuck. Here is why our genuine classroom coaching makes all the difference.
           </p>
         </div>
 
@@ -835,7 +903,8 @@ export default function Home() {
             </div>
             <h3>Stuck in Confusing Video Loops</h3>
             <p className="sub">
-              Pre-recorded tutorials leave you confused as soon as a bug or version mismatch happens on your screen.
+              Pre-recorded tutorials leave you confused as soon as a bug or version mismatch happens on your
+              screen.
             </p>
 
             <div className="comparison-points">
@@ -845,7 +914,9 @@ export default function Home() {
                 </div>
                 <div className="point-text">
                   <strong>Days Lost to Simple Errors</strong>
-                  <span>You get stuck on a tiny syntax bug for 3 days with no teacher to look at your code.</span>
+                  <span>
+                    You get stuck on a tiny syntax bug for 3 days with no teacher to look at your code.
+                  </span>
                 </div>
               </div>
               <div className="point-row">
@@ -854,7 +925,9 @@ export default function Home() {
                 </div>
                 <div className="point-text">
                   <strong>Copy-Pasting Without Understanding</strong>
-                  <span>You type along with the video, but when asked to write code from scratch, you blank out.</span>
+                  <span>
+                    You type along with the video, but when asked to write code from scratch, you blank out.
+                  </span>
                 </div>
               </div>
               <div className="point-row">
@@ -863,7 +936,10 @@ export default function Home() {
                 </div>
                 <div className="point-text">
                   <strong>Loss of Motivation &amp; Routine</strong>
-                  <span>Studying alone at home has no accountability. Over 90% of students quit online courses within weeks.</span>
+                  <span>
+                    Studying alone at home has no accountability. Over 90% of students quit online courses
+                    within weeks.
+                  </span>
                 </div>
               </div>
             </div>
@@ -877,7 +953,8 @@ export default function Home() {
             </div>
             <h3>Genuine, Concept-First Teaching</h3>
             <p className="sub">
-              Come to class every day with your laptop, learn directly from passionate teachers, and practice on your machine with instant help.
+              Come to class every day with your laptop, learn directly from passionate teachers, and practice
+              on your machine with instant help.
             </p>
 
             <div className="comparison-points">
@@ -887,7 +964,10 @@ export default function Home() {
                 </div>
                 <div className="point-text">
                   <strong>Instant Teacher Desk Assistance</strong>
-                  <span>Hit an error? Raise your hand. The teacher walks to your desk, points out the bug, and explains the logic.</span>
+                  <span>
+                    Hit an error? Raise your hand. The teacher walks to your desk, points out the bug, and
+                    explains the logic.
+                  </span>
                 </div>
               </div>
               <div className="point-row">
@@ -896,7 +976,9 @@ export default function Home() {
                 </div>
                 <div className="point-text">
                   <strong>Clear Whiteboard Concept Building</strong>
-                  <span>Every topic is broken down into simple, easy-to-understand logic before writing any code.</span>
+                  <span>
+                    Every topic is broken down into simple, easy-to-understand logic before writing any code.
+                  </span>
                 </div>
               </div>
               <div className="point-row">
@@ -905,7 +987,10 @@ export default function Home() {
                 </div>
                 <div className="point-text">
                   <strong>Daily Classroom Discipline &amp; Peers</strong>
-                  <span>Sit with fellow learners, code together every day, build real consistency, and stay motivated.</span>
+                  <span>
+                    Sit with fellow learners, code together every day, build real consistency, and stay
+                    motivated.
+                  </span>
                 </div>
               </div>
             </div>
@@ -922,7 +1007,8 @@ export default function Home() {
           </div>
           <h2>Simple, Clean &amp; Practical Learning Setup</h2>
           <p>
-            We focus all our energy on genuine teaching. Our coaching center provides everything you need to learn and practice comfortably.
+            We focus all our energy on genuine teaching. Our coaching center provides everything you need to
+            learn and practice comfortably.
           </p>
         </div>
 
@@ -933,7 +1019,8 @@ export default function Home() {
             </div>
             <h4>Bring Your Own Laptop</h4>
             <p>
-              Carrying your own laptop is necessary for your daily coding practice. Every desk has dedicated power sockets and fast Wi-Fi so you code on your own machine from day one.
+              Carrying your own laptop is necessary for your daily coding practice. Every desk has dedicated
+              power sockets and fast Wi-Fi so you code on your own machine from day one.
             </p>
           </div>
 
@@ -943,7 +1030,8 @@ export default function Home() {
             </div>
             <h4>High-Speed Classroom Wi-Fi</h4>
             <p>
-              Reliable internet connection so you can download development tools, install packages, and browse documentation smoothly.
+              Reliable internet connection so you can download development tools, install packages, and browse
+              documentation smoothly.
             </p>
           </div>
 
@@ -953,7 +1041,8 @@ export default function Home() {
             </div>
             <h4>Projector &amp; Whiteboard Demos</h4>
             <p>
-              Teachers break down concepts step-by-step on the whiteboard, followed by live coding demonstrations projected on the screen.
+              Teachers break down concepts step-by-step on the whiteboard, followed by live coding
+              demonstrations projected on the screen.
             </p>
           </div>
 
@@ -963,7 +1052,8 @@ export default function Home() {
             </div>
             <h4>Extra Practice &amp; Doubt Space</h4>
             <p>
-              Stay after class in our open practice space to work on daily coding assignments, ask doubts, and collaborate with batchmates.
+              Stay after class in our open practice space to work on daily coding assignments, ask doubts, and
+              collaborate with batchmates.
             </p>
           </div>
         </div>
@@ -978,7 +1068,8 @@ export default function Home() {
           </div>
           <h2>Genuine Teaching. No False Hype. Pure Learning.</h2>
           <p>
-            We started Elite Coding School with a clear goal: to be an honest, dedicated coaching center where teachers genuinely care about every student&apos;s progress.
+            We started Elite Coding School with a clear goal: to be an honest, dedicated coaching center where
+            teachers genuinely care about every student&apos;s progress.
           </p>
         </div>
 
@@ -988,7 +1079,8 @@ export default function Home() {
               &ldquo;We Teach From Absolute Zero&rdquo;
             </h4>
             <p className="quote-text">
-              You don&apos;t need any previous coding background. We start from basic computer concepts and logic building, ensuring no student feels left behind in class.
+              You don&apos;t need any previous coding background. We start from basic computer concepts and
+              logic building, ensuring no student feels left behind in class.
             </p>
             <div className="student-profile">
               <div className="student-avatar">01</div>
@@ -1004,7 +1096,8 @@ export default function Home() {
               &ldquo;Every Doubt is Welcomed&rdquo;
             </h4>
             <p className="quote-text">
-              In our small batches of 10–15 students, teachers know you by name. If you have a question 10 times, we will explain it 10 times until the concept is crystal clear.
+              In our small batches of 10–15 students, teachers know you by name. If you have a question 10
+              times, we will explain it 10 times until the concept is crystal clear.
             </p>
             <div className="student-profile">
               <div className="student-avatar">02</div>
@@ -1020,7 +1113,8 @@ export default function Home() {
               &ldquo;Try Before You Decide&rdquo;
             </h4>
             <p className="quote-text">
-              We offer free trial demo classes. Walk into our center, sit with our teachers, experience our teaching style first-hand, and enroll only when you are completely satisfied.
+              We offer free trial demo classes. Walk into our center, sit with our teachers, experience our
+              teaching style first-hand, and enroll only when you are completely satisfied.
             </p>
             <div className="student-profile">
               <div className="student-avatar">03</div>
@@ -1039,8 +1133,8 @@ export default function Home() {
           <div className="cta-left">
             <h2>Attend a Free Trial Demo Class Before Enrolling.</h2>
             <p>
-              Visit our coaching center today. Meet the teachers, attend a live lecture,
-              experience our genuine teaching approach, and see how we explain code from scratch.
+              Visit our coaching center today. Meet the teachers, attend a live lecture, experience our
+              genuine teaching approach, and see how we explain code from scratch.
             </p>
 
             <div className="cta-contact-chips">

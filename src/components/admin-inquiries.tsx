@@ -118,12 +118,13 @@ export function AdminInquiries() {
       sortable: true,
       render: (inq) => {
         const isDemo = inq.type === "demo";
-        const initials = inq.fullName
-          .split(" ")
-          .map((p) => p[0])
-          .join("")
-          .slice(0, 2)
-          .toUpperCase() || "L";
+        const initials =
+          inq.fullName
+            .split(" ")
+            .map((p) => p[0])
+            .join("")
+            .slice(0, 2)
+            .toUpperCase() || "L";
 
         return (
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -326,16 +327,29 @@ export function AdminInquiries() {
   return (
     <main className="portal-content admin-inquiries">
       {/* 1. Header Intro */}
-      <div className="portal-intro" style={{ marginBottom: 24, display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 16 }}>
+      <div
+        className="portal-intro"
+        style={{
+          marginBottom: 24,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          flexWrap: "wrap",
+          gap: 16,
+        }}
+      >
         <div>
           <p className="kicker" style={{ color: "#38bdf8", fontWeight: 700, letterSpacing: "0.08em" }}>
             PUBLIC WEBSITE LEADS &amp; ADMISSIONS
           </p>
-          <h2 style={{ fontFamily: "var(--font-heading)", fontSize: "28px", color: "#ffffff", margin: "4px 0" }}>
+          <h2
+            style={{ fontFamily: "var(--font-heading)", fontSize: "28px", color: "#ffffff", margin: "4px 0" }}
+          >
             Admission &amp; Demo Inquiries
           </h2>
           <p style={{ color: "#94a3b8", fontSize: "14px", margin: 0 }}>
-            Real-time prospective students who contacted Elite Coding School for trial classes or fee structures.
+            Real-time prospective students who contacted Elite Coding School for trial classes or fee
+            structures.
           </p>
         </div>
         <button
@@ -447,7 +461,11 @@ export function AdminInquiries() {
       {/* 4. Lead Dossier Modal */}
       {selectedInquiry && (
         <div className="modal-backdrop" onClick={() => setSelectedInquiry(null)}>
-          <div className="student-dossier-modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 640 }}>
+          <div
+            className="student-dossier-modal"
+            onClick={(e) => e.stopPropagation()}
+            style={{ maxWidth: 640 }}
+          >
             <div className="modal-header">
               <div className="modal-title-row" style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <Sparkles size={20} className="text-cyan-400" />
@@ -465,15 +483,19 @@ export function AdminInquiries() {
 
             <div className="modal-body" style={{ padding: 24 }}>
               {/* Profile Hero */}
-              <div className="dossier-hero" style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
+              <div
+                className="dossier-hero"
+                style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}
+              >
                 <div
                   style={{
                     width: 52,
                     height: 52,
                     borderRadius: "50%",
-                    background: selectedInquiry.type === "demo"
-                      ? "linear-gradient(135deg, #0284c7, #38bdf8)"
-                      : "linear-gradient(135deg, #7c3aed, #a855f7)",
+                    background:
+                      selectedInquiry.type === "demo"
+                        ? "linear-gradient(135deg, #0284c7, #38bdf8)"
+                        : "linear-gradient(135deg, #7c3aed, #a855f7)",
                     display: "grid",
                     placeItems: "center",
                     color: "#ffffff",
@@ -491,7 +513,9 @@ export function AdminInquiries() {
                 </div>
                 <div>
                   <h4 style={{ margin: 0, fontSize: 18, color: "#ffffff" }}>{selectedInquiry.fullName}</h4>
-                  <div style={{ display: "flex", gap: 8, marginTop: 6, flexWrap: "wrap", alignItems: "center" }}>
+                  <div
+                    style={{ display: "flex", gap: 8, marginTop: 6, flexWrap: "wrap", alignItems: "center" }}
+                  >
                     <span
                       style={{
                         fontSize: 11,
@@ -499,15 +523,26 @@ export function AdminInquiries() {
                         textTransform: "uppercase",
                         padding: "2px 8px",
                         borderRadius: 4,
-                        background: selectedInquiry.type === "demo" ? "rgba(56, 189, 248, 0.15)" : "rgba(168, 85, 247, 0.15)",
+                        background:
+                          selectedInquiry.type === "demo"
+                            ? "rgba(56, 189, 248, 0.15)"
+                            : "rgba(168, 85, 247, 0.15)",
                         color: selectedInquiry.type === "demo" ? "#38bdf8" : "#c084fc",
-                        border: selectedInquiry.type === "demo" ? "1px solid rgba(56, 189, 248, 0.3)" : "1px solid rgba(168, 85, 247, 0.3)",
+                        border:
+                          selectedInquiry.type === "demo"
+                            ? "1px solid rgba(56, 189, 248, 0.3)"
+                            : "1px solid rgba(168, 85, 247, 0.3)",
                       }}
                     >
-                      {selectedInquiry.type === "demo" ? "Free Trial Demo Class" : "Admission & Fee Structure"}
+                      {selectedInquiry.type === "demo"
+                        ? "Free Trial Demo Class"
+                        : "Admission & Fee Structure"}
                     </span>
                     <span style={{ fontSize: 12, color: "#94a3b8" }}>
-                      Submitted on {new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeStyle: "short" }).format(new Date(selectedInquiry.createdAt))}
+                      Submitted on{" "}
+                      {new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeStyle: "short" }).format(
+                        new Date(selectedInquiry.createdAt),
+                      )}
                     </span>
                   </div>
                 </div>
@@ -515,8 +550,24 @@ export function AdminInquiries() {
 
               {/* Grid of Details */}
               <div className="dossier-grid" style={{ marginBottom: 20 }}>
-                <div className="dossier-card" style={{ background: "#070b24", border: "1px solid rgba(255, 255, 255, 0.08)", borderRadius: 12, padding: 16 }}>
-                  <h5 style={{ margin: "0 0 12px", fontSize: 13, color: "#38bdf8", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                <div
+                  className="dossier-card"
+                  style={{
+                    background: "#070b24",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    borderRadius: 12,
+                    padding: 16,
+                  }}
+                >
+                  <h5
+                    style={{
+                      margin: "0 0 12px",
+                      fontSize: 13,
+                      color: "#38bdf8",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                    }}
+                  >
                     Contact Information
                   </h5>
                   <div className="dossier-field" style={{ marginBottom: 10 }}>
@@ -525,20 +576,44 @@ export function AdminInquiries() {
                   </div>
                   <div className="dossier-field">
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block" }}>Email Address:</span>
-                    <strong style={{ color: "#ffffff", fontSize: 13 }}>{selectedInquiry.email || "Not provided"}</strong>
+                    <strong style={{ color: "#ffffff", fontSize: 13 }}>
+                      {selectedInquiry.email || "Not provided"}
+                    </strong>
                   </div>
                 </div>
 
-                <div className="dossier-card" style={{ background: "#070b24", border: "1px solid rgba(255, 255, 255, 0.08)", borderRadius: 12, padding: 16 }}>
-                  <h5 style={{ margin: "0 0 12px", fontSize: 13, color: "#a855f7", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                <div
+                  className="dossier-card"
+                  style={{
+                    background: "#070b24",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    borderRadius: 12,
+                    padding: 16,
+                  }}
+                >
+                  <h5
+                    style={{
+                      margin: "0 0 12px",
+                      fontSize: 13,
+                      color: "#a855f7",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                    }}
+                  >
                     Lead Status &amp; Course
                   </h5>
                   <div className="dossier-field" style={{ marginBottom: 10 }}>
-                    <span style={{ fontSize: 11, color: "#94a3b8", display: "block" }}>Program of Interest:</span>
-                    <strong style={{ color: "#ffffff", fontSize: 13 }}>{selectedInquiry.interestedCourse || "General"}</strong>
+                    <span style={{ fontSize: 11, color: "#94a3b8", display: "block" }}>
+                      Program of Interest:
+                    </span>
+                    <strong style={{ color: "#ffffff", fontSize: 13 }}>
+                      {selectedInquiry.interestedCourse || "General"}
+                    </strong>
                   </div>
                   <div className="dossier-field">
-                    <span style={{ fontSize: 11, color: "#94a3b8", display: "block", marginBottom: 4 }}>Change Status:</span>
+                    <span style={{ fontSize: 11, color: "#94a3b8", display: "block", marginBottom: 4 }}>
+                      Change Status:
+                    </span>
                     <CustomSelect
                       size="sm"
                       variant="status-pill"
@@ -553,11 +628,35 @@ export function AdminInquiries() {
 
               {/* Message Block */}
               {selectedInquiry.message && (
-                <div style={{ background: "#070b24", border: "1px solid rgba(255, 255, 255, 0.08)", borderRadius: 12, padding: 16, marginBottom: 20 }}>
-                  <h5 style={{ margin: "0 0 8px", fontSize: 12, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                <div
+                  style={{
+                    background: "#070b24",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    borderRadius: 12,
+                    padding: 16,
+                    marginBottom: 20,
+                  }}
+                >
+                  <h5
+                    style={{
+                      margin: "0 0 8px",
+                      fontSize: 12,
+                      color: "#94a3b8",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                    }}
+                  >
                     Prospect Message / Questions:
                   </h5>
-                  <p style={{ margin: 0, color: "#e2e8f0", fontSize: 13, lineHeight: 1.6, whiteSpace: "pre-wrap" }}>
+                  <p
+                    style={{
+                      margin: 0,
+                      color: "#e2e8f0",
+                      fontSize: 13,
+                      lineHeight: 1.6,
+                      whiteSpace: "pre-wrap",
+                    }}
+                  >
                     {selectedInquiry.message}
                   </p>
                 </div>

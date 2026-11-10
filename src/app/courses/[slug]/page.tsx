@@ -72,17 +72,29 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
       {
         id: "m1",
         title: "Module 1: HTML5, Modern CSS & Tailwind CSS",
-        topics: ["HTML5 semantic tags & document structure", "Tailwind CSS utility classes & responsive flex/grid", "Building real landing pages from scratch"],
+        topics: [
+          "HTML5 semantic tags & document structure",
+          "Tailwind CSS utility classes & responsive flex/grid",
+          "Building real landing pages from scratch",
+        ],
       },
       {
         id: "m2",
         title: "Module 2: JavaScript (ES6+), React.js & Next.js",
-        topics: ["Variables, functions, loops, DOM events & ES6+", "React component architecture, hooks & state management", "Next.js App Router, SSR & routing"],
+        topics: [
+          "Variables, functions, loops, DOM events & ES6+",
+          "React component architecture, hooks & state management",
+          "Next.js App Router, SSR & routing",
+        ],
       },
       {
         id: "m3",
         title: "Module 3: Node.js, Express & MongoDB Full-Stack",
-        topics: ["RESTful API design with Express & Node.js", "MongoDB schema design with Mongoose", "User authentication with JWT & project deployment"],
+        topics: [
+          "RESTful API design with Express & Node.js",
+          "MongoDB schema design with Mongoose",
+          "User authentication with JWT & project deployment",
+        ],
       },
     ],
   },
@@ -105,17 +117,29 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
       {
         id: "m1",
         title: "Module 1: Modern Web Design & Tailwind CSS",
-        topics: ["Responsive layout design for desktop & mobile", "Tailwind CSS utilities, gradients & typography", "Modern UI component libraries (Shadcn / Lucide)"],
+        topics: [
+          "Responsive layout design for desktop & mobile",
+          "Tailwind CSS utilities, gradients & typography",
+          "Modern UI component libraries (Shadcn / Lucide)",
+        ],
       },
       {
         id: "m2",
         title: "Module 2: JavaScript & React Interactive Components",
-        topics: ["Modern ES6+ JavaScript syntax & asynchronous fetching", "React functional components, useState & useEffect", "Building dynamic, interactive UI widgets"],
+        topics: [
+          "Modern ES6+ JavaScript syntax & asynchronous fetching",
+          "React functional components, useState & useEffect",
+          "Building dynamic, interactive UI widgets",
+        ],
       },
       {
         id: "m3",
         title: "Module 3: GSAP Animations & Portfolio Showcase",
-        topics: ["GSAP timelines, tweens & scroll-triggered animations", "Micro-interactions & page transitions", "Deploying portfolio projects to GitHub & Vercel"],
+        topics: [
+          "GSAP timelines, tweens & scroll-triggered animations",
+          "Micro-interactions & page transitions",
+          "Deploying portfolio projects to GitHub & Vercel",
+        ],
       },
     ],
   },
@@ -138,17 +162,29 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
       {
         id: "m1",
         title: "Module 1: Node.js Runtime & Express Server",
-        topics: ["Node.js event loop, modules & npm ecosystem", "Building Express HTTP servers & custom middleware", "Request handling, status codes & routing"],
+        topics: [
+          "Node.js event loop, modules & npm ecosystem",
+          "Building Express HTTP servers & custom middleware",
+          "Request handling, status codes & routing",
+        ],
       },
       {
         id: "m2",
         title: "Module 2: MongoDB & Mongoose Schema Design",
-        topics: ["NoSQL fundamentals vs relational tables", "Mongoose schemas, validations & CRUD operations", "Aggregation pipelines & indexing"],
+        topics: [
+          "NoSQL fundamentals vs relational tables",
+          "Mongoose schemas, validations & CRUD operations",
+          "Aggregation pipelines & indexing",
+        ],
       },
       {
         id: "m3",
         title: "Module 3: Authentication, Security & Deployment",
-        topics: ["Password hashing with bcrypt & JWT tokens", "CORS, rate limiting & error handling middleware", "Deploying Node.js servers to cloud hosting"],
+        topics: [
+          "Password hashing with bcrypt & JWT tokens",
+          "CORS, rate limiting & error handling middleware",
+          "Deploying Node.js servers to cloud hosting",
+        ],
       },
     ],
   },
@@ -172,17 +208,29 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
       {
         id: "m1",
         title: "Module 1: Logic Building & Syntax Foundations",
-        topics: ["How computers think: flowcharts & pseudo-code", "Variables, conditionals, loops & nested patterns", "Writing clean, readable code in C++ or Java"],
+        topics: [
+          "How computers think: flowcharts & pseudo-code",
+          "Variables, conditionals, loops & nested patterns",
+          "Writing clean, readable code in C++ or Java",
+        ],
       },
       {
         id: "m2",
         title: "Module 2: Core Data Structures (Arrays & Strings)",
-        topics: ["Array traversal, two-pointer technique & sliding window", "String manipulation & pattern searching", "Linear search, binary search & basic sorting"],
+        topics: [
+          "Array traversal, two-pointer technique & sliding window",
+          "String manipulation & pattern searching",
+          "Linear search, binary search & basic sorting",
+        ],
       },
       {
         id: "m3",
         title: "Module 3: Functions, Recursion & Advanced Structures",
-        topics: ["Function call stacks & thinking recursively", "Linked lists, stacks & queues simplified", "Trees, graphs & time complexity (Big O)"],
+        topics: [
+          "Function call stacks & thinking recursively",
+          "Linked lists, stacks & queues simplified",
+          "Trees, graphs & time complexity (Big O)",
+        ],
       },
     ],
   },
@@ -194,7 +242,15 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
     monthlyFee: 1900,
     description:
       "Master High-Level (HLD) and Low-Level Design (LLD), microservice communication, caching, load balancing, and scalable system case studies with whiteboard walkthroughs.",
-    skills: ["System Design", "HLD / LLD", "Microservices", "Redis", "Load Balancers", "DB Sharding", "Scalability"],
+    skills: [
+      "System Design",
+      "HLD / LLD",
+      "Microservices",
+      "Redis",
+      "Load Balancers",
+      "DB Sharding",
+      "Scalability",
+    ],
     prerequisites: ["Basic understanding of programming fundamentals and databases."],
     perks: [
       "Whiteboard breakdowns of real-world scalable systems",
@@ -206,17 +262,29 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
       {
         id: "m1",
         title: "Module 1: Architecture Core & Scaling Concepts",
-        topics: ["Vertical vs Horizontal scaling & load balancing (Nginx)", "Monolith vs Microservices architecture", "Caching patterns with Redis & Memcached"],
+        topics: [
+          "Vertical vs Horizontal scaling & load balancing (Nginx)",
+          "Monolith vs Microservices architecture",
+          "Caching patterns with Redis & Memcached",
+        ],
       },
       {
         id: "m2",
         title: "Module 2: Databases, Storage & Message Streaming",
-        topics: ["SQL vs NoSQL trade-offs & ACID properties", "Database replication, sharding & indexing strategies", "Asynchronous tasks with Kafka & RabbitMQ"],
+        topics: [
+          "SQL vs NoSQL trade-offs & ACID properties",
+          "Database replication, sharding & indexing strategies",
+          "Asynchronous tasks with Kafka & RabbitMQ",
+        ],
       },
       {
         id: "m3",
         title: "Module 3: End-to-End System Design Case Studies",
-        topics: ["Designing a URL shortener (TinyURL) & rate limiter", "Designing real-time chat (WhatsApp) with WebSockets", "Designing scalable video/feed platform (Netflix/Twitter)"],
+        topics: [
+          "Designing a URL shortener (TinyURL) & rate limiter",
+          "Designing real-time chat (WhatsApp) with WebSockets",
+          "Designing scalable video/feed platform (Netflix/Twitter)",
+        ],
       },
     ],
   },
@@ -239,17 +307,29 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
       {
         id: "m1",
         title: "Module 1: C Programming & Logic Fundamentals",
-        topics: ["Variables, data types, operators & if-else", "For/while loops, nested loops & patterns", "Functions, scope & call-by-value/reference"],
+        topics: [
+          "Variables, data types, operators & if-else",
+          "For/while loops, nested loops & patterns",
+          "Functions, scope & call-by-value/reference",
+        ],
       },
       {
         id: "m2",
         title: "Module 2: Pointers, Arrays & Memory",
-        topics: ["Pointers demystified: addresses & dereferencing", "1D/2D arrays & string manipulation", "Dynamic memory allocation (malloc / free)"],
+        topics: [
+          "Pointers demystified: addresses & dereferencing",
+          "1D/2D arrays & string manipulation",
+          "Dynamic memory allocation (malloc / free)",
+        ],
       },
       {
         id: "m3",
         title: "Module 3: C++ & Object-Oriented Programming",
-        topics: ["Classes, objects, constructors & destructors", "Encapsulation, inheritance & polymorphism", "C++ Standard Template Library (vector, map, set)"],
+        topics: [
+          "Classes, objects, constructors & destructors",
+          "Encapsulation, inheritance & polymorphism",
+          "C++ Standard Template Library (vector, map, set)",
+        ],
       },
     ],
   },
@@ -272,17 +352,29 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
       {
         id: "m1",
         title: "Module 1: Java Basics & Syntax Foundations",
-        topics: ["JDK, JRE & JVM explained simply", "Data types, operators, conditionals & loops", "Methods, method overloading & static keyword"],
+        topics: [
+          "JDK, JRE & JVM explained simply",
+          "Data types, operators, conditionals & loops",
+          "Methods, method overloading & static keyword",
+        ],
       },
       {
         id: "m2",
         title: "Module 2: Core Object-Oriented Programming",
-        topics: ["Classes, objects & constructor mechanics", "Inheritance, abstract classes & interfaces", "Polymorphism (overriding vs overloading)"],
+        topics: [
+          "Classes, objects & constructor mechanics",
+          "Inheritance, abstract classes & interfaces",
+          "Polymorphism (overriding vs overloading)",
+        ],
       },
       {
         id: "m3",
         title: "Module 3: Collections Framework & File I/O",
-        topics: ["ArrayList, LinkedList, HashMap & HashSet", "Exception handling (try-catch-finally)", "File reading/writing & mini Java project"],
+        topics: [
+          "ArrayList, LinkedList, HashMap & HashSet",
+          "Exception handling (try-catch-finally)",
+          "File reading/writing & mini Java project",
+        ],
       },
     ],
   },
@@ -305,17 +397,29 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
       {
         id: "m1",
         title: "Module 1: Python Syntax & Logic Essentials",
-        topics: ["Variables, data types, inputs & formatted strings", "Conditionals, while/for loops & range", "Functions, default arguments & return values"],
+        topics: [
+          "Variables, data types, inputs & formatted strings",
+          "Conditionals, while/for loops & range",
+          "Functions, default arguments & return values",
+        ],
       },
       {
         id: "m2",
         title: "Module 2: Python Data Structures & Files",
-        topics: ["Lists, tuples, dictionaries & sets", "List comprehensions & string formatting", "Reading and writing CSV/text files"],
+        topics: [
+          "Lists, tuples, dictionaries & sets",
+          "List comprehensions & string formatting",
+          "Reading and writing CSV/text files",
+        ],
       },
       {
         id: "m3",
         title: "Module 3: Modules, Scripting & Mini Projects",
-        topics: ["Using built-in modules (os, sys, math, random)", "Web scraping / API requests with requests library", "Automating real desktop & data tasks"],
+        topics: [
+          "Using built-in modules (os, sys, math, random)",
+          "Web scraping / API requests with requests library",
+          "Automating real desktop & data tasks",
+        ],
       },
     ],
   },
@@ -339,17 +443,29 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
       {
         id: "m1",
         title: "Module 1: Networking Basics & The OSI Model",
-        topics: ["OSI 7 layers vs TCP/IP model simplified", "Ethernet cables, MAC addresses & ARP", "IPv4 addressing & CIDR subnetting made easy"],
+        topics: [
+          "OSI 7 layers vs TCP/IP model simplified",
+          "Ethernet cables, MAC addresses & ARP",
+          "IPv4 addressing & CIDR subnetting made easy",
+        ],
       },
       {
         id: "m2",
         title: "Module 2: Transport & Application Layer Protocols",
-        topics: ["TCP 3-way handshake vs UDP speed", "How DNS, DHCP, HTTP & HTTPS work", "Testing connectivity with ping, traceroute & netstat"],
+        topics: [
+          "TCP 3-way handshake vs UDP speed",
+          "How DNS, DHCP, HTTP & HTTPS work",
+          "Testing connectivity with ping, traceroute & netstat",
+        ],
       },
       {
         id: "m3",
         title: "Module 3: Network Security & Traffic Analysis",
-        topics: ["Capturing live packets with Wireshark", "Basic firewall principles & port scanning with Nmap", "Securing home & small office Wi-Fi networks"],
+        topics: [
+          "Capturing live packets with Wireshark",
+          "Basic firewall principles & port scanning with Nmap",
+          "Securing home & small office Wi-Fi networks",
+        ],
       },
     ],
   },
@@ -373,17 +489,29 @@ const FALLBACK_COURSES: Record<string, Partial<Course>> = {
       {
         id: "m1",
         title: "Module 1: Linux Command-Line Mastery",
-        topics: ["Terminal navigation, file manipulation & grep/find", "User permissions, chmod, chown & sudo", "Package management & environment setup"],
+        topics: [
+          "Terminal navigation, file manipulation & grep/find",
+          "User permissions, chmod, chown & sudo",
+          "Package management & environment setup",
+        ],
       },
       {
         id: "m2",
         title: "Module 2: Bash Shell Scripting & Automation",
-        topics: ["Variables, conditionals, loops & functions in Bash", "Automating backups & text parsing with sed/awk", "Cron jobs & background task automation"],
+        topics: [
+          "Variables, conditionals, loops & functions in Bash",
+          "Automating backups & text parsing with sed/awk",
+          "Cron jobs & background task automation",
+        ],
       },
       {
         id: "m3",
         title: "Module 3: OS Concepts & C Programming Basics",
-        topics: ["Process lifecycle, fork, PID & signals", "Virtual memory concepts & basic pointer usage in C", "Compiling code with GCC & version control with Git"],
+        topics: [
+          "Process lifecycle, fork, PID & signals",
+          "Virtual memory concepts & basic pointer usage in C",
+          "Compiling code with GCC & version control with Git",
+        ],
       },
     ],
   },
@@ -407,12 +535,17 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
             setCourse(apiCourse);
           } else {
             // Fallback to high-quality curated course
-            const fallback = FALLBACK_COURSES[slug] ?? FALLBACK_COURSES[normalizedSlug] ?? FALLBACK_COURSES["full-stack-development"];
+            const fallback =
+              FALLBACK_COURSES[slug] ??
+              FALLBACK_COURSES[normalizedSlug] ??
+              FALLBACK_COURSES["full-stack-development"];
             setCourse({
               _id: `course-${slug}`,
               slug,
               title: fallback.title ?? "Classroom Coaching Program",
-              description: fallback.description ?? "Comprehensive offline coaching with hands-on practice in small batches.",
+              description:
+                fallback.description ??
+                "Comprehensive offline coaching with hands-on practice in small batches.",
               category: fallback.category ?? "Technology",
               level: fallback.level ?? "Beginner",
               durationMonths: fallback.durationMonths ?? 3,
@@ -428,24 +561,37 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
                 {
                   id: "m1",
                   title: "Module 1: Foundations & Concept Clarity",
-                  topics: ["Step-by-step logic building", "Syntax & basic commands", "Hands-on guided practice"],
+                  topics: [
+                    "Step-by-step logic building",
+                    "Syntax & basic commands",
+                    "Hands-on guided practice",
+                  ],
                 },
                 {
                   id: "m2",
                   title: "Module 2: Practical Projects & Code Review",
-                  topics: ["Building real assignments", "Line-by-line teacher review", "Doubt solving & revision"],
+                  topics: [
+                    "Building real assignments",
+                    "Line-by-line teacher review",
+                    "Doubt solving & revision",
+                  ],
                 },
               ],
             });
           }
         })
         .catch(() => {
-          const fallback = FALLBACK_COURSES[slug] ?? FALLBACK_COURSES[normalizedSlug] ?? FALLBACK_COURSES["full-stack-development"];
+          const fallback =
+            FALLBACK_COURSES[slug] ??
+            FALLBACK_COURSES[normalizedSlug] ??
+            FALLBACK_COURSES["full-stack-development"];
           setCourse({
             _id: `course-${slug}`,
             slug,
             title: fallback.title ?? "Classroom Coaching Program",
-            description: fallback.description ?? "Comprehensive offline coaching with hands-on practice in small batches.",
+            description:
+              fallback.description ??
+              "Comprehensive offline coaching with hands-on practice in small batches.",
             category: fallback.category ?? "Technology",
             level: fallback.level ?? "Beginner",
             durationMonths: fallback.durationMonths ?? 3,
@@ -477,13 +623,15 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
       if (!response.ok) throw new Error(body.error?.message ?? "Could not request enrollment.");
       setMessage("✓ Enrollment request sent! Our admissions mentor will contact you for a lab slot.");
     } catch (error) {
-      setMessage("✓ Interest registered! Please visit our campus or call admissions to confirm your lab desk.");
+      setMessage(
+        "✓ Interest registered! Please visit our campus or call admissions to confirm your lab desk.",
+      );
     } finally {
       setEnrolling(false);
     }
   }
 
-    if (!course) {
+  if (!course) {
     return (
       <main className="courses-redesign">
         <Navbar activePage="courses" />
@@ -641,20 +789,13 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
               <BookOpen size={13} />
               <span>DETAILED LAB SYLLABUS</span>
             </div>
-            <h2 className="curriculum-heading">
-              What You&apos;ll Build &amp; Master
-            </h2>
+            <h2 className="curriculum-heading">What You&apos;ll Build &amp; Master</h2>
 
             <div className="modules-list">
               {course.syllabus.map((mod, idx) => (
-                <div
-                  key={mod.id ?? idx}
-                  className="module-card"
-                >
+                <div key={mod.id ?? idx} className="module-card">
                   <h3 className="module-title">
-                    <span className="module-badge">
-                      0{idx + 1}
-                    </span>
+                    <span className="module-badge">0{idx + 1}</span>
                     <span>{mod.title}</span>
                   </h3>
                   <ul className="module-topics-list">
@@ -673,9 +814,7 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
           {/* Right: Tech Stack & Prerequisites */}
           <div className="curriculum-sidebar">
             <div className="sidebar-card">
-              <h4 className="sidebar-card-title">
-                Technologies &amp; Tools Covered
-              </h4>
+              <h4 className="sidebar-card-title">Technologies &amp; Tools Covered</h4>
               <div className="tech-tags-list">
                 {course.skills.map((s) => (
                   <span key={s} className="tech-tag">
@@ -687,12 +826,8 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
 
             {course.prerequisites && course.prerequisites.length > 0 && (
               <div className="sidebar-card">
-                <h4 className="sidebar-card-title">
-                  Prerequisites
-                </h4>
-                <p className="prereq-text">
-                  {course.prerequisites.join(" • ")}
-                </p>
+                <h4 className="sidebar-card-title">Prerequisites</h4>
+                <p className="prereq-text">{course.prerequisites.join(" • ")}</p>
               </div>
             )}
           </div>

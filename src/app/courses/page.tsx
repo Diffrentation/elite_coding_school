@@ -57,7 +57,8 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     title: "Full-Stack MERN & Next.js Development",
     category: "MERN Stack",
     isFeatured: true,
-    shortDescription: "Learn to build complete production-grade web applications from scratch with React, Next.js, Node.js, Express, and MongoDB.",
+    shortDescription:
+      "Learn to build complete production-grade web applications from scratch with React, Next.js, Node.js, Express, and MongoDB.",
     durationMonths: 4,
     monthlyFee: 1900,
     level: "beginner",
@@ -74,7 +75,8 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     title: "Frontend Development, Tailwind CSS & GSAP",
     category: "MERN Stack",
     isFeatured: true,
-    shortDescription: "Master modern responsive design, UI component libraries, React.js, and slick interactive animations with GSAP and Tailwind CSS.",
+    shortDescription:
+      "Master modern responsive design, UI component libraries, React.js, and slick interactive animations with GSAP and Tailwind CSS.",
     durationMonths: 3,
     monthlyFee: 1900,
     level: "beginner",
@@ -83,7 +85,14 @@ const CURATED_OFFLINE_COURSES: Course[] = [
       "Interactive animations using GSAP & modern UI kits",
       "Clean component architecture & state management",
     ],
-    techTags: ["HTML5/CSS3", "JavaScript (ES6+)", "React.js", "Tailwind CSS", "GSAP Animations", "Git/GitHub"],
+    techTags: [
+      "HTML5/CSS3",
+      "JavaScript (ES6+)",
+      "React.js",
+      "Tailwind CSS",
+      "GSAP Animations",
+      "Git/GitHub",
+    ],
   },
   {
     _id: "c-backend",
@@ -91,7 +100,8 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     title: "Backend Development & REST APIs with MongoDB",
     category: "MERN Stack",
     isFeatured: false,
-    shortDescription: "Build robust backend servers, RESTful APIs, JWT authentication, and database schemas with Node.js, Express, and MongoDB.",
+    shortDescription:
+      "Build robust backend servers, RESTful APIs, JWT authentication, and database schemas with Node.js, Express, and MongoDB.",
     durationMonths: 3,
     monthlyFee: 1900,
     level: "intermediate",
@@ -108,7 +118,8 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     title: "Data Structures & Algorithms (DSA)",
     category: "DSA & Logic",
     isFeatured: true,
-    shortDescription: "Master logic building, algorithmic thinking, and problem solving from scratch with whiteboard explanations and live coding.",
+    shortDescription:
+      "Master logic building, algorithmic thinking, and problem solving from scratch with whiteboard explanations and live coding.",
     durationMonths: 3,
     monthlyFee: 1900,
     level: "beginner",
@@ -125,7 +136,8 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     title: "System Design & Scalable Architecture",
     category: "DSA & System Design",
     isFeatured: true,
-    shortDescription: "Learn High-Level (HLD) & Low-Level Design (LLD), microservices, load balancers, caching, and scalable architecture with whiteboard case studies.",
+    shortDescription:
+      "Learn High-Level (HLD) & Low-Level Design (LLD), microservices, load balancers, caching, and scalable architecture with whiteboard case studies.",
     durationMonths: 3,
     monthlyFee: 1900,
     level: "intermediate",
@@ -134,7 +146,15 @@ const CURATED_OFFLINE_COURSES: Course[] = [
       "HLD & LLD: Microservices, Redis, Nginx & DB sharding",
       "Case studies: WhatsApp, URL Shortener & Netflix architecture",
     ],
-    techTags: ["System Design", "HLD / LLD", "Microservices", "Redis", "Load Balancers", "DB Sharding", "Scalability"],
+    techTags: [
+      "System Design",
+      "HLD / LLD",
+      "Microservices",
+      "Redis",
+      "Load Balancers",
+      "DB Sharding",
+      "Scalability",
+    ],
   },
   {
     _id: "c-cpp",
@@ -142,7 +162,8 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     title: "C & C++ Programming Foundations",
     category: "Programming Languages",
     isFeatured: false,
-    shortDescription: "Start programming from absolute zero. Understand memory management, pointers, and Object-Oriented Programming (OOP) in C++.",
+    shortDescription:
+      "Start programming from absolute zero. Understand memory management, pointers, and Object-Oriented Programming (OOP) in C++.",
     durationMonths: 3,
     monthlyFee: 1900,
     level: "beginner",
@@ -159,7 +180,8 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     title: "Core Java & Object-Oriented Programming",
     category: "Programming Languages",
     isFeatured: false,
-    shortDescription: "Learn Core Java from the ground up: classes, inheritance, interfaces, exception handling, and the Collections framework.",
+    shortDescription:
+      "Learn Core Java from the ground up: classes, inheritance, interfaces, exception handling, and the Collections framework.",
     durationMonths: 3,
     monthlyFee: 1900,
     level: "beginner",
@@ -176,7 +198,8 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     title: "Python Programming & Logic Building",
     category: "Programming Languages",
     isFeatured: false,
-    shortDescription: "Learn beginner-friendly Python programming, clean syntax, logic building, data handling, and automation scripting.",
+    shortDescription:
+      "Learn beginner-friendly Python programming, clean syntax, logic building, data handling, and automation scripting.",
     durationMonths: 2.5,
     monthlyFee: 1900,
     level: "beginner",
@@ -193,7 +216,8 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     title: "Computer Networks Fundamentals From Scratch",
     category: "Networking & Systems",
     isFeatured: true,
-    shortDescription: "Understand how the internet, routers, switches, IP addressing, and networking protocols work with clear whiteboard demos and laptop exercises.",
+    shortDescription:
+      "Understand how the internet, routers, switches, IP addressing, and networking protocols work with clear whiteboard demos and laptop exercises.",
     durationMonths: 3,
     monthlyFee: 1900,
     level: "beginner",
@@ -210,7 +234,8 @@ const CURATED_OFFLINE_COURSES: Course[] = [
     title: "Linux & Operating Systems From Scratch",
     category: "Networking & Systems",
     isFeatured: true,
-    shortDescription: "Master the Linux command line, bash automation scripts, process management, memory concepts, and foundational C programming from scratch.",
+    shortDescription:
+      "Master the Linux command line, bash automation scripts, process management, memory concepts, and foundational C programming from scratch.",
     durationMonths: 3,
     monthlyFee: 1900,
     level: "beginner",
@@ -219,7 +244,14 @@ const CURATED_OFFLINE_COURSES: Course[] = [
       "Hands-on bash scripting & task automation",
       "Understand processes, memory & file systems",
     ],
-    techTags: ["Linux Terminal", "Bash Scripting", "Processes & Memory", "File Permissions", "C Basics", "Git"],
+    techTags: [
+      "Linux Terminal",
+      "Bash Scripting",
+      "Processes & Memory",
+      "File Permissions",
+      "C Basics",
+      "Git",
+    ],
   },
 ];
 
@@ -300,10 +332,15 @@ export default function CoursesPage() {
       const matchTrack =
         selectedTrack === "all" ||
         c.category.toLowerCase().includes(selectedTrack.toLowerCase()) ||
-        (selectedTrack === "mern" && (c.category.includes("MERN") || c.category.includes("Web") || c.category.includes("Backend"))) ||
-        (selectedTrack === "core" && (c.category.includes("Languages") || c.category.includes("Foundations"))) ||
+        (selectedTrack === "mern" &&
+          (c.category.includes("MERN") || c.category.includes("Web") || c.category.includes("Backend"))) ||
+        (selectedTrack === "core" &&
+          (c.category.includes("Languages") || c.category.includes("Foundations"))) ||
         (selectedTrack === "dsa" && (c.category.includes("DSA") || c.category.includes("Logic"))) ||
-        (selectedTrack === "systems" && (c.category.includes("Networking") || c.category.includes("Systems") || c.category.includes("Operating")));
+        (selectedTrack === "systems" &&
+          (c.category.includes("Networking") ||
+            c.category.includes("Systems") ||
+            c.category.includes("Operating")));
 
       return matchSearch && matchLevel && matchDuration && matchTrack;
     });
@@ -367,8 +404,9 @@ export default function CoursesPage() {
               <span className="gradient-text-purple">Genuine, Teacher-Led Classes.</span>
             </h1>
             <p className="lead">
-              Every course is taught offline in our classroom. We focus on real concept clarity,
-              daily hands-on coding practice, and personal teacher guidance from scratch so every student learns with confidence.
+              Every course is taught offline in our classroom. We focus on real concept clarity, daily
+              hands-on coding practice, and personal teacher guidance from scratch so every student learns
+              with confidence.
             </p>
 
             <div className="offline-chips-row">
@@ -520,7 +558,8 @@ export default function CoursesPage() {
           <div className="active-results-badge">
             <span className="results-dot" />
             <span>
-              Showing <strong>{filteredCourses.length}</strong> {filteredCourses.length === 1 ? "Program" : "Programs"}
+              Showing <strong>{filteredCourses.length}</strong>{" "}
+              {filteredCourses.length === 1 ? "Program" : "Programs"}
             </span>
           </div>
           {(search || level || duration || selectedTrack !== "all") && (
@@ -546,7 +585,11 @@ export default function CoursesPage() {
                 "Daily hands-on coding on your laptop",
                 "1:1 teacher doubt solving at your desk",
               ];
-              const techTags = course.techTags ?? ["Classroom Teaching", "Hands-on Projects", "Concept Clarity"];
+              const techTags = course.techTags ?? [
+                "Classroom Teaching",
+                "Hands-on Projects",
+                "Concept Clarity",
+              ];
 
               return (
                 <article
@@ -554,9 +597,7 @@ export default function CoursesPage() {
                   key={course._id}
                 >
                   <div className="card-header-top">
-                    <span className={`card-track-badge ${trackBadgeClass}`}>
-                      {course.category}
-                    </span>
+                    <span className={`card-track-badge ${trackBadgeClass}`}>{course.category}</span>
                     <span className="card-mode-pill">
                       <span className="pulse-dot" />
                       Offline Lab
@@ -633,7 +674,8 @@ export default function CoursesPage() {
           <div className="benefit-text-wrap">
             <b>1:1 Teacher Doubt Solving</b>
             <small>
-              Whenever you hit a bug or get stuck on a concept, teachers sit with you at your desk and guide you until you understand.
+              Whenever you hit a bug or get stuck on a concept, teachers sit with you at your desk and guide
+              you until you understand.
             </small>
           </div>
         </div>
@@ -645,7 +687,8 @@ export default function CoursesPage() {
           <div className="benefit-text-wrap">
             <b>Clean Desks &amp; Power Sockets</b>
             <small>
-              Bring your laptop, plug into dedicated power sockets, connect to high-speed classroom Wi-Fi, and code comfortably.
+              Bring your laptop, plug into dedicated power sockets, connect to high-speed classroom Wi-Fi, and
+              code comfortably.
             </small>
           </div>
         </div>
@@ -657,7 +700,8 @@ export default function CoursesPage() {
           <div className="benefit-text-wrap">
             <b>Small Batches (10–15 Students)</b>
             <small>
-              We deliberately keep batch sizes small so that every single student gets direct teacher interaction and personal guidance.
+              We deliberately keep batch sizes small so that every single student gets direct teacher
+              interaction and personal guidance.
             </small>
           </div>
         </div>

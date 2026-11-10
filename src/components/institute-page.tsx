@@ -78,9 +78,7 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
   }, [type]);
 
   const name = settings?.instituteName ?? "Elite Coding School";
-  const address =
-    settings?.address ||
-    "Vijay Nagar Bypass, Bagu";
+  const address = settings?.address || "Vijay Nagar Bypass, Bagu";
   const phone = settings?.phone || "+91 9311278407";
   const email = settings?.email || "bbhupender100@gmail.com";
   const hours = settings?.openingHours || "Monday – Saturday: 9:00 AM – 7:00 PM";
@@ -197,7 +195,8 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
               </div>
               <h2>Why Learning In-Person with a Teacher Works</h2>
               <p>
-                Thousands of students get stuck on simple syntax errors or confusing logic in online courses and quit. Here is why genuine in-person coaching makes all the difference.
+                Thousands of students get stuck on simple syntax errors or confusing logic in online courses
+                and quit. Here is why genuine in-person coaching makes all the difference.
               </p>
             </div>
 
@@ -208,7 +207,8 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 </div>
                 <h3>1:1 Desk-Side Doubt Solving</h3>
                 <p>
-                  No waiting on forums or chatbots. When your code throws an error, a teacher walks over to your desk and teaches you how to trace and fix it immediately.
+                  No waiting on forums or chatbots. When your code throws an error, a teacher walks over to
+                  your desk and teaches you how to trace and fix it immediately.
                 </p>
               </div>
 
@@ -218,7 +218,8 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 </div>
                 <h3>We Start From Absolute Zero</h3>
                 <p>
-                  No prior programming background required. We explain every concept in simple, accessible language with relatable real-world examples.
+                  No prior programming background required. We explain every concept in simple, accessible
+                  language with relatable real-world examples.
                 </p>
               </div>
 
@@ -228,7 +229,8 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 </div>
                 <h3>Small Batches (10–15 Students)</h3>
                 <p>
-                  We keep batches small so that every single student receives personal attention, active practice time, and honest feedback from the teacher.
+                  We keep batches small so that every single student receives personal attention, active
+                  practice time, and honest feedback from the teacher.
                 </p>
               </div>
             </div>
@@ -253,7 +255,10 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                   <Code2 size={24} />
                 </div>
                 <h3>Full-Stack MERN &amp; Next.js</h3>
-                <p>MongoDB, Express.js, React.js, Node.js, Next.js 15, REST APIs, and Git &amp; GitHub workflows.</p>
+                <p>
+                  MongoDB, Express.js, React.js, Node.js, Next.js 15, REST APIs, and Git &amp; GitHub
+                  workflows.
+                </p>
                 <div className="pillar-tags">
                   <span className="pillar-tag">MongoDB</span>
                   <span className="pillar-tag">React.js</span>
@@ -268,7 +273,10 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                   <Sparkles size={24} />
                 </div>
                 <h3>Frontend, Tailwind &amp; GSAP</h3>
-                <p>Pixel-perfect responsive design, modern UI component libraries, and slick interactive animations with GSAP.</p>
+                <p>
+                  Pixel-perfect responsive design, modern UI component libraries, and slick interactive
+                  animations with GSAP.
+                </p>
                 <div className="pillar-tags">
                   <span className="pillar-tag">Tailwind CSS</span>
                   <span className="pillar-tag">GSAP</span>
@@ -282,7 +290,10 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                   <Layers size={24} />
                 </div>
                 <h3>Data Structures &amp; Algorithms (DSA)</h3>
-                <p>Problem-solving strategies, loops, arrays, strings, recursion, and step-by-step whiteboard logic drills.</p>
+                <p>
+                  Problem-solving strategies, loops, arrays, strings, recursion, and step-by-step whiteboard
+                  logic drills.
+                </p>
                 <div className="pillar-tags">
                   <span className="pillar-tag">Problem Solving</span>
                   <span className="pillar-tag">Arrays &amp; Trees</span>
@@ -296,7 +307,10 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                   <Cpu size={24} />
                 </div>
                 <h3>C, C++, Java &amp; Python</h3>
-                <p>Learn core programming: C pointers, C++ and Java Object-Oriented Programming (OOP), and Python scripting.</p>
+                <p>
+                  Learn core programming: C pointers, C++ and Java Object-Oriented Programming (OOP), and
+                  Python scripting.
+                </p>
                 <div className="pillar-tags">
                   <span className="pillar-tag">C Language</span>
                   <span className="pillar-tag">C++ &amp; OOP</span>
@@ -324,7 +338,9 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                   <Monitor size={22} />
                 </div>
                 <h4>Comfortable Desks &amp; Power</h4>
-                <p>Clean desks with dedicated laptop charging points so you can code without battery worries.</p>
+                <p>
+                  Clean desks with dedicated laptop charging points so you can code without battery worries.
+                </p>
               </div>
 
               <div className="tour-card">
@@ -332,7 +348,10 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                   <Wifi size={22} />
                 </div>
                 <h4>High-Speed Classroom Wi-Fi</h4>
-                <p>Dependable high-speed internet for live package installs, documentation lookups, and GitHub pushes.</p>
+                <p>
+                  Dependable high-speed internet for live package installs, documentation lookups, and GitHub
+                  pushes.
+                </p>
               </div>
 
               <div className="tour-card">
@@ -340,7 +359,10 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                   <Layers size={22} />
                 </div>
                 <h4>Projector &amp; Whiteboard</h4>
-                <p>Teachers explain code step-by-step on the screen and draw diagrams clearly on the whiteboard.</p>
+                <p>
+                  Teachers explain code step-by-step on the screen and draw diagrams clearly on the
+                  whiteboard.
+                </p>
               </div>
 
               <div className="tour-card">
@@ -348,7 +370,10 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                   <Users size={22} />
                 </div>
                 <h4>Extra Practice Space</h4>
-                <p>Stay after class to practice your assignments, review notes, and discuss doubts with fellow classmates.</p>
+                <p>
+                  Stay after class to practice your assignments, review notes, and discuss doubts with fellow
+                  classmates.
+                </p>
               </div>
             </div>
           </section>
@@ -359,7 +384,8 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
               <div className="cta-left">
                 <h2>Attend a Free Trial Demo Class Before Deciding.</h2>
                 <p>
-                  Walk in during our visiting hours. Meet our teachers, see the classroom, and attend a 1-hour trial class to experience our genuine teaching firsthand.
+                  Walk in during our visiting hours. Meet our teachers, see the classroom, and attend a 1-hour
+                  trial class to experience our genuine teaching firsthand.
                 </p>
                 <div className="cta-contact-chips">
                   <div className="contact-chip">
@@ -405,7 +431,9 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                   <span className="gradient-text-purple">Meet the Teachers.</span>
                 </h1>
                 <p className="lead">
-                  We believe every student should experience how we teach before enrolling. Walk in during visiting hours, meet our teachers, inspect our clean classroom, and book a free trial demo class.
+                  We believe every student should experience how we teach before enrolling. Walk in during
+                  visiting hours, meet our teachers, inspect our clean classroom, and book a free trial demo
+                  class.
                 </p>
 
                 <div className="offline-chips-row">
@@ -433,7 +461,8 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                     href="#contact-form"
                     onClick={(e) => {
                       e.preventDefault();
-                      const el = document.getElementById("contact-form") || document.getElementById("book-demo");
+                      const el =
+                        document.getElementById("contact-form") || document.getElementById("book-demo");
                       if (el) {
                         el.scrollIntoView({ behavior: "smooth", block: "start" });
                         const firstInput = el.querySelector("input") as HTMLInputElement | null;
@@ -465,15 +494,36 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 </div>
 
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px", fontSize: "13px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.06)", paddingBottom: "8px" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      borderBottom: "1px solid rgba(255,255,255,0.06)",
+                      paddingBottom: "8px",
+                    }}
+                  >
                     <span style={{ color: "#94a3b8" }}>Monday – Friday:</span>
                     <strong style={{ color: "#ffffff" }}>09:00 AM – 07:00 PM</strong>
                   </div>
-                  <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.06)", paddingBottom: "8px" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      borderBottom: "1px solid rgba(255,255,255,0.06)",
+                      paddingBottom: "8px",
+                    }}
+                  >
                     <span style={{ color: "#94a3b8" }}>Saturday:</span>
                     <strong style={{ color: "#ffffff" }}>09:00 AM – 06:00 PM</strong>
                   </div>
-                  <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.06)", paddingBottom: "8px" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      borderBottom: "1px solid rgba(255,255,255,0.06)",
+                      paddingBottom: "8px",
+                    }}
+                  >
                     <span style={{ color: "#94a3b8" }}>Sunday:</span>
                     <strong style={{ color: "#34d399" }}>Special Doubt Clearing Sessions</strong>
                   </div>
@@ -495,9 +545,7 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                   <MapPin size={13} />
                   <span>CAMPUS DIRECTORY</span>
                 </div>
-                <h2 className="contact-section-title">
-                  Campus Contact &amp; Location
-                </h2>
+                <h2 className="contact-section-title">Campus Contact &amp; Location</h2>
                 <p className="contact-section-subtitle">
                   Visit our classroom for in-person counseling or connect directly with our mentors.
                 </p>
@@ -505,7 +553,10 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 <div className="contact-cards-stack">
                   {/* Address Card */}
                   <div className="contact-info-card">
-                    <div className="pillar-icon-box icon-box-dev" style={{ width: "44px", height: "44px", minWidth: "44px", marginBottom: 0 }}>
+                    <div
+                      className="pillar-icon-box icon-box-dev"
+                      style={{ width: "44px", height: "44px", minWidth: "44px", marginBottom: 0 }}
+                    >
                       <MapPin size={20} />
                     </div>
                     <div className="contact-info-body">
@@ -519,12 +570,18 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
 
                   {/* Phone Helpline Card */}
                   <div className="contact-info-card">
-                    <div className="pillar-icon-box icon-box-net" style={{ width: "44px", height: "44px", minWidth: "44px", marginBottom: 0 }}>
+                    <div
+                      className="pillar-icon-box icon-box-net"
+                      style={{ width: "44px", height: "44px", minWidth: "44px", marginBottom: 0 }}
+                    >
                       <Phone size={20} />
                     </div>
                     <div className="contact-info-body">
                       <h4>Admissions Desk &amp; Helpline</h4>
-                      <a href={`tel:${phone.replace(/\s+/g, "")}`} className="contact-action-link contact-phone-link">
+                      <a
+                        href={`tel:${phone.replace(/\s+/g, "")}`}
+                        className="contact-action-link contact-phone-link"
+                      >
                         <span>{phone}</span>
                         <ArrowRight size={14} />
                       </a>
@@ -536,7 +593,10 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
 
                   {/* Email Card */}
                   <div className="contact-info-card">
-                    <div className="pillar-icon-box icon-box-os" style={{ width: "44px", height: "44px", minWidth: "44px", marginBottom: 0 }}>
+                    <div
+                      className="pillar-icon-box icon-box-os"
+                      style={{ width: "44px", height: "44px", minWidth: "44px", marginBottom: 0 }}
+                    >
                       <Mail size={20} />
                     </div>
                     <div className="contact-info-body">
@@ -552,7 +612,10 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
 
                   {/* Visiting Hours Card */}
                   <div className="contact-info-card">
-                    <div className="pillar-icon-box icon-box-data" style={{ width: "44px", height: "44px", minWidth: "44px", marginBottom: 0 }}>
+                    <div
+                      className="pillar-icon-box icon-box-data"
+                      style={{ width: "44px", height: "44px", minWidth: "44px", marginBottom: 0 }}
+                    >
                       <Clock size={20} />
                     </div>
                     <div className="contact-info-body">
@@ -588,7 +651,9 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                   <div className="contact-faq-badge">01</div>
                   <strong>Do I need an appointment before visiting?</strong>
                   <p>
-                    No appointment is necessary! You are welcome to walk in between 9:00 AM and 7:00 PM Monday through Saturday. Our teachers and counselors are always present in the center to show you the lab.
+                    No appointment is necessary! You are welcome to walk in between 9:00 AM and 7:00 PM Monday
+                    through Saturday. Our teachers and counselors are always present in the center to show you
+                    the lab.
                   </p>
                 </div>
 
@@ -596,7 +661,9 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                   <div className="contact-faq-badge">02</div>
                   <strong>Do I need to bring my own laptop?</strong>
                   <p>
-                    Yes, carrying your own laptop is necessary for daily coding practice. Every desk has dedicated power charging sockets and fast Wi-Fi so you code directly on your personal machine and keep all your projects safe.
+                    Yes, carrying your own laptop is necessary for daily coding practice. Every desk has
+                    dedicated power charging sockets and fast Wi-Fi so you code directly on your personal
+                    machine and keep all your projects safe.
                   </p>
                 </div>
 
@@ -604,7 +671,9 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                   <div className="contact-faq-badge">03</div>
                   <strong>Can I attend a free demo class before enrolling?</strong>
                   <p>
-                    Yes! We offer a free trial demo class. Just bring your laptop, sit in the classroom, experience how our teachers break down concepts, and see if our practical teaching style feels right for you.
+                    Yes! We offer a free trial demo class. Just bring your laptop, sit in the classroom,
+                    experience how our teachers break down concepts, and see if our practical teaching style
+                    feels right for you.
                   </p>
                 </div>
               </div>

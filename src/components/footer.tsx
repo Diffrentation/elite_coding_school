@@ -123,11 +123,7 @@ export function Footer({
             >
               <Globe size={16} />
             </a>
-            <a
-              className="social-btn"
-              href={`mailto:${email}`}
-              aria-label="Email"
-            >
+            <a className="social-btn" href={`mailto:${email}`} aria-label="Email">
               <Mail size={16} />
             </a>
           </div>
@@ -165,7 +161,9 @@ export function Footer({
                 </div>
                 <div className="footer-trigger-titles">
                   <span className="footer-trigger-heading">About Our Offline Coaching Center</span>
-                  <span className="footer-trigger-sub">Teaching philosophy, concept-first learning &amp; campus location</span>
+                  <span className="footer-trigger-sub">
+                    Teaching philosophy, concept-first learning &amp; campus location
+                  </span>
                 </div>
               </div>
               <div className="footer-trigger-right">
@@ -181,9 +179,9 @@ export function Footer({
               <div className="footer-accordion-body">
                 <div className="footer-about-content">
                   <p className="lead">
-                    Elite Coding School is a newly opened coaching center started by passionate, dedicated educators.
-                    We believe true programming competence is forged by hands-on typing, real compiler errors, and 1:1 teacher
-                    doubt clearing—not passive online video bingeing.
+                    Elite Coding School is a newly opened coaching center started by passionate, dedicated
+                    educators. We believe true programming competence is forged by hands-on typing, real
+                    compiler errors, and 1:1 teacher doubt clearing—not passive online video bingeing.
                   </p>
 
                   <div className="footer-address-card">
@@ -229,7 +227,9 @@ export function Footer({
                 </div>
                 <div className="footer-trigger-titles">
                   <span className="footer-trigger-heading">Classroom Courses &amp; Syllabi</span>
-                  <span className="footer-trigger-sub">In-person cohorts with daily laptop coding &amp; mentor help</span>
+                  <span className="footer-trigger-sub">
+                    In-person cohorts with daily laptop coding &amp; mentor help
+                  </span>
                 </div>
               </div>
               <div className="footer-trigger-right">
@@ -245,10 +245,7 @@ export function Footer({
               <div className="footer-accordion-body">
                 <div className="footer-courses-grid">
                   <div className="footer-course-link-card">
-                    <Link
-                      href="/courses/full-stack-mern-nextjs"
-                      onClick={() => onSelectTrack?.("dev")}
-                    >
+                    <Link href="/courses/full-stack-mern-nextjs" onClick={() => onSelectTrack?.("dev")}>
                       <div className="footer-course-info">
                         <strong>Full-Stack MERN &amp; Next.js Development</strong>
                         <span>React 19, Node.js, Express, MongoDB, Tailwind &amp; Cloud Deployment</span>
@@ -258,10 +255,7 @@ export function Footer({
                   </div>
 
                   <div className="footer-course-link-card">
-                    <Link
-                      href="/courses/dsa-system-design"
-                      onClick={() => onSelectTrack?.("dsa")}
-                    >
+                    <Link href="/courses/dsa-system-design" onClick={() => onSelectTrack?.("dsa")}>
                       <div className="footer-course-info">
                         <strong>Data Structures &amp; Algorithms (DSA)</strong>
                         <span>Problem solving, arrays, trees, graphs &amp; dynamic programming</span>
@@ -271,10 +265,7 @@ export function Footer({
                   </div>
 
                   <div className="footer-course-link-card">
-                    <Link
-                      href="/courses/c-cpp-programming"
-                      onClick={() => onSelectTrack?.("core")}
-                    >
+                    <Link href="/courses/c-cpp-programming" onClick={() => onSelectTrack?.("core")}>
                       <div className="footer-course-info">
                         <strong>C &amp; C++ Programming Foundations</strong>
                         <span>Memory pointers, memory layout, STL &amp; zero-to-one fundamentals</span>
@@ -284,10 +275,7 @@ export function Footer({
                   </div>
 
                   <div className="footer-course-link-card">
-                    <Link
-                      href="/courses/core-java-programming"
-                      onClick={() => onSelectTrack?.("core")}
-                    >
+                    <Link href="/courses/core-java-programming" onClick={() => onSelectTrack?.("core")}>
                       <div className="footer-course-info">
                         <strong>Core Java &amp; Object-Oriented Programming</strong>
                         <span>Classes, interfaces, multithreading, collections &amp; JVM basics</span>
@@ -297,10 +285,7 @@ export function Footer({
                   </div>
 
                   <div className="footer-course-link-card">
-                    <Link
-                      href="/courses/python-programming"
-                      onClick={() => onSelectTrack?.("core")}
-                    >
+                    <Link href="/courses/python-programming" onClick={() => onSelectTrack?.("core")}>
                       <div className="footer-course-info">
                         <strong>Python Programming &amp; Logic Building</strong>
                         <span>Python syntax, script automation, data manipulation &amp; mini projects</span>
@@ -310,10 +295,7 @@ export function Footer({
                   </div>
 
                   <div className="footer-course-link-card">
-                    <Link
-                      href="/courses/computer-networks-linux"
-                      onClick={() => onSelectTrack?.("systems")}
-                    >
+                    <Link href="/courses/computer-networks-linux" onClick={() => onSelectTrack?.("systems")}>
                       <div className="footer-course-info">
                         <strong>Computer Networks &amp; Linux OS</strong>
                         <span>TCP/IP, OSI layers, bash scripting, server tools &amp; socket programming</span>
@@ -347,7 +329,9 @@ export function Footer({
                 </div>
                 <div className="footer-trigger-titles">
                   <span className="footer-trigger-heading">Admissions, Demo Class &amp; Portals</span>
-                  <span className="footer-trigger-sub">Free trial class bookings, student dashboard &amp; fee counseling</span>
+                  <span className="footer-trigger-sub">
+                    Free trial class bookings, student dashboard &amp; fee counseling
+                  </span>
                 </div>
               </div>
               <div className="footer-trigger-right">
@@ -421,7 +405,9 @@ export function Footer({
                 </div>
                 <div className="footer-trigger-titles">
                   <span className="footer-trigger-heading">Campus Contact &amp; Visiting Hours</span>
-                  <span className="footer-trigger-sub">Direct phone helpline, email inquiries &amp; center timings</span>
+                  <span className="footer-trigger-sub">
+                    Direct phone helpline, email inquiries &amp; center timings
+                  </span>
                 </div>
               </div>
               <div className="footer-trigger-right">
@@ -503,7 +489,9 @@ export function Footer({
 
         {/* Bottom Bar */}
         <div className="footer-bottom-bar">
-          <span>&copy; <CopyrightYear /> {name}. Dedicated to genuine, practical teaching.</span>
+          <span>
+            &copy; <CopyrightYear /> {name}. Dedicated to genuine, practical teaching.
+          </span>
           <div className="footer-bottom-links">
             <Link href="/">Home</Link>
             <Link href="/about">About Center</Link>

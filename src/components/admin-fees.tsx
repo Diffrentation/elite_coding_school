@@ -1,7 +1,16 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import { Receipt, CreditCard, Plus, FileText, CheckCircle2, AlertCircle, DollarSign, Calendar } from "lucide-react";
+import {
+  Receipt,
+  CreditCard,
+  Plus,
+  FileText,
+  CheckCircle2,
+  AlertCircle,
+  DollarSign,
+  Calendar,
+} from "lucide-react";
 
 type Enrollment = {
   _id: string;
@@ -117,46 +126,114 @@ export function AdminFees() {
   return (
     <main className="portal-content admin-fees-page">
       <div style={{ marginBottom: 28 }}>
-        <p className="kicker" style={{ color: "#38bdf8", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", fontSize: 11, margin: "0 0 6px" }}>
+        <p
+          className="kicker"
+          style={{
+            color: "#38bdf8",
+            fontWeight: 700,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            fontSize: 11,
+            margin: "0 0 6px",
+          }}
+        >
           ACCOUNTS & BILLING
         </p>
-        <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "28px", color: "#ffffff", margin: "0 0 8px" }}>
+        <h1
+          style={{ fontFamily: "var(--font-heading)", fontSize: "28px", color: "#ffffff", margin: "0 0 8px" }}
+        >
           Fees, Invoices & Receipts
         </h1>
         <p style={{ color: "#94a3b8", fontSize: "14px", margin: 0 }}>
-          Generate monthly student invoices, log cash/UPI/bank payments, and generate official downloadable receipts.
+          Generate monthly student invoices, log cash/UPI/bank payments, and generate official downloadable
+          receipts.
         </p>
       </div>
 
       <section className="admin-workflow-summary admin-finance-summary" aria-label="Fee overview">
         <article>
-          <span className="workflow-summary-icon purple"><FileText size={18} /></span>
-          <div><small>Total invoices</small><strong>{invoices.length}</strong></div>
+          <span className="workflow-summary-icon purple">
+            <FileText size={18} />
+          </span>
+          <div>
+            <small>Total invoices</small>
+            <strong>{invoices.length}</strong>
+          </div>
         </article>
         <article>
-          <span className="workflow-summary-icon amber"><AlertCircle size={18} /></span>
-          <div><small>Outstanding balance</small><strong>₹{outstandingTotal.toLocaleString("en-IN")}</strong><em>{openInvoiceCount} open invoice{openInvoiceCount === 1 ? "" : "s"}</em></div>
+          <span className="workflow-summary-icon amber">
+            <AlertCircle size={18} />
+          </span>
+          <div>
+            <small>Outstanding balance</small>
+            <strong>₹{outstandingTotal.toLocaleString("en-IN")}</strong>
+            <em>
+              {openInvoiceCount} open invoice{openInvoiceCount === 1 ? "" : "s"}
+            </em>
+          </div>
         </article>
         <article>
-          <span className="workflow-summary-icon green"><DollarSign size={18} /></span>
-          <div><small>Payments recorded</small><strong>₹{collectedTotal.toLocaleString("en-IN")}</strong><em>{payments.length} receipt{payments.length === 1 ? "" : "s"}</em></div>
+          <span className="workflow-summary-icon green">
+            <DollarSign size={18} />
+          </span>
+          <div>
+            <small>Payments recorded</small>
+            <strong>₹{collectedTotal.toLocaleString("en-IN")}</strong>
+            <em>
+              {payments.length} receipt{payments.length === 1 ? "" : "s"}
+            </em>
+          </div>
         </article>
       </section>
 
       {message && (
-        <div style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(16, 185, 129, 0.12)", border: "1px solid rgba(16, 185, 129, 0.3)", color: "#34d399", padding: "12px 18px", borderRadius: 10, marginBottom: 22, fontSize: 13.5 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            background: "rgba(16, 185, 129, 0.12)",
+            border: "1px solid rgba(16, 185, 129, 0.3)",
+            color: "#34d399",
+            padding: "12px 18px",
+            borderRadius: 10,
+            marginBottom: 22,
+            fontSize: 13.5,
+          }}
+        >
           <CheckCircle2 size={16} /> {message}
         </div>
       )}
 
       {error && (
-        <div style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(239, 68, 68, 0.12)", border: "1px solid rgba(239, 68, 68, 0.3)", color: "#fca5a5", padding: "12px 18px", borderRadius: 10, marginBottom: 22, fontSize: 13.5 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            background: "rgba(239, 68, 68, 0.12)",
+            border: "1px solid rgba(239, 68, 68, 0.3)",
+            color: "#fca5a5",
+            padding: "12px 18px",
+            borderRadius: 10,
+            marginBottom: 22,
+            fontSize: 13.5,
+          }}
+        >
           <AlertCircle size={16} /> {error}
         </div>
       )}
 
       {/* Two Action Forms Side-by-Side */}
-      <div className="admin-fees-forms-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))", gap: 20, marginBottom: 30 }}>
+      <div
+        className="admin-fees-forms-grid"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))",
+          gap: 20,
+          marginBottom: 30,
+        }}
+      >
         {/* Form 1: Issue Monthly Invoice */}
         <div
           className="admin-fee-action-card"
@@ -171,19 +248,40 @@ export function AdminFees() {
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
-            <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(124, 58, 237, 0.18)", color: "#c084fc", display: "grid", placeItems: "center" }}>
+            <div
+              style={{
+                width: 34,
+                height: 34,
+                borderRadius: 8,
+                background: "rgba(124, 58, 237, 0.18)",
+                color: "#c084fc",
+                display: "grid",
+                placeItems: "center",
+              }}
+            >
               <FileText size={18} />
             </div>
             <div>
               <h3 style={{ margin: 0, fontSize: 16, color: "#ffffff", fontFamily: "var(--font-heading)" }}>
                 Issue Monthly Invoice
               </h3>
-              <span style={{ fontSize: 12, color: "#94a3b8" }}>Create billing record for active enrollment</span>
+              <span style={{ fontSize: 12, color: "#94a3b8" }}>
+                Create billing record for active enrollment
+              </span>
             </div>
           </div>
 
           <form onSubmit={createInvoice} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            <label style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12.5, fontWeight: 600, color: "#cbd5e1" }}>
+            <label
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 6,
+                fontSize: 12.5,
+                fontWeight: 600,
+                color: "#cbd5e1",
+              }}
+            >
               Enrollment
               <select
                 name="enrollmentId"
@@ -208,7 +306,16 @@ export function AdminFees() {
               </select>
             </label>
 
-            <label style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12.5, fontWeight: 600, color: "#cbd5e1" }}>
+            <label
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 6,
+                fontSize: 12.5,
+                fontWeight: 600,
+                color: "#cbd5e1",
+              }}
+            >
               Billing Month
               <input
                 name="month"
@@ -265,7 +372,17 @@ export function AdminFees() {
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
-            <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(16, 185, 129, 0.18)", color: "#34d399", display: "grid", placeItems: "center" }}>
+            <div
+              style={{
+                width: 34,
+                height: 34,
+                borderRadius: 8,
+                background: "rgba(16, 185, 129, 0.18)",
+                color: "#34d399",
+                display: "grid",
+                placeItems: "center",
+              }}
+            >
               <CreditCard size={18} />
             </div>
             <div>
@@ -277,7 +394,16 @@ export function AdminFees() {
           </div>
 
           <form onSubmit={recordPayment} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            <label style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12.5, fontWeight: 600, color: "#cbd5e1" }}>
+            <label
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 6,
+                fontSize: 12.5,
+                fontWeight: 600,
+                color: "#cbd5e1",
+              }}
+            >
               Open Invoice
               <select
                 name="invoiceId"
@@ -314,7 +440,17 @@ export function AdminFees() {
                 minWidth: 0,
               }}
             >
-              <label style={{ display: "flex", flexDirection: "column", gap: 6, minWidth: 0, fontSize: 12.5, fontWeight: 600, color: "#cbd5e1" }}>
+              <label
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 6,
+                  minWidth: 0,
+                  fontSize: 12.5,
+                  fontWeight: 600,
+                  color: "#cbd5e1",
+                }}
+              >
                 Amount (₹)
                 <input
                   name="amount"
@@ -337,7 +473,17 @@ export function AdminFees() {
                 />
               </label>
 
-              <label style={{ display: "flex", flexDirection: "column", gap: 6, minWidth: 0, fontSize: 12.5, fontWeight: 600, color: "#cbd5e1" }}>
+              <label
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 6,
+                  minWidth: 0,
+                  fontSize: 12.5,
+                  fontWeight: 600,
+                  color: "#cbd5e1",
+                }}
+              >
                 Payment Method
                 <select
                   name="method"
@@ -389,7 +535,10 @@ export function AdminFees() {
       </div>
 
       {/* Two Data Lists: Invoices and Recent Payments */}
-      <div className="admin-fees-data-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(480px, 1fr))", gap: 24 }}>
+      <div
+        className="admin-fees-data-grid"
+        style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(480px, 1fr))", gap: 24 }}
+      >
         {/* Card: Invoices */}
         <section
           className="admin-fees-data-card"
@@ -441,15 +590,41 @@ export function AdminFees() {
                   </div>
 
                   <div>
-                    <span style={{ color: "#94a3b8", fontSize: 10, textTransform: "uppercase", fontWeight: 700, display: "block" }}>Due</span>
+                    <span
+                      style={{
+                        color: "#94a3b8",
+                        fontSize: 10,
+                        textTransform: "uppercase",
+                        fontWeight: 700,
+                        display: "block",
+                      }}
+                    >
+                      Due
+                    </span>
                     <b style={{ color: "#e2e8f0", fontSize: 13, fontFamily: "var(--font-mono)" }}>
                       ₹{invoice.dueAmount.toLocaleString("en-IN")}
                     </b>
                   </div>
 
                   <div>
-                    <span style={{ color: "#94a3b8", fontSize: 10, textTransform: "uppercase", fontWeight: 700, display: "block" }}>Pending</span>
-                    <b style={{ color: invoice.remainingAmount > 0 ? "#fbbf24" : "#34d399", fontSize: 13, fontFamily: "var(--font-mono)" }}>
+                    <span
+                      style={{
+                        color: "#94a3b8",
+                        fontSize: 10,
+                        textTransform: "uppercase",
+                        fontWeight: 700,
+                        display: "block",
+                      }}
+                    >
+                      Pending
+                    </span>
+                    <b
+                      style={{
+                        color: invoice.remainingAmount > 0 ? "#fbbf24" : "#34d399",
+                        fontSize: 13,
+                        fontFamily: "var(--font-mono)",
+                      }}
+                    >
                       ₹{invoice.remainingAmount.toLocaleString("en-IN")}
                     </b>
                   </div>
@@ -462,7 +637,8 @@ export function AdminFees() {
                         textTransform: "uppercase",
                         padding: "3px 8px",
                         borderRadius: 5,
-                        background: invoice.status === "paid" ? "rgba(16, 185, 129, 0.15)" : "rgba(245, 158, 11, 0.15)",
+                        background:
+                          invoice.status === "paid" ? "rgba(16, 185, 129, 0.15)" : "rgba(245, 158, 11, 0.15)",
                         color: invoice.status === "paid" ? "#34d399" : "#fbbf24",
                         border: `1px solid ${invoice.status === "paid" ? "rgba(16, 185, 129, 0.3)" : "rgba(245, 158, 11, 0.3)"}`,
                       }}
@@ -531,15 +707,37 @@ export function AdminFees() {
                   </div>
 
                   <div>
-                    <span style={{ color: "#94a3b8", fontSize: 10, textTransform: "uppercase", fontWeight: 700, display: "block" }}>Paid</span>
+                    <span
+                      style={{
+                        color: "#94a3b8",
+                        fontSize: 10,
+                        textTransform: "uppercase",
+                        fontWeight: 700,
+                        display: "block",
+                      }}
+                    >
+                      Paid
+                    </span>
                     <b style={{ color: "#34d399", fontSize: 13, fontFamily: "var(--font-mono)" }}>
                       ₹{payment.amount.toLocaleString("en-IN")}
                     </b>
                   </div>
 
                   <div>
-                    <span style={{ color: "#94a3b8", fontSize: 10, textTransform: "uppercase", fontWeight: 700, display: "block" }}>Method</span>
-                    <span style={{ color: "#cbd5e1", fontSize: 12, fontWeight: 600, textTransform: "uppercase" }}>
+                    <span
+                      style={{
+                        color: "#94a3b8",
+                        fontSize: 10,
+                        textTransform: "uppercase",
+                        fontWeight: 700,
+                        display: "block",
+                      }}
+                    >
+                      Method
+                    </span>
+                    <span
+                      style={{ color: "#cbd5e1", fontSize: 12, fontWeight: 600, textTransform: "uppercase" }}
+                    >
                       {payment.method}
                     </span>
                   </div>

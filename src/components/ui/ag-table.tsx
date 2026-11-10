@@ -237,7 +237,7 @@ export function AgTable<T>({
           const str = val === null || val === undefined ? "" : String(val);
           return `"${str.replace(/"/g, '""')}"`;
         })
-        .join(",")
+        .join(","),
     );
     const csvContent = [headerRow, ...dataRows].join("\n");
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
@@ -262,7 +262,7 @@ export function AgTable<T>({
 
   const visibleColumns = useMemo(
     () => columns.filter((col) => !hiddenColumns.has(col.key)),
-    [columns, hiddenColumns]
+    [columns, hiddenColumns],
   );
 
   // Render Numbered Page Pills (e.g. 1 2 3 ... 10)
@@ -321,9 +321,7 @@ export function AgTable<T>({
                   onClick={() => onStatusTabChange && onStatusTabChange(tab.key)}
                 >
                   <span className="pill-text">{tab.label}</span>
-                  {tab.count !== undefined && (
-                    <span className="pill-counter">{tab.count}</span>
-                  )}
+                  {tab.count !== undefined && <span className="pill-counter">{tab.count}</span>}
                 </button>
               );
             })}
@@ -495,7 +493,7 @@ export function AgTable<T>({
                 <SkeletonTableRows rows={Math.min(initialPageSize, 6)} cols={visibleColumns.length} />
               ) : pageData.length > 0 ? (
                 pageData.map((row, idx) => {
-                  const rowKey = getRowId ? getRowId(row, idx) : (row as any)._id ?? idx;
+                  const rowKey = getRowId ? getRowId(row, idx) : ((row as any)._id ?? idx);
                   return (
                     <tr
                       key={rowKey}
@@ -537,7 +535,9 @@ export function AgTable<T>({
           <div className="ag-mobile-cards-skeleton">
             {[1, 2, 3].map((n) => (
               <div key={n} className="ag-mobile-card skeleton-card">
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}
+                >
                   <div className="skeleton-shimmer" style={{ width: 140, height: 18, borderRadius: 6 }} />
                   <div className="skeleton-shimmer" style={{ width: 64, height: 22, borderRadius: 12 }} />
                 </div>
@@ -547,16 +547,19 @@ export function AgTable<T>({
                   <div className="skeleton-shimmer" style={{ width: "80%", height: 14, borderRadius: 4 }} />
                   <div className="skeleton-shimmer" style={{ width: "75%", height: 14, borderRadius: 4 }} />
                 </div>
-                <div className="skeleton-shimmer" style={{ width: "100%", height: 34, borderRadius: 8, marginTop: 8 }} />
+                <div
+                  className="skeleton-shimmer"
+                  style={{ width: "100%", height: 34, borderRadius: 8, marginTop: 8 }}
+                />
               </div>
             ))}
           </div>
         ) : pageData.length > 0 ? (
           <div className="ag-mobile-card-list">
             {pageData.map((row, idx) => {
-              const rowKey = getRowId ? getRowId(row, idx) : (row as any)._id ?? idx;
+              const rowKey = getRowId ? getRowId(row, idx) : ((row as any)._id ?? idx);
               const actionCol = visibleColumns.find((c) =>
-                ["actions", "action", "details"].includes(c.key.toLowerCase())
+                ["actions", "action", "details"].includes(c.key.toLowerCase()),
               );
               const nonActionCols = visibleColumns.filter((c) => c !== actionCol);
               const primaryCol = nonActionCols[0];
@@ -570,14 +573,9 @@ export function AgTable<T>({
                       "enrollmentstatus",
                       "followupstatus",
                       "paymentstatus",
-                    ].includes(c.key.toLowerCase()) && c !== primaryCol
-                ) ||
-                nonActionCols.find(
-                  (c) => c.key.toLowerCase().includes("status") && c !== primaryCol
-                );
-              const detailCols = nonActionCols.filter(
-                (c) => c !== primaryCol && c !== statusCol
-              );
+                    ].includes(c.key.toLowerCase()) && c !== primaryCol,
+                ) || nonActionCols.find((c) => c.key.toLowerCase().includes("status") && c !== primaryCol);
+              const detailCols = nonActionCols.filter((c) => c !== primaryCol && c !== statusCol);
 
               return (
                 <article
@@ -641,11 +639,13 @@ export function AgTable<T>({
                       }}
                     >
                       {actionCol ? (
-                        actionCol.render
-                          ? actionCol.render(row, startIndex + idx)
-                          : actionCol.accessor
-                            ? actionCol.accessor(row)
-                            : (row as any)[actionCol.key]
+                        actionCol.render ? (
+                          actionCol.render(row, startIndex + idx)
+                        ) : actionCol.accessor ? (
+                          actionCol.accessor(row)
+                        ) : (
+                          (row as any)[actionCol.key]
+                        )
                       ) : (
                         <span className="ag-mobile-tap-hint">Tap card for details →</span>
                       )}
@@ -670,11 +670,8 @@ export function AgTable<T>({
         {/* Left Side: Showing Range & Show per page selector */}
         <div className="ag-footer-range-group">
           <span className="ag-showing-text">
-            Showing{" "}
-            <strong>
-              {totalRows === 0 ? "0–0" : `${startIndex + 1}–${endIndex}`}
-            </strong>{" "}
-            of <strong>{totalRows}</strong>
+            Showing <strong>{totalRows === 0 ? "0–0" : `${startIndex + 1}–${endIndex}`}</strong> of{" "}
+            <strong>{totalRows}</strong>
           </span>
 
           <div className="ag-show-per-page-wrap">

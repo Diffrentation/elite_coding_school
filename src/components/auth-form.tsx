@@ -103,7 +103,10 @@ export function AuthForm({ mode }: { mode: Mode }) {
           <div className="auth-art-copy">
             <p>OFFLINE COACHING CENTER &bull; IN-PERSON CLASSES</p>
             <h2>Learn Directly From Teachers in Classroom.</h2>
-            <span>Master MERN Stack, Next.js, DSA, C, C++, Java, Python, Networking, Linux OS &amp; System Design with daily 1:1 teacher guidance.</span>
+            <span>
+              Master MERN Stack, Next.js, DSA, C, C++, Java, Python, Networking, Linux OS &amp; System Design
+              with daily 1:1 teacher guidance.
+            </span>
           </div>
           <div className="auth-art-benefits">
             <div className="auth-benefit-item">
