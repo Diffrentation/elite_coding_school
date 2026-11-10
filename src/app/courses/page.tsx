@@ -639,7 +639,7 @@ export default function CoursesPage() {
                     </span>
                   </div>
 
-                  <Link className="card-action-btn" href={`/courses/${course.slug}`}>
+                  <Link className="card-action-btn" href={`/courses/${course._id}`}>
                     <span>View Syllabus &amp; Lab Schedule</span>
                     <ArrowRight size={15} />
                   </Link>

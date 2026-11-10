@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CopyrightYear } from "@/components/copyright-year";
 import {
   ArrowRight,
@@ -35,6 +35,14 @@ export type FooterProps = {
   onSelectTrack?: (track: string) => void;
 };
 
+type PublishedCourse = {
+  _id: string;
+  title: string;
+  track: string;
+  shortDescription: string;
+  skills: string[];
+};
+
 export function Footer({
   name = "Elite Coding School",
   address = "Vijay Nagar Bypass, Bagu",
@@ -43,6 +51,8 @@ export function Footer({
   hours = "Monday – Saturday: 9:00 AM – 7:00 PM",
   onSelectTrack,
 }: FooterProps) {
+  const [courses, setCourses] = useState<PublishedCourse[]>([]);
+  const [coursesLoading, setCoursesLoading] = useState(true);
   // State for which dropdown sections are open (open by default so footer is clearly visible)
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     about: true,
@@ -78,6 +88,24 @@ export function Footer({
   };
 
   const anyOpen = Object.values(openSections).some(Boolean);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    fetch("/api/courses?limit=50", { signal: controller.signal })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("Could not load courses");
+        return response.json();
+      })
+      .then((payload) => setCourses(payload.data?.courses ?? []))
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        setCourses([]);
+      })
+      .finally(() => setCoursesLoading(false));
+
+    return () => controller.abort();
+  }, []);
 
   return (
     <footer className="site-footer" id="contact">
@@ -233,7 +261,9 @@ export function Footer({
                 </div>
               </div>
               <div className="footer-trigger-right">
-                <span className="footer-trigger-badge">6 Programs</span>
+                <span className="footer-trigger-badge">
+                  {coursesLoading ? "Loading..." : `${courses.length} Programs`}
+                </span>
                 <ChevronDown
                   size={18}
                   className={`footer-trigger-chevron ${openSections.courses ? "rotate-180" : ""}`}
@@ -244,65 +274,20 @@ export function Footer({
             {openSections.courses && (
               <div className="footer-accordion-body">
                 <div className="footer-courses-grid">
-                  <div className="footer-course-link-card">
-                    <Link href="/courses/full-stack-mern-nextjs" onClick={() => onSelectTrack?.("dev")}>
-                      <div className="footer-course-info">
-                        <strong>Full-Stack MERN &amp; Next.js Development</strong>
-                        <span>React 19, Node.js, Express, MongoDB, Tailwind &amp; Cloud Deployment</span>
-                      </div>
-                      <ChevronRight size={14} className="footer-course-arrow" />
-                    </Link>
-                  </div>
-
-                  <div className="footer-course-link-card">
-                    <Link href="/courses/dsa-system-design" onClick={() => onSelectTrack?.("dsa")}>
-                      <div className="footer-course-info">
-                        <strong>Data Structures &amp; Algorithms (DSA)</strong>
-                        <span>Problem solving, arrays, trees, graphs &amp; dynamic programming</span>
-                      </div>
-                      <ChevronRight size={14} className="footer-course-arrow" />
-                    </Link>
-                  </div>
-
-                  <div className="footer-course-link-card">
-                    <Link href="/courses/c-cpp-programming" onClick={() => onSelectTrack?.("core")}>
-                      <div className="footer-course-info">
-                        <strong>C &amp; C++ Programming Foundations</strong>
-                        <span>Memory pointers, memory layout, STL &amp; zero-to-one fundamentals</span>
-                      </div>
-                      <ChevronRight size={14} className="footer-course-arrow" />
-                    </Link>
-                  </div>
-
-                  <div className="footer-course-link-card">
-                    <Link href="/courses/core-java-programming" onClick={() => onSelectTrack?.("core")}>
-                      <div className="footer-course-info">
-                        <strong>Core Java &amp; Object-Oriented Programming</strong>
-                        <span>Classes, interfaces, multithreading, collections &amp; JVM basics</span>
-                      </div>
-                      <ChevronRight size={14} className="footer-course-arrow" />
-                    </Link>
-                  </div>
-
-                  <div className="footer-course-link-card">
-                    <Link href="/courses/python-programming" onClick={() => onSelectTrack?.("core")}>
-                      <div className="footer-course-info">
-                        <strong>Python Programming &amp; Logic Building</strong>
-                        <span>Python syntax, script automation, data manipulation &amp; mini projects</span>
-                      </div>
-                      <ChevronRight size={14} className="footer-course-arrow" />
-                    </Link>
-                  </div>
-
-                  <div className="footer-course-link-card">
-                    <Link href="/courses/computer-networks-linux" onClick={() => onSelectTrack?.("systems")}>
-                      <div className="footer-course-info">
-                        <strong>Computer Networks &amp; Linux OS</strong>
-                        <span>TCP/IP, OSI layers, bash scripting, server tools &amp; socket programming</span>
-                      </div>
-                      <ChevronRight size={14} className="footer-course-arrow" />
-                    </Link>
-                  </div>
+                  {courses.map((course) => (
+                    <div className="footer-course-link-card" key={course._id}>
+                      <Link href={`/courses/${course._id}`} onClick={() => onSelectTrack?.(course.track)}>
+                        <div className="footer-course-info">
+                          <strong>{course.title}</strong>
+                          <span>{course.skills?.slice(0, 5).join(", ") || course.shortDescription}</span>
+                        </div>
+                        <ChevronRight size={14} className="footer-course-arrow" />
+                      </Link>
+                    </div>
+                  ))}
+                  {!coursesLoading && courses.length === 0 && (
+                    <p className="footer-empty-state">No published courses are available right now.</p>
+                  )}
                 </div>
 
                 <div className="footer-inline-actions" style={{ marginTop: "14px" }}>

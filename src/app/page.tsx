@@ -48,6 +48,7 @@ type HeroBanner = {
 type SessionUser = { role: "admin" | "student" } | null;
 
 type CourseItem = {
+  _id?: string;
   title: string;
   slug: string;
   track: "mern" | "core" | "dsa" | "systems";
@@ -56,6 +57,7 @@ type CourseItem = {
   duration: string;
   labHours: string;
   fee: string;
+  level?: string;
   perks: string[];
   techTags: string[];
 };
@@ -274,36 +276,111 @@ export default function Home() {
       .then(async (response) => {
         const body = await response.json();
         if (!response.ok) throw new Error(body.error?.message ?? "Could not load courses.");
-        setCourses(
-          (body.data?.courses ?? []).map(
-            (course: {
-              title: string;
-              slug: string;
-              track: "web" | "core" | "dsa" | "systems";
-              trackLabel?: string;
-              shortDescription: string;
-              durationMonths: number;
-              labHours?: string;
-              monthlyFee: number;
-              perks?: string[];
-              skills?: string[];
-            }) => ({
+        const apiCourses = body.data?.courses ?? [];
+        if (apiCourses.length >= 0) {
+          setCourses(
+            apiCourses.map((course: any) => ({
+              _id: course._id,
               title: course.title,
               slug: course.slug,
-              track: course.track === "web" ? "mern" : course.track,
-              trackLabel: course.trackLabel || course.track,
-              description: course.shortDescription,
-              duration: `${course.durationMonths} ${course.durationMonths === 1 ? "Month" : "Months"}`,
-              labHours: course.labHours || "Class hours to be announced",
-              fee: `₹${course.monthlyFee.toLocaleString("en-IN")} / mo`,
-              perks: course.perks ?? [],
-              techTags: course.skills ?? [],
-            }),
-          ),
-        );
+              track: course.track === "web" ? "mern" : course.track || "mern",
+              trackLabel:
+                course.trackLabel ||
+                (course.track === "web"
+                  ? "MERN & Next.js"
+                  : course.track === "core"
+                    ? "C, C++, Java"
+                    : course.track === "dsa"
+                      ? "DSA & System Design"
+                      : "Networking & OS"),
+              description:
+                course.shortDescription ||
+                course.description ||
+                "In-person offline coaching with daily hands-on practice.",
+              duration: `${course.durationMonths || 3} ${course.durationMonths === 1 ? "Month" : "Months"}`,
+              labHours: course.labHours || "90+ Class Hours",
+              fee: `₹${(course.monthlyFee || 1900).toLocaleString("en-IN")} / mo`,
+              level: course.level || "Beginner",
+              perks: course.perks?.length
+                ? course.perks
+                : [
+                    "Daily coding on your laptop in class",
+                    "1:1 teacher debugging whenever you hit an error",
+                    "Build verified portfolio projects step-by-step",
+                  ],
+              techTags: course.skills?.length
+                ? course.skills
+                : ["Classroom Coaching", "Hands-on Projects", "Concept Clarity"],
+            }))
+          );
+        } else if (apiCourses.length > 0) {
+          // Merge custom database courses with default curated courses so all tracks have rich cards
+          const mappedApi = apiCourses.map((course: any) => ({
+            title: course.title,
+            slug: course.slug,
+            track: course.track === "web" ? "mern" : course.track || "mern",
+            trackLabel:
+              course.trackLabel ||
+              (course.track === "web"
+                ? "MERN & Next.js"
+                : course.track === "core"
+                  ? "C, C++, Java"
+                  : course.track === "dsa"
+                    ? "DSA & System Design"
+                    : "Networking & OS"),
+            description:
+              course.shortDescription ||
+              course.description ||
+              "In-person offline coaching with daily hands-on practice.",
+            duration: `${course.durationMonths || 3} ${course.durationMonths === 1 ? "Month" : "Months"}`,
+            labHours: course.labHours || "90+ Class Hours",
+            fee: `₹${(course.monthlyFee || 1900).toLocaleString("en-IN")} / mo`,
+            level: course.level || "Beginner",
+            perks: course.perks?.length
+              ? course.perks
+              : [
+                  "Daily coding on your laptop in class",
+                  "1:1 teacher debugging whenever you hit an error",
+                  "Build verified portfolio projects step-by-step",
+                ],
+            techTags: course.skills?.length
+              ? course.skills
+              : ["Classroom Coaching", "Hands-on Projects", "Concept Clarity"],
+          }));
+          const existingSlugs = new Set(mappedApi.map((c: any) => c.slug));
+          setCourses([...mappedApi, ...COURSES_DATA.filter((c) => !existingSlugs.has(c.slug))]);
+        }
       })
       .catch(() => setCourses([]));
   }, []);
+
+  const getTrackIcon = (track: string) => {
+    switch (track) {
+      case "systems":
+        return <Network size={26} color="#34d399" />;
+      case "dsa":
+        return <Layers size={26} color="#38bdf8" />;
+      case "core":
+        return <Cpu size={26} color="#fbbf24" />;
+      case "mern":
+      default:
+        return <Code2 size={26} color="#c084fc" />;
+    }
+  };
+
+  const getTrackBadgeClass = (track: string) => {
+    switch (track) {
+      case "systems":
+        return "badge-networking";
+      case "dsa":
+        return "badge-dsa-systems";
+      case "core":
+        return "badge-os-kernel";
+      case "mern":
+      default:
+        return "badge-web-dev";
+    }
+  };
 
   useEffect(() => {
     if (banners.length < 2) return;
@@ -872,23 +949,29 @@ export default function Home() {
           </div>
 
           {/* Courses Grid */}
-          <div className="course-grid">
+          <div className="courses-grid">
             {filteredCourses.map((course) => (
-              <article className="course-card" key={course.title}>
-                <div className="course-top-row">
-                  <span className={`course-badge-track badge-${course.track}`}>{course.trackLabel}</span>
-                  <span className="course-mode-badge">
+              <article className="public-course-card" key={course.title}>
+                <div className="card-header-top">
+                  <span className={`card-track-badge ${getTrackBadgeClass(course.track)}`}>
+                    {course.trackLabel}
+                  </span>
+                  <span className="card-mode-pill">
                     <span className="pulse-dot" />
                     Offline Lab
                   </span>
                 </div>
 
-                <h3>{course.title}</h3>
-                <p className="course-desc">{course.description}</p>
+                <div className="card-icon-box" style={{ background: "rgba(255,255,255,0.04)" }}>
+                  {getTrackIcon(course.track)}
+                </div>
+
+                <h2>{course.title}</h2>
+                <p className="card-desc">{course.description}</p>
 
                 {/* In-Person Perks Checklist */}
-                <ul className="course-lab-perks">
-                  {course.perks.map((perk) => (
+                <ul className="card-perks-list">
+                  {course.perks.slice(0, 3).map((perk) => (
                     <li key={perk}>
                       <CheckCircle2 size={15} />
                       <span>{perk}</span>
@@ -896,17 +979,32 @@ export default function Home() {
                   ))}
                 </ul>
 
-                <div className="course-meta-box">
-                  <div className="course-duration">
-                    <Clock size={14} />
-                    <span>
-                      {course.duration} &bull; {course.labHours}
+                {/* Tech Tags */}
+                <div className="card-tags-row">
+                  {course.techTags.slice(0, 4).map((tag) => (
+                    <span className="card-tech-tag" key={tag}>
+                      {tag}
                     </span>
-                  </div>
-                  <div className="course-fee">{course.fee}</div>
+                  ))}
                 </div>
 
-                <Link className="btn-card-action" href={`/courses/${course.slug}`}>
+                {/* Metadata Box */}
+                <div className="course-metadata">
+                  <span>
+                    <small>Duration</small>
+                    <b>{course.duration}</b>
+                  </span>
+                  <span>
+                    <small>Level</small>
+                    <b style={{ textTransform: "capitalize" }}>{course.level || "Beginner"}</b>
+                  </span>
+                  <span>
+                    <small>Tuition</small>
+                    <b style={{ color: "#38bdf8" }}>{course.fee}</b>
+                  </span>
+                </div>
+
+                <Link className="card-action-btn" href={`/courses/${course._id ?? course.slug}`}>
                   <span>View Syllabus &amp; Lab Schedule</span>
                   <ArrowRight size={15} />
                 </Link>
