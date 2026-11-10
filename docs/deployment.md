@@ -13,7 +13,7 @@ The service must receive all values in `.env.example`, with a production MongoDB
 
 ## Before releasing
 
-1. Register the exact production Google OAuth callback URL: `/api/auth/google/callback`.
+1. Register the exact production Google OAuth callback URL in both Google Cloud and the Vercel Production environment variable `GOOGLE_OAUTH_REDIRECT_URI`. For this deployment it is `https://elite-coding-school-beryl.vercel.app/api/auth/google/callback` (no trailing slash).
 2. Verify SMTP delivery and Cloudinary uploads using non-production accounts.
 3. Confirm MongoDB backups and perform a restore drill.
 4. Poll `GET /api/health` from the deployment health checker. It returns `503` if MongoDB is unavailable.
