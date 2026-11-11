@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import {
   Plus,
   ExternalLink,
@@ -88,6 +88,7 @@ export function AdminCourses() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [loading, setLoading] = useState(true);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const editorRef = useRef<HTMLFormElement>(null);
 
   const inputClass = (name: string) => (fieldErrors[name]?.length ? "input-invalid" : undefined);
   const fieldError = (name: string) =>
@@ -104,6 +105,17 @@ export function AdminCourses() {
   useEffect(() => {
     void load();
   }, []);
+
+  useEffect(() => {
+    if (!showForm || !editing) return;
+
+    const frame = requestAnimationFrame(() => {
+      editorRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      editorRef.current?.querySelector<HTMLInputElement>('input[name="title"]')?.focus();
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [editing, showForm]);
 
   const save = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -167,6 +179,7 @@ export function AdminCourses() {
   const openEdit = (course: Course) => {
     setToast(null);
     setFieldErrors({});
+    setSelectedCourse(null);
     setEditing(course);
     setShowForm(true);
   };
@@ -203,7 +216,7 @@ export function AdminCourses() {
           <div className="course-profile-slug-row">
             <code className="course-slug-code">/{course.slug}</code>
             <a
-              href={`/courses/${course.slug}`}
+              href={`/courses/${course._id}`}
               target="_blank"
               rel="noreferrer"
               className="course-live-link"
@@ -260,7 +273,10 @@ export function AdminCourses() {
         <div className="course-actions-group">
           <button
             type="button"
-            onClick={() => openEdit(course)}
+            onClick={(event) => {
+              event.stopPropagation();
+              openEdit(course);
+            }}
             className="course-action-btn edit"
             title="Edit course details & syllabus"
           >
@@ -270,7 +286,10 @@ export function AdminCourses() {
           {course.status !== "published" && (
             <button
               type="button"
-              onClick={() => changeStatus(course._id, "publish")}
+              onClick={(event) => {
+                event.stopPropagation();
+                void changeStatus(course._id, "publish");
+              }}
               className="course-action-btn publish"
               title="Publish to live website"
             >
@@ -281,7 +300,10 @@ export function AdminCourses() {
           {course.status !== "archived" && (
             <button
               type="button"
-              onClick={() => changeStatus(course._id, "archive")}
+              onClick={(event) => {
+                event.stopPropagation();
+                void changeStatus(course._id, "archive");
+              }}
               className="course-action-btn archive"
               title="Archive program"
             >
@@ -454,6 +476,8 @@ export function AdminCourses() {
 
       {showForm && (
         <form
+          ref={editorRef}
+          id="course-editor"
           className="course-form admin-course-editor-form"
           key={editing?._id ?? "new"}
           noValidate
