@@ -20,7 +20,10 @@ export async function GET(_: Request, { params }: { params: Promise<{ id: string
         { upsert: true, new: true },
       );
       const number = `ECS-R${String(counter.seq).padStart(6, "0")}`;
-      await Payment.updateOne({ _id: payment._id, receiptNumber: null }, { $set: { receiptNumber: number } });
+      await Payment.updateOne(
+        { _id: payment._id, $or: [{ receiptNumber: null }, { receiptNumber: { $exists: false } }] },
+        { $set: { receiptNumber: number } },
+      );
       payment.receiptNumber = (await Payment.findById(payment._id))!.receiptNumber;
     }
     const enrollment = await Enrollment.findById(payment.enrollmentId);

@@ -7,7 +7,9 @@ const paymentSchema = new Schema(
     method: { type: String, enum: ["cash", "upi", "bank"], required: true },
     paidAt: { type: Date, default: Date.now },
     idempotencyKey: { type: String, required: true, unique: true },
-    receiptNumber: { type: String, unique: true, sparse: true, default: null },
+    // Omit this until the first receipt PDF is generated. Explicit null values
+    // conflict under a sparse unique index when more than one payment exists.
+    receiptNumber: { type: String, unique: true, sparse: true },
   },
   { timestamps: true },
 );

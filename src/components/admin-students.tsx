@@ -24,9 +24,13 @@ import {
   ArrowUpDown,
   ArrowUp,
   ArrowDown,
+  Plus,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 import { CustomSelect, type CustomSelectOption } from "./ui/custom-select";
 import { AgTable, type AgColumn } from "./ui/ag-table";
+import { ImagePickerInput } from "./image-picker-input";
 
 const ADMISSION_FILTER_OPTIONS: CustomSelectOption[] = [
   { value: "", label: "All Admission Statuses" },
@@ -53,11 +57,17 @@ type Student = {
   _id: string;
   studentId: string;
   fullName: string;
+  email?: string | null;
   phone: string;
   admissionStatus: string;
   registrationDate: string;
   dateOfBirth?: string;
   address?: { line1?: string; line2?: string; city?: string; state?: string; postalCode?: string };
+  profileImageUrl?: string | null;
+  publicProfile?: boolean;
+  publicPhotoConsent?: boolean;
+  completionDate?: string | null;
+  additionalInfo?: string;
   userId?: { email?: string; accountStatus?: string; emailVerifiedAt?: string | null } | null;
 };
 
@@ -104,7 +114,9 @@ export function AdminStudents() {
   const [inquiryLoading, setInquiryLoading] = useState(true);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [selectedInquiry, setSelectedInquiry] = useState<Inquiry | null>(null);
+  const [editingStudent, setEditingStudent] = useState<Student | null | "new">(null);
   const [updatingId, setUpdatingId] = useState("");
+  const [savingStudent, setSavingStudent] = useState(false);
 
   const loadStudents = () => {
     setLoading(true);
@@ -184,6 +196,67 @@ export function AdminStudents() {
     }
   }
 
+  async function saveStudent(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const payload = {
+      fullName: String(form.get("fullName") ?? "").trim(),
+      email: String(form.get("email") ?? "").trim(),
+      phone: String(form.get("phone") ?? "").trim(),
+      admissionStatus: String(form.get("admissionStatus") ?? "not_enrolled"),
+      registrationDate: String(form.get("registrationDate") ?? ""),
+      completionDate: String(form.get("completionDate") ?? "") || null,
+      profileImageUrl: String(form.get("profileImageUrl") ?? "") || null,
+      publicProfile: form.get("publicProfile") === "on",
+      publicPhotoConsent: form.get("publicPhotoConsent") === "on",
+      additionalInfo: String(form.get("additionalInfo") ?? "").trim(),
+      address: {
+        line1: String(form.get("addressLine1") ?? "").trim(),
+        line2: String(form.get("addressLine2") ?? "").trim(),
+        city: String(form.get("addressCity") ?? "").trim(),
+        state: String(form.get("addressState") ?? "").trim(),
+        postalCode: String(form.get("addressPostalCode") ?? "").trim(),
+      },
+    };
+    setSavingStudent(true);
+    setError("");
+    try {
+      const isNew = editingStudent === "new";
+      const res = await fetch("/api/admin/students", {
+        method: isNew ? "POST" : "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(isNew ? payload : { studentId: editingStudent?._id, ...payload }),
+      });
+      const body = await res.json();
+      if (!res.ok) throw new Error(body.error?.message ?? "Unable to save student.");
+      setEditingStudent(null);
+      setSuccessMsg(isNew ? "Student created successfully." : "Student profile updated successfully.");
+      loadStudents();
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "Unable to save student.");
+    } finally {
+      setSavingStudent(false);
+    }
+  }
+
+  async function deleteStudent(student: Student) {
+    if (!window.confirm(`Delete ${student.fullName}? Students with enrollment or certificate history are protected.`)) return;
+    setUpdatingId(student._id);
+    setError("");
+    try {
+      const res = await fetch(`/api/admin/students?studentId=${encodeURIComponent(student._id)}`, { method: "DELETE" });
+      const body = await res.json();
+      if (!res.ok) throw new Error(body.error?.message ?? "Unable to delete student.");
+      if (selectedStudent?._id === student._id) setSelectedStudent(null);
+      setSuccessMsg("Student record deleted.");
+      loadStudents();
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "Unable to delete student.");
+    } finally {
+      setUpdatingId("");
+    }
+  }
+
   async function updateInquiryStatus(id: string, status: "new" | "contacted" | "closed") {
     setUpdatingId(id);
     setError("");
@@ -227,7 +300,7 @@ export function AdminStudents() {
             <span className="profile-avatar">{initials}</span>
             <div className="profile-text">
               <strong className="profile-name">{student.fullName}</strong>
-              <small className="profile-email">{student.userId?.email ?? "No login email"}</small>
+              <small className="profile-email">{student.userId?.email ?? student.email ?? "No login email"}</small>
             </div>
           </div>
         );
@@ -325,10 +398,14 @@ export function AdminStudents() {
       header: "Actions",
       sortable: false,
       render: (student) => (
-        <button type="button" className="view-dossier-btn" onClick={() => setSelectedStudent(student)}>
-          <Eye size={14} />
-          <span>Details</span>
-        </button>
+        <div style={{ display: "inline-flex", gap: 6 }}>
+          <button type="button" className="view-dossier-btn" onClick={(event) => { event.stopPropagation(); setSelectedStudent(student); }}>
+            <Eye size={14} /><span>Details</span>
+          </button>
+          <button type="button" className="view-dossier-btn" aria-label={`Edit ${student.fullName}`} onClick={(event) => { event.stopPropagation(); setEditingStudent(student); }}>
+            <Pencil size={14} /><span>Edit</span>
+          </button>
+        </div>
       ),
     },
   ];
@@ -483,6 +560,9 @@ export function AdminStudents() {
           </p>
         </div>
         <div className="intro-actions">
+          <button className="button primary-btn" type="button" onClick={() => setEditingStudent("new")}>
+            <Plus size={15} /> <span>Add student</span>
+          </button>
           <button
             className="button refresh-btn"
             onClick={() => {
@@ -1014,6 +1094,44 @@ export function AdminStudents() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {editingStudent && (
+        <div className="modal-backdrop" onClick={() => !savingStudent && setEditingStudent(null)}>
+          <div className="student-dossier-modal" onClick={(event) => event.stopPropagation()} style={{ maxWidth: 760 }}>
+            <div className="modal-header">
+              <div className="modal-title-row"><Users size={19} className="text-purple-400" /><h3>{editingStudent === "new" ? "Add student" : "Edit student profile"}</h3></div>
+              <button type="button" className="close-modal-btn" disabled={savingStudent} onClick={() => setEditingStudent(null)} aria-label="Close"><X size={18} /></button>
+            </div>
+            <form className="modal-body" onSubmit={saveStudent}>
+              <div className="dossier-grid">
+                <label className="form-field"><span>Full name</span><input required name="fullName" defaultValue={editingStudent === "new" ? "" : editingStudent.fullName} /></label>
+                <label className="form-field"><span>Private email</span><input required type="email" name="email" defaultValue={editingStudent === "new" ? "" : editingStudent.email ?? editingStudent.userId?.email ?? ""} /></label>
+                <label className="form-field"><span>Mobile number</span><input required name="phone" defaultValue={editingStudent === "new" ? "" : editingStudent.phone} /></label>
+                <label className="form-field"><span>Admission status</span><select name="admissionStatus" defaultValue={editingStudent === "new" ? "not_enrolled" : editingStudent.admissionStatus}>{ADMISSION_STATUS_OPTIONS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></label>
+                <label className="form-field"><span>Joining date</span><input required type="date" name="registrationDate" defaultValue={editingStudent === "new" ? new Date().toISOString().slice(0, 10) : new Date(editingStudent.registrationDate).toISOString().slice(0, 10)} /></label>
+                <label className="form-field"><span>Completion date</span><input type="date" name="completionDate" defaultValue={editingStudent !== "new" && editingStudent.completionDate ? new Date(editingStudent.completionDate).toISOString().slice(0, 10) : ""} /></label>
+                <label className="form-field"><span>Address</span><input name="addressLine1" defaultValue={editingStudent === "new" ? "" : editingStudent.address?.line1 ?? ""} placeholder="Private street address" /></label>
+                <label className="form-field"><span>Address line 2</span><input name="addressLine2" defaultValue={editingStudent === "new" ? "" : editingStudent.address?.line2 ?? ""} /></label>
+                <label className="form-field"><span>City</span><input name="addressCity" defaultValue={editingStudent === "new" ? "" : editingStudent.address?.city ?? ""} /></label>
+                <label className="form-field"><span>State</span><input name="addressState" defaultValue={editingStudent === "new" ? "" : editingStudent.address?.state ?? ""} /></label>
+                <label className="form-field"><span>Postal code</span><input name="addressPostalCode" defaultValue={editingStudent === "new" ? "" : editingStudent.address?.postalCode ?? ""} /></label>
+              </div>
+              <div style={{ marginTop: 16 }} key={editingStudent === "new" ? "new" : editingStudent._id}>
+                <ImagePickerInput label="Profile photo" name="profileImageUrl" folder="students" defaultValue={editingStudent === "new" ? null : editingStudent.profileImageUrl} helperText="Optional. Upload a square JPG or PNG under 10 MB." />
+              </div>
+              <label className="form-field" style={{ marginTop: 16 }}><span>Additional information</span><textarea name="additionalInfo" rows={3} defaultValue={editingStudent === "new" ? "" : editingStudent.additionalInfo ?? ""} /></label>
+              <div style={{ display: "flex", gap: 18, flexWrap: "wrap", marginTop: 14 }}>
+                <label style={{ display: "inline-flex", gap: 8, alignItems: "center" }}><input type="checkbox" name="publicPhotoConsent" defaultChecked={editingStudent !== "new" && Boolean(editingStudent.publicPhotoConsent)} /> Photo consent for public profile</label>
+                <label style={{ display: "inline-flex", gap: 8, alignItems: "center" }}><input type="checkbox" name="publicProfile" defaultChecked={editingStudent !== "new" && Boolean(editingStudent.publicProfile)} /> Publish approved profile</label>
+              </div>
+              <div className="dossier-actions-bar" style={{ marginTop: 20 }}>
+                <button className="button primary-btn" disabled={savingStudent} type="submit">{savingStudent ? "Saving..." : editingStudent === "new" ? "Create student" : "Save changes"}</button>
+                {editingStudent !== "new" && <button type="button" className="button secondary-btn" disabled={savingStudent || updatingId === editingStudent._id} onClick={() => deleteStudent(editingStudent)}><Trash2 size={14} /> Delete if unused</button>}
+              </div>
+            </form>
           </div>
         </div>
       )}

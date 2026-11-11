@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight, ChevronRight, Menu, X } from "lucide-react";
 
 export type NavbarProps = {
-  activePage?: "home" | "courses" | "about" | "contact" | "none";
+  activePage?: "home" | "courses" | "students" | "about" | "contact" | "none";
 };
 
 type SessionUser = { role: "admin" | "student" } | null;
@@ -291,6 +291,18 @@ export function Navbar({ activePage = "home" }: NavbarProps) {
                 }}
               >
                 <span>Courses</span>
+                <ChevronRight size={14} className="drawer-nav-arrow" />
+              </Link>
+              <Link
+                className={activePage === "students" ? "active" : ""}
+                href="/students"
+                onClick={() => {
+                  setOpen(false);
+                  triggerNav();
+                  setActiveSection("");
+                }}
+              >
+                <span>Students</span>
                 <ChevronRight size={14} className="drawer-nav-arrow" />
               </Link>
               <a

@@ -148,6 +148,9 @@ export function AdminFees() {
           Generate monthly student invoices, log cash/UPI/bank payments, and generate official downloadable
           receipts.
         </p>
+        <p style={{ color: "#5eead4", fontSize: "12px", margin: "8px 0 0" }}>
+          Receipt workflow: select an open invoice, record the payment, then use the Receipt PDF action in Recent Payments &amp; Receipts.
+        </p>
       </div>
 
       <section className="admin-workflow-summary admin-finance-summary" aria-label="Fee overview">

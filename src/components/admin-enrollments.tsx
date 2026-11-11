@@ -17,6 +17,7 @@ import {
   BookOpen,
   DollarSign,
   UserCheck,
+  FileCheck2,
   CheckCircle2,
   AlertCircle,
   Search,
@@ -146,6 +147,24 @@ export function AdminEnrollments() {
   const pendingRequests = enrollmentRequests.filter((item) => item.status === "pending");
   const activeEnrollmentCount = enrollments.filter((item) => item.status === "active").length;
 
+  async function completeEnrollment(enrollment: Enrollment) {
+    setProcessingId(enrollment._id);
+    setError("");
+    try {
+      await request(`/api/admin/enrollments/${enrollment._id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "completed" }),
+      });
+      setMessage("Enrollment marked completed. It is now eligible for certificate issuance.");
+      void load();
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "Could not complete enrollment.");
+    } finally {
+      setProcessingId("");
+    }
+  }
+
   const enrollmentColumns: AgColumn<Enrollment>[] = [
     {
       key: "student",
@@ -227,6 +246,31 @@ export function AdminEnrollments() {
           {enrollment.status}
         </span>
       ),
+    },
+    {
+      key: "actions",
+      header: "Actions",
+      sortable: false,
+      render: (enrollment) =>
+        enrollment.status === "active" ? (
+          <button
+            type="button"
+            className="button"
+            disabled={processingId === enrollment._id}
+            onClick={() => void completeEnrollment(enrollment)}
+          >
+            <CheckCircle2 size={14} /> Mark completed
+          </button>
+        ) : enrollment.status === "completed" ? (
+          <a
+            href="/admin/certificates"
+            className="button"
+            style={{ textDecoration: "none", whiteSpace: "nowrap" }}
+            title="Open Certificate Center to issue this student's certificate"
+          >
+            <FileCheck2 size={14} /> Issue certificate
+          </a>
+        ) : null,
     },
   ];
 

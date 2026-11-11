@@ -20,6 +20,7 @@ import {
   ExternalLink,
   ChevronRight,
   ShieldCheck,
+  Award,
 } from "lucide-react";
 
 type PortalKind = "student" | "admin";
@@ -36,6 +37,7 @@ const adminLinks = [
   { icon: BookOpen, label: "Courses", href: "/admin/courses" },
   { icon: GraduationCap, label: "Enrollments", href: "/admin/enrollments" },
   { icon: Receipt, label: "Fees & Receipts", href: "/admin/fees" },
+  { icon: Award, label: "Certificates", href: "/admin/certificates" },
   { icon: Layers, label: "Hero Banners", href: "/admin/banners" },
   { icon: Inbox, label: "Inquiries", href: "/admin/inquiries" },
   { icon: MessageSquare, label: "Queries", href: "/admin/queries" },
@@ -73,6 +75,13 @@ export function PortalShell({ children, kind }: { children: ReactNode; kind: Por
   useEffect(() => {
     fetch("/api/me")
       .then(async (response) => {
+        // A valid-looking JWT can outlive its database session after a deploy,
+        // session revocation, or production database change. Send the person
+        // through a clean login rather than rendering a broken protected UI.
+        if (response.status === 401) {
+          router.replace("/login?reason=session_expired");
+          return null;
+        }
         if (!response.ok) return null;
         const body = await response.json();
         return body.data?.user ?? null;

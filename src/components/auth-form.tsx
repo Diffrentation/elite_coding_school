@@ -24,7 +24,9 @@ export function AuthForm({ mode }: { mode: Mode }) {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   useEffect(() => {
-    if (mode === "reset") setEmail(new URLSearchParams(window.location.search).get("email") ?? "");
+    if (mode === "reset" || mode === "verify") {
+      setEmail(new URLSearchParams(window.location.search).get("email") ?? "");
+    }
   }, [mode]);
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -76,6 +78,23 @@ export function AuthForm({ mode }: { mode: Mode }) {
       router.push("/login");
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "Something went wrong.");
+    } finally {
+      setBusy(false);
+    }
+  };
+  const resendVerification = async () => {
+    if (!email) {
+      setError("Enter the email address used during registration first.");
+      return;
+    }
+    setBusy(true);
+    setError("");
+    setMessage("");
+    try {
+      const result = await call("/api/auth/resend-verification", { email });
+      setMessage(result.message ?? "A new verification code has been sent.");
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "Unable to resend the verification code.");
     } finally {
       setBusy(false);
     }
@@ -252,6 +271,11 @@ export function AuthForm({ mode }: { mode: Mode }) {
               {!busy && <ArrowRight size={17} />}
             </button>
           </form>
+          {mode === "verify" && (
+            <button type="button" className="auth-inline" onClick={() => void resendVerification()} disabled={busy}>
+              Resend verification code
+            </button>
+          )}
           {mode === "login" && (
             <>
               <Link className="auth-inline" href="/forgot-password">

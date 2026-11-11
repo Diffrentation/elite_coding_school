@@ -8,7 +8,9 @@ const userSchema = new Schema(
     accountStatus: { type: String, enum: ["pending", "active", "disabled"], default: "pending" },
     pendingName: { type: String, required: true },
     pendingPhone: { type: String, required: true },
-    googleSubject: { type: String, default: null, unique: true, sparse: true },
+    // Password accounts omit this optional field; sparse unique indexes do not
+    // treat absent values as duplicates, unlike explicit null values.
+    googleSubject: { type: String, unique: true, sparse: true },
   },
   { timestamps: true, versionKey: "version" },
 );

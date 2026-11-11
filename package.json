@@ -14,11 +14,13 @@
     "seed:courses": "node scripts/seed-courses.mjs",
     "cap:course-fees": "node scripts/cap-course-fees.mjs",
     "update:site-contact": "node scripts/update-site-contact.mjs",
-    "promote:admin": "node scripts/promote-admin.mjs"
+    "promote:admin": "node scripts/promote-admin.mjs",
+    "repair:user-indexes": "node scripts/repair-user-google-subject-index.mjs"
   },
   "dependencies": {
     "@types/nodemailer": "^8.0.2",
     "@types/pdfkit": "^0.17.7",
+    "@types/qrcode": "^1.5.6",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.11.0",
     "jose": "^6.2.13",
@@ -27,6 +29,7 @@
     "next": "16.4.3",
     "nodemailer": "^10.2.1",
     "pdfkit": "^0.20.2",
+    "qrcode": "^1.5.4",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "zod": "^4.6.7"

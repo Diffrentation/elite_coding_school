@@ -25,8 +25,13 @@ export async function POST(request: Request) {
   const parsed = paymentSchema.safeParse(await request.json());
   if (!parsed.success) return failure("VALIDATION_ERROR", "Provide a valid payment.", 422);
   await connectDb();
+  let admin: Awaited<ReturnType<typeof requireAdminSession>>;
   try {
-    const admin = await requireAdminSession();
+    admin = await requireAdminSession();
+  } catch {
+    return failure("FORBIDDEN", "Administrator access is required.", 403);
+  }
+  try {
     const prior = await Payment.findOne({ idempotencyKey: parsed.data.idempotencyKey });
     if (prior) return success({ payment: prior, replayed: true });
     const session = await mongoose.startSession();
@@ -74,8 +79,11 @@ export async function POST(request: Request) {
     });
     return success({ payment }, { status: 201 });
   } catch (error) {
-    return error instanceof Error && error.message === "BALANCE_CHANGED"
-      ? failure("CONFLICT", "Fee balance changed. Refresh and try again.", 409)
-      : failure("FORBIDDEN", "Administrator access is required.", 403);
+    console.error("Payment recording failed", error);
+    if (error instanceof Error && error.message === "BALANCE_CHANGED")
+      return failure("CONFLICT", "Fee balance changed. Refresh and try again.", 409);
+    if (error instanceof Error && /duplicate key/i.test(error.message))
+      return failure("CONFLICT", "This payment was already submitted. Refresh the payment list before trying again.", 409);
+    return failure("PAYMENT_FAILED", "The payment could not be recorded. Please retry; if it continues, check the deployment logs.", 500);
   }
 }

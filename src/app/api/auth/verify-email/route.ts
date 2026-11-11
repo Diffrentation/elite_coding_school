@@ -39,6 +39,7 @@ export async function POST(request: Request) {
               userId: user._id,
               studentId: `ECS${String(counter.seq).padStart(6, "0")}`,
               fullName: user.pendingName,
+              email: user.email,
               phone: user.pendingPhone,
             },
           ],
