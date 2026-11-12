@@ -17,7 +17,6 @@ import {
   Printer,
   Sparkles,
   AlertTriangle,
-  FileCheck2,
   FileText,
   Lock,
   Layers,
@@ -48,7 +47,10 @@ export default function VerifyCertificatePage() {
   const [certificate, setCertificate] = useState<Certificate | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [activeTab, setActiveTab] = useState<"visual" | "pdf">("visual");
+  // The public inspection view deliberately uses the exact PDF generator that
+  // creates the downloadable credential. Keeping one rendering source avoids
+  // mismatches in the QR, certificate ID, dates, fonts, and founder block.
+  const [activeTab] = useState<"visual" | "pdf">("pdf");
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -356,58 +358,23 @@ export default function VerifyCertificatePage() {
                     </div>
                   </div>
 
-                  {/* Visual vs Live PDF Toggle */}
+                  {/* The same print-ready document is used for on-screen preview and download. */}
                   <div
                     style={{
                       display: "inline-flex",
+                      alignItems: "center",
+                      gap: 7,
                       background: "rgba(0, 0, 0, 0.4)",
-                      padding: 3,
+                      padding: "7px 12px",
                       borderRadius: 10,
                       border: "1px solid rgba(255, 255, 255, 0.1)",
+                      color: "#c4b5fd",
+                      fontWeight: 700,
+                      fontSize: 12,
                     }}
                   >
-                    <button
-                      type="button"
-                      onClick={() => setActiveTab("visual")}
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: 6,
-                        padding: "6px 14px",
-                        borderRadius: 7,
-                        border: "none",
-                        background: activeTab === "visual" ? "rgba(168, 85, 247, 0.3)" : "transparent",
-                        color: activeTab === "visual" ? "#ffffff" : "#94a3b8",
-                        fontWeight: 600,
-                        fontSize: 12.5,
-                        cursor: "pointer",
-                        transition: "all 0.15s ease",
-                      }}
-                    >
-                      <FileCheck2 size={14} />
-                      <span>Certificate Photo</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setActiveTab("pdf")}
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: 6,
-                        padding: "6px 14px",
-                        borderRadius: 7,
-                        border: "none",
-                        background: activeTab === "pdf" ? "rgba(168, 85, 247, 0.3)" : "transparent",
-                        color: activeTab === "pdf" ? "#ffffff" : "#94a3b8",
-                        fontWeight: 600,
-                        fontSize: 12.5,
-                        cursor: "pointer",
-                        transition: "all 0.15s ease",
-                      }}
-                    >
-                      <FileText size={14} />
-                      <span>Live PDF Document</span>
-                    </button>
+                    <FileText size={14} />
+                    <span>Official print-ready PDF preview</span>
                   </div>
                 </div>
 
@@ -439,149 +406,37 @@ export default function VerifyCertificatePage() {
                       }}
                     />
 
-                    {/* Dynamic High-Precision Overlay */}
-                    <div
-                      style={{
-                        position: "absolute",
-                        inset: 0,
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        pointerEvents: "none",
-                      }}
-                    >
-                      {/* Recipient Full Name */}
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: "37.5%",
-                          width: "74%",
-                          textAlign: "center",
-                          fontFamily: "'Times New Roman', Times, serif",
-                          fontStyle: "italic",
-                          fontWeight: "bold",
-                          fontSize: "clamp(18px, 4.4vw, 44px)",
-                          color: "#101c36",
-                          lineHeight: 1.15,
-                          letterSpacing: "0.015em",
-                          textShadow: "0 1px 3px rgba(255,255,255,0.9)",
-                        }}
-                      >
-                        {certificate.studentName}
-                      </div>
-
-                      {/* Course Achievement Block */}
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: "48%",
-                          width: "78%",
-                          textAlign: "center",
-                        }}
-                      >
-                        <p
-                          style={{
-                            margin: "0 0 3px",
-                            fontFamily: "'Times New Roman', Times, serif",
-                            fontSize: "clamp(9px, 1.6vw, 15px)",
-                            color: "#18243d",
-                            fontWeight: 600,
-                          }}
-                        >
-                          has successfully completed the program in
-                        </p>
-                        <h3
-                          style={{
-                            margin: 0,
-                            fontFamily: "var(--font-heading), 'Helvetica Neue', Arial, sans-serif",
-                            fontWeight: 800,
-                            fontSize: "clamp(12px, 2.3vw, 23px)",
-                            color: "#13284b",
-                            lineHeight: 1.25,
-                          }}
-                        >
-                          {certificate.courseName}
-                        </h3>
-                        <p
-                          style={{
-                            margin: "3px 0 0",
-                            fontFamily: "'Times New Roman', Times, serif",
-                            fontSize: "clamp(8px, 1.35vw, 13px)",
-                            color: "#334155",
-                          }}
-                        >
-                          at The Elite Coding School, demonstrating verified practical software engineering skills.
+                    {/* Single Crisp Verified Certificate Data Overlay */}
+                    <div className="verified-certificate-overlay" aria-hidden="true">
+                      <div className="verified-certificate-name">{certificate.studentName}</div>
+                      <div className="verified-certificate-achievement">
+                        <p>has successfully completed the</p>
+                        <h3>{certificate.courseName}</h3>
+                        <p>
+                          at The Elite Coding School, demonstrating practical skills in building real-world projects.
                         </p>
                       </div>
-
-                      {/* Bottom Authentication Band */}
-                      <div
-                        style={{
-                          position: "absolute",
-                          bottom: "7.5%",
-                          left: "8%",
-                          right: "8%",
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "flex-end",
-                          fontSize: "clamp(8px, 1.2vw, 12px)",
-                          color: "#1e293b",
-                          fontFamily: "var(--font-mono), monospace",
-                        }}
-                      >
-                        <div>
-                          <span
-                            style={{
-                              display: "block",
-                              color: "#64748b",
-                              fontSize: "0.85em",
-                              textTransform: "uppercase",
-                              fontWeight: 600,
-                            }}
-                          >
-                            Issued On
-                          </span>
-                          <strong>
-                            {new Date(certificate.issueDate).toLocaleDateString("en-IN", {
-                              day: "2-digit",
-                              month: "short",
-                              year: "numeric",
-                            })}
-                          </strong>
-                        </div>
-
-                        <div
-                          style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: 5,
-                            background: "rgba(16, 185, 129, 0.15)",
-                            border: "1px solid rgba(16, 185, 129, 0.45)",
-                            padding: "3px 12px",
-                            borderRadius: 20,
-                            color: "#047857",
-                            fontWeight: 800,
-                            letterSpacing: "0.04em",
-                          }}
-                        >
-                          <span>★ OFFICIAL VERIFIED CREDENTIAL ★</span>
-                        </div>
-
-                        <div style={{ textAlign: "right" }}>
-                          <span
-                            style={{
-                              display: "block",
-                              color: "#64748b",
-                              fontSize: "0.85em",
-                              textTransform: "uppercase",
-                              fontWeight: 600,
-                            }}
-                          >
-                            Certificate Roll ID
-                          </span>
-                          <strong style={{ color: "#7c3aed" }}>{certificate.certificateId}</strong>
-                        </div>
+                      <div className="verified-certificate-qr">
+                        <img src={`/api/verify/${encodeURIComponent(certificate.certificateId)}/qr`} alt="" />
+                      </div>
+                      <div className="verified-certificate-id">
+                        <span>Certificate ID</span>
+                        <strong>{certificate.certificateId}</strong>
+                      </div>
+                      <div className="verified-certificate-date">
+                        <span>Issued On</span>
+                        <strong>
+                          {new Date(certificate.issueDate).toLocaleDateString("en-IN", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                          })}
+                        </strong>
+                      </div>
+                      <div className="verified-certificate-seal">
+                        <span style={{ color: "#f3d078", fontSize: "1.15em", lineHeight: 1 }}>★</span>
+                        <span>OFFICIAL VERIFIED CREDENTIAL</span>
+                        <span style={{ color: "#f3d078", fontSize: "1.15em", lineHeight: 1 }}>★</span>
                       </div>
                     </div>
                   </div>

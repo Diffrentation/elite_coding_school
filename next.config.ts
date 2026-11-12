@@ -37,6 +37,18 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      // The public certificate page embeds only its own same-origin PDF. The
+      // global policy remains deny-by-default for every other route.
+      {
+        source: "/api/verify/:certificateId/pdf",
+        headers: [
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          {
+            key: "Content-Security-Policy",
+            value: "default-src 'none'; frame-ancestors 'self'; base-uri 'none';",
+          },
+        ],
+      },
     ];
   },
 };

@@ -78,7 +78,7 @@ export async function certificatePdf(input: CertificatePdfInput) {
   document.strokeColor("#d5a11e").lineWidth(0.8).moveTo(238, 273).lineTo(604, 273).stroke();
   document.restore();
 
-  document.font("Times-Bold").fontSize(17).fillColor("#18243d").text(
+  document.font("Helvetica-Bold").fontSize(15).fillColor("#18243d").text(
     "has successfully completed the",
     151,
     282,
@@ -88,27 +88,27 @@ export async function certificatePdf(input: CertificatePdfInput) {
   fitFontSize(document, courseName, 540, 25, 16);
   document.text(courseName, 151, 305, { width: 540, align: "center", lineBreak: false });
 
-  document.font("Times-Roman").fontSize(15).fillColor("#18243d").text(
+  document.font("Helvetica").fontSize(13.5).fillColor("#18243d").text(
     "at The Elite Coding School, demonstrating practical skills in",
     171,
     342,
     { width: 500, align: "center", lineBreak: false },
   );
   const achievementLine = `building real-world projects in ${courseName}.`;
-  document.font("Times-Roman");
-  fitFontSize(document, achievementLine, 500, 15, 10);
+  document.font("Helvetica");
+  fitFontSize(document, achievementLine, 500, 13.5, 10);
   if (document.widthOfString(achievementLine) <= 500) {
     document.text(achievementLine, 171, 360, { width: 500, align: "center", lineBreak: false });
   } else {
     // Very long program titles stay readable by moving the course reference to
     // its own centred line instead of spilling outside the artwork.
-    document.fontSize(13).text("building real-world projects in", 171, 360, {
+    document.fontSize(12).text("building real-world projects in", 171, 360, {
       width: 500,
       align: "center",
       lineBreak: false,
     });
-    document.font("Times-Bold");
-    fitFontSize(document, courseName, 500, 13, 10);
+    document.font("Helvetica-Bold");
+    fitFontSize(document, courseName, 500, 12, 10);
     document.text(courseName, 171, 375, { width: 500, align: "center", lineBreak: false });
   }
 
@@ -153,11 +153,80 @@ export async function certificatePdf(input: CertificatePdfInput) {
     { width: 75, align: "center", lineBreak: false },
   );
 
+  // A compact verification stamp sits below the official seal. It is drawn as
+  // vector artwork with luxury navy & gold foil styling to match the institutional seal.
+  // Perfectly balanced across the medal ribbon tails.
+  const stampX = 306;
+  const stampY = 545;
+  const stampWidth = 196;
+  const stampHeight = 22;
+  document.save();
+
+  // Solid deep royal navy pill matching the medal ribbon color to prevent background clash
+  document
+    .fillColor("#0a1733")
+    .roundedRect(stampX, stampY, stampWidth, stampHeight, 11)
+    .fill();
+
+  // Outer polished metallic gold border
+  document
+    .strokeColor("#c59b27")
+    .lineWidth(1.2)
+    .roundedRect(stampX, stampY, stampWidth, stampHeight, 11)
+    .stroke();
+
+  // Inner refined gold hairline accent
+  document
+    .strokeColor("#eecb6d")
+    .lineWidth(0.55)
+    .roundedRect(stampX + 2, stampY + 2, stampWidth - 4, stampHeight - 4, 9)
+    .stroke();
+
+  // Elegant gold 5-point star emblems
+  const drawStar = (centerX: number, centerY: number) => {
+    const outer = 4.2;
+    const inner = 1.9;
+    for (let index = 0; index < 10; index += 1) {
+      const radius = index % 2 === 0 ? outer : inner;
+      const angle = -Math.PI / 2 + (index * Math.PI) / 5;
+      const x = centerX + Math.cos(angle) * radius;
+      const y = centerY + Math.sin(angle) * radius;
+      if (index === 0) document.moveTo(x, y);
+      else document.lineTo(x, y);
+    }
+    document.closePath().fill();
+  };
+  document.fillColor("#f3d078");
+  drawStar(stampX + 15, stampY + stampHeight / 2);
+  drawStar(stampX + stampWidth - 15, stampY + stampHeight / 2);
+  document.restore();
+
+  // Crisp executive typography in warm lustrous gold
+  document
+    .font("Helvetica-Bold")
+    .fontSize(7.2)
+    .fillColor("#f7e19e")
+    .text("OFFICIAL VERIFIED CREDENTIAL", stampX + 20, stampY + 7, {
+      width: stampWidth - 40,
+      align: "center",
+      lineBreak: false,
+    });
+
   // Keep the signature rule intentionally blank for a real handwritten signature.
-  // The attribution beneath it is official, fixed certificate text.
-  document.font("Helvetica-Bold").fontSize(12).text("Bhupendra Singh", 511, 524, { width: 145, align: "center", lineBreak: false });
-  document.font("Helvetica").fontSize(10).text("Founder & Instructor", 511, 540, { width: 145, align: "center", lineBreak: false });
-  document.text("The Elite Coding School", 511, 553, { width: 145, align: "center", lineBreak: false });
+  // The attribution beneath it is official, fixed certificate text in crisp black/deep navy.
+  document
+    .font("Helvetica-Bold")
+    .fontSize(12)
+    .fillColor("#101c36")
+    .text("Bhupendra Singh", 511, 524, { width: 145, align: "center", lineBreak: false });
+  document
+    .font("Helvetica")
+    .fontSize(10)
+    .fillColor("#18243d")
+    .text("Founder & Instructor", 511, 540, { width: 145, align: "center", lineBreak: false });
+  document
+    .fillColor("#18243d")
+    .text("The Elite Coding School", 511, 553, { width: 145, align: "center", lineBreak: false });
 
   const qr = await QRCode.toBuffer(input.verificationUrl, { errorCorrectionLevel: "H", margin: 1, width: 900 });
   document.image(qr, 39, 478, { width: 73, height: 73 });
