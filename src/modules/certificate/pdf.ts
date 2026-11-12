@@ -249,6 +249,13 @@ export async function certificatePdf(input: CertificatePdfInput) {
       lineBreak: false,
     });
 
+  // Crisp vector arrow brackets `< >` inside the institutional seal letter 'C'
+  document.save();
+  document.strokeColor("#ffffff").lineWidth(0.85).lineCap("round").lineJoin("round");
+  document.moveTo(406.3, 495.1).lineTo(404.0, 497.6).lineTo(406.3, 500.1).stroke();
+  document.moveTo(408.0, 495.1).lineTo(410.3, 497.6).lineTo(408.0, 500.1).stroke();
+  document.restore();
+
   // Keep the signature rule intentionally blank for a real handwritten signature.
   // The attribution beneath it is official, fixed certificate text in crisp black/deep navy.
   document
