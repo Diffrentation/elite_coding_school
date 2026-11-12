@@ -70,8 +70,10 @@ export async function certificatePdf(input: CertificatePdfInput) {
   // this band open, so replace its placeholder wording as one complete block.
   // An opaque cover is essential here: partial transparency makes template text
   // show through the generated title and looks like an invalid certificate.
+  // Centered soft-radius cover that stays safely inside the clear central zone
+  // without clipping into the decorative guilloche watermark lines on the margins
   document.save();
-  document.fillColor("#ffffff").rect(128, 270, 582, 112).fill();
+  document.fillColor("#ffffff").roundedRect(172, 272, 498, 110, 20).fill();
   document.restore();
   // Restore the lower gold divider after clearing the dynamic content area.
   document.save();
@@ -116,41 +118,53 @@ export async function certificatePdf(input: CertificatePdfInput) {
   // metadata blocks with crisp vector labels and values for print-quality output.
   document.save();
   document.fillColor("#ffffff").rect(126, 494, 146, 45).fill();
-  document.fillColor("#eef1f5").roundedRect(144, 515, 122, 22, 4).fill();
-  // The rebuilt date component is placed over a clean template area.
-  document.fillColor("#eef1f5").roundedRect(737, 514, 79, 23, 4).fill();
-  document.strokeColor("#d7dde7").lineWidth(0.45).roundedRect(144, 515, 122, 22, 4).stroke();
-  document.roundedRect(737, 514, 79, 23, 4).stroke();
+
+  // Premium styled background pills with subtle ice-pearl fill and refined borders
+  document.fillColor("#f4f7fb").roundedRect(142, 514, 126, 24, 6).fill();
+  document.fillColor("#f4f7fb").roundedRect(734, 513, 85, 24, 6).fill();
+
+  // Polished crisp border with subtle high-contrast outline
+  document.strokeColor("#b6c5d9").lineWidth(0.85).roundedRect(142, 514, 126, 24, 6).stroke();
+  document.roundedRect(734, 513, 85, 24, 6).stroke();
   document.restore();
+
   // Both metadata groups are rendered as print-sharp vector elements.
   document.save();
   document.strokeColor("#18243d").lineWidth(0.7).moveTo(130, 498).lineTo(130, 533).stroke();
   document.moveTo(682, 500).lineTo(682, 532).stroke();
   document.restore();
-  document.font("Helvetica-Bold").fontSize(9.6).fillColor("#18243d").text("Certificate ID", 144, 500, {
+
+  // Header Labels
+  document.font("Helvetica-Bold").fontSize(9.5).fillColor("#18243d").text("Certificate ID", 144, 499, {
     width: 122,
     align: "left",
     lineBreak: false,
   });
+
   document.save();
   document.strokeColor("#18243d").lineWidth(1.25).roundedRect(697, 511, 17, 16, 2).stroke();
   document.moveTo(697, 516).lineTo(714, 516).stroke();
   document.moveTo(701, 508).lineTo(701, 514).stroke();
   document.moveTo(710, 508).lineTo(710, 514).stroke();
   document.restore();
-  document.font("Helvetica-Bold").fontSize(8.4).fillColor("#18243d").text("Issued On", 737, 503, {
-    width: 79,
+
+  document.font("Helvetica-Bold").fontSize(9.5).fillColor("#18243d").text("Issued On", 736, 499, {
+    width: 82,
     align: "left",
     lineBreak: false,
   });
-  document.font("Helvetica-Bold").fontSize(9.4).fillColor("#18243d");
-  document.text(input.certificateId, 149, 521, { width: 112, align: "center", lineBreak: false });
-  // The dynamic date is centred in the rebuilt grey pill.
-  document.font("Helvetica-Bold").fontSize(7.7).text(
+
+  // Pill Content Typography (Enhanced font sizes and crisp optical centering)
+  document.font("Helvetica-Bold").fontSize(10.5).fillColor("#0e244d");
+  document.text(input.certificateId, 144, 520.5, { width: 122, align: "center", lineBreak: false });
+
+  // The dynamic date is confidently sized and centered in the date pill
+  document.font("Helvetica-Bold").fontSize(9.2).fillColor("#0e244d");
+  document.text(
     input.issueDate.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }),
-    739,
-    521,
-    { width: 75, align: "center", lineBreak: false },
+    736,
+    520.5,
+    { width: 81, align: "center", lineBreak: false },
   );
 
   // A compact verification stamp sits below the official seal. It is drawn as
