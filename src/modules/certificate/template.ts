@@ -18,7 +18,10 @@ export async function getActiveCertificateTemplate(adminUserId: string) {
   if (active) {
     // Upgrade only the previous bundled default. Uploaded custom artwork and
     // certificate records already issued with the older artwork stay untouched.
-    if (active.imageUrl === LEGACY_DEFAULT_TEMPLATE_URL || active.imageUrl === PREVIOUS_BUNDLED_TEMPLATE_URL) {
+    if (
+      active.imageUrl === LEGACY_DEFAULT_TEMPLATE_URL ||
+      active.imageUrl === PREVIOUS_BUNDLED_TEMPLATE_URL
+    ) {
       active.name = DEFAULT_CERTIFICATE_TEMPLATE.name;
       active.imageUrl = DEFAULT_CERTIFICATE_TEMPLATE.imageUrl;
       await active.save();

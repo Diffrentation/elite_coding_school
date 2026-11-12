@@ -13,7 +13,8 @@ try {
   const oldIndex = (await users.indexes()).find((index) => index.name === "googleSubject_1");
   if (oldIndex && (!oldIndex.unique || !oldIndex.sparse)) await users.dropIndex("googleSubject_1");
   const currentIndex = (await users.indexes()).find((index) => index.name === "googleSubject_1");
-  if (!currentIndex) await users.createIndex({ googleSubject: 1 }, { name: "googleSubject_1", unique: true, sparse: true });
+  if (!currentIndex)
+    await users.createIndex({ googleSubject: 1 }, { name: "googleSubject_1", unique: true, sparse: true });
   console.log(`Removed legacy null Google subjects from ${cleanup.modifiedCount} user record(s).`);
   console.log("Verified sparse unique googleSubject index.");
 } finally {

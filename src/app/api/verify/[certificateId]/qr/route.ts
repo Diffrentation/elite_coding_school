@@ -14,7 +14,10 @@ export async function GET(request: Request, { params }: { params: Promise<{ cert
 
   await connectDb();
   const { certificateId } = await params;
-  const certificate = await Certificate.findOne({ certificateId: certificateId.toUpperCase(), status: "active" })
+  const certificate = await Certificate.findOne({
+    certificateId: certificateId.toUpperCase(),
+    status: "active",
+  })
     .select("certificateId verificationPath")
     .lean();
 

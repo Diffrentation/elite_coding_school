@@ -8,7 +8,10 @@ export async function GET(request: Request, { params }: { params: Promise<{ cert
   if (limited) return limited;
   await connectDb();
   const { certificateId } = await params;
-  const certificate = await Certificate.findOne({ certificateId: certificateId.toUpperCase(), status: "active" }).lean();
+  const certificate = await Certificate.findOne({
+    certificateId: certificateId.toUpperCase(),
+    status: "active",
+  }).lean();
   if (!certificate) return new Response("Active certificate not found", { status: 404 });
   const pdf = await certificatePdf({
     certificateId: certificate.certificateId,
@@ -19,6 +22,9 @@ export async function GET(request: Request, { params }: { params: Promise<{ cert
     templateUrl: certificate.templateUrl,
   });
   return new Response(new Uint8Array(pdf), {
-    headers: { "Content-Type": "application/pdf", "Content-Disposition": `inline; filename="${certificate.certificateId}.pdf"` },
+    headers: {
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `inline; filename="${certificate.certificateId}.pdf"`,
+    },
   });
 }

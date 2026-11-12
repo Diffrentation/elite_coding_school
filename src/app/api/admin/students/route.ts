@@ -26,7 +26,9 @@ const studentFieldsSchema = z.object({
   phone: z.string().trim().min(7).max(25),
   registrationDate: z.coerce.date().optional(),
   completionDate: z.coerce.date().nullable().optional(),
-  admissionStatus: z.enum(["not_enrolled", "pending", "approved", "enrolled", "completed", "rejected"]).optional(),
+  admissionStatus: z
+    .enum(["not_enrolled", "pending", "approved", "enrolled", "completed", "rejected"])
+    .optional(),
   profileImageUrl: z.string().trim().url().nullable().optional(),
   publicProfile: z.boolean().optional(),
   publicPhotoConsent: z.boolean().optional(),
@@ -48,7 +50,9 @@ export async function GET(request: NextRequest) {
     const filter: Record<string, unknown> = {};
     if (admissionStatus) filter.admissionStatus = admissionStatus;
     if (search) {
-      const matchingUsers = await User.find({ email: new RegExp(search, "i") }).select("_id").lean();
+      const matchingUsers = await User.find({ email: new RegExp(search, "i") })
+        .select("_id")
+        .lean();
       filter.$or = [
         { fullName: new RegExp(search, "i") },
         { studentId: new RegExp(search, "i") },
@@ -74,7 +78,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const parsed = studentFieldsSchema.safeParse(await request.json());
-  if (!parsed.success) return failure("VALIDATION_ERROR", "Enter a valid name, private email, and mobile number.", 422);
+  if (!parsed.success)
+    return failure("VALIDATION_ERROR", "Enter a valid name, private email, and mobile number.", 422);
   await connectDb();
   try {
     const admin = await requireAdminSession();
@@ -84,7 +89,8 @@ export async function POST(request: NextRequest) {
       Student.findOne({ email }).lean(),
       User.findOne({ email }).lean(),
     ]);
-    if (existingStudent || existingUser) return failure("CONFLICT", "This email already belongs to a student or portal account.", 409);
+    if (existingStudent || existingUser)
+      return failure("CONFLICT", "This email already belongs to a student or portal account.", 409);
     const counter = await Counter.findOneAndUpdate(
       { _id: "studentId" },
       { $inc: { seq: 1 } },
@@ -98,10 +104,16 @@ export async function POST(request: NextRequest) {
       profileImageUrl: data.profileImageUrl ?? null,
       completionDate: data.completionDate ?? null,
     });
-    await audit("student.created", "student", String(student._id), admin.userId, { studentId: student.studentId });
+    await audit("student.created", "student", String(student._id), admin.userId, {
+      studentId: student.studentId,
+    });
     return success({ student }, { status: 201 });
   } catch (error) {
-    return failure("CREATE_FAILED", error instanceof Error ? error.message : "Unable to create student.", 500);
+    return failure(
+      "CREATE_FAILED",
+      error instanceof Error ? error.message : "Unable to create student.",
+      500,
+    );
   }
 }
 
@@ -127,7 +139,11 @@ export async function PATCH(request: NextRequest) {
       if (duplicate || portalDuplicate) return failure("CONFLICT", "This email is already in use.", 409);
     }
     if (update.publicPhotoConsent === false) update.publicProfile = false;
-    const student = await Student.findByIdAndUpdate(studentId, { $set: update }, { new: true, runValidators: true })
+    const student = await Student.findByIdAndUpdate(
+      studentId,
+      { $set: update },
+      { new: true, runValidators: true },
+    )
       .populate("userId", "email accountStatus emailVerifiedAt")
       .lean();
     if (!student) {
@@ -155,7 +171,11 @@ export async function DELETE(request: NextRequest) {
       Certificate.exists({ studentId }),
     ]);
     if (enrollment || certificate)
-      return failure("CONFLICT", "Students with enrollment or certificate history cannot be deleted. Keep the record for audit history.", 409);
+      return failure(
+        "CONFLICT",
+        "Students with enrollment or certificate history cannot be deleted. Keep the record for audit history.",
+        409,
+      );
     const student = await Student.findByIdAndDelete(studentId);
     if (!student) return failure("NOT_FOUND", "Student record not found.", 404);
     await audit("student.deleted", "student", studentId, admin.userId, { studentId: student.studentId });

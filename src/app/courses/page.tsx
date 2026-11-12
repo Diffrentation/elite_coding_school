@@ -683,8 +683,8 @@ export default function CoursesPage() {
 
           <h2>1:1 Teacher Doubt Solving &amp; Error Debugging</h2>
           <p className="card-desc">
-            Whenever you hit a bug or get stuck on a concept, teachers sit with you at your desk and guide
-            you until your code works and your understanding is 100% clear.
+            Whenever you hit a bug or get stuck on a concept, teachers sit with you at your desk and guide you
+            until your code works and your understanding is 100% clear.
           </p>
 
           <ul className="card-perks-list">

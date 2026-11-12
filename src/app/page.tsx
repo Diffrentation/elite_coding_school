@@ -311,7 +311,7 @@ export default function Home() {
               techTags: course.skills?.length
                 ? course.skills
                 : ["Classroom Coaching", "Hands-on Projects", "Concept Clarity"],
-            }))
+            })),
           );
         } else if (apiCourses.length > 0) {
           // Merge custom database courses with default curated courses so all tracks have rich cards

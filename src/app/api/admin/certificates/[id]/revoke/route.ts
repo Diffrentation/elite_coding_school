@@ -15,11 +15,20 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     const { id } = await params;
     const certificate = await Certificate.findOneAndUpdate(
       { _id: id, status: "active" },
-      { $set: { status: "revoked", revokedAt: new Date(), revokedBy: admin.userId, revocationReason: parsed.data.reason } },
+      {
+        $set: {
+          status: "revoked",
+          revokedAt: new Date(),
+          revokedBy: admin.userId,
+          revocationReason: parsed.data.reason,
+        },
+      },
       { new: true },
     );
     if (!certificate) return failure("NOT_FOUND", "Active certificate not found.", 404);
-    await audit("certificate.revoked", "certificate", id, admin.userId, { certificateId: certificate.certificateId });
+    await audit("certificate.revoked", "certificate", id, admin.userId, {
+      certificateId: certificate.certificateId,
+    });
     return success({ certificate });
   } catch {
     return failure("FORBIDDEN", "Administrator access is required.", 403);

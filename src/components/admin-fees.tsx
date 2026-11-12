@@ -149,7 +149,8 @@ export function AdminFees() {
           receipts.
         </p>
         <p style={{ color: "#5eead4", fontSize: "12px", margin: "8px 0 0" }}>
-          Receipt workflow: select an open invoice, record the payment, then use the Receipt PDF action in Recent Payments &amp; Receipts.
+          Receipt workflow: select an open invoice, record the payment, then use the Receipt PDF action in
+          Recent Payments &amp; Receipts.
         </p>
       </div>
 

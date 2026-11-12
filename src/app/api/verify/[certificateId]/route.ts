@@ -4,7 +4,11 @@ import { enforceRateLimit } from "@/lib/security";
 import { Certificate } from "@/models/Certificate";
 
 export async function GET(request: Request, { params }: { params: Promise<{ certificateId: string }> }) {
-  const limited = enforceRateLimit(request, { name: "certificate-verification", limit: 30, windowMs: 60_000 });
+  const limited = enforceRateLimit(request, {
+    name: "certificate-verification",
+    limit: 30,
+    windowMs: 60_000,
+  });
   if (limited) return limited;
   await connectDb();
   const { certificateId } = await params;
@@ -12,8 +16,15 @@ export async function GET(request: Request, { params }: { params: Promise<{ cert
     .populate("studentId", "fullName studentId profileImageUrl publicProfile publicPhotoConsent")
     .lean();
   if (!certificate) return failure("NOT_FOUND", "Certificate not found.", 404);
-  const student = certificate.studentId as unknown as { fullName: string; studentId: string; profileImageUrl?: string; publicProfile: boolean; publicPhotoConsent: boolean };
-  if (!student) return failure("INVALID_CERTIFICATE", "The certificate is not linked to an active student record.", 422);
+  const student = certificate.studentId as unknown as {
+    fullName: string;
+    studentId: string;
+    profileImageUrl?: string;
+    publicProfile: boolean;
+    publicPhotoConsent: boolean;
+  };
+  if (!student)
+    return failure("INVALID_CERTIFICATE", "The certificate is not linked to an active student record.", 422);
   return success({
     certificate: {
       certificateId: certificate.certificateId,
@@ -27,7 +38,10 @@ export async function GET(request: Request, { params }: { params: Promise<{ cert
       templateUrl: certificate.templateUrl,
       verificationPath: certificate.verificationPath,
       student: student.publicProfile
-        ? { studentId: student.studentId, profileImageUrl: student.publicPhotoConsent ? student.profileImageUrl ?? null : null }
+        ? {
+            studentId: student.studentId,
+            profileImageUrl: student.publicPhotoConsent ? (student.profileImageUrl ?? null) : null,
+          }
         : null,
     },
   });

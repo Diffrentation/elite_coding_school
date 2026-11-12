@@ -245,11 +245,18 @@ export function AdminStudents() {
   }
 
   async function deleteStudent(student: Student) {
-    if (!window.confirm(`Delete ${student.fullName}? Students with enrollment or certificate history are protected.`)) return;
+    if (
+      !window.confirm(
+        `Delete ${student.fullName}? Students with enrollment or certificate history are protected.`,
+      )
+    )
+      return;
     setUpdatingId(student._id);
     setError("");
     try {
-      const res = await fetch(`/api/admin/students?studentId=${encodeURIComponent(student._id)}`, { method: "DELETE" });
+      const res = await fetch(`/api/admin/students?studentId=${encodeURIComponent(student._id)}`, {
+        method: "DELETE",
+      });
       const body = await res.json();
       if (!res.ok) throw new Error(body.error?.message ?? "Unable to delete student.");
       if (selectedStudent?._id === student._id) setSelectedStudent(null);
@@ -305,7 +312,9 @@ export function AdminStudents() {
             <span className="profile-avatar">{initials}</span>
             <div className="profile-text">
               <strong className="profile-name">{student.fullName}</strong>
-              <small className="profile-email">{student.userId?.email ?? student.email ?? "No login email"}</small>
+              <small className="profile-email">
+                {student.userId?.email ?? student.email ?? "No login email"}
+              </small>
             </div>
           </div>
         );
@@ -404,11 +413,28 @@ export function AdminStudents() {
       sortable: false,
       render: (student) => (
         <div style={{ display: "inline-flex", gap: 6 }}>
-          <button type="button" className="view-dossier-btn" onClick={(event) => { event.stopPropagation(); setSelectedStudent(student); }}>
-            <Eye size={14} /><span>Details</span>
+          <button
+            type="button"
+            className="view-dossier-btn"
+            onClick={(event) => {
+              event.stopPropagation();
+              setSelectedStudent(student);
+            }}
+          >
+            <Eye size={14} />
+            <span>Details</span>
           </button>
-          <button type="button" className="view-dossier-btn" aria-label={`Edit ${student.fullName}`} onClick={(event) => { event.stopPropagation(); setEditingStudent(student); }}>
-            <Pencil size={14} /><span>Edit</span>
+          <button
+            type="button"
+            className="view-dossier-btn"
+            aria-label={`Edit ${student.fullName}`}
+            onClick={(event) => {
+              event.stopPropagation();
+              setEditingStudent(student);
+            }}
+          >
+            <Pencil size={14} />
+            <span>Edit</span>
           </button>
         </div>
       ),
@@ -565,11 +591,7 @@ export function AdminStudents() {
           </p>
         </div>
         <div className="intro-actions" style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <button
-            className="admin-primary-add-btn"
-            type="button"
-            onClick={() => setEditingStudent("new")}
-          >
+          <button className="admin-primary-add-btn" type="button" onClick={() => setEditingStudent("new")}>
             <Plus size={16} />
             <span>Add Student</span>
           </button>
@@ -1115,10 +1137,7 @@ export function AdminStudents() {
           onClick={() => !savingStudent && setEditingStudent(null)}
           style={{ zIndex: 1200 }}
         >
-          <div
-            className="student-dossier-modal landscape-modal"
-            onClick={(event) => event.stopPropagation()}
-          >
+          <div className="student-dossier-modal landscape-modal" onClick={(event) => event.stopPropagation()}>
             {/* Modal Header */}
             <div className="modal-header">
               <div className="modal-title-row">
@@ -1233,7 +1252,9 @@ export function AdminStudents() {
                         </label>
                         <select
                           name="admissionStatus"
-                          defaultValue={editingStudent === "new" ? "not_enrolled" : editingStudent.admissionStatus}
+                          defaultValue={
+                            editingStudent === "new" ? "not_enrolled" : editingStudent.admissionStatus
+                          }
                         >
                           {ADMISSION_STATUS_OPTIONS.map((option) => (
                             <option key={option.value} value={option.value}>
@@ -1305,7 +1326,9 @@ export function AdminStudents() {
                           <input
                             name="addressCity"
                             placeholder="e.g. Delhi"
-                            defaultValue={editingStudent === "new" ? "" : (editingStudent.address?.city ?? "")}
+                            defaultValue={
+                              editingStudent === "new" ? "" : (editingStudent.address?.city ?? "")
+                            }
                           />
                         </div>
                         <div className="form-field-group">
@@ -1313,7 +1336,9 @@ export function AdminStudents() {
                           <input
                             name="addressState"
                             placeholder="e.g. Delhi NCR"
-                            defaultValue={editingStudent === "new" ? "" : (editingStudent.address?.state ?? "")}
+                            defaultValue={
+                              editingStudent === "new" ? "" : (editingStudent.address?.state ?? "")
+                            }
                           />
                         </div>
                         <div className="form-field-group">
@@ -1321,7 +1346,9 @@ export function AdminStudents() {
                           <input
                             name="addressPostalCode"
                             placeholder="e.g. 110001"
-                            defaultValue={editingStudent === "new" ? "" : (editingStudent.address?.postalCode ?? "")}
+                            defaultValue={
+                              editingStudent === "new" ? "" : (editingStudent.address?.postalCode ?? "")
+                            }
                           />
                         </div>
                       </div>
@@ -1375,12 +1402,15 @@ export function AdminStudents() {
                           <input
                             type="checkbox"
                             name="publicPhotoConsent"
-                            defaultChecked={editingStudent !== "new" && Boolean(editingStudent.publicPhotoConsent)}
+                            defaultChecked={
+                              editingStudent !== "new" && Boolean(editingStudent.publicPhotoConsent)
+                            }
                           />
                           <div className="form-toggle-info">
                             <span className="form-toggle-title">Photo Consent for Public Media</span>
                             <span className="form-toggle-desc">
-                              Allow student photo to appear on class leaderboards, certificates, and course showcases.
+                              Allow student photo to appear on class leaderboards, certificates, and course
+                              showcases.
                             </span>
                           </div>
                         </label>

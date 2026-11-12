@@ -85,7 +85,15 @@ export async function POST(request: Request) {
     if (error instanceof Error && error.message === "BALANCE_CHANGED")
       return failure("CONFLICT", "Fee balance changed. Refresh and try again.", 409);
     if (error instanceof Error && /duplicate key/i.test(error.message))
-      return failure("CONFLICT", "This payment was already submitted. Refresh the payment list before trying again.", 409);
-    return failure("PAYMENT_FAILED", "The payment could not be recorded. Please retry; if it continues, check the deployment logs.", 500);
+      return failure(
+        "CONFLICT",
+        "This payment was already submitted. Refresh the payment list before trying again.",
+        409,
+      );
+    return failure(
+      "PAYMENT_FAILED",
+      "The payment could not be recorded. Please retry; if it continues, check the deployment logs.",
+      500,
+    );
   }
 }

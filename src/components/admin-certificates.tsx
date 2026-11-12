@@ -86,9 +86,7 @@ export function AdminCertificates() {
       .then(([certificateData, enrollmentData, templateData]) => {
         setCertificates(certificateData.certificates ?? []);
         setEnrollments(
-          (enrollmentData.enrollments ?? []).filter(
-            (item: Enrollment) => item.status === "completed"
-          )
+          (enrollmentData.enrollments ?? []).filter((item: Enrollment) => item.status === "completed"),
         );
         setTemplate(templateData.template ?? null);
       })
@@ -201,7 +199,7 @@ export function AdminCertificates() {
 
   async function revoke(certificate: Certificate) {
     const reason = window.prompt(
-      `Revoke ${certificate.certificateId} for ${certificate.studentNameSnapshot}. Enter official revocation reason:`
+      `Revoke ${certificate.certificateId} for ${certificate.studentNameSnapshot}. Enter official revocation reason:`,
     );
     if (!reason) return;
     setBusy(true);
@@ -389,8 +387,7 @@ export function AdminCertificates() {
             display: "inline-flex",
             alignItems: "center",
             gap: 5,
-            background:
-              cert.status === "active" ? "rgba(16, 185, 129, 0.15)" : "rgba(239, 68, 68, 0.15)",
+            background: cert.status === "active" ? "rgba(16, 185, 129, 0.15)" : "rgba(239, 68, 68, 0.15)",
             color: cert.status === "active" ? "#34d399" : "#f87171",
             border: `1px solid ${
               cert.status === "active" ? "rgba(16, 185, 129, 0.35)" : "rgba(239, 68, 68, 0.35)"
@@ -528,17 +525,17 @@ export function AdminCertificates() {
             borderRadius: 999,
             fontSize: 12.5,
             fontWeight: 700,
-            background: template
-              ? "rgba(16, 185, 129, 0.12)"
-              : "rgba(245, 158, 11, 0.12)",
+            background: template ? "rgba(16, 185, 129, 0.12)" : "rgba(245, 158, 11, 0.12)",
             color: template ? "#34d399" : "#fbbf24",
-            border: `1px solid ${
-              template ? "rgba(16, 185, 129, 0.35)" : "rgba(245, 158, 11, 0.35)"
-            }`,
+            border: `1px solid ${template ? "rgba(16, 185, 129, 0.35)" : "rgba(245, 158, 11, 0.35)"}`,
           }}
         >
           {template ? <CheckCircle2 size={16} /> : <AlertCircle size={16} />}
-          <span>{template ? `Official A4 Template Active: "${template.name}"` : "Preparing official A4 template..."}</span>
+          <span>
+            {template
+              ? `Official A4 Template Active: "${template.name}"`
+              : "Preparing official A4 template..."}
+          </span>
         </div>
       </div>
 
@@ -581,9 +578,7 @@ export function AdminCertificates() {
             <span style={{ fontSize: 11.5, color: "#94a3b8", display: "block", fontWeight: 600 }}>
               TOTAL ISSUED
             </span>
-            <strong style={{ fontSize: 24, color: "#ffffff", fontWeight: 800 }}>
-              {certificates.length}
-            </strong>
+            <strong style={{ fontSize: 24, color: "#ffffff", fontWeight: 800 }}>{certificates.length}</strong>
           </div>
         </div>
 
@@ -617,9 +612,7 @@ export function AdminCertificates() {
             <span style={{ fontSize: 11.5, color: "#94a3b8", display: "block", fontWeight: 600 }}>
               ACTIVE VERIFIED
             </span>
-            <strong style={{ fontSize: 24, color: "#34d399", fontWeight: 800 }}>
-              {activeCount}
-            </strong>
+            <strong style={{ fontSize: 24, color: "#34d399", fontWeight: 800 }}>{activeCount}</strong>
           </div>
         </div>
 
@@ -653,9 +646,7 @@ export function AdminCertificates() {
             <span style={{ fontSize: 11.5, color: "#94a3b8", display: "block", fontWeight: 600 }}>
               ELIGIBLE COMPLETED
             </span>
-            <strong style={{ fontSize: 24, color: "#ffffff", fontWeight: 800 }}>
-              {enrollments.length}
-            </strong>
+            <strong style={{ fontSize: 24, color: "#ffffff", fontWeight: 800 }}>{enrollments.length}</strong>
           </div>
         </div>
 
@@ -676,9 +667,7 @@ export function AdminCertificates() {
               width: 44,
               height: 44,
               borderRadius: 10,
-              background: template
-                ? "rgba(16, 185, 129, 0.15)"
-                : "rgba(245, 158, 11, 0.15)",
+              background: template ? "rgba(16, 185, 129, 0.15)" : "rgba(245, 158, 11, 0.15)",
               color: template ? "#34d399" : "#fbbf24",
               display: "grid",
               placeItems: "center",
@@ -940,8 +929,17 @@ export function AdminCertificates() {
                 <strong style={{ display: "block", color: "#d1fae5", fontSize: 13 }}>
                   Official certificate template active
                 </strong>
-                <span style={{ display: "block", color: "#a7c8ba", fontSize: 11.5, lineHeight: 1.55, marginTop: 3 }}>
-                  The default artwork is used automatically. Student name, course title, certificate ID, issue date, and QR verification are generated for each certificate.
+                <span
+                  style={{
+                    display: "block",
+                    color: "#a7c8ba",
+                    fontSize: 11.5,
+                    lineHeight: 1.55,
+                    marginTop: 3,
+                  }}
+                >
+                  The default artwork is used automatically. Student name, course title, certificate ID, issue
+                  date, and QR verification are generated for each certificate.
                 </span>
               </div>
             </div>
@@ -1098,7 +1096,11 @@ export function AdminCertificates() {
               </div>
             )}
 
-            <form ref={issueFormRef} onSubmit={issue} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <form
+              ref={issueFormRef}
+              onSubmit={issue}
+              style={{ display: "flex", flexDirection: "column", gap: 16 }}
+            >
               <div>
                 <label
                   style={{
@@ -1129,8 +1131,8 @@ export function AdminCertificates() {
                       <strong style={{ color: "#ffffff", display: "block" }}>
                         No completed student enrollments ready
                       </strong>
-                      Students appear in this dropdown once their cohort status is marked as &apos;Completed&apos; in
-                      the Enrollments panel.
+                      Students appear in this dropdown once their cohort status is marked as
+                      &apos;Completed&apos; in the Enrollments panel.
                     </div>
                   </div>
                 ) : (
@@ -1215,12 +1217,20 @@ export function AdminCertificates() {
               >
                 <ShieldCheck size={18} style={{ color: "#38bdf8", flexShrink: 0 }} />
                 <span>
-                  The server cryptographically signs the record, allocates a sequential ID (#ECS-CERT-...), and
-                  embeds an anti-tamper QR verification link.
+                  The server cryptographically signs the record, allocates a sequential ID (#ECS-CERT-...),
+                  and embeds an anti-tamper QR verification link.
                 </span>
               </div>
 
-              <div style={{ paddingTop: 12, borderTop: "1px solid rgba(255, 255, 255, 0.06)", display: "grid", gridTemplateColumns: "minmax(0, .85fr) minmax(0, 1.15fr)", gap: 10 }}>
+              <div
+                style={{
+                  paddingTop: 12,
+                  borderTop: "1px solid rgba(255, 255, 255, 0.06)",
+                  display: "grid",
+                  gridTemplateColumns: "minmax(0, .85fr) minmax(0, 1.15fr)",
+                  gap: 10,
+                }}
+              >
                 <button
                   type="button"
                   disabled={busy || previewing || !enrollments.length}

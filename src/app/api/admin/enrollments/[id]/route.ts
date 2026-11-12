@@ -14,9 +14,17 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   try {
     const admin = await requireAdminSession();
     const { id } = await params;
-    const enrollment = await Enrollment.findByIdAndUpdate(id, { $set: { status: parsed.data.status } }, { new: true });
+    const enrollment = await Enrollment.findByIdAndUpdate(
+      id,
+      { $set: { status: parsed.data.status } },
+      { new: true },
+    );
     if (!enrollment) return failure("NOT_FOUND", "Enrollment not found.", 404);
-    if (parsed.data.status === "completed") await Student.updateOne({ _id: enrollment.studentId }, { $set: { completionDate: new Date(), admissionStatus: "completed" } });
+    if (parsed.data.status === "completed")
+      await Student.updateOne(
+        { _id: enrollment.studentId },
+        { $set: { completionDate: new Date(), admissionStatus: "completed" } },
+      );
     await audit("enrollment.status_updated", "enrollment", id, admin.userId, { status: parsed.data.status });
     return success({ enrollment });
   } catch {

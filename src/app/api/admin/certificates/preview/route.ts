@@ -21,7 +21,8 @@ export async function POST(request: Request) {
     const enrollment = await Enrollment.findOne({ _id: parsed.data.enrollmentId, status: "completed" })
       .populate("studentId")
       .lean();
-    if (!enrollment) return new Response("Only completed course enrollments can be previewed.", { status: 422 });
+    if (!enrollment)
+      return new Response("Only completed course enrollments can be previewed.", { status: 422 });
 
     const template = await getActiveCertificateTemplate(admin.userId);
     const student = enrollment.studentId as unknown as { fullName?: string };

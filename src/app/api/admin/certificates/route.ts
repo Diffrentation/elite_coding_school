@@ -36,15 +36,20 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const parsed = issueSchema.safeParse(await request.json());
-  if (!parsed.success) return failure("VALIDATION_ERROR", "Select a completed enrollment and a valid issue date.", 422);
+  if (!parsed.success)
+    return failure("VALIDATION_ERROR", "Select a completed enrollment and a valid issue date.", 422);
   await connectDb();
   try {
     const admin = await requireAdminSession();
-    const enrollment = await Enrollment.findOne({ _id: parsed.data.enrollmentId, status: "completed" }).populate("studentId").populate("courseId");
-    if (!enrollment) return failure("NOT_ELIGIBLE", "Only completed course enrollments can receive a certificate.", 422);
+    const enrollment = await Enrollment.findOne({ _id: parsed.data.enrollmentId, status: "completed" })
+      .populate("studentId")
+      .populate("courseId");
+    if (!enrollment)
+      return failure("NOT_ELIGIBLE", "Only completed course enrollments can receive a certificate.", 422);
     const template = await getActiveCertificateTemplate(admin.userId);
     const existing = await Certificate.findOne({ enrollmentId: enrollment._id });
-    if (existing) return failure("CONFLICT", "This completed enrollment already has a certificate record.", 409);
+    if (existing)
+      return failure("CONFLICT", "This completed enrollment already has a certificate record.", 409);
     const student = enrollment.studentId as unknown as { _id: unknown; fullName: string };
     const course = enrollment.courseId as unknown as { _id: unknown; title: string };
     const certificateId = await nextCertificateId(parsed.data.issueDate);
@@ -63,7 +68,10 @@ export async function POST(request: Request) {
       templateUrl: template.imageUrl,
       issuedBy: admin.userId,
     });
-    await audit("certificate.issued", "certificate", String(certificate._id), admin.userId, { certificateId, enrollmentId: String(enrollment._id) });
+    await audit("certificate.issued", "certificate", String(certificate._id), admin.userId, {
+      certificateId,
+      enrollmentId: String(enrollment._id),
+    });
     return success({ certificate }, { status: 201 });
   } catch (error) {
     if (error instanceof Error && /duplicate key/i.test(error.message))

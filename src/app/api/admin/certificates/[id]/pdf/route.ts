@@ -18,6 +18,9 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     templateUrl: certificate.templateUrl,
   });
   return new Response(new Uint8Array(pdf), {
-    headers: { "Content-Type": "application/pdf", "Content-Disposition": `inline; filename="${certificate.certificateId}.pdf"` },
+    headers: {
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `inline; filename="${certificate.certificateId}.pdf"`,
+    },
   });
 }

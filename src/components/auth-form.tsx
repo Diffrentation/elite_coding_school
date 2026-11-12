@@ -272,7 +272,12 @@ export function AuthForm({ mode }: { mode: Mode }) {
             </button>
           </form>
           {mode === "verify" && (
-            <button type="button" className="auth-inline" onClick={() => void resendVerification()} disabled={busy}>
+            <button
+              type="button"
+              className="auth-inline"
+              onClick={() => void resendVerification()}
+              disabled={busy}
+            >
               Resend verification code
             </button>
           )}
