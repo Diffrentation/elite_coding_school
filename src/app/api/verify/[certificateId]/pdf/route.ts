@@ -2,6 +2,7 @@ import { connectDb } from "@/lib/db";
 import { Certificate } from "@/models/Certificate";
 import { certificatePdf } from "@/modules/certificate/pdf";
 import { enforceRateLimit } from "@/lib/security";
+import { publicUrl } from "@/lib/public-url";
 
 export async function GET(request: Request, { params }: { params: Promise<{ certificateId: string }> }) {
   const limited = enforceRateLimit(request, { name: "certificate-pdf", limit: 20, windowMs: 60_000 });
@@ -18,7 +19,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ cert
     studentName: certificate.studentNameSnapshot,
     courseName: certificate.courseNameSnapshot,
     issueDate: certificate.issueDate,
-    verificationUrl: new URL(certificate.verificationPath, request.url).toString(),
+    verificationUrl: publicUrl(certificate.verificationPath, request),
     templateUrl: certificate.templateUrl,
   });
   return new Response(new Uint8Array(pdf), {

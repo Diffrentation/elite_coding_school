@@ -1,6 +1,7 @@
 import QRCode from "qrcode";
 import { Certificate } from "@/models/Certificate";
 import { connectDb } from "@/lib/db";
+import { publicUrl } from "@/lib/public-url";
 import { enforceRateLimit } from "@/lib/security";
 
 /**
@@ -23,7 +24,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ cert
 
   if (!certificate) return new Response("Certificate not found", { status: 404 });
 
-  const verificationUrl = new URL(certificate.verificationPath, request.url).toString();
+  const verificationUrl = publicUrl(certificate.verificationPath, request);
   const svg = await QRCode.toString(verificationUrl, {
     type: "svg",
     errorCorrectionLevel: "H",

@@ -2,6 +2,7 @@ import { connectDb } from "@/lib/db";
 import { Certificate } from "@/models/Certificate";
 import { certificatePdf } from "@/modules/certificate/pdf";
 import { requireAdminSession } from "@/modules/identity/session";
+import { publicUrl } from "@/lib/public-url";
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   await connectDb();
@@ -14,7 +15,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     studentName: certificate.studentNameSnapshot,
     courseName: certificate.courseNameSnapshot,
     issueDate: certificate.issueDate,
-    verificationUrl: new URL(certificate.verificationPath, request.url).toString(),
+    verificationUrl: publicUrl(certificate.verificationPath, request),
     templateUrl: certificate.templateUrl,
   });
   return new Response(new Uint8Array(pdf), {
