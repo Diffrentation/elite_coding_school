@@ -12,7 +12,13 @@ export type CertificatePdfInput = {
   templateUrl: string;
 };
 
-const fitFontSize = (document: PDFKit.PDFDocument, text: string, maxWidth: number, start: number, min: number) => {
+const fitFontSize = (
+  document: PDFKit.PDFDocument,
+  text: string,
+  maxWidth: number,
+  start: number,
+  min: number,
+) => {
   for (let size = start; size >= min; size -= 1) {
     document.fontSize(size);
     if (document.widthOfString(text) <= maxWidth) return size;
@@ -66,11 +72,15 @@ export async function certificatePdf(input: CertificatePdfInput) {
   document.save();
   document.fillColor("#ffffff").rect(340, 181, 166, 25).fill();
   document.restore();
-  document.font("Helvetica-Bold").fontSize(15).fillColor("#18243d").text("This is to certify that", 340, 185, {
-    width: 166,
-    align: "center",
-    lineBreak: false,
-  });
+  document
+    .font("Helvetica-Bold")
+    .fontSize(15)
+    .fillColor("#18243d")
+    .text("This is to certify that", 340, 185, {
+      width: 166,
+      align: "center",
+      lineBreak: false,
+    });
 
   // Source document coordinates were measured against the original A4 artwork.
   // The artwork has a blank name band and fixed certificate ID, QR and date fields.
@@ -94,22 +104,24 @@ export async function certificatePdf(input: CertificatePdfInput) {
   document.strokeColor("#d5a11e").lineWidth(0.8).moveTo(238, 273).lineTo(604, 273).stroke();
   document.restore();
 
-  document.font("Helvetica-Bold").fontSize(15).fillColor("#18243d").text(
-    "has successfully completed the",
-    151,
-    282,
-    { width: 540, align: "center", lineBreak: false },
-  );
+  document
+    .font("Helvetica-Bold")
+    .fontSize(15)
+    .fillColor("#18243d")
+    .text("has successfully completed the", 151, 282, { width: 540, align: "center", lineBreak: false });
   document.font("Helvetica-Bold").fillColor("#13284b");
   fitFontSize(document, courseName, 540, 25, 16);
   document.text(courseName, 151, 305, { width: 540, align: "center", lineBreak: false });
 
-  document.font("Helvetica").fontSize(13.5).fillColor("#18243d").text(
-    "at The Elite Coding School, demonstrating practical skills in",
-    171,
-    342,
-    { width: 500, align: "center", lineBreak: false },
-  );
+  document
+    .font("Helvetica")
+    .fontSize(13.5)
+    .fillColor("#18243d")
+    .text("at The Elite Coding School, demonstrating practical skills in", 171, 342, {
+      width: 500,
+      align: "center",
+      lineBreak: false,
+    });
   const achievementLine = `building real-world projects in ${courseName}.`;
   document.font("Helvetica");
   fitFontSize(document, achievementLine, 500, 13.5, 10);
@@ -191,10 +203,7 @@ export async function certificatePdf(input: CertificatePdfInput) {
   document.save();
 
   // Solid deep royal navy pill matching the medal ribbon color to prevent background clash
-  document
-    .fillColor("#0a1733")
-    .roundedRect(stampX, stampY, stampWidth, stampHeight, 11)
-    .fill();
+  document.fillColor("#0a1733").roundedRect(stampX, stampY, stampWidth, stampHeight, 11).fill();
 
   // Outer polished metallic gold border
   document
@@ -256,7 +265,11 @@ export async function certificatePdf(input: CertificatePdfInput) {
     .fillColor("#18243d")
     .text("The Elite Coding School", 511, 553, { width: 145, align: "center", lineBreak: false });
 
-  const qr = await QRCode.toBuffer(input.verificationUrl, { errorCorrectionLevel: "H", margin: 1, width: 900 });
+  const qr = await QRCode.toBuffer(input.verificationUrl, {
+    errorCorrectionLevel: "H",
+    margin: 1,
+    width: 900,
+  });
   document.image(qr, 39, 478, { width: 73, height: 73 });
   document.end();
   return completed;

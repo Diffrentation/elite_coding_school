@@ -1375,7 +1375,9 @@ select:disabled {
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
   border-radius: 20px !important;
   padding: 26px !important;
   display: flex !important;
@@ -1389,7 +1391,9 @@ select:disabled {
   transform: translateY(-6px) !important;
   background: rgba(11, 18, 54, 0.72) !important;
   border-color: rgba(168, 85, 247, 0.45) !important;
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(168, 85, 247, 0.25) !important;
+  box-shadow:
+    0 24px 50px rgba(0, 0, 0, 0.7),
+    0 0 30px rgba(168, 85, 247, 0.25) !important;
 }
 
 .public-course-card.benefit-transparent-card h2 {
@@ -4778,7 +4782,7 @@ a {
   padding: 2px 10px;
   background: #ffffff;
   color: #101c36;
-  font-family: var(--font-heading), 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--font-heading), "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(8px, 1.1vw, 13.5px);
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -4903,7 +4907,7 @@ a {
   border-radius: 6px;
   background: #f4f7fb;
   color: #0e244d;
-  font-family: var(--font-heading), 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--font-heading), "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(8px, 1.08vw, 12px);
   font-weight: 700;
   line-height: 1.2;
@@ -4930,9 +4934,11 @@ a {
   border-radius: 999px;
   background: linear-gradient(180deg, #0e1e40 0%, #081329 100%);
   border: 1.5px solid #d4af37;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(245, 212, 122, 0.45);
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(245, 212, 122, 0.45);
   color: #fce7a2;
-  font-family: var(--font-heading), 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--font-heading), "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(7px, 0.95vw, 10.5px);
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -5319,8 +5325,12 @@ a {
   scrollbar-width: thin;
   scrollbar-color: rgba(168, 85, 247, 0.58) transparent;
 }
-.admin-portal .portal-sidebar::-webkit-scrollbar { width: 7px; }
-.admin-portal .portal-sidebar::-webkit-scrollbar-track { background: transparent; }
+.admin-portal .portal-sidebar::-webkit-scrollbar {
+  width: 7px;
+}
+.admin-portal .portal-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
 .admin-portal .portal-sidebar::-webkit-scrollbar-thumb {
   background: rgba(168, 85, 247, 0.58);
   border-radius: 999px;
@@ -10616,23 +10626,25 @@ a {
 }
 .certificate-template-state.is-ready {
   color: #5eead4;
-  border-color: rgba(45, 212, 191, .35);
-  background: rgba(20, 184, 166, .1);
+  border-color: rgba(45, 212, 191, 0.35);
+  background: rgba(20, 184, 166, 0.1);
 }
 .certificate-template-state.is-required {
   color: #fcd34d;
-  border-color: rgba(251, 191, 36, .35);
-  background: rgba(245, 158, 11, .1);
+  border-color: rgba(251, 191, 36, 0.35);
+  background: rgba(245, 158, 11, 0.1);
 }
 .certificate-panel {
   min-width: 0;
   padding: 22px;
-  border: 1px solid rgba(129, 140, 248, .22);
+  border: 1px solid rgba(129, 140, 248, 0.22);
   border-radius: 18px;
-  background: linear-gradient(145deg, rgba(15, 22, 65, .95), rgba(8, 13, 43, .96));
-  box-shadow: 0 14px 36px rgba(0, 0, 0, .18);
+  background: linear-gradient(145deg, rgba(15, 22, 65, 0.95), rgba(8, 13, 43, 0.96));
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
 }
-.certificate-template-panel { margin-bottom: 20px; }
+.certificate-template-panel {
+  margin-bottom: 20px;
+}
 .certificate-panel-heading {
   display: flex;
   align-items: flex-start;
@@ -10648,17 +10660,56 @@ a {
   border: 1px solid;
   border-radius: 12px;
 }
-.certificate-panel-icon.template { color: #c084fc; background: rgba(124, 58, 237, .16); border-color: rgba(168, 85, 247, .28); }
-.certificate-panel-icon.issue { color: #38bdf8; background: rgba(14, 165, 233, .14); border-color: rgba(56, 189, 248, .26); }
-.certificate-panel-icon.records { color: #5eead4; background: rgba(20, 184, 166, .13); border-color: rgba(45, 212, 191, .25); }
-.certificate-panel-heading h3 { margin: 1px 0 5px; color: #fff; font-size: 18px; line-height: 1.25; }
-.certificate-panel-heading p { margin: 0; color: #9fb0d0; font-size: 13px; line-height: 1.5; }
+.certificate-panel-icon.template {
+  color: #c084fc;
+  background: rgba(124, 58, 237, 0.16);
+  border-color: rgba(168, 85, 247, 0.28);
+}
+.certificate-panel-icon.issue {
+  color: #38bdf8;
+  background: rgba(14, 165, 233, 0.14);
+  border-color: rgba(56, 189, 248, 0.26);
+}
+.certificate-panel-icon.records {
+  color: #5eead4;
+  background: rgba(20, 184, 166, 0.13);
+  border-color: rgba(45, 212, 191, 0.25);
+}
+.certificate-panel-heading h3 {
+  margin: 1px 0 5px;
+  color: #fff;
+  font-size: 18px;
+  line-height: 1.25;
+}
+.certificate-panel-heading p {
+  margin: 0;
+  color: #9fb0d0;
+  font-size: 13px;
+  line-height: 1.5;
+}
 .certificate-template-form,
-.certificate-issue-form { display: grid; gap: 16px; }
-.certificate-template-form { grid-template-columns: minmax(240px, .7fr) minmax(0, 1.3fr); align-items: end; }
-.certificate-image-field { min-width: 0; }
-.certificate-field { display: grid; gap: 7px; min-width: 0; color: #cbd5e1; font-size: 12px; font-weight: 700; }
-.certificate-field > span { color: #cbd5e1; }
+.certificate-issue-form {
+  display: grid;
+  gap: 16px;
+}
+.certificate-template-form {
+  grid-template-columns: minmax(240px, 0.7fr) minmax(0, 1.3fr);
+  align-items: end;
+}
+.certificate-image-field {
+  min-width: 0;
+}
+.certificate-field {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 700;
+}
+.certificate-field > span {
+  color: #cbd5e1;
+}
 .certificate-field input,
 .certificate-field select {
   width: 100%;
@@ -10666,7 +10717,7 @@ a {
   height: 44px;
   box-sizing: border-box;
   padding: 0 13px;
-  border: 1px solid rgba(148, 163, 184, .22);
+  border: 1px solid rgba(148, 163, 184, 0.22);
   border-radius: 10px;
   outline: none;
   background: #070b24;
@@ -10674,7 +10725,10 @@ a {
   font: 600 14px var(--font-sans);
 }
 .certificate-field input:focus,
-.certificate-field select:focus { border-color: #8b5cf6; box-shadow: 0 0 0 3px rgba(139, 92, 246, .16); }
+.certificate-field select:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.16);
+}
 .certificate-form-footer {
   grid-column: 1 / -1;
   display: flex;
@@ -10682,58 +10736,187 @@ a {
   justify-content: space-between;
   gap: 16px;
   padding-top: 15px;
-  border-top: 1px solid rgba(148, 163, 184, .12);
+  border-top: 1px solid rgba(148, 163, 184, 0.12);
 }
-.certificate-form-footer p { margin: 0; color: #8191b5; font-size: 12px; line-height: 1.45; }
-.certificate-form-footer .button { min-height: 42px; white-space: nowrap; }
-.certificate-admin-grid { display: grid; grid-template-columns: minmax(300px, .82fr) minmax(0, 1.18fr); gap: 20px; align-items: start; }
-.certificate-issue-form { grid-template-columns: minmax(0, 1fr) 150px; }
-.certificate-field-wide { grid-column: 1 / -1; }
-.certificate-issue-button { min-height: 44px; align-self: end; white-space: nowrap; }
+.certificate-form-footer p {
+  margin: 0;
+  color: #8191b5;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.certificate-form-footer .button {
+  min-height: 42px;
+  white-space: nowrap;
+}
+.certificate-admin-grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
+  gap: 20px;
+  align-items: start;
+}
+.certificate-issue-form {
+  grid-template-columns: minmax(0, 1fr) 150px;
+}
+.certificate-field-wide {
+  grid-column: 1 / -1;
+}
+.certificate-issue-button {
+  min-height: 44px;
+  align-self: end;
+  white-space: nowrap;
+}
 .certificate-inline-warning,
-.certificate-inline-note { margin: 15px 0 0; padding: 10px 12px; border-radius: 9px; font-size: 12px; line-height: 1.45; }
-.certificate-inline-warning { color: #fca5a5; background: rgba(127, 29, 29, .22); border: 1px solid rgba(248, 113, 113, .25); }
-.certificate-inline-note { color: #a5b4fc; background: rgba(49, 46, 129, .18); border: 1px solid rgba(129, 140, 248, .22); }
-.certificate-record-list { display: grid; gap: 10px; }
+.certificate-inline-note {
+  margin: 15px 0 0;
+  padding: 10px 12px;
+  border-radius: 9px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.certificate-inline-warning {
+  color: #fca5a5;
+  background: rgba(127, 29, 29, 0.22);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+}
+.certificate-inline-note {
+  color: #a5b4fc;
+  background: rgba(49, 46, 129, 0.18);
+  border: 1px solid rgba(129, 140, 248, 0.22);
+}
+.certificate-record-list {
+  display: grid;
+  gap: 10px;
+}
 .certificate-record {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 15px;
   padding: 14px;
-  border: 1px solid rgba(148, 163, 184, .16);
+  border: 1px solid rgba(148, 163, 184, 0.16);
   border-radius: 13px;
-  background: rgba(4, 9, 35, .6);
+  background: rgba(4, 9, 35, 0.6);
 }
-.certificate-record-copy { display: grid; min-width: 0; gap: 4px; }
-.certificate-record-copy > strong { overflow: hidden; color: #fff; font-size: 14px; text-overflow: ellipsis; white-space: nowrap; }
-.certificate-record-copy > span { overflow: hidden; color: #9fb0d0; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
-.certificate-record-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; color: #8ea0c1; font-size: 11px; }
-.certificate-record-meta code { color: #c084fc; font: 700 11px var(--font-mono); }
-.certificate-status { padding: 3px 7px; border: 1px solid; border-radius: 999px; font-size: 10px; font-weight: 800; text-transform: uppercase; }
-.certificate-status.active { color: #5eead4; border-color: rgba(45, 212, 191, .3); background: rgba(20, 184, 166, .12); }
-.certificate-status.revoked { color: #fca5a5; border-color: rgba(248, 113, 113, .3); background: rgba(239, 68, 68, .12); }
-.certificate-record-actions { display: flex; flex: 0 0 auto; flex-wrap: wrap; justify-content: flex-end; gap: 7px; }
-.certificate-record-actions .button { min-height: 34px; padding: 6px 10px; font-size: 12px; }
-.certificate-empty-state { display: grid; justify-items: center; gap: 8px; min-height: 148px; padding: 24px; text-align: center; border: 1px dashed rgba(148, 163, 184, .22); border-radius: 13px; color: #8493b5; }
-.certificate-empty-state svg { color: #a855f7; }
-.certificate-empty-state strong { color: #dbeafe; font-size: 14px; }
-.certificate-empty-state span { max-width: 360px; font-size: 12px; line-height: 1.5; }
-.certificate-admin-page .image-picker-input { gap: 8px !important; }
-.certificate-admin-page .image-picker-header { gap: 10px; }
-.certificate-admin-page .image-picker-upload-box { min-height: 64px; }
+.certificate-record-copy {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+.certificate-record-copy > strong {
+  overflow: hidden;
+  color: #fff;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.certificate-record-copy > span {
+  overflow: hidden;
+  color: #9fb0d0;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.certificate-record-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  color: #8ea0c1;
+  font-size: 11px;
+}
+.certificate-record-meta code {
+  color: #c084fc;
+  font: 700 11px var(--font-mono);
+}
+.certificate-status {
+  padding: 3px 7px;
+  border: 1px solid;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.certificate-status.active {
+  color: #5eead4;
+  border-color: rgba(45, 212, 191, 0.3);
+  background: rgba(20, 184, 166, 0.12);
+}
+.certificate-status.revoked {
+  color: #fca5a5;
+  border-color: rgba(248, 113, 113, 0.3);
+  background: rgba(239, 68, 68, 0.12);
+}
+.certificate-record-actions {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 7px;
+}
+.certificate-record-actions .button {
+  min-height: 34px;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+.certificate-empty-state {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  min-height: 148px;
+  padding: 24px;
+  text-align: center;
+  border: 1px dashed rgba(148, 163, 184, 0.22);
+  border-radius: 13px;
+  color: #8493b5;
+}
+.certificate-empty-state svg {
+  color: #a855f7;
+}
+.certificate-empty-state strong {
+  color: #dbeafe;
+  font-size: 14px;
+}
+.certificate-empty-state span {
+  max-width: 360px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.certificate-admin-page .image-picker-input {
+  gap: 8px !important;
+}
+.certificate-admin-page .image-picker-header {
+  gap: 10px;
+}
+.certificate-admin-page .image-picker-upload-box {
+  min-height: 64px;
+}
 
 @media (max-width: 760px) {
   .certificate-page-intro,
-  .certificate-form-footer { align-items: flex-start; flex-direction: column; }
+  .certificate-form-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
   .certificate-template-form,
   .certificate-admin-grid,
-  .certificate-issue-form { grid-template-columns: 1fr; }
+  .certificate-issue-form {
+    grid-template-columns: 1fr;
+  }
   .certificate-field-wide,
-  .certificate-form-footer { grid-column: auto; }
-  .certificate-issue-button { width: 100%; }
-  .certificate-record { align-items: flex-start; flex-direction: column; }
-  .certificate-record-actions { width: 100%; justify-content: flex-start; }
+  .certificate-form-footer {
+    grid-column: auto;
+  }
+  .certificate-issue-button {
+    width: 100%;
+  }
+  .certificate-record {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .certificate-record-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
 }
 
 .admin-skeleton-page {
@@ -11622,7 +11805,6 @@ a {
   }
 }
 
-
 /* ==========================================================================
    LANDSCAPE STUDENT FORM MODAL STYLES
    ========================================================================== */
@@ -11635,7 +11817,9 @@ a {
   background: linear-gradient(180deg, #0b1138 0%, #070b24 100%) !important;
   border: 1px solid rgba(168, 85, 247, 0.25) !important;
   border-radius: 18px !important;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.8), 0 0 40px rgba(133, 41, 244, 0.15) !important;
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.8),
+    0 0 40px rgba(133, 41, 244, 0.15) !important;
   overflow: hidden !important;
 }
 
@@ -11821,7 +12005,6 @@ a {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
 }
-
 
 /* Top Header Add Student CTA Button */
 .admin-primary-add-btn {

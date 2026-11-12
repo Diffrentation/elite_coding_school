@@ -236,9 +236,7 @@ export default function VerifyCertificatePage() {
                       >
                         ● {active ? "OFFICIALLY VERIFIED & ACTIVE" : "CREDENTIAL REVOKED"}
                       </span>
-                      <span style={{ fontSize: 12, color: "#94a3b8" }}>
-                        The Elite Coding School Registry
-                      </span>
+                      <span style={{ fontSize: 12, color: "#94a3b8" }}>The Elite Coding School Registry</span>
                     </div>
                     <h1
                       style={{
@@ -422,7 +420,8 @@ export default function VerifyCertificatePage() {
                         <p>has successfully completed the</p>
                         <h3>{certificate.courseName}</h3>
                         <p>
-                          at The Elite Coding School, demonstrating practical skills in building real-world projects.
+                          at The Elite Coding School, demonstrating practical skills in building real-world
+                          projects.
                         </p>
                       </div>
                       <div className="verified-certificate-qr">
@@ -493,10 +492,13 @@ export default function VerifyCertificatePage() {
                     border: "1px solid rgba(255, 255, 255, 0.06)",
                   }}
                 >
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#94a3b8", fontSize: 12 }}>
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 8, color: "#94a3b8", fontSize: 12 }}
+                  >
                     <Lock size={14} color="#34d399" />
                     <span>
-                      Cryptographically generated vector document with embedded verification URL and anti-tamper watermark.
+                      Cryptographically generated vector document with embedded verification URL and
+                      anti-tamper watermark.
                     </span>
                   </div>
 
@@ -542,7 +544,16 @@ export default function VerifyCertificatePage() {
                     gap: 10,
                   }}
                 >
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#c084fc", fontSize: 12, fontWeight: 700 }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      color: "#c084fc",
+                      fontSize: 12,
+                      fontWeight: 700,
+                    }}
+                  >
                     <User size={15} />
                     <span>STUDENT RECIPIENT</span>
                   </div>
@@ -578,12 +589,23 @@ export default function VerifyCertificatePage() {
                     gap: 10,
                   }}
                 >
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#38bdf8", fontSize: 12, fontWeight: 700 }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      color: "#38bdf8",
+                      fontSize: 12,
+                      fontWeight: 700,
+                    }}
+                  >
                     <BookOpen size={15} />
                     <span>PROGRAM &amp; CURRICULUM</span>
                   </div>
                   <div>
-                    <h3 style={{ margin: 0, fontSize: 15, color: "#ffffff", fontWeight: 700, lineHeight: 1.3 }}>
+                    <h3
+                      style={{ margin: 0, fontSize: 15, color: "#ffffff", fontWeight: 700, lineHeight: 1.3 }}
+                    >
                       {certificate.courseName}
                     </h3>
                     <span
@@ -614,11 +636,28 @@ export default function VerifyCertificatePage() {
                     gap: 10,
                   }}
                 >
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#34d399", fontSize: 12, fontWeight: 700 }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      color: "#34d399",
+                      fontSize: 12,
+                      fontWeight: 700,
+                    }}
+                  >
                     <Calendar size={15} />
                     <span>TIMELINE &amp; DATES</span>
                   </div>
-                  <div style={{ fontSize: 12.5, color: "#cbd5e1", display: "flex", flexDirection: "column", gap: 4 }}>
+                  <div
+                    style={{
+                      fontSize: 12.5,
+                      color: "#cbd5e1",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 4,
+                    }}
+                  >
                     <div>
                       <span style={{ color: "#94a3b8" }}>Joined: </span>
                       <strong>{new Date(certificate.joiningDate).toLocaleDateString("en-IN")}</strong>
@@ -648,7 +687,16 @@ export default function VerifyCertificatePage() {
                     gap: 10,
                   }}
                 >
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#fbbf24", fontSize: 12, fontWeight: 700 }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      color: "#fbbf24",
+                      fontSize: 12,
+                      fontWeight: 700,
+                    }}
+                  >
                     <ShieldCheck size={15} />
                     <span>SECURITY &amp; AUTHORITY</span>
                   </div>
@@ -678,7 +726,8 @@ export default function VerifyCertificatePage() {
               {active && (
                 <div
                   style={{
-                    background: "linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(56, 189, 248, 0.08) 100%)",
+                    background:
+                      "linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(56, 189, 248, 0.08) 100%)",
                     border: "1px solid rgba(168, 85, 247, 0.25)",
                     borderRadius: 16,
                     padding: "20px 24px",
