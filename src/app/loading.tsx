@@ -2,12 +2,14 @@ import { SkeletonBlock, SkeletonCardsGrid } from "@/components/ui/skeleton-patte
 
 export default function RootLoading() {
   return (
-    <div
+    <main
+      className="public-loading-page"
       style={{
-        minHeight: "75vh",
+        minHeight: "100vh",
         padding: "48px 24px",
-        maxWidth: 1200,
+        width: "100%",
         margin: "0 auto",
+        boxSizing: "border-box",
         display: "flex",
         flexDirection: "column",
         gap: 28,
@@ -31,6 +33,6 @@ export default function RootLoading() {
       </div>
 
       <SkeletonCardsGrid count={6} columns="repeat(auto-fit, minmax(min(100%, 320px), 1fr))" />
-    </div>
+    </main>
   );
 }

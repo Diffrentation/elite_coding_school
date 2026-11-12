@@ -180,6 +180,12 @@ export function CustomSelect({
   return (
     <div
       className={`custom-select-container size-${size} variant-${variant} ${open ? "is-open" : ""} ${disabled ? "is-disabled" : ""} ${className}`}
+      // Custom selects are frequently rendered inside clickable table rows. Keep
+      // their interaction local so opening or choosing an option never activates
+      // the row's detail view behind it.
+      onClick={(event) => event.stopPropagation()}
+      onMouseDown={(event) => event.stopPropagation()}
+      onPointerDown={(event) => event.stopPropagation()}
     >
       <button
         ref={triggerRef}
@@ -219,6 +225,8 @@ export function CustomSelect({
             ref={popoverRef}
             className={`custom-select-popover placement-${coords.placement}`}
             role="listbox"
+            onClick={(event) => event.stopPropagation()}
+            onMouseDown={(event) => event.stopPropagation()}
             style={{
               position: "fixed",
               top: coords.top !== undefined ? `${coords.top}px` : undefined,

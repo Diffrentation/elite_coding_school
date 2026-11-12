@@ -27,6 +27,11 @@ import {
   Plus,
   Pencil,
   Trash2,
+  GraduationCap,
+  User,
+  MapPin,
+  ImageIcon,
+  FileText,
 } from "lucide-react";
 import { CustomSelect, type CustomSelectOption } from "./ui/custom-select";
 import { AgTable, type AgColumn } from "./ui/ag-table";
@@ -559,12 +564,18 @@ export function AdminStudents() {
             public demo inquiries.
           </p>
         </div>
-        <div className="intro-actions">
-          <button className="button primary-btn" type="button" onClick={() => setEditingStudent("new")}>
-            <Plus size={15} /> <span>Add student</span>
+        <div className="intro-actions" style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <button
+            className="admin-primary-add-btn"
+            type="button"
+            onClick={() => setEditingStudent("new")}
+          >
+            <Plus size={16} />
+            <span>Add Student</span>
           </button>
           <button
-            className="button refresh-btn"
+            className="refresh-btn"
+            type="button"
             onClick={() => {
               loadStudents();
               loadInquiries();
@@ -1099,37 +1110,360 @@ export function AdminStudents() {
       )}
 
       {editingStudent && (
-        <div className="modal-backdrop" onClick={() => !savingStudent && setEditingStudent(null)}>
-          <div className="student-dossier-modal" onClick={(event) => event.stopPropagation()} style={{ maxWidth: 760 }}>
+        <div
+          className="modal-backdrop"
+          onClick={() => !savingStudent && setEditingStudent(null)}
+          style={{ zIndex: 1200 }}
+        >
+          <div
+            className="student-dossier-modal landscape-modal"
+            onClick={(event) => event.stopPropagation()}
+          >
+            {/* Modal Header */}
             <div className="modal-header">
-              <div className="modal-title-row"><Users size={19} className="text-purple-400" /><h3>{editingStudent === "new" ? "Add student" : "Edit student profile"}</h3></div>
-              <button type="button" className="close-modal-btn" disabled={savingStudent} onClick={() => setEditingStudent(null)} aria-label="Close"><X size={18} /></button>
+              <div className="modal-title-row">
+                <div
+                  style={{
+                    width: 38,
+                    height: 38,
+                    borderRadius: 10,
+                    background: "rgba(168, 85, 247, 0.15)",
+                    border: "1px solid rgba(168, 85, 247, 0.3)",
+                    color: "#c084fc",
+                    display: "grid",
+                    placeItems: "center",
+                    flexShrink: 0,
+                  }}
+                >
+                  <GraduationCap size={20} />
+                </div>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: 17, color: "#ffffff", fontWeight: 700 }}>
+                    {editingStudent === "new" ? "Add Student to Roster" : "Edit Student Dossier"}
+                  </h3>
+                  <p style={{ margin: "2px 0 0", fontSize: 12, color: "#94a3b8" }}>
+                    {editingStudent === "new"
+                      ? "Create institutional student profile, assign admission status, and record contact details."
+                      : `Update profile, residential address, and verification settings for #${editingStudent.studentId} (${editingStudent.fullName}).`}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="close-modal-btn"
+                disabled={savingStudent}
+                onClick={() => setEditingStudent(null)}
+                aria-label="Close"
+              >
+                <X size={18} />
+              </button>
             </div>
-            <form className="modal-body" onSubmit={saveStudent}>
-              <div className="dossier-grid">
-                <label className="form-field"><span>Full name</span><input required name="fullName" defaultValue={editingStudent === "new" ? "" : editingStudent.fullName} /></label>
-                <label className="form-field"><span>Private email</span><input required type="email" name="email" defaultValue={editingStudent === "new" ? "" : editingStudent.email ?? editingStudent.userId?.email ?? ""} /></label>
-                <label className="form-field"><span>Mobile number</span><input required name="phone" defaultValue={editingStudent === "new" ? "" : editingStudent.phone} /></label>
-                <label className="form-field"><span>Admission status</span><select name="admissionStatus" defaultValue={editingStudent === "new" ? "not_enrolled" : editingStudent.admissionStatus}>{ADMISSION_STATUS_OPTIONS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></label>
-                <label className="form-field"><span>Joining date</span><input required type="date" name="registrationDate" defaultValue={editingStudent === "new" ? new Date().toISOString().slice(0, 10) : new Date(editingStudent.registrationDate).toISOString().slice(0, 10)} /></label>
-                <label className="form-field"><span>Completion date</span><input type="date" name="completionDate" defaultValue={editingStudent !== "new" && editingStudent.completionDate ? new Date(editingStudent.completionDate).toISOString().slice(0, 10) : ""} /></label>
-                <label className="form-field"><span>Address</span><input name="addressLine1" defaultValue={editingStudent === "new" ? "" : editingStudent.address?.line1 ?? ""} placeholder="Private street address" /></label>
-                <label className="form-field"><span>Address line 2</span><input name="addressLine2" defaultValue={editingStudent === "new" ? "" : editingStudent.address?.line2 ?? ""} /></label>
-                <label className="form-field"><span>City</span><input name="addressCity" defaultValue={editingStudent === "new" ? "" : editingStudent.address?.city ?? ""} /></label>
-                <label className="form-field"><span>State</span><input name="addressState" defaultValue={editingStudent === "new" ? "" : editingStudent.address?.state ?? ""} /></label>
-                <label className="form-field"><span>Postal code</span><input name="addressPostalCode" defaultValue={editingStudent === "new" ? "" : editingStudent.address?.postalCode ?? ""} /></label>
+
+            {/* Modal Form Body */}
+            <form
+              onSubmit={saveStudent}
+              style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0, overflow: "hidden" }}
+            >
+              <div
+                className="modal-body-scrollable"
+                style={{
+                  padding: "20px 24px",
+                  overflowY: "auto",
+                  flex: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 18,
+                }}
+              >
+                <div className="student-form-landscape-grid">
+                  {/* LEFT COLUMN: Academic Details & Residential Address */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                    {/* Card 1: Core Academic & Contact Profile */}
+                    <div className="form-card-section">
+                      <div className="form-card-header">
+                        <User size={15} color="#c084fc" />
+                        <h5>Academic &amp; Contact Details</h5>
+                      </div>
+
+                      <div className="form-field-group">
+                        <label>
+                          Full Name <span className="required-dot">*</span>
+                        </label>
+                        <input
+                          required
+                          name="fullName"
+                          placeholder="e.g. Bhupendra Singh"
+                          defaultValue={editingStudent === "new" ? "" : editingStudent.fullName}
+                        />
+                      </div>
+
+                      <div className="form-field-row-2">
+                        <div className="form-field-group">
+                          <label>
+                            Mobile / WhatsApp <span className="required-dot">*</span>
+                          </label>
+                          <input
+                            required
+                            name="phone"
+                            placeholder="e.g. +91 98765 43210"
+                            defaultValue={editingStudent === "new" ? "" : editingStudent.phone}
+                          />
+                        </div>
+                        <div className="form-field-group">
+                          <label>
+                            Private Email <span className="required-dot">*</span>
+                          </label>
+                          <input
+                            required
+                            type="email"
+                            name="email"
+                            placeholder="e.g. student@gmail.com"
+                            defaultValue={
+                              editingStudent === "new"
+                                ? ""
+                                : (editingStudent.email ?? editingStudent.userId?.email ?? "")
+                            }
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-field-group">
+                        <label>
+                          Admission Status <span className="required-dot">*</span>
+                        </label>
+                        <select
+                          name="admissionStatus"
+                          defaultValue={editingStudent === "new" ? "not_enrolled" : editingStudent.admissionStatus}
+                        >
+                          {ADMISSION_STATUS_OPTIONS.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="form-field-row-2">
+                        <div className="form-field-group">
+                          <label>
+                            Joining / Registration Date <span className="required-dot">*</span>
+                          </label>
+                          <input
+                            required
+                            type="date"
+                            name="registrationDate"
+                            defaultValue={
+                              editingStudent === "new"
+                                ? new Date().toISOString().slice(0, 10)
+                                : new Date(editingStudent.registrationDate).toISOString().slice(0, 10)
+                            }
+                          />
+                        </div>
+                        <div className="form-field-group">
+                          <label>Expected Completion Date</label>
+                          <input
+                            type="date"
+                            name="completionDate"
+                            defaultValue={
+                              editingStudent !== "new" && editingStudent.completionDate
+                                ? new Date(editingStudent.completionDate).toISOString().slice(0, 10)
+                                : ""
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card 2: Residential Address */}
+                    <div className="form-card-section">
+                      <div className="form-card-header">
+                        <MapPin size={15} color="#c084fc" />
+                        <h5>Residential Address</h5>
+                      </div>
+
+                      <div className="form-field-group">
+                        <label>Address Line 1 (Street Address)</label>
+                        <input
+                          name="addressLine1"
+                          placeholder="e.g. Flat 402, Green Avenue, Main Road"
+                          defaultValue={editingStudent === "new" ? "" : (editingStudent.address?.line1 ?? "")}
+                        />
+                      </div>
+
+                      <div className="form-field-group">
+                        <label>Address Line 2 (Area / Landmark)</label>
+                        <input
+                          name="addressLine2"
+                          placeholder="e.g. Near City Center Metro"
+                          defaultValue={editingStudent === "new" ? "" : (editingStudent.address?.line2 ?? "")}
+                        />
+                      </div>
+
+                      <div className="form-field-row-3">
+                        <div className="form-field-group">
+                          <label>City</label>
+                          <input
+                            name="addressCity"
+                            placeholder="e.g. Delhi"
+                            defaultValue={editingStudent === "new" ? "" : (editingStudent.address?.city ?? "")}
+                          />
+                        </div>
+                        <div className="form-field-group">
+                          <label>State</label>
+                          <input
+                            name="addressState"
+                            placeholder="e.g. Delhi NCR"
+                            defaultValue={editingStudent === "new" ? "" : (editingStudent.address?.state ?? "")}
+                          />
+                        </div>
+                        <div className="form-field-group">
+                          <label>Postal / PIN Code</label>
+                          <input
+                            name="addressPostalCode"
+                            placeholder="e.g. 110001"
+                            defaultValue={editingStudent === "new" ? "" : (editingStudent.address?.postalCode ?? "")}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* RIGHT COLUMN: Profile Photo, Remarks, Privacy */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                    {/* Card 3: Profile Photo */}
+                    <div className="form-card-section">
+                      <div className="form-card-header">
+                        <ImageIcon size={15} color="#c084fc" />
+                        <h5>Profile Photo</h5>
+                      </div>
+                      <div key={editingStudent === "new" ? "new" : editingStudent._id}>
+                        <ImagePickerInput
+                          label="Student Avatar (Square JPG / PNG)"
+                          name="profileImageUrl"
+                          folder="students"
+                          defaultValue={editingStudent === "new" ? null : editingStudent.profileImageUrl}
+                          helperText="Upload a crisp portrait photo. Recommended: 500 × 500 px."
+                        />
+                      </div>
+                    </div>
+
+                    {/* Card 4: Additional Notes / Background */}
+                    <div className="form-card-section">
+                      <div className="form-card-header">
+                        <FileText size={15} color="#c084fc" />
+                        <h5>Institutional Remarks &amp; Background</h5>
+                      </div>
+                      <div className="form-field-group">
+                        <label>Notes &amp; Academic Background</label>
+                        <textarea
+                          name="additionalInfo"
+                          rows={3}
+                          placeholder="College, background, coding experience, preferred batch timings, or counseling notes..."
+                          defaultValue={editingStudent === "new" ? "" : (editingStudent.additionalInfo ?? "")}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Card 5: Public Showcase & Privacy Consents */}
+                    <div className="form-card-section">
+                      <div className="form-card-header">
+                        <ShieldCheck size={15} color="#c084fc" />
+                        <h5>Directory &amp; Privacy Consents</h5>
+                      </div>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                        <label className="form-toggle-card">
+                          <input
+                            type="checkbox"
+                            name="publicPhotoConsent"
+                            defaultChecked={editingStudent !== "new" && Boolean(editingStudent.publicPhotoConsent)}
+                          />
+                          <div className="form-toggle-info">
+                            <span className="form-toggle-title">Photo Consent for Public Media</span>
+                            <span className="form-toggle-desc">
+                              Allow student photo to appear on class leaderboards, certificates, and course showcases.
+                            </span>
+                          </div>
+                        </label>
+
+                        <label className="form-toggle-card">
+                          <input
+                            type="checkbox"
+                            name="publicProfile"
+                            defaultChecked={editingStudent !== "new" && Boolean(editingStudent.publicProfile)}
+                          />
+                          <div className="form-toggle-info">
+                            <span className="form-toggle-title">Publish Approved Student Profile</span>
+                            <span className="form-toggle-desc">
+                              Display student in the public alumni and verified student directory (/students).
+                            </span>
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div style={{ marginTop: 16 }} key={editingStudent === "new" ? "new" : editingStudent._id}>
-                <ImagePickerInput label="Profile photo" name="profileImageUrl" folder="students" defaultValue={editingStudent === "new" ? null : editingStudent.profileImageUrl} helperText="Optional. Upload a square JPG or PNG under 10 MB." />
-              </div>
-              <label className="form-field" style={{ marginTop: 16 }}><span>Additional information</span><textarea name="additionalInfo" rows={3} defaultValue={editingStudent === "new" ? "" : editingStudent.additionalInfo ?? ""} /></label>
-              <div style={{ display: "flex", gap: 18, flexWrap: "wrap", marginTop: 14 }}>
-                <label style={{ display: "inline-flex", gap: 8, alignItems: "center" }}><input type="checkbox" name="publicPhotoConsent" defaultChecked={editingStudent !== "new" && Boolean(editingStudent.publicPhotoConsent)} /> Photo consent for public profile</label>
-                <label style={{ display: "inline-flex", gap: 8, alignItems: "center" }}><input type="checkbox" name="publicProfile" defaultChecked={editingStudent !== "new" && Boolean(editingStudent.publicProfile)} /> Publish approved profile</label>
-              </div>
-              <div className="dossier-actions-bar" style={{ marginTop: 20 }}>
-                <button className="button primary-btn" disabled={savingStudent} type="submit">{savingStudent ? "Saving..." : editingStudent === "new" ? "Create student" : "Save changes"}</button>
-                {editingStudent !== "new" && <button type="button" className="button secondary-btn" disabled={savingStudent || updatingId === editingStudent._id} onClick={() => deleteStudent(editingStudent)}><Trash2 size={14} /> Delete if unused</button>}
+
+              {/* Modal Footer Action Bar */}
+              <div className="modal-footer-landscape">
+                <div>
+                  {editingStudent !== "new" && (
+                    <button
+                      type="button"
+                      className="button secondary-btn"
+                      style={{
+                        color: "#f87171",
+                        borderColor: "rgba(239, 68, 68, 0.3)",
+                        background: "rgba(239, 68, 68, 0.08)",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 6,
+                      }}
+                      disabled={savingStudent || updatingId === editingStudent._id}
+                      onClick={() => deleteStudent(editingStudent)}
+                    >
+                      <Trash2 size={14} />
+                      <span>Delete Record</span>
+                    </button>
+                  )}
+                </div>
+
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <button
+                    type="button"
+                    className="button secondary-btn"
+                    disabled={savingStudent}
+                    onClick={() => setEditingStudent(null)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="button primary-btn"
+                    disabled={savingStudent}
+                    type="submit"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                      background: "linear-gradient(135deg, #7c3aed, #9333ea)",
+                      boxShadow: "0 4px 16px rgba(124, 58, 237, 0.4)",
+                      padding: "10px 22px",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {savingStudent ? (
+                      <>
+                        <RefreshCw size={14} className="spin" />
+                        <span>Saving Record...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Check size={15} />
+                        <span>{editingStudent === "new" ? "Create Student Record" : "Save Changes"}</span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
             </form>
           </div>

@@ -4,9 +4,9 @@ import { audit } from "@/lib/audit";
 import { connectDb } from "@/lib/db";
 import { Certificate } from "@/models/Certificate";
 import { CertificateSequence } from "@/models/CertificateSequence";
-import { CertificateTemplate } from "@/models/CertificateTemplate";
 import { Enrollment } from "@/models/Enrollment";
 import { requireAdminSession } from "@/modules/identity/session";
+import { getActiveCertificateTemplate } from "@/modules/certificate/template";
 
 const issueSchema = z.object({ enrollmentId: z.string().min(1), issueDate: z.coerce.date() });
 
@@ -40,12 +40,9 @@ export async function POST(request: Request) {
   await connectDb();
   try {
     const admin = await requireAdminSession();
-    const [enrollment, template] = await Promise.all([
-      Enrollment.findOne({ _id: parsed.data.enrollmentId, status: "completed" }).populate("studentId").populate("courseId"),
-      CertificateTemplate.findOne({ active: true }).sort({ updatedAt: -1 }),
-    ]);
+    const enrollment = await Enrollment.findOne({ _id: parsed.data.enrollmentId, status: "completed" }).populate("studentId").populate("courseId");
     if (!enrollment) return failure("NOT_ELIGIBLE", "Only completed course enrollments can receive a certificate.", 422);
-    if (!template) return failure("TEMPLATE_REQUIRED", "Upload and activate the original certificate template before issuing.", 422);
+    const template = await getActiveCertificateTemplate(admin.userId);
     const existing = await Certificate.findOne({ enrollmentId: enrollment._id });
     if (existing) return failure("CONFLICT", "This completed enrollment already has a certificate record.", 409);
     const student = enrollment.studentId as unknown as { _id: unknown; fullName: string };

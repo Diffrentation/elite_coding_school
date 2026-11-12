@@ -49,7 +49,9 @@ export async function POST(request: Request) {
             },
             { $set: { status: { $cond: [{ $eq: ["$remainingAmount", 0] }, "paid", "partial"] } } },
           ],
-          { new: true, session },
+          // Mongoose 9 requires this explicit flag for aggregation-pipeline
+          // updates. The pipeline keeps the balance check and decrement atomic.
+          { new: true, session, updatePipeline: true },
         );
         if (!invoice) throw new Error("BALANCE_CHANGED");
         const [payment] = await Payment.create(

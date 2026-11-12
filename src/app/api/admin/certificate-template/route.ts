@@ -4,16 +4,25 @@ import { audit } from "@/lib/audit";
 import { connectDb } from "@/lib/db";
 import { CertificateTemplate } from "@/models/CertificateTemplate";
 import { requireAdminSession } from "@/modules/identity/session";
+import { getActiveCertificateTemplate } from "@/modules/certificate/template";
 
 const schema = z.object({ name: z.string().trim().min(3).max(120), imageUrl: z.string().url() });
 
 export async function GET() {
   await connectDb();
+  let admin;
   try {
-    await requireAdminSession();
-    return success({ template: await CertificateTemplate.findOne({ active: true }).sort({ updatedAt: -1 }).lean() });
+    admin = await requireAdminSession();
   } catch {
     return failure("FORBIDDEN", "Administrator access is required.", 403);
+  }
+
+  try {
+    const template = await getActiveCertificateTemplate(admin.userId);
+    return success({ template: template.toObject() });
+  } catch (error) {
+    console.error("Unable to initialize the official certificate template.", error);
+    return failure("TEMPLATE_UNAVAILABLE", "The official certificate template could not be initialized. Please retry.", 500);
   }
 }
 
