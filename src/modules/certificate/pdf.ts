@@ -47,6 +47,20 @@ export async function certificatePdf(input: CertificatePdfInput) {
   document.image(template, 0, 0, { width, height });
   const courseName = input.courseName.trim().replace(/\s+/g, " ");
 
+  // Replace top-right raster motto with print-sharp vector text and dividers
+  document.save();
+  document.fillColor("#ffffff").rect(546, 20.5, 272, 19.5).fill();
+  document.restore();
+  document
+    .font("Helvetica-Bold")
+    .fontSize(11.5)
+    .fillColor("#101c36")
+    .text("Learn      |      Build      |      Practice      |      Grow", 546, 24.5, {
+      width: 272,
+      align: "center",
+      lineBreak: false,
+    });
+
   // Replace the raster certificate lead-in with print-sharp vector text while
   // retaining the original gold rules on each side.
   document.save();

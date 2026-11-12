@@ -408,6 +408,15 @@ export default function VerifyCertificatePage() {
 
                     {/* Single Crisp Verified Certificate Data Overlay */}
                     <div className="verified-certificate-overlay" aria-hidden="true">
+                      <div className="verified-certificate-motto">
+                        <span>Learn</span>
+                        <span className="verified-certificate-motto-pipe">|</span>
+                        <span>Build</span>
+                        <span className="verified-certificate-motto-pipe">|</span>
+                        <span>Practice</span>
+                        <span className="verified-certificate-motto-pipe">|</span>
+                        <span>Grow</span>
+                      </div>
                       <div className="verified-certificate-name">{certificate.studentName}</div>
                       <div className="verified-certificate-achievement">
                         <p>has successfully completed the</p>
