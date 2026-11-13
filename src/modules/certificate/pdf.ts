@@ -256,8 +256,17 @@ export async function certificatePdf(input: CertificatePdfInput) {
   document.moveTo(408.0, 495.1).lineTo(410.3, 497.6).lineTo(408.0, 500.1).stroke();
   document.restore();
 
-  // Keep the signature rule intentionally blank for a real handwritten signature.
-  // The attribution beneath it is official, fixed certificate text in crisp black/deep navy.
+  // The official authentic handwritten signature of Founder Bhupendra Singh
+  // Placed right above the signature line and founder attribution text
+  try {
+    const signaturePath = path.join(process.cwd(), "public", "certificates", "bhupendra-singh-signature.png");
+    const signatureBuffer = await readFile(signaturePath);
+    document.image(signatureBuffer, 518.5, 472, { width: 130, height: 44 });
+  } catch {
+    // Graceful fallback if signature asset is absent
+  }
+
+  // The attribution beneath the signature line is official, fixed certificate text in crisp black/deep navy.
   document
     .font("Helvetica-Bold")
     .fontSize(12)
