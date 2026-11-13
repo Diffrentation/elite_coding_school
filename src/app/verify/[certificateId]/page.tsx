@@ -447,7 +447,10 @@ export default function VerifyCertificatePage() {
                         <span style={{ color: "#f3d078", fontSize: "1.15em", lineHeight: 1 }}>★</span>
                       </div>
                       <div className="verified-certificate-signature">
-                        <img src="/certificates/bhupendra-singh-signature.svg" alt="Bhupendra Singh Signature" />
+                        <img
+                          src="/certificates/bhupendra-singh-signature.svg"
+                          alt="Bhupendra Singh Signature"
+                        />
                       </div>
                     </div>
                   </div>
