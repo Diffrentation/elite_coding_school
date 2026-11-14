@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
+  ArrowRight,
   CheckCircle2,
   Download,
   XCircle,
@@ -568,17 +570,40 @@ export default function VerifyCertificatePage() {
                       {certificate.studentName}
                     </h3>
                     {certificate.student?.studentId && (
-                      <span
+                      <div
                         style={{
-                          fontSize: 12,
-                          color: "#94a3b8",
-                          fontFamily: "var(--font-mono)",
-                          display: "inline-block",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 10,
+                          flexWrap: "wrap",
                           marginTop: 4,
                         }}
                       >
-                        Enrollment ID: #{certificate.student.studentId}
-                      </span>
+                        <span
+                          style={{
+                            fontSize: 12,
+                            color: "#94a3b8",
+                            fontFamily: "var(--font-mono)",
+                          }}
+                        >
+                          Enrollment ID: #{certificate.student.studentId}
+                        </span>
+                        <Link
+                          href={`/students/${certificate.student.studentId}`}
+                          style={{
+                            fontSize: 11.5,
+                            color: "#38bdf8",
+                            textDecoration: "none",
+                            fontWeight: 600,
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 3,
+                          }}
+                        >
+                          <span>View Public Profile</span>
+                          <ArrowRight size={11} />
+                        </Link>
+                      </div>
                     )}
                   </div>
                 </div>
