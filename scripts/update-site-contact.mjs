@@ -12,7 +12,8 @@ await mongoose.connection.collection("sitesettings").updateOne(
     $set: {
       email: "bbhupender100@gmail.com",
       phone: "+91 9311278407",
-      address: "Vijay Nagar Bypass, Bagu",
+      address: "Taj Highway, Tigrii - 50 m walk from Tigri, near Vijay Nagar Bypass",
+      openingHours: "Monday - Saturday: 3:00 PM - 10:30 PM",
       updatedAt: new Date(),
     },
     $setOnInsert: { key: "singleton", instituteName: "Elite Coding School" },

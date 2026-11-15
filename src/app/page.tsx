@@ -428,7 +428,7 @@ export default function Home() {
               </div>
               <div className="campus-timing-pill">
                 <Calendar size={13} />
-                <span>Mon &ndash; Sat: 9:00 AM &ndash; 7:00 PM</span>
+                <span>Mon &ndash; Sat: 3:00 PM &ndash; 10:30 PM</span>
               </div>
             </div>
 
@@ -1274,11 +1274,11 @@ export default function Home() {
             <div className="cta-contact-chips">
               <div className="contact-chip">
                 <MapPin size={15} color="#38bdf8" />
-                <span>Vijay Nagar Bypass, Bagu</span>
+                <span>Taj Highway, Tigrii &mdash; near Vijay Nagar Bypass</span>
               </div>
               <div className="contact-chip">
                 <Clock size={15} color="#10b981" />
-                <span>Center Timings: Mon - Sat 9:00 AM - 7:00 PM</span>
+                <span>Center Timings: Mon - Sat 3:00 PM - 10:30 PM</span>
               </div>
               <div className="contact-chip">
                 <Phone size={15} color="#c084fc" />

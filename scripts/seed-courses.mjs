@@ -8,7 +8,18 @@ if (!uri) throw new Error("MONGODB_URI is missing from .env.local");
 const m = (title, topics, order) => ({ id: `m${order}`, title, order, topics });
 const course = (data, modules) => ({
   ...data,
-  syllabus: modules.map((entry, index) => m(entry[0], entry.slice(1), index + 1)),
+  syllabus: modules.map((entry, index) => {
+    const [title, ...topics] = entry;
+    return m(
+      title,
+      [
+        ...topics,
+        `Hands-on lab: apply ${title.toLowerCase()} through guided classroom practice`,
+        "Module recap, doubt-solving, and a teacher-reviewed challenge",
+      ],
+      index + 1,
+    );
+  }),
 });
 
 const courses = [
@@ -574,10 +585,298 @@ const courses = [
       ],
     ],
   ),
+  course(
+    {
+      title: "Basic Computer Fundamentals & MS Office",
+      slug: "basic-computer-fundamentals-ms-office",
+      track: "core",
+      trackLabel: "Computer Basics",
+      category: "Computer Fundamentals",
+      durationMonths: 3,
+      level: "beginner",
+      skills: [
+        "Computer Basics",
+        "Windows",
+        "File Management",
+        "Internet & Email",
+        "MS Word",
+        "MS Excel",
+        "PowerPoint",
+        "Typing & Printing",
+      ],
+      prerequisites: ["No prior computer experience required", "Laptop is helpful but not mandatory"],
+      perks: [
+        "Hands-on daily computer practice",
+        "MS Office assignments and projects",
+        "Internet and digital-safety guidance",
+        "Beginner-friendly teacher support",
+      ],
+    },
+    [
+      [
+        "Computer Basics & Hardware",
+        "Parts of a computer and their uses",
+        "Input, output and storage devices",
+        "Starting, shutting down and using an operating system",
+      ],
+      [
+        "Windows & File Management",
+        "Desktop, taskbar and settings",
+        "Create, rename, copy, move and delete files",
+        "Folders, USB drives and file extensions",
+      ],
+      [
+        "Internet, Email & Digital Safety",
+        "Browsers, search, downloads and uploads",
+        "Create and manage an email account",
+        "Attachments, passwords and online safety",
+      ],
+      [
+        "Microsoft Word",
+        "Typing, formatting and page layout",
+        "Tables, images, headers and footers",
+        "Letters, applications and resume creation",
+      ],
+      [
+        "Microsoft Excel",
+        "Worksheets, rows, columns and cell formatting",
+        "SUM, AVERAGE and basic formulas",
+        "Sorting, filtering, charts and simple reports",
+      ],
+      [
+        "PowerPoint & Office Projects",
+        "Slides, themes, images and animations",
+        "Presentations and printing documents",
+        "Final practical MS Office project and revision",
+      ],
+    ],
+  ),
+  course(
+    {
+      title: "Apache Kafka & Event-Driven Systems",
+      slug: "apache-kafka-event-driven-systems",
+      track: "web",
+      trackLabel: "Kafka & Streaming",
+      category: "Backend & Data Streaming",
+      durationMonths: 3,
+      level: "intermediate",
+      skills: [
+        "Apache Kafka",
+        "Event Streaming",
+        "Topics & Partitions",
+        "Producers",
+        "Consumers",
+        "Consumer Groups",
+        "Kafka Connect",
+        "Docker",
+      ],
+      prerequisites: ["JavaScript, Node.js, or Java basics", "Comfort with REST APIs and terminal commands"],
+      perks: [
+        "Live producer-consumer labs",
+        "Run Kafka locally with Docker",
+        "Reliability and failure-handling drills",
+        "Event-driven project review",
+      ],
+    },
+    [
+      [
+        "Event Streaming Foundations",
+        "Why event-driven systems are used",
+        "Kafka brokers, clusters and message flow",
+        "Topics, partitions and offsets",
+      ],
+      [
+        "Kafka Setup & CLI",
+        "Run Kafka locally with Docker",
+        "Create, inspect and delete topics",
+        "Use the Kafka CLI for messages and consumer groups",
+      ],
+      [
+        "Producers & Message Design",
+        "Producer configuration and acknowledgements",
+        "Message keys, partitions and ordering",
+        "JSON serialization and event schemas",
+      ],
+      [
+        "Consumers & Consumer Groups",
+        "Offsets, commits and consumer group scaling",
+        "Rebalancing and partition assignment",
+        "At-least-once delivery and duplicate handling",
+      ],
+      [
+        "Reliability, Monitoring & Connect",
+        "Replication, retention and recovery",
+        "Retries, idempotent producers and dead-letter topics",
+        "Kafka Connect and operational monitoring",
+      ],
+      [
+        "Event-Driven Capstone",
+        "Design an order or notification event flow",
+        "Connect a Node.js API to Kafka",
+        "Test, document and present a streaming project",
+      ],
+    ],
+  ),
+  course(
+    {
+      title: "Git & GitHub Version Control",
+      slug: "git-github-version-control",
+      track: "core",
+      trackLabel: "Git & GitHub",
+      category: "Developer Tools",
+      durationMonths: 2,
+      level: "beginner",
+      skills: [
+        "Git",
+        "GitHub",
+        "Repositories",
+        "Branches",
+        "Pull Requests",
+        "Merge Conflicts",
+        "Markdown",
+        "Open Source",
+      ],
+      prerequisites: ["Basic computer usage", "A laptop for daily practice"],
+      perks: [
+        "Daily command-line Git practice",
+        "Portfolio repositories and README writing",
+        "Branching and merge-conflict labs",
+        "Teacher-reviewed GitHub profile setup",
+      ],
+    },
+    [
+      [
+        "Version Control Foundations",
+        "Why version control matters",
+        "Install Git and configure your identity",
+        "Understand the working tree, staging area and commits",
+      ],
+      [
+        "Git Essentials in the Terminal",
+        "Use git init, status, add and commit",
+        "Review history with log and diff",
+        "Restore files and manage .gitignore",
+      ],
+      [
+        "GitHub Repositories",
+        "Create and clone remote repositories",
+        "Push, pull and synchronise changes",
+        "Use repository visibility, issues and project basics",
+      ],
+      [
+        "Branches & Collaboration",
+        "Create, switch and merge feature branches",
+        "Open pull requests and follow a code-review flow",
+        "Work safely with a team workflow",
+      ],
+      [
+        "Merge Conflicts & Recovery",
+        "Read and resolve merge conflicts",
+        "Use revert, reset and safe recovery choices",
+        "Tag releases and preserve a clean history",
+      ],
+      [
+        "Portfolio Capstone",
+        "Publish a project with a professional README",
+        "Add screenshots, documentation and a license",
+        "Present your GitHub portfolio and collaboration workflow",
+      ],
+    ],
+  ),
+  course(
+    {
+      title: "Basic Web Development: HTML, CSS & JavaScript",
+      slug: "basic-web-development-html-css-javascript",
+      track: "web",
+      trackLabel: "Web Foundations",
+      category: "Frontend Development",
+      durationMonths: 3,
+      level: "beginner",
+      skills: [
+        "HTML5",
+        "CSS3",
+        "Responsive Design",
+        "JavaScript",
+        "DOM Manipulation",
+        "Forms",
+        "Browser DevTools",
+        "Website Deployment",
+      ],
+      prerequisites: ["Basic computer usage", "A laptop for daily practice"],
+      perks: [
+        "Build websites from the first class",
+        "Daily HTML, CSS and JavaScript labs",
+        "Responsive design practice for mobile screens",
+        "Three portfolio-ready frontend projects",
+      ],
+    },
+    [
+      [
+        "How the Web Works & HTML Foundations",
+        "Browsers, URLs, files and folders",
+        "Semantic HTML structure and accessible content",
+        "Headings, paragraphs, links, images and lists",
+      ],
+      [
+        "HTML Forms & Page Structure",
+        "Tables, forms, labels and input types",
+        "Navigation, sections, articles and footers",
+        "Form validation basics and practical contact forms",
+      ],
+      [
+        "CSS Styling Fundamentals",
+        "Selectors, cascade, inheritance and units",
+        "Colours, typography, spacing and borders",
+        "Box model, display types and reusable classes",
+      ],
+      [
+        "Layouts & Responsive Design",
+        "Flexbox for modern page layouts",
+        "CSS Grid for structured sections",
+        "Media queries and mobile-first responsive design",
+      ],
+      [
+        "JavaScript Essentials",
+        "Variables, data types, conditions and loops",
+        "Functions, arrays, objects and template literals",
+        "Debugging with browser developer tools",
+      ],
+      [
+        "Interactive Web Pages",
+        "DOM selection and event handling",
+        "Dynamic forms, validation and local storage",
+        "Build an interactive landing page or mini application",
+      ],
+      [
+        "Frontend Portfolio Capstone",
+        "Plan and build a responsive multi-section website",
+        "Polish usability, accessibility and mobile layouts",
+        "Publish your project and present the source code",
+      ],
+    ],
+  ),
 ];
+
+const courseIcons = {
+  "full-stack-development": "Layers",
+  "frontend-development": "Braces",
+  "backend-development": "Server",
+  "computer-networks": "Network",
+  "operating-systems-kernel": "Terminal",
+  "data-structures-algorithms": "BrainCircuit",
+  "system-design": "BarChart3",
+  "c-cpp-programming": "Braces",
+  "java-programming": "Coffee",
+  "python-programming": "Code2",
+  "basic-computer-fundamentals-ms-office": "Monitor",
+  "apache-kafka-event-driven-systems": "Radio",
+  "git-github-version-control": "GitBranch",
+  "basic-web-development-html-css-javascript": "Braces",
+};
 
 await mongoose.connect(uri, { serverSelectionTimeoutMS: 10_000 });
 const collection = mongoose.connection.collection("courses");
+const removedTestCourse = await collection.deleteMany({ title: "Velit dolorem" });
 for (const [index, data] of courses.entries()) {
   const description = `Learn ${data.title} in instructor-led offline classes with concept-first teaching, daily laptop practice, guided assignments, mentor support, and project-based revision.`;
   await collection.updateOne(
@@ -585,7 +884,7 @@ for (const [index, data] of courses.entries()) {
     {
       $set: {
         ...data,
-        icon: "Code2",
+        icon: courseIcons[data.slug] ?? "Code2",
         shortDescription: description,
         description,
         labHours: "90+ Class Hours",
@@ -602,4 +901,6 @@ for (const [index, data] of courses.entries()) {
   );
 }
 await mongoose.disconnect();
-console.log(`Upserted ${courses.length} complete published course records.`);
+console.log(
+  `Upserted ${courses.length} complete published course records and removed ${removedTestCourse.deletedCount} test course(s).`,
+);

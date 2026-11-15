@@ -6,6 +6,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { CopyrightYear } from "@/components/copyright-year";
 import { CourseDetailSkeleton } from "@/components/ui/skeleton-patterns";
+import { getCourseIcon } from "@/lib/course-icons";
 import {
   ArrowLeft,
   ArrowRight,
@@ -40,6 +41,7 @@ type Course = {
   _id: string;
   slug: string;
   title: string;
+  icon?: string;
   description: string;
   category: string;
   level: string;
@@ -660,6 +662,14 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
     );
   }
 
+  const CourseIcon = getCourseIcon(course.icon);
+  const totalTopics = course.syllabus.reduce((total, module) => total + module.topics.length, 0);
+  const classroomPerks = course.perks?.slice(0, 3) ?? [
+    "Daily guided laptop practice in the classroom",
+    "Teacher-led doubt solving and progress reviews",
+    "Practical assignments with a clear module recap",
+  ];
+
   return (
     <main className="courses-redesign">
       {/* 1. STICKY HEADER */}
@@ -690,7 +700,7 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
             {/* Row 2: Offline Cohort Badge */}
             <div className="course-kicker-row" style={{ marginBottom: "18px", display: "block" }}>
               <div className="kicker" style={{ margin: 0 }}>
-                <span className="pulse-dot" />
+                <CourseIcon size={14} />
                 <span>OFFLINE CLASSROOM &amp; LAB COHORT</span>
               </div>
             </div>
@@ -810,29 +820,77 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
               <span>DETAILED LAB SYLLABUS</span>
             </div>
             <h2 className="curriculum-heading">What You&apos;ll Build &amp; Master</h2>
+            <p className="curriculum-intro">
+              Learn in a clear, classroom-led sequence. Every module combines concept explanation, a live
+              example, guided practice, and a teacher-reviewed challenge.
+            </p>
+
+            <div className="curriculum-overview-grid">
+              <div className="sidebar-card">
+                <h4 className="sidebar-card-title">Technologies &amp; Tools Covered</h4>
+                <div className="tech-tags-list">
+                  {course.skills.map((skill) => (
+                    <span key={skill} className="tech-tag">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="sidebar-card">
+                <h4 className="sidebar-card-title">Prerequisites</h4>
+                <p className="prereq-text">
+                  {course.prerequisites?.length
+                    ? course.prerequisites.join(" • ")
+                    : "No prior experience required. We start from the foundations."}
+                </p>
+              </div>
+              <div className="sidebar-card curriculum-learning-card">
+                <h4 className="sidebar-card-title">How You&apos;ll Learn</h4>
+                <ul className="curriculum-perks-list">
+                  {classroomPerks.map((perk) => (
+                    <li key={perk}>
+                      <CheckCircle2 size={14} />
+                      <span>{perk}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="curriculum-summary-row" aria-label="Course learning summary">
+              <span>{course.syllabus.length} learning modules</span>
+              <span>{totalTopics} practical checkpoints</span>
+              <span>Daily guided lab practice</span>
+            </div>
 
             <div className="modules-list">
               {course.syllabus.map((mod, idx) => (
-                <div key={mod.id ?? idx} className="module-card">
-                  <h3 className="module-title">
-                    <span className="module-badge">0{idx + 1}</span>
-                    <span>{mod.title}</span>
-                  </h3>
+                <article key={mod.id ?? idx} className="module-card">
+                  <div className="module-card-header">
+                    <h3 className="module-title">
+                      <span className="module-badge">{String(idx + 1).padStart(2, "0")}</span>
+                      <span>{mod.title}</span>
+                    </h3>
+                    <span className="module-topic-count">{mod.topics.length} checkpoints</span>
+                  </div>
                   <ul className="module-topics-list">
-                    {mod.topics.map((t) => (
-                      <li key={t}>
+                    {mod.topics.map((topic) => (
+                      <li key={topic}>
                         <CheckCircle2 size={15} color="#10b981" className="topic-icon" />
-                        <span>{t}</span>
+                        <span className="topic-copy">
+                          <strong>{topic}</strong>
+                          <small>Explanation, live example, and hands-on class practice.</small>
+                        </span>
                       </li>
                     ))}
                   </ul>
-                </div>
+                </article>
               ))}
             </div>
           </div>
 
           {/* Right: Tech Stack & Prerequisites */}
-          <div className="curriculum-sidebar">
+          <div className="curriculum-sidebar legacy-curriculum-sidebar" aria-hidden="true">
             <div className="sidebar-card">
               <h4 className="sidebar-card-title">Technologies &amp; Tools Covered</h4>
               <div className="tech-tags-list">

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CopyrightYear } from "@/components/copyright-year";
+import { EcsLogo } from "@/components/ecs-logo";
 import {
   ArrowRight,
   BookOpen,
@@ -45,10 +46,10 @@ type PublishedCourse = {
 
 export function Footer({
   name = "Elite Coding School",
-  address = "Vijay Nagar Bypass, Bagu",
+  address = "Taj Highway, Tigrii — 50 m walk from Tigri, near Vijay Nagar Bypass",
   phone = "+91 9311278407",
   email = "bbhupender100@gmail.com",
-  hours = "Monday – Saturday: 9:00 AM – 7:00 PM",
+  hours = "Monday – Saturday: 3:00 PM – 10:30 PM",
   onSelectTrack,
 }: FooterProps) {
   const [courses, setCourses] = useState<PublishedCourse[]>([]);
@@ -114,12 +115,12 @@ export function Footer({
         <div className="footer-top-strip">
           <div className="footer-brand-lockup">
             <Link className="brand" href="/">
-              <span className="brand-mark">&lt;/&gt;</span>
+              <EcsLogo className="brand-mark" />
               <span>{name}</span>
             </Link>
             <div className="footer-live-status">
               <span className="pulse-dot" />
-              <span>OFFLINE CENTER OPEN (09:00 - 19:00 IST)</span>
+              <span>OFFLINE CENTER OPEN (15:00 - 22:30 IST)</span>
             </div>
           </div>
 
@@ -219,10 +220,10 @@ export function Footer({
                     </div>
                     <p>{address}</p>
                     <span className="footer-address-note">
-                      🚇 200m walk from Metro Station &bull; Free visitor parking available
+                      50 m walk from Tigri &bull; Near Vijay Nagar Bypass
                     </span>
                     <span className="footer-address-live">
-                      ● Walk-ins &amp; Demo Classes welcome Mon–Sat (09:00 AM - 07:00 PM)
+                      ● Walk-ins &amp; Demo Classes welcome Mon–Sat (03:00 PM - 10:30 PM)
                     </span>
                   </div>
 
@@ -443,7 +444,7 @@ export function Footer({
                     <div>
                       <strong>Physical Classroom</strong>
                       <strong className="footer-tile-highlight">{address}</strong>
-                      <span>200m walk from Metro Station &bull; Visitor parking</span>
+                      <span>50 m walk from Tigri &bull; Near Vijay Nagar Bypass</span>
                     </div>
                   </div>
                 </div>

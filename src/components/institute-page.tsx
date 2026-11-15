@@ -78,10 +78,10 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
   }, [type]);
 
   const name = settings?.instituteName ?? "Elite Coding School";
-  const address = settings?.address || "Vijay Nagar Bypass, Bagu";
+  const address = settings?.address || "Taj Highway, Tigrii — 50 m walk from Tigri, near Vijay Nagar Bypass";
   const phone = settings?.phone || "+91 9311278407";
   const email = settings?.email || "bbhupender100@gmail.com";
-  const hours = settings?.openingHours || "Monday – Saturday: 9:00 AM – 7:00 PM";
+  const hours = settings?.openingHours || "Monday – Saturday: 3:00 PM – 10:30 PM";
 
   return (
     <main className={`courses-redesign institute-page institute-page--${type}`}>
@@ -439,11 +439,11 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                 <div className="offline-chips-row">
                   <div className="offline-chip">
                     <Clock size={14} />
-                    <span>09:00 AM – 07:00 PM</span>
+                    <span>03:00 PM – 10:30 PM</span>
                   </div>
                   <div className="offline-chip">
                     <MapPin size={14} />
-                    <span>Vijay Nagar Bypass</span>
+                    <span>Taj Highway, Tigrii</span>
                   </div>
                   <div className="offline-chip">
                     <Sparkles size={14} />
@@ -502,8 +502,8 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                       paddingBottom: "8px",
                     }}
                   >
-                    <span style={{ color: "#94a3b8" }}>Monday – Friday:</span>
-                    <strong style={{ color: "#ffffff" }}>09:00 AM – 07:00 PM</strong>
+                    <span style={{ color: "#94a3b8" }}>Monday – Saturday:</span>
+                    <strong style={{ color: "#ffffff" }}>03:00 PM – 10:30 PM</strong>
                   </div>
                   <div
                     style={{
@@ -513,8 +513,8 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                       paddingBottom: "8px",
                     }}
                   >
-                    <span style={{ color: "#94a3b8" }}>Saturday:</span>
-                    <strong style={{ color: "#ffffff" }}>09:00 AM – 06:00 PM</strong>
+                    <span style={{ color: "#94a3b8" }}>Campus location:</span>
+                    <strong style={{ color: "#ffffff" }}>Taj Highway, Tigrii</strong>
                   </div>
                   <div
                     style={{
@@ -563,7 +563,7 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                       <h4>Physical Campus Address</h4>
                       <p>{address}</p>
                       <span className="contact-sub-highlight">
-                        🚇 200m walk from Metro Station &bull; Visitor parking available
+                        50 m walk from Tigri &bull; Near Vijay Nagar Bypass
                       </span>
                     </div>
                   </div>
@@ -651,9 +651,9 @@ export function InstitutePage({ type }: { type: "about" | "contact" }) {
                   <div className="contact-faq-badge">01</div>
                   <strong>Do I need an appointment before visiting?</strong>
                   <p>
-                    No appointment is necessary! You are welcome to walk in between 9:00 AM and 7:00 PM Monday
-                    through Saturday. Our teachers and counselors are always present in the center to show you
-                    the lab.
+                    No appointment is necessary! You are welcome to walk in between 3:00 PM and 10:30 PM
+                    Monday through Saturday. We are on Taj Highway, Tigrii—just a 50 m walk from Tigri, near
+                    Vijay Nagar Bypass.
                   </p>
                 </div>
 

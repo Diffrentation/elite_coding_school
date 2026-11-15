@@ -22,6 +22,8 @@ import {
   Filter,
 } from "lucide-react";
 import { ImagePickerInput } from "@/components/image-picker-input";
+import { CourseIconPicker } from "@/components/course-icon-picker";
+import { getCourseIcon } from "@/lib/course-icons";
 import { CustomSelect, type CustomSelectOption } from "./ui/custom-select";
 import { AgTable, type AgColumn } from "./ui/ag-table";
 
@@ -205,30 +207,33 @@ export function AdminCourses() {
       key: "title",
       header: "Course Program",
       sortable: true,
-      render: (course) => (
-        <div className="course-profile-cell">
-          <div className="course-profile-title-row">
-            <span className="course-icon-badge">
-              <BookOpen size={14} />
-            </span>
-            <strong className="course-profile-title">{course.title}</strong>
+      render: (course) => {
+        const CourseIcon = getCourseIcon(course.icon);
+        return (
+          <div className="course-profile-cell">
+            <div className="course-profile-title-row">
+              <span className="course-icon-badge" title={`${course.icon || "Code2"} course icon`}>
+                <CourseIcon size={14} />
+              </span>
+              <strong className="course-profile-title">{course.title}</strong>
+            </div>
+            <div className="course-profile-slug-row">
+              <code className="course-slug-code">/{course.slug}</code>
+              <a
+                href={`/courses/${course._id}`}
+                target="_blank"
+                rel="noreferrer"
+                className="course-live-link"
+                onClick={(e) => e.stopPropagation()}
+                title="Open public course page in new tab"
+              >
+                <ExternalLink size={11} />
+                <span>Live Page</span>
+              </a>
+            </div>
           </div>
-          <div className="course-profile-slug-row">
-            <code className="course-slug-code">/{course.slug}</code>
-            <a
-              href={`/courses/${course._id}`}
-              target="_blank"
-              rel="noreferrer"
-              className="course-live-link"
-              onClick={(e) => e.stopPropagation()}
-              title="Open public course page in new tab"
-            >
-              <ExternalLink size={11} />
-              <span>Live Page</span>
-            </a>
-          </div>
-        </div>
-      ),
+        );
+      },
     },
     {
       key: "category",
@@ -561,19 +566,11 @@ export function AdminCourses() {
             </small>
           </label>
 
-          {/* 5. Course Icon */}
-          <label>
-            Course Icon
-            <select name="icon" defaultValue={editing?.icon ?? "Code2"}>
-              <option value="Code2">Code &lt;/&gt;</option>
-              <option value="Braces">Frontend / React</option>
-              <option value="Server">Backend / Node.js</option>
-              <option value="Database">Database / MongoDB</option>
-              <option value="BrainCircuit">DSA / Algorithms</option>
-              <option value="BarChart3">System Design</option>
-              <option value="TerminalSquare">Linux / Terminal</option>
-            </select>
-          </label>
+          {/* 5. Searchable technical icon picker */}
+          <div className="course-icon-field">
+            <span className="course-icon-field-label">Course Icon</span>
+            <CourseIconPicker key={editing?._id ?? "new"} defaultValue={editing?.icon ?? "Code2"} />
+          </div>
 
           {/* 6. Category */}
           <label className={fieldErrors.category?.length ? "has-field-error" : undefined}>

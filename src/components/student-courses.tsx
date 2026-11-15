@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { EcsLogo } from "@/components/ecs-logo";
 
 type Enrollment = {
   _id: string;
@@ -62,7 +63,7 @@ export function StudentCourses() {
         {enrollments.map((enrollment) => (
           <article key={enrollment._id}>
             <span className="course-icon" aria-hidden="true">
-              &lt;/&gt;
+              <EcsLogo alt="" />
             </span>
             <div>
               <small>COURSE</small>

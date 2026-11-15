@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import { ArrowRight, Cpu, Monitor, Network, Users } from "lucide-react";
+import { EcsLogo } from "@/components/ecs-logo";
 
 type Mode = "login" | "register" | "verify" | "forgot" | "reset";
 const call = async (url: string, body: object) => {
@@ -109,7 +110,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
   return (
     <main className="auth-page">
       <Link href="/" className="brand">
-        <span className="brand-mark">&lt;/&gt;</span>
+        <EcsLogo className="brand-mark" />
         <span>Elite Coding School</span>
         <span className="brand-offline-tag" style={{ marginLeft: "12px" }}>
           <span className="pulse-dot" />

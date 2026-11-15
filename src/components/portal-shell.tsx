@@ -22,6 +22,7 @@ import {
   ShieldCheck,
   Award,
 } from "lucide-react";
+import { EcsLogo } from "@/components/ecs-logo";
 
 type PortalKind = "student" | "admin";
 type CurrentUser = {
@@ -120,7 +121,7 @@ export function PortalShell({ children, kind }: { children: ReactNode; kind: Por
       <aside className={`portal-sidebar ${open ? "open" : ""}`}>
         <div className="portal-brand-block">
           <Link className="portal-brand" href="/">
-            <b className="portal-brand-symbol">&lt;/&gt;</b>
+            <EcsLogo className="portal-brand-symbol" />
             <div className="portal-brand-text">
               <strong>Elite Coding School</strong>
               <small>{role}</small>

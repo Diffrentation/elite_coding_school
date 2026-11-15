@@ -5,6 +5,11 @@ export const metadata: Metadata = {
   title: "Elite Coding School | Offline Tech Institute for Coders",
   description:
     "Master Full-Stack Development, Computer Networks, Operating Systems, and Low-Level Architecture in high-tech offline campus labs with 1:1 desk mentoring.",
+  icons: {
+    icon: [{ url: "/brand/ecs-certificate-logo.png", type: "image/png" }],
+    shortcut: ["/brand/ecs-certificate-logo.png"],
+    apple: [{ url: "/brand/ecs-certificate-logo.png", type: "image/png" }],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

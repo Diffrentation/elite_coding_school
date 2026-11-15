@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, ChevronRight, Menu, X } from "lucide-react";
+import { EcsLogo } from "@/components/ecs-logo";
 
 export type NavbarProps = {
   activePage?: "home" | "courses" | "students" | "about" | "contact" | "none";
@@ -231,7 +232,7 @@ export function Navbar({ activePage = "home" }: NavbarProps) {
 
         <header className="courses-header">
           <Link className="brand" href="/" aria-label="Elite Coding School">
-            <span className="brand-mark">&lt;/&gt;</span>
+            <EcsLogo className="brand-mark" />
             <div className="brand-text-wrap">
               <span className="brand-text">Elite Coding School</span>
               <span className="brand-offline-tag">
@@ -249,7 +250,7 @@ export function Navbar({ activePage = "home" }: NavbarProps) {
             {/* Drawer Header (visible on mobile in right sidebar) */}
             <div className="nav-drawer-header">
               <div className="nav-drawer-brand">
-                <span className="brand-mark">&lt;/&gt;</span>
+                <EcsLogo className="brand-mark" />
                 <span className="nav-drawer-title">Navigation</span>
               </div>
               <button
@@ -414,7 +415,7 @@ export function Navbar({ activePage = "home" }: NavbarProps) {
             {/* Drawer Footer (visible on mobile in right sidebar) */}
             <div className="nav-drawer-footer">
               <span className="pulse-dot" />
-              <span>Center Open Today (09:00 - 19:00)</span>
+              <span>Center Open Today (15:00 - 22:30)</span>
             </div>
           </nav>
         </header>

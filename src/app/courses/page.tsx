@@ -431,7 +431,7 @@ export default function CoursesPage() {
               </div>
               <div className="lab-status-badge">
                 <span className="pulse-dot" />
-                <span>NEW BATCH OPEN (09:00 - 19:00)</span>
+                <span>NEW BATCH OPEN (15:00 - 22:30)</span>
               </div>
             </div>
 
@@ -884,11 +884,11 @@ export default function CoursesPage() {
             <div className="cta-contact-chips">
               <div className="contact-chip">
                 <MapPin size={15} color="#38bdf8" />
-                <span>Vijay Nagar Bypass, Bagu</span>
+                <span>Taj Highway, Tigrii &mdash; near Vijay Nagar Bypass</span>
               </div>
               <div className="contact-chip">
                 <Clock size={15} color="#10b981" />
-                <span>Visiting &amp; Demo Hours: Mon - Sat 9:00 AM - 7:00 PM</span>
+                <span>Visiting &amp; Demo Hours: Mon - Sat 3:00 PM - 10:30 PM</span>
               </div>
               <div className="contact-chip">
                 <Phone size={15} color="#c084fc" />
