@@ -92,10 +92,11 @@ export default function VerifyCertificatePage() {
     <>
       <Navbar />
       <main
+        className="verify-page-main"
         style={{
           minHeight: "85vh",
           background: "radial-gradient(ellipse at 50% 0%, #151a4a 0%, #06091e 70%)",
-          padding: "110px max(16px, 6vw) 70px",
+          padding: "80px max(16px, 6vw) 60px",
           color: "#f1f5f9",
           fontFamily: "var(--font-body), sans-serif",
         }}
@@ -377,6 +378,8 @@ export default function VerifyCertificatePage() {
                     <span>Official print-ready PDF preview</span>
                   </div>
                 </div>
+
+
 
                 {/* THE CERTIFICATE CANVAS / CONTAINER */}
                 {activeTab === "visual" ? (

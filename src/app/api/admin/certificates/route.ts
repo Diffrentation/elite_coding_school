@@ -8,7 +8,20 @@ import { Enrollment } from "@/models/Enrollment";
 import { requireAdminSession } from "@/modules/identity/session";
 import { getActiveCertificateTemplate } from "@/modules/certificate/template";
 
-const issueSchema = z.object({ enrollmentId: z.string().min(1), issueDate: z.coerce.date() });
+const issueSchema = z.object({
+  enrollmentId: z.string().min(1),
+  issueDate: z.coerce.date(),
+  joiningDate: z.coerce.date().optional(),
+  completionDate: z.coerce.date().optional(),
+});
+
+const updateCertificateSchema = z.object({
+  certificateId: z.string().min(1),
+  joiningDate: z.coerce.date().optional(),
+  completionDate: z.coerce.date().optional(),
+  issueDate: z.coerce.date().optional(),
+  batch: z.string().optional(),
+});
 
 async function nextCertificateId(issueDate: Date) {
   const year = issueDate.getUTCFullYear();
@@ -61,8 +74,8 @@ export async function POST(request: Request) {
       studentNameSnapshot: student.fullName,
       courseNameSnapshot: enrollment.courseTitleSnapshot,
       batchSnapshot: enrollment.batch,
-      joiningDateSnapshot: enrollment.joiningDate,
-      completionDate: enrollment.updatedAt,
+      joiningDateSnapshot: parsed.data.joiningDate ?? enrollment.joiningDate,
+      completionDate: parsed.data.completionDate ?? enrollment.updatedAt,
       issueDate: parsed.data.issueDate,
       verificationPath: `/verify/${certificateId}`,
       templateUrl: template.imageUrl,
@@ -77,5 +90,36 @@ export async function POST(request: Request) {
     if (error instanceof Error && /duplicate key/i.test(error.message))
       return failure("CONFLICT", "A certificate already exists for this enrollment. Refresh the list.", 409);
     return failure("ISSUE_FAILED", "The certificate could not be issued.", 500);
+  }
+}
+
+export async function PATCH(request: Request) {
+  const parsed = updateCertificateSchema.safeParse(await request.json());
+  if (!parsed.success)
+    return failure("VALIDATION_ERROR", "Invalid certificate update parameters.", 422);
+  await connectDb();
+  try {
+    const admin = await requireAdminSession();
+    const cert = await Certificate.findOne({
+      $or: [{ certificateId: parsed.data.certificateId }, { _id: parsed.data.certificateId }],
+    });
+    if (!cert) return failure("NOT_FOUND", "Certificate not found.", 404);
+
+    if (parsed.data.joiningDate) cert.joiningDateSnapshot = parsed.data.joiningDate;
+    if (parsed.data.completionDate) cert.completionDate = parsed.data.completionDate;
+    if (parsed.data.issueDate) cert.issueDate = parsed.data.issueDate;
+    if (parsed.data.batch) cert.batchSnapshot = parsed.data.batch;
+
+    await cert.save();
+    await audit("certificate.updated", "certificate", String(cert._id), admin.userId, {
+      certificateId: cert.certificateId,
+      joiningDate: cert.joiningDateSnapshot,
+      completionDate: cert.completionDate,
+      issueDate: cert.issueDate,
+    });
+
+    return success({ certificate: cert });
+  } catch {
+    return failure("UPDATE_FAILED", "Failed to update certificate dates.", 500);
   }
 }

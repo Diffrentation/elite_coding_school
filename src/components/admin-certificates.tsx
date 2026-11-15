@@ -23,6 +23,8 @@ import {
   Sparkles,
   Users,
   Search,
+  Edit3,
+  X,
 } from "lucide-react";
 import { ImagePickerInput } from "@/components/image-picker-input";
 import { AgTable, type AgColumn } from "./ui/ag-table";
@@ -42,6 +44,8 @@ type Certificate = {
   studentNameSnapshot: string;
   courseNameSnapshot: string;
   batchSnapshot?: string;
+  joiningDateSnapshot?: string;
+  completionDate?: string;
   issueDate: string;
   status: "active" | "revoked";
   verificationPath: string;
@@ -76,6 +80,56 @@ export function AdminCertificates() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const issueFormRef = useRef<HTMLFormElement>(null);
+
+  // State for editing certificate dates
+  const [editingCert, setEditingCert] = useState<Certificate | null>(null);
+  const [editJoiningDate, setEditJoiningDate] = useState("");
+  const [editCompletionDate, setEditCompletionDate] = useState("");
+  const [editIssueDate, setEditIssueDate] = useState("");
+  const [editBatch, setEditBatch] = useState("");
+  const [editSaving, setEditSaving] = useState(false);
+
+  function openEditModal(cert: Certificate) {
+    setEditingCert(cert);
+    setEditJoiningDate(
+      cert.joiningDateSnapshot ? new Date(cert.joiningDateSnapshot).toISOString().slice(0, 10) : "",
+    );
+    setEditCompletionDate(
+      cert.completionDate ? new Date(cert.completionDate).toISOString().slice(0, 10) : "",
+    );
+    setEditIssueDate(
+      cert.issueDate ? new Date(cert.issueDate).toISOString().slice(0, 10) : "",
+    );
+    setEditBatch(cert.batchSnapshot || "");
+  }
+
+  async function saveEditedDates(e: FormEvent) {
+    e.preventDefault();
+    if (!editingCert) return;
+    setEditSaving(true);
+    setError("");
+    setMessage("");
+    try {
+      await request("/api/admin/certificates", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          certificateId: editingCert.certificateId,
+          joiningDate: editJoiningDate || undefined,
+          completionDate: editCompletionDate || undefined,
+          issueDate: editIssueDate || undefined,
+          batch: editBatch || undefined,
+        }),
+      });
+      setMessage(`✓ Dates successfully updated for Certificate ${editingCert.certificateId}`);
+      setEditingCert(null);
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to update certificate dates.");
+    } finally {
+      setEditSaving(false);
+    }
+  }
 
   const load = () =>
     Promise.all([
@@ -134,6 +188,8 @@ export function AdminCertificates() {
     const form = new FormData(event.currentTarget);
     const enrollmentId = form.get("enrollmentId")?.toString();
     const issueDate = form.get("issueDate")?.toString();
+    const joiningDate = form.get("joiningDate")?.toString();
+    const completionDate = form.get("completionDate")?.toString();
 
     if (!enrollmentId || !issueDate) {
       setError("Please select a completed enrollment and specify an issue date.");
@@ -145,7 +201,12 @@ export function AdminCertificates() {
       const data = await request("/api/admin/certificates", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ enrollmentId, issueDate }),
+        body: JSON.stringify({
+          enrollmentId,
+          issueDate,
+          joiningDate: joiningDate || undefined,
+          completionDate: completionDate || undefined,
+        }),
       });
       setMessage(`✓ Certificate ${data.certificate.certificateId} generated and signed.`);
       await load();
@@ -444,6 +505,26 @@ export function AdminCertificates() {
           >
             <ExternalLink size={13} /> Verify
           </a>
+          <button
+            type="button"
+            disabled={busy}
+            onClick={() => openEditModal(cert)}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 4,
+              padding: "5px 10px",
+              borderRadius: 6,
+              background: "rgba(245, 158, 11, 0.12)",
+              border: "1px solid rgba(245, 158, 11, 0.3)",
+              color: "#fbbf24",
+              fontSize: 12,
+              fontWeight: 600,
+              cursor: "pointer",
+            }}
+          >
+            <Edit3 size={13} /> Edit Dates
+          </button>
           {cert.status === "active" && (
             <button
               type="button"
@@ -1166,6 +1247,70 @@ export function AdminCertificates() {
                 )}
               </div>
 
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <div>
+                  <label
+                    style={{
+                      display: "block",
+                      fontSize: 12,
+                      fontWeight: 700,
+                      color: "#cbd5e1",
+                      marginBottom: 6,
+                    }}
+                  >
+                    Course Start Date
+                  </label>
+                  <input
+                    name="joiningDate"
+                    type="date"
+                    defaultValue={new Date().toISOString().slice(0, 10)}
+                    style={{
+                      width: "100%",
+                      height: 42,
+                      boxSizing: "border-box",
+                      padding: "0 14px",
+                      borderRadius: 8,
+                      background: "#070b24",
+                      border: "1px solid rgba(255, 255, 255, 0.14)",
+                      color: "#ffffff",
+                      fontSize: 13.5,
+                      outline: "none",
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label
+                    style={{
+                      display: "block",
+                      fontSize: 12,
+                      fontWeight: 700,
+                      color: "#cbd5e1",
+                      marginBottom: 6,
+                    }}
+                  >
+                    Course End Date
+                  </label>
+                  <input
+                    name="completionDate"
+                    type="date"
+                    defaultValue={new Date().toISOString().slice(0, 10)}
+                    style={{
+                      width: "100%",
+                      height: 42,
+                      boxSizing: "border-box",
+                      padding: "0 14px",
+                      borderRadius: 8,
+                      background: "#070b24",
+                      border: "1px solid rgba(255, 255, 255, 0.14)",
+                      color: "#ffffff",
+                      fontSize: 13.5,
+                      outline: "none",
+                    }}
+                  />
+                </div>
+              </div>
+
               <div>
                 <label
                   style={{
@@ -1311,6 +1456,224 @@ export function AdminCertificates() {
           getRowId={(c) => c._id}
         />
       </section>
+
+      {/* 5. EDIT CERTIFICATE DATES MODAL */}
+      {editingCert && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0, 0, 0, 0.75)",
+            backdropFilter: "blur(6px)",
+            zIndex: 9999,
+            display: "grid",
+            placeItems: "center",
+            padding: 16,
+          }}
+        >
+          <div
+            style={{
+              background: "linear-gradient(145deg, #0e1630 0%, #080d24 100%)",
+              border: "1px solid rgba(168, 85, 247, 0.3)",
+              borderRadius: 16,
+              padding: "24px 28px",
+              width: "100%",
+              maxWidth: 480,
+              boxShadow: "0 20px 50px rgba(0, 0, 0, 0.7)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 16,
+              }}
+            >
+              <div>
+                <h3 style={{ margin: 0, fontSize: 18, color: "#ffffff", fontWeight: 700 }}>
+                  Edit Certificate Dates
+                </h3>
+                <p style={{ margin: "3px 0 0", fontSize: 12, color: "#94a3b8" }}>
+                  ID: #{editingCert.certificateId} · {editingCert.studentNameSnapshot}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEditingCert(null)}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  color: "#94a3b8",
+                  cursor: "pointer",
+                  padding: 4,
+                }}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <form onSubmit={saveEditedDates} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              <div>
+                <label
+                  style={{
+                    display: "block",
+                    fontSize: 12,
+                    fontWeight: 700,
+                    color: "#cbd5e1",
+                    marginBottom: 5,
+                  }}
+                >
+                  Course Start Date (Joining Date)
+                </label>
+                <input
+                  type="date"
+                  value={editJoiningDate}
+                  onChange={(e) => setEditJoiningDate(e.target.value)}
+                  style={{
+                    width: "100%",
+                    height: 40,
+                    padding: "0 12px",
+                    borderRadius: 8,
+                    background: "#070b24",
+                    border: "1px solid rgba(255, 255, 255, 0.14)",
+                    color: "#ffffff",
+                    fontSize: 13,
+                    boxSizing: "border-box",
+                  }}
+                />
+              </div>
+
+              <div>
+                <label
+                  style={{
+                    display: "block",
+                    fontSize: 12,
+                    fontWeight: 700,
+                    color: "#cbd5e1",
+                    marginBottom: 5,
+                  }}
+                >
+                  Course End Date (Completion Date)
+                </label>
+                <input
+                  type="date"
+                  value={editCompletionDate}
+                  onChange={(e) => setEditCompletionDate(e.target.value)}
+                  style={{
+                    width: "100%",
+                    height: 40,
+                    padding: "0 12px",
+                    borderRadius: 8,
+                    background: "#070b24",
+                    border: "1px solid rgba(255, 255, 255, 0.14)",
+                    color: "#ffffff",
+                    fontSize: 13,
+                    boxSizing: "border-box",
+                  }}
+                />
+              </div>
+
+              <div>
+                <label
+                  style={{
+                    display: "block",
+                    fontSize: 12,
+                    fontWeight: 700,
+                    color: "#cbd5e1",
+                    marginBottom: 5,
+                  }}
+                >
+                  Credential Issue Date
+                </label>
+                <input
+                  type="date"
+                  value={editIssueDate}
+                  onChange={(e) => setEditIssueDate(e.target.value)}
+                  style={{
+                    width: "100%",
+                    height: 40,
+                    padding: "0 12px",
+                    borderRadius: 8,
+                    background: "#070b24",
+                    border: "1px solid rgba(255, 255, 255, 0.14)",
+                    color: "#ffffff",
+                    fontSize: 13,
+                    boxSizing: "border-box",
+                  }}
+                />
+              </div>
+
+              <div>
+                <label
+                  style={{
+                    display: "block",
+                    fontSize: 12,
+                    fontWeight: 700,
+                    color: "#cbd5e1",
+                    marginBottom: 5,
+                  }}
+                >
+                  Batch / Cohort Name (Optional)
+                </label>
+                <input
+                  type="text"
+                  value={editBatch}
+                  onChange={(e) => setEditBatch(e.target.value)}
+                  placeholder="e.g. Batch 2026"
+                  style={{
+                    width: "100%",
+                    height: 40,
+                    padding: "0 12px",
+                    borderRadius: 8,
+                    background: "#070b24",
+                    border: "1px solid rgba(255, 255, 255, 0.14)",
+                    color: "#ffffff",
+                    fontSize: 13,
+                    boxSizing: "border-box",
+                  }}
+                />
+              </div>
+
+              <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 10 }}>
+                <button
+                  type="button"
+                  onClick={() => setEditingCert(null)}
+                  style={{
+                    padding: "9px 16px",
+                    borderRadius: 8,
+                    background: "rgba(255, 255, 255, 0.08)",
+                    border: "1px solid rgba(255, 255, 255, 0.12)",
+                    color: "#cbd5e1",
+                    fontSize: 13,
+                    fontWeight: 600,
+                    cursor: "pointer",
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={editSaving}
+                  style={{
+                    padding: "9px 20px",
+                    borderRadius: 8,
+                    background: "linear-gradient(135deg, #9333ea, #7c3aed)",
+                    border: "none",
+                    color: "#ffffff",
+                    fontSize: 13,
+                    fontWeight: 600,
+                    cursor: editSaving ? "not-allowed" : "pointer",
+                    boxShadow: "0 4px 14px rgba(147, 51, 234, 0.4)",
+                  }}
+                >
+                  {editSaving ? "Saving Dates..." : "Save Dates"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
