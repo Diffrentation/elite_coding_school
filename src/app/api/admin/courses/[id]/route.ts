@@ -5,6 +5,7 @@ import { failure, success } from "@/lib/api";
 import { requireAdminSession } from "@/modules/identity/session";
 import { courseSchema } from "@/modules/course/schema";
 import { Course } from "@/models/Course";
+import { Category } from "@/models/Category";
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   if (!isValidObjectId(id)) return failure("NOT_FOUND", "Course not found.", 404);
@@ -26,6 +27,17 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     );
     if (!course)
       return failure("CONFLICT", "This course was changed by someone else. Reload and try again.", 409);
+    if (data.category) {
+      const catSlug = data.category
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+      await Category.findOneAndUpdate(
+        { slug: catSlug },
+        { $setOnInsert: { name: data.category, slug: catSlug } },
+        { upsert: true },
+      ).catch(() => {});
+    }
     await audit("course.updated", "course", String(course._id), admin.userId, { slug: course.slug });
     return success({ course });
   } catch {

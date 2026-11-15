@@ -20,6 +20,15 @@ import {
   Check,
   Search,
   Filter,
+  ChevronRight,
+  Code2,
+  Cpu,
+  Terminal,
+  Network,
+  Server,
+  Database,
+  Smartphone,
+  Flame,
 } from "lucide-react";
 import { ImagePickerInput } from "@/components/image-picker-input";
 import { CourseIconPicker } from "@/components/course-icon-picker";
@@ -62,6 +71,40 @@ type Course = {
 
 type FieldErrors = Record<string, string[]>;
 
+type CategoryItem = {
+  _id?: string;
+  name: string;
+  slug?: string;
+  icon?: string;
+  description?: string;
+  techTags?: string[];
+  ctaLabel?: string;
+  color?: string;
+};
+
+const PRESET_ICONS = [
+  { name: "Sparkles", label: "Frontend / UI", Icon: Sparkles },
+  { name: "Code2", label: "Full-Stack / Web", Icon: Code2 },
+  { name: "Layers", label: "DSA / Logic", Icon: Layers },
+  { name: "Cpu", label: "Core / Systems", Icon: Cpu },
+  { name: "Server", label: "Backend / APIs", Icon: Server },
+  { name: "Database", label: "Database / SQL", Icon: Database },
+  { name: "Network", label: "Networking", Icon: Network },
+  { name: "Terminal", label: "Linux / DevOps", Icon: Terminal },
+  { name: "Globe", label: "Web / Cloud", Icon: Globe },
+  { name: "Smartphone", label: "Mobile Apps", Icon: Smartphone },
+  { name: "BookOpen", label: "Foundations", Icon: BookOpen },
+  { name: "Flame", label: "Popular / Trends", Icon: Flame },
+];
+
+const COLOR_PRESETS = [
+  { hex: "#10b981", label: "Emerald" },
+  { hex: "#a855f7", label: "Purple" },
+  { hex: "#38bdf8", label: "Sky Blue" },
+  { hex: "#f59e0b", label: "Amber" },
+  { hex: "#ec4899", label: "Pink" },
+];
+
 class ApiError extends Error {
   constructor(
     message: string,
@@ -82,6 +125,19 @@ const api = async (url: string, init?: RequestInit) => {
 
 export function AdminCourses() {
   const [courses, setCourses] = useState<Course[]>([]);
+  const [categories, setCategories] = useState<CategoryItem[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("Full-Stack Web Development");
+  const [selectedTrack, setSelectedTrack] = useState<"web" | "dsa" | "systems" | "core">("web");
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [newCatName, setNewCatName] = useState("");
+  const [newCatIcon, setNewCatIcon] = useState("Sparkles");
+  const [newCatDesc, setNewCatDesc] = useState("");
+  const [newCatTags, setNewCatTags] = useState("");
+  const [newCatCta, setNewCatCta] = useState("");
+  const [newCatColor, setNewCatColor] = useState("#10b981");
+  const [catSaving, setCatSaving] = useState(false);
+  const [catError, setCatError] = useState<string | null>(null);
+  const [categoryModalTab, setCategoryModalTab] = useState<"create" | "browse">("create");
   const [showForm, setShowForm] = useState(false);
   const [toast, setToast] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [editing, setEditing] = useState<Course | null>(null);
@@ -96,8 +152,19 @@ export function AdminCourses() {
   const fieldError = (name: string) =>
     fieldErrors[name]?.[0] ? <small className="field-error">{fieldErrors[name][0]}</small> : null;
 
+  const loadCategories = () => {
+    return api("/api/categories")
+      .then((data) => {
+        if (data.categories?.length) {
+          setCategories(data.categories);
+        }
+      })
+      .catch(() => {});
+  };
+
   const load = () => {
     setLoading(true);
+    void loadCategories();
     return api("/api/admin/courses")
       .then((data) => setCourses(data.courses))
       .catch((error) => setToast({ type: "error", text: error.message }))
@@ -171,10 +238,37 @@ export function AdminCourses() {
     }
   };
 
+  const handleCategorySelect = (catName: string) => {
+    setSelectedCategory(catName);
+    const lower = catName.toLowerCase();
+    if (lower.includes("dsa") || lower.includes("algo") || lower.includes("logic")) {
+      setSelectedTrack("dsa");
+    } else if (
+      lower.includes("network") ||
+      lower.includes("linux") ||
+      lower.includes("system") ||
+      lower.includes("os")
+    ) {
+      setSelectedTrack("systems");
+    } else if (
+      lower.includes("c++") ||
+      lower.includes("java") ||
+      lower.includes("python") ||
+      lower.includes("language") ||
+      lower.includes("core")
+    ) {
+      setSelectedTrack("core");
+    } else {
+      setSelectedTrack("web");
+    }
+  };
+
   const openCreate = () => {
     setEditing(null);
     setFieldErrors({});
     setToast(null);
+    const defaultCat = categories[0]?.name || "Full-Stack Web Development";
+    handleCategorySelect(defaultCat);
     setShowForm((open) => !open);
   };
 
@@ -183,7 +277,55 @@ export function AdminCourses() {
     setFieldErrors({});
     setSelectedCourse(null);
     setEditing(course);
+    const cat = course.category || categories[0]?.name || "Full-Stack Web Development";
+    setSelectedCategory(cat);
+    setSelectedTrack(course.track ?? "web");
     setShowForm(true);
+  };
+
+  const handleCreateCategory = async (e?: FormEvent) => {
+    if (e) e.preventDefault();
+    if (!newCatName.trim()) {
+      setCatError("Please enter a category heading / title.");
+      return;
+    }
+    setCatSaving(true);
+    setCatError(null);
+    try {
+      const techTagsArray = newCatTags
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean);
+
+      const res = await api("/api/admin/categories", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: newCatName.trim(),
+          icon: newCatIcon || "Sparkles",
+          description: newCatDesc.trim(),
+          techTags: techTagsArray,
+          ctaLabel: newCatCta.trim() || `View ${newCatName.trim()} Courses`,
+          color: newCatColor || "#10b981",
+        }),
+      });
+      const created: CategoryItem = res.category;
+      setCategories((prev) => [
+        created,
+        ...prev.filter((c) => c.name.toLowerCase() !== created.name.toLowerCase()),
+      ]);
+      handleCategorySelect(created.name);
+      setNewCatName("");
+      setNewCatDesc("");
+      setNewCatTags("");
+      setNewCatCta("");
+      setShowCategoryModal(false);
+      setToast({ type: "success", text: `Category "${created.name}" created and selected!` });
+    } catch (err: any) {
+      setCatError(err.message || "Failed to create category");
+    } finally {
+      setCatSaving(false);
+    }
   };
 
   const changeStatus = async (id: string, action: "publish" | "archive") => {
@@ -352,26 +494,53 @@ export function AdminCourses() {
             Create drafts, configure frontend card details, manage syllabus topics, and upload images.
           </p>
         </div>
-        <button
-          className="button primary admin-action-btn"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 7,
-            padding: "10px 18px",
-            borderRadius: 10,
-            background: "linear-gradient(135deg, #7c3aed, #9333ea)",
-            color: "#ffffff",
-            fontWeight: 700,
-            fontSize: 13,
-            cursor: "pointer",
-            border: "1px solid rgba(255, 255, 255, 0.2)",
-          }}
-          onClick={openCreate}
-        >
-          {showForm && !editing ? <X size={16} /> : <Plus size={16} />}
-          <span>{showForm && !editing ? "Close Form" : "Add Course"}</span>
-        </button>
+        <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+          <button
+            type="button"
+            className="button secondary admin-action-btn"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 7,
+              padding: "10px 16px",
+              borderRadius: 10,
+              background: "rgba(168, 85, 247, 0.15)",
+              border: "1px solid rgba(168, 85, 247, 0.4)",
+              color: "#d8b4fe",
+              fontWeight: 700,
+              fontSize: 13,
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              setCatError(null);
+              setShowCategoryModal(true);
+            }}
+          >
+            <Tag size={15} />
+            <span>Manage Categories</span>
+          </button>
+
+          <button
+            className="button primary admin-action-btn"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 7,
+              padding: "10px 18px",
+              borderRadius: 10,
+              background: "linear-gradient(135deg, #7c3aed, #9333ea)",
+              color: "#ffffff",
+              fontWeight: 700,
+              fontSize: 13,
+              cursor: "pointer",
+              border: "1px solid rgba(255, 255, 255, 0.2)",
+            }}
+            onClick={openCreate}
+          >
+            {showForm && !editing ? <X size={16} /> : <Plus size={16} />}
+            <span>{showForm && !editing ? "Close Form" : "Add Course"}</span>
+          </button>
+        </div>
       </div>
 
       {/* 2. KPI Metrics Grid */}
@@ -542,18 +711,98 @@ export function AdminCourses() {
             {fieldError("slug")}
           </label>
 
-          {/* 3. Track Category (Filter Pill on Homepage) */}
+          {/* 3. Course Category Selector (Primary Category) */}
+          <div className="course-category-picker-block form-wide">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 6,
+                flexWrap: "wrap",
+                gap: 6,
+              }}
+            >
+              <label style={{ margin: 0, fontWeight: 700, fontSize: 13, color: "#e2e8f0" }}>
+                Course Category <span style={{ color: "#f87171" }}>*</span>
+              </label>
+              <button
+                type="button"
+                onClick={() => {
+                  setCatError(null);
+                  setShowCategoryModal(true);
+                }}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 5,
+                  padding: "5px 12px",
+                  borderRadius: 6,
+                  fontSize: 12,
+                  fontWeight: 600,
+                  background: "rgba(168, 85, 247, 0.2)",
+                  border: "1px solid rgba(168, 85, 247, 0.45)",
+                  color: "#d8b4fe",
+                  cursor: "pointer",
+                }}
+              >
+                <Plus size={13} />
+                <span>+ Create New Category</span>
+              </button>
+            </div>
+
+            <select
+              className={inputClass("category")}
+              name="category"
+              value={selectedCategory}
+              onChange={(e) => handleCategorySelect(e.target.value)}
+              required
+              style={{
+                width: "100%",
+                height: 42,
+                background: "#0d1330",
+                border: "1px solid rgba(255, 255, 255, 0.15)",
+                borderRadius: 8,
+                color: "#ffffff",
+                padding: "0 12px",
+                fontSize: 14,
+              }}
+            >
+              {categories.map((c) => (
+                <option key={c.name} value={c.name}>
+                  {c.name}
+                </option>
+              ))}
+              {selectedCategory &&
+                !categories.some((c) => c.name.toLowerCase() === selectedCategory.toLowerCase()) && (
+                  <option value={selectedCategory}>{selectedCategory}</option>
+                )}
+            </select>
+            {fieldError("category")}
+            <small style={{ color: "#94a3b8", fontSize: 11.5, marginTop: 4, display: "block" }}>
+              Main category grouping this program across the public catalog, filters, and student tracks.
+            </small>
+          </div>
+
+          {/* 4. Homepage Track Filter Section */}
           <label>
-            Frontend Track Category
-            <select name="track" defaultValue={editing?.track ?? "web"}>
+            Homepage Track Filter Section
+            <select
+              name="track"
+              value={selectedTrack}
+              onChange={(e) => setSelectedTrack(e.target.value as any)}
+            >
               <option value="web">Full-Stack Web (MERN / Next.js)</option>
-              <option value="dsa">DSA, Logic & System Design</option>
-              <option value="systems">Computer Networks & Linux OS</option>
+              <option value="dsa">DSA, Logic &amp; System Design</option>
+              <option value="systems">Computer Networks &amp; Linux OS</option>
               <option value="core">Core Coding (C, C++, Java, Python)</option>
             </select>
+            <small style={{ color: "#64748b", fontSize: 11 }}>
+              Homepage tab where this course appears (auto-selected from category).
+            </small>
           </label>
 
-          {/* 4. Track Label Badge (Shown on top-left of Card) */}
+          {/* 5. Track Label Badge (Shown on top-left of Card) */}
           <label>
             Card Track Label Badge
             <input
@@ -566,24 +815,11 @@ export function AdminCourses() {
             </small>
           </label>
 
-          {/* 5. Searchable technical icon picker */}
+          {/* 6. Course Icon */}
           <div className="course-icon-field">
             <span className="course-icon-field-label">Course Icon</span>
             <CourseIconPicker key={editing?._id ?? "new"} defaultValue={editing?.icon ?? "Code2"} />
           </div>
-
-          {/* 6. Category */}
-          <label className={fieldErrors.category?.length ? "has-field-error" : undefined}>
-            Category Name
-            <input
-              className={inputClass("category")}
-              name="category"
-              defaultValue={editing?.category ?? "Web Development"}
-              required
-              placeholder="e.g. Web Development, Foundations"
-            />
-            {fieldError("category")}
-          </label>
 
           {/* 7. Level */}
           <label className={fieldErrors.level?.length ? "has-field-error" : undefined}>
@@ -1102,6 +1338,790 @@ export function AdminCourses() {
           </div>
         </div>
       )}
+
+      {/* Category Management Modal */}
+      {showCategoryModal &&
+        (() => {
+          const CurrentIcon = PRESET_ICONS.find((p) => p.name === newCatIcon)?.Icon || Sparkles;
+          const previewTags = newCatTags.trim()
+            ? newCatTags
+                .split(",")
+                .map((t) => t.trim())
+                .filter(Boolean)
+            : ["Tailwind CSS", "GSAP Animations", "React Components", "UI Libraries", "Responsive UI"];
+
+          return (
+            <div
+              role="dialog"
+              aria-modal="true"
+              style={{
+                position: "fixed",
+                inset: 0,
+                background: "rgba(0, 0, 0, 0.8)",
+                backdropFilter: "blur(8px)",
+                WebkitBackdropFilter: "blur(8px)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "12px",
+                zIndex: 9999,
+                boxSizing: "border-box",
+              }}
+              onClick={(e) => {
+                if (e.target === e.currentTarget) setShowCategoryModal(false);
+              }}
+            >
+              <div
+                style={{
+                  background: "#0a0f28",
+                  border: "1px solid rgba(168, 85, 247, 0.35)",
+                  borderRadius: 16,
+                  padding: "18px 16px 14px",
+                  width: "100%",
+                  maxWidth: 620,
+                  minHeight: "min(560px, calc(100dvh - 30px))",
+                  maxHeight: "min(680px, calc(100dvh - 30px))",
+                  display: "flex",
+                  flexDirection: "column",
+                  boxShadow: "0 20px 60px rgba(0, 0, 0, 0.85), 0 0 40px rgba(168, 85, 247, 0.15)",
+                  boxSizing: "border-box",
+                  overflow: "hidden",
+                }}
+              >
+                {/* Header */}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: 10,
+                    paddingBottom: 10,
+                    borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+                    flexShrink: 0,
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <div
+                      style={{
+                        width: 32,
+                        height: 32,
+                        borderRadius: 8,
+                        background: "rgba(168, 85, 247, 0.18)",
+                        border: "1px solid rgba(168, 85, 247, 0.4)",
+                        display: "grid",
+                        placeItems: "center",
+                        color: "#d8b4fe",
+                        flexShrink: 0,
+                      }}
+                    >
+                      <Tag size={15} />
+                    </div>
+                    <div>
+                      <h3
+                        style={{
+                          margin: 0,
+                          fontSize: 16,
+                          fontWeight: 700,
+                          color: "#ffffff",
+                          lineHeight: 1.2,
+                        }}
+                      >
+                        Manage Course Categories
+                      </h3>
+                      <small style={{ color: "#94a3b8", fontSize: 11 }}>
+                        Configure heading, icon, description, tech keywords &amp; CTA
+                      </small>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setShowCategoryModal(false)}
+                    style={{
+                      width: 28,
+                      height: 28,
+                      borderRadius: "50%",
+                      background: "rgba(255, 255, 255, 0.07)",
+                      border: "1px solid rgba(255, 255, 255, 0.1)",
+                      color: "#94a3b8",
+                      cursor: "pointer",
+                      display: "grid",
+                      placeItems: "center",
+                      padding: 0,
+                    }}
+                  >
+                    <X size={15} />
+                  </button>
+                </div>
+
+                {/* Navigation Tabs */}
+                <div
+                  style={{
+                    display: "flex",
+                    gap: 6,
+                    padding: "4px",
+                    background: "rgba(255, 255, 255, 0.04)",
+                    borderRadius: 8,
+                    marginBottom: 12,
+                    flexShrink: 0,
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setCategoryModalTab("create")}
+                    style={{
+                      flex: 1,
+                      padding: "7px 12px",
+                      borderRadius: 6,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      border: 0,
+                      background: categoryModalTab === "create" ? "rgba(168, 85, 247, 0.3)" : "transparent",
+                      color: categoryModalTab === "create" ? "#ffffff" : "#94a3b8",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 6,
+                      transition: "all 0.15s ease",
+                    }}
+                  >
+                    <Plus size={13} />
+                    <span>Create Category</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCategoryModalTab("browse")}
+                    style={{
+                      flex: 1,
+                      padding: "7px 12px",
+                      borderRadius: 6,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      border: 0,
+                      background: categoryModalTab === "browse" ? "rgba(168, 85, 247, 0.3)" : "transparent",
+                      color: categoryModalTab === "browse" ? "#ffffff" : "#94a3b8",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 6,
+                      transition: "all 0.15s ease",
+                    }}
+                  >
+                    <Tag size={13} />
+                    <span>Available Categories ({categories.length})</span>
+                  </button>
+                </div>
+
+                {/* Scrollable Body */}
+                <div
+                  style={{
+                    flex: 1,
+                    minHeight: 0,
+                    overflowY: "auto",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 14,
+                    paddingRight: 3,
+                  }}
+                >
+                  {catError && (
+                    <div
+                      style={{
+                        background: "rgba(239, 68, 68, 0.15)",
+                        border: "1px solid rgba(239, 68, 68, 0.4)",
+                        color: "#fca5a5",
+                        padding: "8px 12px",
+                        borderRadius: 8,
+                        fontSize: 12,
+                      }}
+                    >
+                      {catError}
+                    </div>
+                  )}
+
+                  {categoryModalTab === "create" ? (
+                    <form
+                      onSubmit={handleCreateCategory}
+                      style={{ margin: 0, display: "flex", flexDirection: "column", gap: 12 }}
+                    >
+                      {/* 1. Category Heading */}
+                      <div>
+                        <label
+                          style={{
+                            display: "block",
+                            fontSize: 11,
+                            fontWeight: 700,
+                            color: "#cbd5e1",
+                            marginBottom: 5,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.04em",
+                          }}
+                        >
+                          Category Heading / Title <span style={{ color: "#f87171" }}>*</span>
+                        </label>
+                        <input
+                          type="text"
+                          value={newCatName}
+                          onChange={(e) => setNewCatName(e.target.value)}
+                          placeholder="e.g. Frontend, Tailwind & GSAP"
+                          required
+                          style={{
+                            width: "100%",
+                            height: 38,
+                            background: "#06091e",
+                            border: "1px solid rgba(255, 255, 255, 0.16)",
+                            borderRadius: 8,
+                            padding: "0 12px",
+                            color: "#ffffff",
+                            fontSize: 13,
+                            boxSizing: "border-box",
+                          }}
+                        />
+                      </div>
+
+                      {/* 2. Icon Picker & Color Theme */}
+                      <div>
+                        <label
+                          style={{
+                            display: "block",
+                            fontSize: 11,
+                            fontWeight: 700,
+                            color: "#cbd5e1",
+                            marginBottom: 6,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.04em",
+                          }}
+                        >
+                          Category Technical Icon
+                        </label>
+                        <div
+                          style={{
+                            display: "grid",
+                            gridTemplateColumns: "repeat(auto-fill, minmax(78px, 1fr))",
+                            gap: 6,
+                            maxHeight: 110,
+                            overflowY: "auto",
+                            padding: "2px",
+                            marginBottom: 8,
+                          }}
+                        >
+                          {PRESET_ICONS.map(({ name, label, Icon }) => {
+                            const isSel = newCatIcon === name;
+                            return (
+                              <button
+                                type="button"
+                                key={name}
+                                onClick={() => setNewCatIcon(name)}
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  alignItems: "center",
+                                  gap: 3,
+                                  padding: "6px 4px",
+                                  borderRadius: 7,
+                                  background: isSel ? `${newCatColor}28` : "rgba(255, 255, 255, 0.04)",
+                                  border: isSel
+                                    ? `1px solid ${newCatColor}`
+                                    : "1px solid rgba(255, 255, 255, 0.08)",
+                                  color: isSel ? "#ffffff" : "#94a3b8",
+                                  cursor: "pointer",
+                                  transition: "all 0.15s ease",
+                                }}
+                              >
+                                <Icon size={16} color={isSel ? newCatColor : undefined} />
+                                <span
+                                  style={{
+                                    fontSize: 9.5,
+                                    textAlign: "center",
+                                    whiteSpace: "nowrap",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    maxWidth: "100%",
+                                  }}
+                                >
+                                  {label}
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        {/* Color Theme Row */}
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 4 }}>
+                          <span style={{ fontSize: 10.5, color: "#94a3b8", fontWeight: 600 }}>
+                            Color Glow:
+                          </span>
+                          <div style={{ display: "flex", gap: 6 }}>
+                            {COLOR_PRESETS.map((cp) => (
+                              <button
+                                type="button"
+                                key={cp.hex}
+                                title={cp.label}
+                                onClick={() => setNewCatColor(cp.hex)}
+                                style={{
+                                  width: 20,
+                                  height: 20,
+                                  borderRadius: "50%",
+                                  background: cp.hex,
+                                  border:
+                                    newCatColor === cp.hex ? "2px solid #ffffff" : "2px solid transparent",
+                                  cursor: "pointer",
+                                  padding: 0,
+                                  boxShadow: newCatColor === cp.hex ? `0 0 8px ${cp.hex}` : "none",
+                                }}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 3. Description */}
+                      <div>
+                        <label
+                          style={{
+                            display: "block",
+                            fontSize: 11,
+                            fontWeight: 700,
+                            color: "#cbd5e1",
+                            marginBottom: 5,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.04em",
+                          }}
+                        >
+                          Track Description
+                        </label>
+                        <textarea
+                          value={newCatDesc}
+                          onChange={(e) => setNewCatDesc(e.target.value)}
+                          placeholder="Build stunning, interactive websites with modern CSS, Tailwind utility styling, UI component libraries, and buttery-smooth GSAP animations."
+                          rows={2}
+                          style={{
+                            width: "100%",
+                            minHeight: 58,
+                            background: "#06091e",
+                            border: "1px solid rgba(255, 255, 255, 0.16)",
+                            borderRadius: 8,
+                            padding: "8px 12px",
+                            color: "#ffffff",
+                            fontSize: 12.5,
+                            lineHeight: 1.45,
+                            boxSizing: "border-box",
+                            resize: "vertical",
+                          }}
+                        />
+                      </div>
+
+                      {/* 4. Tech Keywords / Tags */}
+                      <div>
+                        <label
+                          style={{
+                            display: "block",
+                            fontSize: 11,
+                            fontWeight: 700,
+                            color: "#cbd5e1",
+                            marginBottom: 5,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.04em",
+                          }}
+                        >
+                          Tech Keywords &amp; Tags (Comma-separated)
+                        </label>
+                        <input
+                          type="text"
+                          value={newCatTags}
+                          onChange={(e) => setNewCatTags(e.target.value)}
+                          placeholder="Tailwind CSS, GSAP Animations, React Components, UI Libraries"
+                          style={{
+                            width: "100%",
+                            height: 38,
+                            background: "#06091e",
+                            border: "1px solid rgba(255, 255, 255, 0.16)",
+                            borderRadius: 8,
+                            padding: "0 12px",
+                            color: "#ffffff",
+                            fontSize: 12.5,
+                            boxSizing: "border-box",
+                          }}
+                        />
+                        <small style={{ color: "#64748b", fontSize: 10.5, marginTop: 3, display: "block" }}>
+                          Separated by commas. These appear as pills on the homepage card.
+                        </small>
+                      </div>
+
+                      {/* 5. Action Link Label */}
+                      <div>
+                        <label
+                          style={{
+                            display: "block",
+                            fontSize: 11,
+                            fontWeight: 700,
+                            color: "#cbd5e1",
+                            marginBottom: 5,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.04em",
+                          }}
+                        >
+                          Action Link Label (Optional)
+                        </label>
+                        <input
+                          type="text"
+                          value={newCatCta}
+                          onChange={(e) => setNewCatCta(e.target.value)}
+                          placeholder={
+                            newCatName.trim() ? `View ${newCatName.trim()} Courses` : "View Frontend Courses"
+                          }
+                          style={{
+                            width: "100%",
+                            height: 38,
+                            background: "#06091e",
+                            border: "1px solid rgba(255, 255, 255, 0.16)",
+                            borderRadius: 8,
+                            padding: "0 12px",
+                            color: "#ffffff",
+                            fontSize: 12.5,
+                            boxSizing: "border-box",
+                          }}
+                        />
+                      </div>
+
+                      {/* Live Card Preview matching media_1794753273071_f9122456.png */}
+                      <div style={{ marginTop: 4 }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            marginBottom: 6,
+                          }}
+                        >
+                          <span
+                            style={{
+                              fontSize: 10.5,
+                              fontWeight: 700,
+                              color: "#94a3b8",
+                              textTransform: "uppercase",
+                              letterSpacing: "0.05em",
+                            }}
+                          >
+                            Live Pillar Card Preview
+                          </span>
+                          <span
+                            style={{
+                              fontSize: 10,
+                              color: "#38bdf8",
+                              background: "rgba(56, 189, 248, 0.12)",
+                              padding: "2px 7px",
+                              borderRadius: 9999,
+                            }}
+                          >
+                            Homepage Card Appearance
+                          </span>
+                        </div>
+
+                        <div
+                          style={{
+                            background:
+                              "linear-gradient(135deg, rgba(13, 20, 50, 0.9), rgba(7, 11, 36, 0.95))",
+                            border: "1px solid rgba(168, 85, 247, 0.35)",
+                            borderRadius: 14,
+                            padding: "16px",
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 10,
+                            boxShadow: "0 10px 30px rgba(0, 0, 0, 0.4)",
+                          }}
+                        >
+                          {/* Icon Box */}
+                          <div
+                            style={{
+                              width: 44,
+                              height: 44,
+                              borderRadius: 12,
+                              background: `${newCatColor}20`,
+                              border: `1px solid ${newCatColor}55`,
+                              display: "grid",
+                              placeItems: "center",
+                              color: newCatColor,
+                              boxShadow: `0 0 14px ${newCatColor}30`,
+                            }}
+                          >
+                            <CurrentIcon size={22} />
+                          </div>
+
+                          {/* Title */}
+                          <h4
+                            style={{
+                              margin: 0,
+                              fontSize: 16,
+                              fontWeight: 700,
+                              color: "#ffffff",
+                              lineHeight: 1.3,
+                            }}
+                          >
+                            {newCatName.trim() || "Frontend, Tailwind & GSAP"}
+                          </h4>
+
+                          {/* Description */}
+                          <p style={{ margin: 0, fontSize: 12, lineHeight: 1.45, color: "#94a3b8" }}>
+                            {newCatDesc.trim() ||
+                              "Build stunning, interactive websites with modern CSS, Tailwind utility styling, UI component libraries, and buttery-smooth GSAP animations."}
+                          </p>
+
+                          {/* Tech Tag Pills */}
+                          <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+                            {previewTags.map((tag, idx) => (
+                              <span
+                                key={idx}
+                                style={{
+                                  background: "rgba(255, 255, 255, 0.05)",
+                                  border: "1px solid rgba(255, 255, 255, 0.12)",
+                                  borderRadius: 6,
+                                  padding: "2px 8px",
+                                  fontSize: 11,
+                                  color: "#cbd5e1",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+
+                          {/* Action Link */}
+                          <div
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: 5,
+                              color: "#c084fc",
+                              fontSize: 12,
+                              fontWeight: 600,
+                              marginTop: 2,
+                            }}
+                          >
+                            <span>
+                              {newCatCta.trim() ||
+                                (newCatName.trim()
+                                  ? `View ${newCatName.trim()} Courses`
+                                  : "View Frontend Courses")}
+                            </span>
+                            <ChevronRight size={13} />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Submit Button */}
+                      <button
+                        type="submit"
+                        disabled={catSaving || !newCatName.trim()}
+                        style={{
+                          marginTop: 4,
+                          height: 40,
+                          background: "linear-gradient(135deg, #7c3aed, #9333ea)",
+                          border: 0,
+                          borderRadius: 8,
+                          color: "#ffffff",
+                          fontWeight: 700,
+                          fontSize: 13,
+                          cursor: catSaving ? "wait" : "pointer",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: 6,
+                          boxShadow: "0 4px 16px rgba(124, 58, 237, 0.4)",
+                        }}
+                      >
+                        <Plus size={15} />
+                        <span>{catSaving ? "Saving Category..." : "+ Save Category & Use"}</span>
+                      </button>
+                    </form>
+                  ) : (
+                    /* Browse Existing Categories Tab */
+                    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <span
+                          style={{
+                            fontSize: 11,
+                            fontWeight: 700,
+                            color: "#94a3b8",
+                            textTransform: "uppercase",
+                            letterSpacing: "0.05em",
+                          }}
+                        >
+                          Curriculum Tracks ({categories.length})
+                        </span>
+                        <small style={{ color: "#64748b", fontSize: 10.5 }}>Tap category to select</small>
+                      </div>
+
+                      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                        {categories.map((c) => {
+                          const isSelected = selectedCategory.toLowerCase() === c.name.toLowerCase();
+                          const courseCount = courses.filter(
+                            (x) => x.category?.toLowerCase() === c.name.toLowerCase(),
+                          ).length;
+                          const CatIconComp = PRESET_ICONS.find((p) => p.name === c.icon)?.Icon || Code2;
+
+                          return (
+                            <div
+                              key={c.name}
+                              onClick={() => {
+                                handleCategorySelect(c.name);
+                                setToast({ type: "success", text: `Selected category: "${c.name}"` });
+                              }}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                gap: 10,
+                                background: isSelected
+                                  ? "rgba(168, 85, 247, 0.2)"
+                                  : "rgba(255, 255, 255, 0.04)",
+                                border: isSelected
+                                  ? "1px solid rgba(168, 85, 247, 0.6)"
+                                  : "1px solid rgba(255, 255, 255, 0.08)",
+                                borderRadius: 10,
+                                padding: "10px 14px",
+                                cursor: "pointer",
+                                transition: "all 0.15s ease",
+                              }}
+                            >
+                              <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+                                <div
+                                  style={{
+                                    width: 32,
+                                    height: 32,
+                                    borderRadius: 8,
+                                    background: `${c.color || "#a855f7"}20`,
+                                    border: `1px solid ${c.color || "#a855f7"}50`,
+                                    display: "grid",
+                                    placeItems: "center",
+                                    color: c.color || "#c084fc",
+                                    flexShrink: 0,
+                                  }}
+                                >
+                                  <CatIconComp size={16} />
+                                </div>
+                                <div style={{ minWidth: 0 }}>
+                                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                                    <span
+                                      style={{
+                                        fontSize: 13,
+                                        fontWeight: 700,
+                                        color: isSelected ? "#ffffff" : "#e2e8f0",
+                                      }}
+                                    >
+                                      {c.name}
+                                    </span>
+                                    {isSelected && (
+                                      <span
+                                        style={{
+                                          fontSize: 9.5,
+                                          background: "rgba(168, 85, 247, 0.4)",
+                                          color: "#ffffff",
+                                          padding: "1px 6px",
+                                          borderRadius: 9999,
+                                          fontWeight: 700,
+                                        }}
+                                      >
+                                        Active
+                                      </span>
+                                    )}
+                                  </div>
+                                  {c.description && (
+                                    <p
+                                      style={{
+                                        margin: "2px 0 0",
+                                        fontSize: 11,
+                                        color: "#94a3b8",
+                                        whiteSpace: "nowrap",
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        maxWidth: 300,
+                                      }}
+                                    >
+                                      {c.description}
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
+
+                              <span
+                                style={{
+                                  fontSize: 11,
+                                  background: isSelected
+                                    ? "rgba(168, 85, 247, 0.45)"
+                                    : "rgba(255, 255, 255, 0.08)",
+                                  color: isSelected ? "#ffffff" : "#94a3b8",
+                                  padding: "3px 9px",
+                                  borderRadius: 9999,
+                                  fontWeight: 700,
+                                  flexShrink: 0,
+                                }}
+                              >
+                                {courseCount} {courseCount === 1 ? "course" : "courses"}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Docked Footer with Always-Visible Button */}
+                <div
+                  style={{
+                    marginTop: 10,
+                    paddingTop: 10,
+                    borderTop: "1px solid rgba(255, 255, 255, 0.08)",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    flexShrink: 0,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: 11.5,
+                      color: "#94a3b8",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 5,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      maxWidth: "60%",
+                    }}
+                  >
+                    <span>Selected:</span>
+                    <strong style={{ color: "#c084fc" }}>{selectedCategory}</strong>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setShowCategoryModal(false)}
+                    style={{
+                      height: 34,
+                      background: "rgba(168, 85, 247, 0.22)",
+                      border: "1px solid rgba(168, 85, 247, 0.5)",
+                      color: "#ffffff",
+                      borderRadius: 7,
+                      padding: "0 20px",
+                      fontSize: 12.5,
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      flexShrink: 0,
+                    }}
+                  >
+                    Done
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
     </main>
   );
 }

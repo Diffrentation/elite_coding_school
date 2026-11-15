@@ -4,6 +4,7 @@ import { failure, success } from "@/lib/api";
 import { requireAdminSession } from "@/modules/identity/session";
 import { courseSchema } from "@/modules/course/schema";
 import { Course } from "@/models/Course";
+import { Category } from "@/models/Category";
 export async function GET() {
   await connectDb();
   try {
@@ -23,6 +24,17 @@ export async function POST(request: Request) {
   try {
     const admin = await requireAdminSession();
     const course = await Course.create(parsed.data);
+    if (parsed.data.category) {
+      const catSlug = parsed.data.category
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+      await Category.findOneAndUpdate(
+        { slug: catSlug },
+        { $setOnInsert: { name: parsed.data.category, slug: catSlug } },
+        { upsert: true },
+      ).catch(() => {});
+    }
     await audit("course.created", "course", String(course._id), admin.userId, { slug: course.slug });
     return success({ course }, { status: 201 });
   } catch (error) {

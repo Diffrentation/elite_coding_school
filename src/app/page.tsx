@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { CopyrightYear } from "@/components/copyright-year";
+import { getCourseIcon } from "@/lib/course-icons";
 import {
   ArrowRight,
   BookOpen,
@@ -51,7 +52,8 @@ type CourseItem = {
   _id?: string;
   title: string;
   slug: string;
-  track: "mern" | "core" | "dsa" | "systems";
+  category?: string;
+  track: string;
   trackLabel: string;
   description: string;
   duration: string;
@@ -262,6 +264,7 @@ export default function Home() {
   const [courseFilter, setCourseFilter] = useState<"all" | "mern" | "core" | "dsa" | "systems">("all");
   const [banners, setBanners] = useState<HeroBanner[]>([]);
   const [courses, setCourses] = useState<CourseItem[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
   const [activeBanner, setActiveBanner] = useState(0);
 
   useEffect(() => {
@@ -269,6 +272,14 @@ export default function Home() {
       .then((res) => res.json())
       .then((body) => setBanners(body.data?.banners ?? []))
       .catch(() => setBanners([]));
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then((body) => {
+        if (body.data?.categories?.length) {
+          setCategories(body.data.categories);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -283,6 +294,7 @@ export default function Home() {
               _id: course._id,
               title: course.title,
               slug: course.slug,
+              category: course.category || "",
               track: course.track === "web" ? "mern" : course.track || "mern",
               trackLabel:
                 course.trackLabel ||
@@ -392,7 +404,58 @@ export default function Home() {
 
   const banner = banners.length ? banners[activeBanner % banners.length] : null;
 
-  const filteredCourses = courseFilter === "all" ? courses : courses.filter((c) => c.track === courseFilter);
+  const filteredCourses = courses.filter((c) => {
+    if (courseFilter === "all") return true;
+    const cf = courseFilter.toLowerCase();
+    const t = (c.track || "").toLowerCase();
+    const cat = (c.category || "").toLowerCase();
+    const lbl = (c.trackLabel || "").toLowerCase();
+
+    if (cf === "mern" || cf === "web") {
+      return (
+        t === "mern" ||
+        t === "web" ||
+        cat.includes("mern") ||
+        cat.includes("web") ||
+        lbl.includes("mern") ||
+        lbl.includes("web")
+      );
+    }
+    if (cf === "core") {
+      return (
+        t === "core" ||
+        cat.includes("language") ||
+        cat.includes("foundation") ||
+        cat.includes("c++") ||
+        cat.includes("java") ||
+        cat.includes("python") ||
+        lbl.includes("core") ||
+        lbl.includes("c++")
+      );
+    }
+    if (cf === "dsa") {
+      return (
+        t === "dsa" ||
+        cat.includes("dsa") ||
+        cat.includes("logic") ||
+        cat.includes("algorithm") ||
+        cat.includes("system design") ||
+        lbl.includes("dsa")
+      );
+    }
+    if (cf === "systems") {
+      return (
+        t === "systems" ||
+        cat.includes("network") ||
+        cat.includes("system") ||
+        cat.includes("operating") ||
+        cat.includes("linux") ||
+        lbl.includes("network") ||
+        lbl.includes("linux")
+      );
+    }
+    return t === cf || cat.includes(cf) || lbl.includes(cf);
+  });
 
   return (
     <main className="home-page">
@@ -803,99 +866,118 @@ export default function Home() {
           </p>
         </div>
 
+        {/* Mobile Swipe Cue */}
+        <div className="mobile-courses-swipe-hint">
+          <span>← Swipe left / right to explore tracks →</span>
+        </div>
+
         <div className="tech-pillars-grid">
-          {/* Pillar 1: Full-Stack MERN & Next.js */}
-          <div className="pillar-card">
-            <div className="pillar-icon-box icon-box-dev">
-              <Code2 size={26} />
-            </div>
-            <h3>Full-Stack MERN &amp; Next.js</h3>
-            <p>
-              Master MongoDB, Express.js, React.js, and Node.js, alongside Next.js 15 App Router, Tailwind
-              CSS, and Git/GitHub for complete full-stack mastery.
-            </p>
-            <div className="pillar-tags">
-              <span className="pillar-tag">MongoDB</span>
-              <span className="pillar-tag">Express.js</span>
-              <span className="pillar-tag">React.js</span>
-              <span className="pillar-tag">Next.js</span>
-              <span className="pillar-tag">Node.js</span>
-              <span className="pillar-tag">Git / GitHub</span>
-            </div>
-            <a className="pillar-link" href="#courses" onClick={() => setCourseFilter("mern")}>
-              <span>View MERN Courses</span>
-              <ChevronRight size={14} />
-            </a>
-          </div>
-
-          {/* Pillar 2: Frontend & GSAP Animations */}
-          <div className="pillar-card">
-            <div className="pillar-icon-box icon-box-net">
-              <Sparkles size={26} />
-            </div>
-            <h3>Frontend, Tailwind &amp; GSAP</h3>
-            <p>
-              Build stunning, interactive websites with modern CSS, Tailwind utility styling, UI component
-              libraries, and buttery-smooth GSAP animations.
-            </p>
-            <div className="pillar-tags">
-              <span className="pillar-tag">Tailwind CSS</span>
-              <span className="pillar-tag">GSAP Animations</span>
-              <span className="pillar-tag">React Components</span>
-              <span className="pillar-tag">UI Libraries</span>
-              <span className="pillar-tag">Responsive UI</span>
-            </div>
-            <a className="pillar-link" href="#courses" onClick={() => setCourseFilter("mern")}>
-              <span>View Frontend Courses</span>
-              <ChevronRight size={14} />
-            </a>
-          </div>
-
-          {/* Pillar 3: DSA & Logic Building */}
-          <div className="pillar-card">
-            <div className="pillar-icon-box icon-box-dsa">
-              <Layers size={26} />
-            </div>
-            <h3>Data Structures &amp; Algorithms (DSA)</h3>
-            <p>
-              Build rock-solid problem-solving intuition. Master arrays, strings, recursion, linked lists,
-              trees, and time complexity with whiteboard walkthroughs.
-            </p>
-            <div className="pillar-tags">
-              <span className="pillar-tag">Problem Solving</span>
-              <span className="pillar-tag">Arrays &amp; Strings</span>
-              <span className="pillar-tag">Recursion</span>
-              <span className="pillar-tag">Trees &amp; Graphs</span>
-              <span className="pillar-tag">C++ / Java / Python</span>
-            </div>
-            <a className="pillar-link" href="#courses" onClick={() => setCourseFilter("dsa")}>
-              <span>View DSA Courses</span>
-              <ChevronRight size={14} />
-            </a>
-          </div>
-
-          {/* Pillar 4: C, C++, Java & Python */}
-          <div className="pillar-card">
-            <div className="pillar-icon-box icon-box-os">
-              <Cpu size={26} />
-            </div>
-            <h3>C, C++, Java &amp; Python</h3>
-            <p>
-              Learn programming from the ground up: C for memory and pointers, C++ and Java for
-              Object-Oriented Programming (OOP), and Python for logic and scripting.
-            </p>
-            <div className="pillar-tags">
-              <span className="pillar-tag">C Language</span>
-              <span className="pillar-tag">C++ &amp; OOP</span>
-              <span className="pillar-tag">Core Java</span>
-              <span className="pillar-tag">Python 3</span>
-              <span className="pillar-tag">Collections &amp; STL</span>
-            </div>
-            <a className="pillar-link" href="#courses" onClick={() => setCourseFilter("core")}>
-              <span>View Language Courses</span>
-              <ChevronRight size={14} />
-            </a>
-          </div>
+          {(categories.filter((c) => c.description || c.techTags?.length > 0).length > 0
+            ? categories.filter((c) => c.description || c.techTags?.length > 0)
+            : [
+                {
+                  name: "Full-Stack MERN & Next.js",
+                  icon: "Code2",
+                  description:
+                    "Master MongoDB, Express.js, React.js, and Node.js, alongside Next.js 15 App Router, Tailwind CSS, and Git/GitHub for complete full-stack mastery.",
+                  techTags: ["MongoDB", "Express.js", "React.js", "Next.js", "Node.js", "Git / GitHub"],
+                  ctaLabel: "View MERN Courses",
+                  color: "#38bdf8",
+                },
+                {
+                  name: "Frontend, Tailwind & GSAP",
+                  icon: "Sparkles",
+                  description:
+                    "Build stunning, interactive websites with modern CSS, Tailwind utility styling, UI component libraries, and buttery-smooth GSAP animations.",
+                  techTags: [
+                    "Tailwind CSS",
+                    "GSAP Animations",
+                    "React Components",
+                    "UI Libraries",
+                    "Responsive UI",
+                  ],
+                  ctaLabel: "View Frontend Courses",
+                  color: "#10b981",
+                },
+                {
+                  name: "Data Structures & Algorithms (DSA)",
+                  icon: "Layers",
+                  description:
+                    "Build rock-solid problem-solving intuition. Master arrays, strings, recursion, linked lists, trees, and time complexity with whiteboard walkthroughs.",
+                  techTags: [
+                    "Problem Solving",
+                    "Arrays & Strings",
+                    "Recursion",
+                    "Trees & Graphs",
+                    "C++ / Java / Python",
+                  ],
+                  ctaLabel: "View DSA Courses",
+                  color: "#a855f7",
+                },
+                {
+                  name: "C, C++, Java & Python",
+                  icon: "Cpu",
+                  description:
+                    "Learn programming from the ground up: C for memory and pointers, C++ and Java for Object-Oriented Programming (OOP), and Python for logic and scripting.",
+                  techTags: ["C Language", "C++ & OOP", "Core Java", "Python 3", "Collections & STL"],
+                  ctaLabel: "View Language Courses",
+                  color: "#f59e0b",
+                },
+              ]
+          ).map((pillar: any, pIdx: number) => {
+            const PillarIcon = getCourseIcon(pillar.icon);
+            return (
+              <div key={pillar.name || pIdx} className="pillar-card">
+                <div
+                  className="pillar-icon-box"
+                  style={{
+                    background: `${pillar.color || "#a855f7"}20`,
+                    borderColor: `${pillar.color || "#a855f7"}55`,
+                    color: pillar.color || "#c084fc",
+                  }}
+                >
+                  <PillarIcon size={26} />
+                </div>
+                <h3>{pillar.name}</h3>
+                <p>
+                  {pillar.description ||
+                    "In-depth classroom coaching with hands-on practice on your laptop every day."}
+                </p>
+                {pillar.techTags?.length > 0 && (
+                  <div className="pillar-tags">
+                    {pillar.techTags.map((tag: string, tIdx: number) => (
+                      <span key={tIdx} className="pillar-tag">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                <a
+                  className="pillar-link"
+                  href="#courses"
+                  onClick={() => {
+                    const lower = (pillar.name || "").toLowerCase();
+                    if (lower.includes("dsa") || lower.includes("logic")) setCourseFilter("dsa");
+                    else if (lower.includes("network") || lower.includes("system") || lower.includes("linux"))
+                      setCourseFilter("systems");
+                    else if (
+                      lower.includes("c++") ||
+                      lower.includes("java") ||
+                      lower.includes("python") ||
+                      lower.includes("language")
+                    )
+                      setCourseFilter("core");
+                    else if (lower.includes("web") || lower.includes("mern") || lower.includes("frontend"))
+                      setCourseFilter("mern");
+                    else setCourseFilter("all");
+                  }}
+                >
+                  <span>{pillar.ctaLabel || `View ${pillar.name} Courses`}</span>
+                  <ChevronRight size={14} />
+                </a>
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -948,9 +1030,14 @@ export default function Home() {
             </button>
           </div>
 
-          {/* Courses Grid */}
-          <div className="courses-grid">
-            {filteredCourses.map((course) => (
+          {/* Mobile Swipe Cue */}
+          <div className="mobile-courses-swipe-hint">
+            <span>← Swipe left / right to explore courses →</span>
+          </div>
+
+          {/* Courses Grid / Mobile Left-to-Right Slider */}
+          <div className="courses-grid home-classroom-courses-slider">
+            {filteredCourses.slice(0, 4).map((course) => (
               <article className="public-course-card" key={course.title}>
                 <div className="card-header-top">
                   <span className={`card-track-badge ${getTrackBadgeClass(course.track)}`}>
@@ -1010,6 +1097,14 @@ export default function Home() {
                 </Link>
               </article>
             ))}
+          </div>
+
+          {/* Button redirecting to /courses to view all courses */}
+          <div className="courses-explore-all-bar">
+            <Link className="btn-explore-all-courses" href="/courses">
+              <span>View All Courses &amp; Programs ({courses.length})</span>
+              <ArrowRight size={17} />
+            </Link>
           </div>
         </div>
       </section>

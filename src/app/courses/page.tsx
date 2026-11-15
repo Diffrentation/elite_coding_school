@@ -29,6 +29,7 @@ import {
   ShieldCheck,
   Sparkles,
   Terminal,
+  Tag,
   Users,
   Wifi,
   X,
@@ -257,12 +258,22 @@ const CURATED_OFFLINE_COURSES: Course[] = [
 
 export default function CoursesPage() {
   const [courses, setCourses] = useState<Course[]>([]);
+  const [categories, setCategories] = useState<{ _id?: string; name: string; slug: string }[]>([]);
   const [search, setSearch] = useState("");
   const [level, setLevel] = useState("");
   const [duration, setDuration] = useState("");
   const [selectedTrack, setSelectedTrack] = useState("all");
   const [loading, setLoading] = useState(true);
   const [catalogBannerBg, setCatalogBannerBg] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("/api/categories")
+      .then((r) => r.json())
+      .then((b) => {
+        if (b.data?.categories) setCategories(b.data.categories);
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     fetch("/api/banners")
@@ -282,6 +293,7 @@ export default function CoursesPage() {
     const timer = setTimeout(() => {
       setLoading(true);
       const q = new URLSearchParams({
+        limit: "50",
         ...(search && { search }),
         ...(level && { level }),
         ...(duration && { duration }),
@@ -292,16 +304,13 @@ export default function CoursesPage() {
         .then(async (r) => {
           if (!r.ok) throw new Error();
           const b = await r.json();
-          // The catalogue must show the published database records exactly as
-          // returned. Keeping a hidden hard-coded catalogue here made the UI
-          // disagree with admin-managed course data.
           setCourses(b.data?.courses ?? []);
         })
         .catch(() => {
           setCourses([]);
         })
         .finally(() => setLoading(false));
-    }, 250);
+    }, 200);
     return () => clearTimeout(timer);
   }, [search, level, duration, selectedTrack]);
 
@@ -312,7 +321,9 @@ export default function CoursesPage() {
         !search ||
         c.title.toLowerCase().includes(search.toLowerCase()) ||
         c.shortDescription.toLowerCase().includes(search.toLowerCase()) ||
-        (c.techTags && c.techTags.some((t) => t.toLowerCase().includes(search.toLowerCase())));
+        (c.techTags && c.techTags.some((t) => t.toLowerCase().includes(search.toLowerCase()))) ||
+        ((c as any).skills &&
+          (c as any).skills.some((s: string) => s.toLowerCase().includes(search.toLowerCase())));
 
       const matchLevel = !level || c.level.toLowerCase() === level.toLowerCase();
 
@@ -322,18 +333,37 @@ export default function CoursesPage() {
         (duration === "medium" && c.durationMonths >= 4 && c.durationMonths <= 6) ||
         (duration === "long" && c.durationMonths >= 7);
 
+      const st = selectedTrack.toLowerCase();
+      const cat = (c.category || "").toLowerCase();
+      const track = ((c as any).track || "").toLowerCase();
       const matchTrack =
         selectedTrack === "all" ||
-        c.category.toLowerCase().includes(selectedTrack.toLowerCase()) ||
-        (selectedTrack === "mern" &&
-          (c.category.includes("MERN") || c.category.includes("Web") || c.category.includes("Backend"))) ||
-        (selectedTrack === "core" &&
-          (c.category.includes("Languages") || c.category.includes("Foundations"))) ||
-        (selectedTrack === "dsa" && (c.category.includes("DSA") || c.category.includes("Logic"))) ||
-        (selectedTrack === "systems" &&
-          (c.category.includes("Networking") ||
-            c.category.includes("Systems") ||
-            c.category.includes("Operating")));
+        cat === st ||
+        cat.includes(st) ||
+        (st === "mern" &&
+          (cat.includes("mern") ||
+            cat.includes("web") ||
+            cat.includes("backend") ||
+            track === "web" ||
+            track === "mern")) ||
+        (st === "core" &&
+          (cat.includes("language") ||
+            cat.includes("foundation") ||
+            cat.includes("c++") ||
+            cat.includes("java") ||
+            cat.includes("python") ||
+            track === "core")) ||
+        (st === "dsa" &&
+          (cat.includes("dsa") ||
+            cat.includes("logic") ||
+            cat.includes("system design") ||
+            track === "dsa")) ||
+        (st === "systems" &&
+          (cat.includes("network") ||
+            cat.includes("system") ||
+            cat.includes("operating") ||
+            cat.includes("linux") ||
+            track === "systems"));
 
       return matchSearch && matchLevel && matchDuration && matchTrack;
     });
@@ -507,6 +537,31 @@ export default function CoursesPage() {
             <Network size={14} />
             <span>Networking &amp; Linux OS</span>
           </button>
+
+          {/* Dynamic custom categories created by admin */}
+          {categories
+            .filter((cat) => {
+              const s = cat.slug?.toLowerCase() || "";
+              return ![
+                "mern-stack",
+                "web-development",
+                "full-stack-web-development",
+                "programming-languages",
+                "dsa-logic",
+                "dsa-system-design",
+                "networking-systems",
+              ].includes(s);
+            })
+            .map((cat) => (
+              <button
+                key={cat.name}
+                className={`track-tab-btn ${selectedTrack.toLowerCase() === cat.name.toLowerCase() ? "active" : ""}`}
+                onClick={() => setSelectedTrack(cat.name)}
+              >
+                <Tag size={14} />
+                <span>{cat.name}</span>
+              </button>
+            ))}
         </div>
 
         {/* Search & Dropdown Filters */}
