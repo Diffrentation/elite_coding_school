@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { createElement, useEffect, useState } from "react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { CopyrightYear } from "@/components/copyright-year";
@@ -662,7 +662,6 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
     );
   }
 
-  const CourseIcon = getCourseIcon(course.icon);
   const totalTopics = course.syllabus.reduce((total, module) => total + module.topics.length, 0);
   const classroomPerks = course.perks?.slice(0, 3) ?? [
     "Daily guided laptop practice in the classroom",
@@ -700,7 +699,7 @@ export default function CourseDetail({ params }: { params: Promise<{ slug: strin
             {/* Row 2: Offline Cohort Badge */}
             <div className="course-kicker-row" style={{ marginBottom: "18px", display: "block" }}>
               <div className="kicker" style={{ margin: 0 }}>
-                <CourseIcon size={14} />
+                {createElement(getCourseIcon(course.icon), { size: 14 })}
                 <span>OFFLINE CLASSROOM &amp; LAB COHORT</span>
               </div>
             </div>
