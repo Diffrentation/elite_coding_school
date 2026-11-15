@@ -78,7 +78,9 @@ export default function StudentsPage() {
           <section className="students-hero">
             <div className="students-kicker">
               <span className="pulse-dot-green" />
-              <span className="students-kicker-desktop">OFFICIAL INSTITUTIONAL REGISTRY · VERIFIED GRADUATES</span>
+              <span className="students-kicker-desktop">
+                OFFICIAL INSTITUTIONAL REGISTRY · VERIFIED GRADUATES
+              </span>
               <span className="students-kicker-mobile">OFFICIAL REGISTRY · VERIFIED GRADUATES</span>
               <span className="students-kicker-compact">VERIFIED STUDENT DIRECTORY</span>
             </div>
@@ -303,12 +305,11 @@ export default function StudentsPage() {
                     <Search size={30} />
                   </div>
 
-                  <h2 className="student-empty-title">
-                    No matching certified learners found
-                  </h2>
+                  <h2 className="student-empty-title">No matching certified learners found</h2>
 
                   <p className="student-empty-text">
-                    We couldn&apos;t find any public profiles matching &ldquo;{search || course}&rdquo;. Try resetting your filters to view all certified graduates.
+                    We couldn&apos;t find any public profiles matching &ldquo;{search || course}&rdquo;. Try
+                    resetting your filters to view all certified graduates.
                   </p>
 
                   <button type="button" onClick={resetFilters} className="student-reset-btn">
@@ -317,7 +318,10 @@ export default function StudentsPage() {
                 </>
               ) : (
                 <>
-                  <div className="student-empty-icon" style={{ borderColor: "rgba(168, 85, 247, 0.4)", color: "#c084fc" }}>
+                  <div
+                    className="student-empty-icon"
+                    style={{ borderColor: "rgba(168, 85, 247, 0.4)", color: "#c084fc" }}
+                  >
                     <ShieldCheck size={36} />
                   </div>
 
@@ -326,7 +330,8 @@ export default function StudentsPage() {
                   </h2>
 
                   <p className="student-empty-text" style={{ maxWidth: 580 }}>
-                    Learners who complete their offline practical coding programs and pass capstone evaluations appear in this directory once their verified public profile is published.
+                    Learners who complete their offline practical coding programs and pass capstone
+                    evaluations appear in this directory once their verified public profile is published.
                   </p>
 
                   {/* Featured Sample Certificate Demo Card */}
@@ -334,7 +339,8 @@ export default function StudentsPage() {
                     style={{
                       maxWidth: 540,
                       margin: "24px auto",
-                      background: "linear-gradient(145deg, rgba(23, 31, 54, 0.8) 0%, rgba(10, 15, 30, 0.95) 100%)",
+                      background:
+                        "linear-gradient(145deg, rgba(23, 31, 54, 0.8) 0%, rgba(10, 15, 30, 0.95) 100%)",
                       border: "1px solid rgba(168, 85, 247, 0.25)",
                       borderRadius: 16,
                       padding: "20px 22px",
@@ -342,20 +348,70 @@ export default function StudentsPage() {
                       boxShadow: "0 10px 30px rgba(0, 0, 0, 0.4)",
                     }}
                   >
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12, flexWrap: "wrap", gap: 8 }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: 12,
+                        flexWrap: "wrap",
+                        gap: 8,
+                      }}
+                    >
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e", display: "inline-block", boxShadow: "0 0 8px #22c55e" }} />
-                        <span style={{ fontSize: 11.5, fontWeight: 700, color: "#cbd5e1", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                        <span
+                          style={{
+                            width: 8,
+                            height: 8,
+                            borderRadius: "50%",
+                            background: "#22c55e",
+                            display: "inline-block",
+                            boxShadow: "0 0 8px #22c55e",
+                          }}
+                        />
+                        <span
+                          style={{
+                            fontSize: 11.5,
+                            fontWeight: 700,
+                            color: "#cbd5e1",
+                            letterSpacing: "0.05em",
+                            textTransform: "uppercase",
+                          }}
+                        >
                           Verified Institutional Credential
                         </span>
                       </div>
-                      <span style={{ fontSize: 11, fontFamily: "monospace", color: "#f3d078", background: "rgba(197, 155, 39, 0.15)", border: "1px solid rgba(197, 155, 39, 0.3)", padding: "2px 8px", borderRadius: 4 }}>
+                      <span
+                        style={{
+                          fontSize: 11,
+                          fontFamily: "monospace",
+                          color: "#f3d078",
+                          background: "rgba(197, 155, 39, 0.15)",
+                          border: "1px solid rgba(197, 155, 39, 0.3)",
+                          padding: "2px 8px",
+                          borderRadius: 4,
+                        }}
+                      >
                         ECS-2026-00001
                       </span>
                     </div>
 
                     <div style={{ display: "flex", gap: 14, alignItems: "center", marginBottom: 14 }}>
-                      <div style={{ width: 44, height: 44, borderRadius: "50%", background: "linear-gradient(135deg, #1e1b4b, #312e81)", border: "2px solid rgba(168, 85, 247, 0.4)", display: "grid", placeItems: "center", color: "#f1f5f9", fontWeight: 700, fontSize: 16, flexShrink: 0 }}>
+                      <div
+                        style={{
+                          width: 44,
+                          height: 44,
+                          borderRadius: "50%",
+                          background: "linear-gradient(135deg, #1e1b4b, #312e81)",
+                          border: "2px solid rgba(168, 85, 247, 0.4)",
+                          display: "grid",
+                          placeItems: "center",
+                          color: "#f1f5f9",
+                          fontWeight: 700,
+                          fontSize: 16,
+                          flexShrink: 0,
+                        }}
+                      >
                         AS
                       </div>
                       <div>
@@ -368,10 +424,18 @@ export default function StudentsPage() {
                       </div>
                     </div>
 
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 12, borderTop: "1px solid rgba(255, 255, 255, 0.08)", flexWrap: "wrap", gap: 10 }}>
-                      <span style={{ fontSize: 12, color: "#94a3b8" }}>
-                        Offline Classroom · Batch 2026
-                      </span>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        paddingTop: 12,
+                        borderTop: "1px solid rgba(255, 255, 255, 0.08)",
+                        flexWrap: "wrap",
+                        gap: 10,
+                      }}
+                    >
+                      <span style={{ fontSize: 12, color: "#94a3b8" }}>Offline Classroom · Batch 2026</span>
                       <Link
                         href="/verify/ECS-2026-00001"
                         style={{

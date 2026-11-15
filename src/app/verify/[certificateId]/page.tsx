@@ -379,8 +379,6 @@ export default function VerifyCertificatePage() {
                   </div>
                 </div>
 
-
-
                 {/* THE CERTIFICATE CANVAS / CONTAINER */}
                 {activeTab === "visual" ? (
                   <div

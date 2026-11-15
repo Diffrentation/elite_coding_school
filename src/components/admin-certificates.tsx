@@ -97,9 +97,7 @@ export function AdminCertificates() {
     setEditCompletionDate(
       cert.completionDate ? new Date(cert.completionDate).toISOString().slice(0, 10) : "",
     );
-    setEditIssueDate(
-      cert.issueDate ? new Date(cert.issueDate).toISOString().slice(0, 10) : "",
-    );
+    setEditIssueDate(cert.issueDate ? new Date(cert.issueDate).toISOString().slice(0, 10) : "");
     setEditBatch(cert.batchSnapshot || "");
   }
 

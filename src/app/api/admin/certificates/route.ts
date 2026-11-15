@@ -95,8 +95,7 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   const parsed = updateCertificateSchema.safeParse(await request.json());
-  if (!parsed.success)
-    return failure("VALIDATION_ERROR", "Invalid certificate update parameters.", 422);
+  if (!parsed.success) return failure("VALIDATION_ERROR", "Invalid certificate update parameters.", 422);
   await connectDb();
   try {
     const admin = await requireAdminSession();

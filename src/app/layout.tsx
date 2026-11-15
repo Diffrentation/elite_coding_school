@@ -6,9 +6,15 @@ export const metadata: Metadata = {
   description:
     "Master Full-Stack Development, Computer Networks, Operating Systems, and Low-Level Architecture in high-tech offline campus labs with 1:1 desk mentoring.",
   icons: {
-    icon: [{ url: "/brand/ecs-certificate-logo.png", type: "image/png" }],
-    shortcut: ["/brand/ecs-certificate-logo.png"],
-    apple: [{ url: "/brand/ecs-certificate-logo.png", type: "image/png" }],
+    icon: [
+      {
+        url: "/brand/ecs-favicon.svg?v=4",
+        type: "image/svg+xml",
+        sizes: "any",
+      },
+    ],
+    shortcut: ["/brand/ecs-favicon.svg?v=4"],
+    apple: [{ url: "/brand/ecs-certificate-logo.png?v=2", type: "image/png" }],
   },
 };
 
