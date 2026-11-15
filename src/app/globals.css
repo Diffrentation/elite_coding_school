@@ -5127,6 +5127,76 @@ a {
   }
 }
 
+/* Android Chrome does not reliably render PDFs embedded in an iframe. On
+   smaller screens, render the same certificate data natively and keep the
+   official PDF available through the download/fullscreen action. */
+.certificate-mobile-visual {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .certificate-pdf-frame {
+    display: none;
+  }
+
+  .certificate-mobile-visual {
+    display: block;
+  }
+
+  .certificate-verification-summary {
+    align-items: stretch !important;
+    gap: 18px !important;
+    padding: 20px !important;
+    border-radius: 16px !important;
+  }
+
+  .certificate-verification-summary-content {
+    align-items: flex-start !important;
+    gap: 14px !important;
+  }
+
+  .certificate-verification-summary-icon {
+    width: 58px !important;
+    height: 58px !important;
+    min-width: 58px;
+    border-radius: 15px !important;
+  }
+
+  .certificate-verification-summary-copy {
+    min-width: 0;
+  }
+
+  .certificate-verification-summary-badge {
+    font-size: 10px !important;
+    letter-spacing: 0.06em !important;
+    line-height: 1.3;
+  }
+
+  .certificate-verification-summary-copy h1 {
+    font-size: 25px !important;
+    overflow-wrap: anywhere;
+  }
+
+  .certificate-verification-summary-copy p {
+    font-size: 14px !important;
+    line-height: 1.55;
+  }
+
+  .certificate-verification-summary-actions {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    gap: 10px !important;
+  }
+
+  .certificate-verification-summary-actions a,
+  .certificate-verification-summary-actions button {
+    justify-content: center !important;
+    width: 100%;
+    min-height: 46px;
+  }
+}
+
 /* ==========================================================================
    TABLET TWEAKS — PUBLIC PAGES (641px – 1024px)
    ========================================================================== */

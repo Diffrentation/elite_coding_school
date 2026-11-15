@@ -44,16 +44,83 @@ type Certificate = {
   } | null;
 };
 
+function CertificateVisualPreview({ certificate }: { certificate: Certificate }) {
+  return (
+    <div
+      style={{
+        position: "relative",
+        width: "100%",
+        maxWidth: 960,
+        margin: "0 auto",
+        aspectRatio: "297 / 210",
+        background: "#ffffff",
+        borderRadius: 14,
+        overflow: "hidden",
+        boxShadow: "0 24px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(124, 58, 237, 0.15)",
+        border: "2px solid rgba(212, 175, 55, 0.55)",
+      }}
+    >
+      <img
+        src={certificate.templateUrl || "/certificates/elite-certificate-template-v3.png"}
+        alt={`Certificate for ${certificate.studentName}`}
+        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+      />
+
+      <div className="verified-certificate-overlay" aria-hidden="true">
+        <div className="verified-certificate-motto">
+          <span>Learn</span>
+          <span className="verified-certificate-motto-pipe">|</span>
+          <span>Build</span>
+          <span className="verified-certificate-motto-pipe">|</span>
+          <span>Practice</span>
+          <span className="verified-certificate-motto-pipe">|</span>
+          <span>Grow</span>
+        </div>
+        <div className="verified-certificate-name">{certificate.studentName}</div>
+        <div className="verified-certificate-achievement">
+          <p>has successfully completed the</p>
+          <h3>{certificate.courseName}</h3>
+          <p>at The Elite Coding School, demonstrating practical skills in building real-world projects.</p>
+        </div>
+        <div className="verified-certificate-qr">
+          <img src={`/api/verify/${encodeURIComponent(certificate.certificateId)}/qr`} alt="" />
+        </div>
+        <div className="verified-certificate-id">
+          <span>Certificate ID</span>
+          <strong>{certificate.certificateId}</strong>
+        </div>
+        <div className="verified-certificate-date">
+          <span>Issued On</span>
+          <strong>
+            {new Date(certificate.issueDate).toLocaleDateString("en-IN", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })}
+          </strong>
+        </div>
+        <div className="verified-certificate-seal">
+          <span style={{ color: "#f3d078", fontSize: "1.15em", lineHeight: 1 }}>★</span>
+          <span>Official verified credential</span>
+          <span style={{ color: "#f3d078", fontSize: "1.15em", lineHeight: 1 }}>★</span>
+        </div>
+        <div className="verified-certificate-signature">
+          <img src="/certificates/bhupendra-singh-signature.svg" alt="Bhupendra Singh Signature" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function VerifyCertificatePage() {
   const { certificateId } = useParams<{ certificateId: string }>();
   const [certificate, setCertificate] = useState<Certificate | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  // The public inspection view deliberately uses the exact PDF generator that
-  // creates the downloadable credential. Keeping one rendering source avoids
-  // mismatches in the QR, certificate ID, dates, fonts, and founder block.
-  const [activeTab] = useState<"visual" | "pdf">("pdf");
   const [copied, setCopied] = useState(false);
+  // Android Chrome does not reliably render a PDF inside an iframe. Desktop
+  // retains the print-ready PDF; small screens use the matching visual canvas.
+  const activeTab = "pdf" as "visual" | "pdf";
 
   useEffect(() => {
     if (!certificateId) return;
@@ -188,6 +255,7 @@ export default function VerifyCertificatePage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {/* TOP STATUS HERO BANNER */}
               <section
+                className="certificate-verification-summary"
                 style={{
                   background: active
                     ? "linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(10, 15, 50, 0.9) 100%)"
@@ -205,8 +273,12 @@ export default function VerifyCertificatePage() {
                   gap: 20,
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+                <div
+                  className="certificate-verification-summary-content"
+                  style={{ display: "flex", alignItems: "center", gap: 18 }}
+                >
                   <div
+                    className="certificate-verification-summary-icon"
                     style={{
                       width: 56,
                       height: 56,
@@ -221,8 +293,11 @@ export default function VerifyCertificatePage() {
                   >
                     {active ? <ShieldCheck size={32} /> : <AlertTriangle size={32} />}
                   </div>
-                  <div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+                  <div className="certificate-verification-summary-copy">
+                    <div
+                      className="certificate-verification-summary-badge"
+                      style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}
+                    >
                       <span
                         style={{
                           fontSize: 11,
@@ -260,7 +335,10 @@ export default function VerifyCertificatePage() {
                 </div>
 
                 {/* Top Action Toolbar */}
-                <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+                <div
+                  className="certificate-verification-summary-actions"
+                  style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}
+                >
                   <button
                     type="button"
                     onClick={handleCopyLink}
@@ -379,111 +457,120 @@ export default function VerifyCertificatePage() {
                 </div>
 
                 {/* THE CERTIFICATE CANVAS / CONTAINER */}
-                {activeTab === "visual" ? (
-                  <div
-                    style={{
-                      position: "relative",
-                      width: "100%",
-                      maxWidth: 960,
-                      margin: "0 auto",
-                      aspectRatio: "297 / 210",
-                      background: "#ffffff",
-                      borderRadius: 14,
-                      overflow: "hidden",
-                      boxShadow: "0 24px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(124, 58, 237, 0.15)",
-                      border: "2px solid rgba(212, 175, 55, 0.55)",
-                    }}
-                  >
-                    {/* Official Template Artwork */}
-                    <img
-                      src={certificate.templateUrl || "/certificates/elite-certificate-template-v3.png"}
-                      alt={`Certificate for ${certificate.studentName}`}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        display: "block",
-                      }}
-                    />
+                <div className="certificate-mobile-visual">
+                  <CertificateVisualPreview certificate={certificate} />
+                </div>
 
-                    {/* Single Crisp Verified Certificate Data Overlay */}
-                    <div className="verified-certificate-overlay" aria-hidden="true">
-                      <div className="verified-certificate-motto">
-                        <span>Learn</span>
-                        <span className="verified-certificate-motto-pipe">|</span>
-                        <span>Build</span>
-                        <span className="verified-certificate-motto-pipe">|</span>
-                        <span>Practice</span>
-                        <span className="verified-certificate-motto-pipe">|</span>
-                        <span>Grow</span>
-                      </div>
-                      <div className="verified-certificate-name">{certificate.studentName}</div>
-                      <div className="verified-certificate-achievement">
-                        <p>has successfully completed the</p>
-                        <h3>{certificate.courseName}</h3>
-                        <p>
-                          at The Elite Coding School, demonstrating practical skills in building real-world
-                          projects.
-                        </p>
-                      </div>
-                      <div className="verified-certificate-qr">
-                        <img src={`/api/verify/${encodeURIComponent(certificate.certificateId)}/qr`} alt="" />
-                      </div>
-                      <div className="verified-certificate-id">
-                        <span>Certificate ID</span>
-                        <strong>{certificate.certificateId}</strong>
-                      </div>
-                      <div className="verified-certificate-date">
-                        <span>Issued On</span>
-                        <strong>
-                          {new Date(certificate.issueDate).toLocaleDateString("en-IN", {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                          })}
-                        </strong>
-                      </div>
-                      <div className="verified-certificate-seal">
-                        <span style={{ color: "#f3d078", fontSize: "1.15em", lineHeight: 1 }}>★</span>
-                        <span>OFFICIAL VERIFIED CREDENTIAL</span>
-                        <span style={{ color: "#f3d078", fontSize: "1.15em", lineHeight: 1 }}>★</span>
-                      </div>
-                      <div className="verified-certificate-signature">
-                        <img
-                          src="/certificates/bhupendra-singh-signature.svg"
-                          alt="Bhupendra Singh Signature"
-                        />
+                <div className="certificate-pdf-frame">
+                  {activeTab === "visual" ? (
+                    <div
+                      style={{
+                        position: "relative",
+                        width: "100%",
+                        maxWidth: 960,
+                        margin: "0 auto",
+                        aspectRatio: "297 / 210",
+                        background: "#ffffff",
+                        borderRadius: 14,
+                        overflow: "hidden",
+                        boxShadow: "0 24px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(124, 58, 237, 0.15)",
+                        border: "2px solid rgba(212, 175, 55, 0.55)",
+                      }}
+                    >
+                      {/* Official Template Artwork */}
+                      <img
+                        src={certificate.templateUrl || "/certificates/elite-certificate-template-v3.png"}
+                        alt={`Certificate for ${certificate.studentName}`}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          display: "block",
+                        }}
+                      />
+
+                      {/* Single Crisp Verified Certificate Data Overlay */}
+                      <div className="verified-certificate-overlay" aria-hidden="true">
+                        <div className="verified-certificate-motto">
+                          <span>Learn</span>
+                          <span className="verified-certificate-motto-pipe">|</span>
+                          <span>Build</span>
+                          <span className="verified-certificate-motto-pipe">|</span>
+                          <span>Practice</span>
+                          <span className="verified-certificate-motto-pipe">|</span>
+                          <span>Grow</span>
+                        </div>
+                        <div className="verified-certificate-name">{certificate.studentName}</div>
+                        <div className="verified-certificate-achievement">
+                          <p>has successfully completed the</p>
+                          <h3>{certificate.courseName}</h3>
+                          <p>
+                            at The Elite Coding School, demonstrating practical skills in building real-world
+                            projects.
+                          </p>
+                        </div>
+                        <div className="verified-certificate-qr">
+                          <img
+                            src={`/api/verify/${encodeURIComponent(certificate.certificateId)}/qr`}
+                            alt=""
+                          />
+                        </div>
+                        <div className="verified-certificate-id">
+                          <span>Certificate ID</span>
+                          <strong>{certificate.certificateId}</strong>
+                        </div>
+                        <div className="verified-certificate-date">
+                          <span>Issued On</span>
+                          <strong>
+                            {new Date(certificate.issueDate).toLocaleDateString("en-IN", {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                            })}
+                          </strong>
+                        </div>
+                        <div className="verified-certificate-seal">
+                          <span style={{ color: "#f3d078", fontSize: "1.15em", lineHeight: 1 }}>★</span>
+                          <span>OFFICIAL VERIFIED CREDENTIAL</span>
+                          <span style={{ color: "#f3d078", fontSize: "1.15em", lineHeight: 1 }}>★</span>
+                        </div>
+                        <div className="verified-certificate-signature">
+                          <img
+                            src="/certificates/bhupendra-singh-signature.svg"
+                            alt="Bhupendra Singh Signature"
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ) : (
-                  /* LIVE VECTOR PDF IFRAME PREVIEW */
-                  <div
-                    style={{
-                      position: "relative",
-                      width: "100%",
-                      maxWidth: 960,
-                      margin: "0 auto",
-                      aspectRatio: "297 / 210",
-                      background: "#070b24",
-                      borderRadius: 14,
-                      overflow: "hidden",
-                      boxShadow: "0 24px 60px rgba(0, 0, 0, 0.7)",
-                      border: "1px solid rgba(255, 255, 255, 0.14)",
-                    }}
-                  >
-                    <iframe
-                      src={`/api/verify/${certificate.certificateId}/pdf#toolbar=0&view=FitH`}
-                      title={`Official PDF Certificate for ${certificate.studentName}`}
+                  ) : (
+                    /* LIVE VECTOR PDF IFRAME PREVIEW */
+                    <div
                       style={{
+                        position: "relative",
                         width: "100%",
-                        height: "100%",
-                        border: "none",
-                        display: "block",
+                        maxWidth: 960,
+                        margin: "0 auto",
+                        aspectRatio: "297 / 210",
+                        background: "#070b24",
+                        borderRadius: 14,
+                        overflow: "hidden",
+                        boxShadow: "0 24px 60px rgba(0, 0, 0, 0.7)",
+                        border: "1px solid rgba(255, 255, 255, 0.14)",
                       }}
-                    />
-                  </div>
-                )}
+                    >
+                      <iframe
+                        src={`/api/verify/${certificate.certificateId}/pdf#toolbar=0&view=FitH`}
+                        title={`Official PDF Certificate for ${certificate.studentName}`}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          border: "none",
+                          display: "block",
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
 
                 {/* Subtext info under the certificate */}
                 <div
